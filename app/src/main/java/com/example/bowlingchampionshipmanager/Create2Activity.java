@@ -7,25 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Create1Activity extends AppCompatActivity {
+public class Create2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create1);
-
-        Button button_st  = (Button) findViewById(R.id.next_btn);
+        setContentView(R.layout.activity_create2);
+        Button button_st  = (Button) findViewById(R.id.button_start);
         button_st.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCreat2Activity();
+                openCreat3Activity();
             }
         });
     }
 
-    public void openCreat2Activity(){
-        Intent intent = new Intent(this, Create2Activity.class);
+    public void openCreat3Activity(){
+        Intent intent = new Intent(this, Create3Activity.class);
         startActivity(intent);
     }
-
 }
