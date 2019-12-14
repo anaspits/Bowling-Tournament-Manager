@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Bowling Championship Manager</string>
+    <string name="Import">Import</string>
+    <string name="e_g_4">e.g. 4</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="_1_import_a_file_with_the_data_of_the_players_and_the_teams">1) Import a file with the data of the players and the teams</string>
+    <string name="_2_how_many_lanes">2) How many lanes?</string>
+    <string name="create_championship">Create Championship</string>
+    <string name="the_teams_are">The teams are:</string>
+    <string name="hdcp_parameters">HDCP Parameters</string>
+    <string name="name">Name</string>
+    <string name="hdcp">HDCP</string>
+    <string name="_3_type_of_game">3) Type of game:</string>
+    <string name="pins">Pins</string>
+    <string name="teams_vs_teams">Teams VS Teams</string>
+    <string name="start_championship">Start Championship</string>
+    <string name="handicap_parameters">Handicap Parameters</string>
+    <string name="basis_scores">1) Basis scores:</string>
+    <string name="for_beginners">For beginners</string>
+    <string name="e_g_200">e.g. 200</string>
+    <string name="_2_percentage_factor">2) Percentage factor:</string>
+    <string name="_3_tavani">3) Tavani:</string>
+    <string name="for_teams_with_less_players">For teams with less players</string>
+    <string name="for_advanced">For advanced</string>
+    <string name="e_g_80">e.g. 80</string>
+    <string name="save">Save</string>
+    <string name="start_a_championship">Start a Championship</string>
+    <string name="exit">Exit</string>
 </resources>

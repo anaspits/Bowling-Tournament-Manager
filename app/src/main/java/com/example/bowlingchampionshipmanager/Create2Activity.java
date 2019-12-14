@@ -13,7 +13,7 @@ public class Create2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
-        Button button_st  = (Button) findViewById(R.id.button_start);
+        Button button_st  = (Button) findViewById(R.id.next_btn);
         button_st.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

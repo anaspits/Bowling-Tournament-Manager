@@ -10,6 +10,7 @@
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/create_championship"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +29,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:text="@string/the_teams_are"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +85,7 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="Name"
+                android:text="@string/name"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -94,7 +96,7 @@
                 android:layout_margin="1dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:text="HDCP"
+                android:text="@string/hdcp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -202,6 +204,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:background="#DB1D1D"
+        android:text="@string/back"
         android:textColor="#F9F9F9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -219,6 +222,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:background="#4CAF50 "
+        android:text="@string/next"
         android:textColor="#F9F9F9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +235,7 @@
         android:layout_width="144dp"
         android:layout_height="56dp"
         android:background="#4285F4"
-        android:text="Button"
+        android:text="@string/hdcp_parameters"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

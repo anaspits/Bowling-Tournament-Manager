@@ -18,12 +18,12 @@ public class MainActivity extends AppCompatActivity {
         button_st.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCreat1Activity();
+                openCreate1Activity();
             }
         });
     }
 
-    public void openCreat1Activity(){
+    public void openCreate1Activity(){
         Intent intent = new Intent(this, Create1Activity.class);
         startActivity(intent);
     }
