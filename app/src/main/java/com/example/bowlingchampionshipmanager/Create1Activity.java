@@ -16,18 +16,28 @@ public class Create1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create1);
 
-        Button button_st  = (Button) findViewById(next_btn);
-        button_st.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCreate2Activity();
-            }
-        });
+
     }
 
-    public void openCreate2Activity(){
-        Intent intent2 = new Intent(this, Create2Activity.class);
-        startActivity(intent2);
+    public void openNewActivity(View View) {
+        String button_text;
+        button_text =((Button)View).getText().toString();
+        if(button_text.equals("Back"))
+        {
+            Intent goback = new Intent(this,MainActivity.class);
+            startActivity(goback);
+        }
+        else if (button_text.equals("Next"))
+        {
+            Intent gonext = new Intent(this,Create2Activity.class);
+            startActivity(gonext);
+
+        }
+       /* else if (button_text.equals("Import"))
+        {
+
+
+        } */
     }
 
 }
