@@ -6,16 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Create2Activity extends AppCompatActivity {
-    /*TextView textView; */
+    private static TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
 
 
-       /* textView = (TextView) findViewById(R.id.text);*/
+        textView = (TextView) findViewById(R.id.row11);
+        Participant p = bowlers.get(0);
+        String fnn =p.getFN();
+        textView.setText(fnn);
 
     }
 
