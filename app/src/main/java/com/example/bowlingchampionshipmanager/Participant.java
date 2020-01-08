@@ -4,6 +4,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -94,9 +96,11 @@ public class Participant {
      *
      **/
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public ArrayList<Participant> createParticipantList(ArrayList<Participant> bowlers, String csvFile, String line, String cvsSplitBy) {
-
-        try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
+    public ArrayList<Participant> createParticipantList(ArrayList<Participant> bowlers, InputStream inputStream , String line, String cvsSplitBy)throws IOException {
+        //try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
+        BufferedReader br =
+                new BufferedReader(new InputStreamReader(
+                        inputStream));
 
             String [] input = null;
             String fn = null;
@@ -128,10 +132,38 @@ public class Participant {
 
             }
 
-        } catch(IOException e){
-            e.printStackTrace();
+       // } catch(IOException e){
+       //     e.printStackTrace();
+       // }
+
+        return bowlers;
+    }
+
+    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers){
+        //Logic for generating teams(pairs)
+
+        //Sort by bowling average
+        Collections.sort(bowlers, Participant.partBowlAvg);
+        //add 5 points to pair in 2D table of poissible matchings?
+        //Associate Participants with friends
+        //2D table of friendships -- maybe remove from attributes
+        //if [][] = 2, add 2 points to pair in 2D table of poissible matchings?
+        int i;
+        for(i = 0; i < bowlers.size(); i++){
+            (bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
+            (bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
+
+
         }
 
+        for(i = 0; i < bowlers.size()/2;i++){
+
+            //Print results in form of
+            //Team No. , Participant 1 , Participant 2
+
+            Participant p = bowlers.get(i);
+            System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+        }
         return bowlers;
     }
 
