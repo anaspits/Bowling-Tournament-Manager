@@ -135,7 +135,7 @@ public class Participant {
         return bowlers;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void main(String [] args){
         //List to store all Participants
         ArrayList<Participant> bowlers = new ArrayList<Participant>();
@@ -175,6 +175,6 @@ public class Participant {
 
 
 
-    }
+    } */
 
 }

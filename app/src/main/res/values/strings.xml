@@ -27,4 +27,8 @@
     <string name="save">Save</string>
     <string name="start_a_championship">Start a Championship</string>
     <string name="exit">Exit</string>
+    <string name="round_1">Round 1</string>
+    <string name="team_1">Team 1:</string>
+    <string name="vs">VS</string>
+    <string name="team_2">Team 2:</string>
 </resources>
