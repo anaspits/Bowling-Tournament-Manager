@@ -6,19 +6,21 @@ import androidx.annotation.RequiresApi;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Participant {
+public class Participant implements Serializable {
     //Input attributes
     int bowlerID;
     String firstName;
     String lastName;
     int bowlAvg;
-    ArrayList<Participant> friends;
+    int team;
+    ArrayList<Participant> teamates;
 
     //Information to be decided
     Participant partner;
@@ -41,6 +43,13 @@ public class Participant {
         return partner;
     }
 
+    public int getTeam(){
+        return team;
+    }
+    public ArrayList<Participant> getTeamates(){
+        return teamates;
+    }
+
     //setter methods
     public void setFirstName(String firstname) {
         this.firstName = firstname;
@@ -56,14 +65,18 @@ public class Participant {
 
     public void setPartner(Participant partner){
         this.partner = partner;
+      //  if (partner!=null){
+//        teamates.add(partner);}
     }
+    public void setTeam (int team) { this.team=team; }
 
     //constructor
-    public Participant(int bowlerID, String firstname, String lastname, int bowlAvg) {
+    public Participant(int bowlerID, String firstname, String lastname, int bowlAvg, int team) {
         this.bowlerID = bowlerID;
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
+        this.team = team;
     }
 
     /*Comparator for sorting the list by bowlAvg*/
@@ -125,7 +138,7 @@ public class Participant {
                 ba = Integer.parseInt(input[2]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
-                Participant p = new Participant(i, fn, ln, ba);
+                Participant p = new Participant(i, fn, ln, ba,0);
                 bowlers.add(p);
 
                 i++;
@@ -162,7 +175,9 @@ public class Participant {
             //Team No. , Participant 1 , Participant 2
 
             Participant p = bowlers.get(i);
-            System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            p.setTeam(i+1);
+            System.out.println("Team " + p.getTeam() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+
         }
         return bowlers;
     }

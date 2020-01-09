@@ -39,7 +39,7 @@
         app:layout_constraintVertical_bias="0.064"
         tools:text="The teams are:" />
 
-    <TableLayout
+    <!--<TableLayout
 
         android:id="@+id/tableLayout3"
         android:layout_width="wrap_content"
@@ -193,7 +193,7 @@
 
         </TableRow>
 
-    </TableLayout>
+    </TableLayout> -->
 
     <Button
         android:id="@+id/back_btn"
@@ -238,13 +238,25 @@
         android:layout_width="144dp"
         android:layout_height="56dp"
         android:background="#4285F4"
-        android:text="@string/hdcp_parameters"
         android:onClick="openNewActivity"
+        android:text="@string/hdcp_parameters"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout3"
-        app:layout_constraintVertical_bias="0.351"
+        app:layout_constraintTop_toBottomOf="@+id/teams"
+        app:layout_constraintVertical_bias="0.899"
         tools:text="HDCP Parameters" />
+
+    <TextView
+        android:id="@+id/teams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1"
+        app:layout_constraintVertical_bias="0.146" />
 </androidx.constraintlayout.widget.ConstraintLayout>

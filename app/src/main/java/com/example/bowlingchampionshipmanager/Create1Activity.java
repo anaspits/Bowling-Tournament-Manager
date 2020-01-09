@@ -36,8 +36,8 @@ public class Create1Activity extends AppCompatActivity {
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
-    private static ArrayList<Participant> bowlers = new ArrayList<Participant>();
-    private static Participant s = new Participant(999,"instance", "instance", 999);
+    public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
+    private static Participant s = new Participant(999,"instance", "instance", 999, 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,8 @@ public class Create1Activity extends AppCompatActivity {
 
         textView = (EditText) findViewById(R.id.fileText);
        Button button_imp  = (Button) findViewById(R.id.button_import);
+
+
         button_imp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +60,7 @@ public class Create1Activity extends AppCompatActivity {
 
 
     public void openFile(){
+
         //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -333,6 +336,7 @@ public class Create1Activity extends AppCompatActivity {
         textView.setText(fnn);
         inputStream.close();
         //return stringBuilder.toString();
+
     }
 
 
@@ -347,8 +351,13 @@ public class Create1Activity extends AppCompatActivity {
         }
         else if (button_text.equals("Next"))
         {
-            Intent gonext = new Intent(this,Create2Activity.class);
-            startActivity(gonext);
+            //Intent gonext = new Intent(this,Create2Activity.class);
+            //startActivity(gonext);
+            Intent i =  new Intent(Create1Activity.this, Create2Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("bowlers",bowlers);
+                i.putExtras(bundle);
+            startActivity(i);
 
         }
        /* else if (button_text.equals("Import"))
