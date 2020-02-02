@@ -19,12 +19,14 @@ import java.util.ArrayList;
 
 public class HDCPActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
-    static ArrayList<String> hdcp_parameters;
+    static ArrayList<String> hdcp_parameters=new ArrayList<>();
     private static EditText par;
     private static EditText par2;
     private static EditText par3;
     private static EditText par4;
     private static EditText par5;
+    private static int pressed=0; //an patithei to export tha ginei =1, alliws tha minei 0 gia na perastoun oi times tou hdcp me to save
+    //enalaktika apla kanw 1 koumpi pou tha ta kanei kai ta 2: EXPORT-SAVE & NEXT
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,9 @@ public class HDCPActivity extends AppCompatActivity {
         par5 = (EditText) findViewById(R.id.editHDCPparameters5);
         par4= (EditText) findViewById(R.id.editHDCPparameters4);
 
-/*        hdcp_parameters.add(String.valueOf(par2.getText()));
-        hdcp_parameters.add(String.valueOf(par3.getText()));
+
+       // hdcp_parameters.add(par2.getText().toString());
+  /*      hdcp_parameters.add(String.valueOf(par3.getText()));
         hdcp_parameters.add(String.valueOf(par5.getText()));
         hdcp_parameters.add(String.valueOf(par.getText()));
         hdcp_parameters.add(String.valueOf(par4.getText()));
@@ -65,6 +68,14 @@ public class HDCPActivity extends AppCompatActivity {
         data.append("2) Percentage Factor: "+ par.getText()+ "\n" );
         data.append("3) Tavani: "+ par4.getText()+ "\n" );
 
+        hdcp_parameters.add(par2.getText().toString());
+        hdcp_parameters.add(par3.getText().toString());
+        hdcp_parameters.add(par5.getText().toString());
+        hdcp_parameters.add(par.getText().toString());
+        hdcp_parameters.add(par4.getText().toString());
+        pressed=1;
+
+
         try{
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_data.csv", Context.MODE_PRIVATE);
@@ -74,7 +85,7 @@ public class HDCPActivity extends AppCompatActivity {
             //exporting
             Context context = getApplicationContext();
             File filelocation = new File(getFilesDir(), "bowling_championship_data.csv");
-            Uri path = FileProvider.getUriForFile(context, "com.example.bowlingtournamentmanager.fileprovider", filelocation);
+            Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
             fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
@@ -100,6 +111,19 @@ public class HDCPActivity extends AppCompatActivity {
         {
             //Intent gonext = new Intent(this,Create2Activity.class);
             //startActivity(gonext);
+            if (pressed==0) {
+                hdcp_parameters.add(par2.getText().toString());
+                hdcp_parameters.add(par3.getText().toString());
+                hdcp_parameters.add(par5.getText().toString());
+                hdcp_parameters.add(par.getText().toString());
+                hdcp_parameters.add(par4.getText().toString());
+            }
+            Intent i =  new Intent(this, Create3Activity.class);
+            Bundle extras = new Bundle();
+            extras.putSerializable("bowlers",bowlers);
+            extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
+            i.putExtras(extras);
+            startActivity(i);
 
         }
 

@@ -77,27 +77,40 @@
         app:layout_constraintStart_toEndOf="@+id/back_btn"
         tools:text="Start Championship" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pins"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1"
-        app:layout_constraintVertical_bias="0.11" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
-        android:layout_marginRight="68dp"
-        android:text="@string/teams_vs_teams"
+        android:layout_marginBottom="164dp"
+        android:text="@android:string/no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/typeofgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1"
-        app:layout_constraintVertical_bias="0.11" />
+        app:layout_constraintVertical_bias="0.123">
+
+        <RadioButton
+            android:id="@+id/teamsvsteams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teams_vs_teams" />
+
+        <RadioButton
+            android:id="@+id/pins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/pins" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
