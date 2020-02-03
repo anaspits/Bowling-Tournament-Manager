@@ -14,6 +14,8 @@ public class Create2Activity extends AppCompatActivity {
     private static TextView textView;
     private static TextView display_teams;
     static ArrayList<Participant> bowlers;
+    public static ArrayList<Team> all_the_teams;
+    private int playersPerTeam=2;
 
 
     @Override
@@ -28,13 +30,16 @@ public class Create2Activity extends AppCompatActivity {
        if(bundleObject!=null){
 
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
+           all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             }
 
 
        /*Participant p = bowlers.get(0);
         String fnn =p.getFN();
         textView.setText(fnn); */
-        int i;
+       /*
+       //palia emfanish, xwris to teams
+       int i;
         for(i = 0; i < bowlers.size()/2;i++){
 
             //Print results in form of
@@ -43,6 +48,31 @@ public class Create2Activity extends AppCompatActivity {
             Participant p = bowlers.get(i);
             //System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
             display_teams.append("Team " + p.getTeam() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )" + "\n");
+        } */
+
+       //nea emfanish me th xrhsh tou arraylist teams pou exei mesa tou arraylist me Participant
+        int i;
+       /* for (i=0; i<teams.size();i++) {
+            ArrayList<Participant> temp = teams.get(i);
+
+            display_teams.append("\n"+"Team " + (i+1) +": " );
+            int j;
+            for (j=0; j<temp.size();j++) {
+                display_teams.append(temp.get(j).getFN() +"  ");
+            }
+
+        } */
+
+        //nea nea emfanish me xrhsh tou arraylist all_the_teams pou exei mesa Team
+        for (i=0; i<all_the_teams.size();i++) {
+            Team t = all_the_teams.get(i);
+            ArrayList<Participant> temp =  t.getTeamates();
+
+            display_teams.append("\n"+"Team " + (t.getTeamID()+1) +": " );
+            int j;
+            for (j=0; j<temp.size();j++) {
+                display_teams.append(temp.get(j).getFN() +"  ");
+            }
         }
 
     }
@@ -65,6 +95,7 @@ public class Create2Activity extends AppCompatActivity {
             Intent i =  new Intent(Create2Activity.this, Create3Activity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
+            bundle.putSerializable("all_the_teams",all_the_teams);
             i.putExtras(bundle);
             startActivity(i);
 
@@ -76,6 +107,7 @@ public class Create2Activity extends AppCompatActivity {
             Intent i =  new Intent(Create2Activity.this, HDCPActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
+            bundle.putSerializable("all_the_teams",all_the_teams);
             i.putExtras(bundle);
             startActivity(i);
 

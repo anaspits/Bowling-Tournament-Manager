@@ -37,6 +37,9 @@ public class Create1Activity extends AppCompatActivity {
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
+    //public static ArrayList<ArrayList> teamates = new ArrayList<>();
+    public static ArrayList<ArrayList> teams = new ArrayList<>();
+    public static ArrayList<Team> all_the_teams= new ArrayList<>();
     private static Participant s = new Participant(999,"instance", "instance", 999, 0);
 
     @Override
@@ -299,7 +302,43 @@ public class Create1Activity extends AppCompatActivity {
 
         //return bowlers; */
 
-        s.generateTeams(bowlers);
+       //create the teams
+       int playersPerTeam=2;
+        s.generateTeams(bowlers,playersPerTeam);
+
+        int i;
+       /* //teamates mallon axristo
+        for (i=0; i<bowlers.size();i++){
+            teamates.add(bowlers.get(i).getTeamates());
+        } */
+        for (i=0; i<bowlers.size()/playersPerTeam;i++){
+            teams.add(bowlers.get(i).getTeamates());
+        }
+
+        //to teams pou einai arraylist me participants
+
+        for (i=0; i<teams.size();i++) {
+            ArrayList<Participant> temp = teams.get(i);
+            Team t = new Team(i,null,temp);
+            all_the_teams.add(t);
+            //textView.append("Team " + t.getTeamID() + ", team name " + t.getTeamName()+ " players: "+"\n");
+          /*  int j;
+            for (j=0; j<temp.size();j++) {
+               // textView.append(temp.get(j).getFN());
+            } */
+        }
+        //emfanish test
+        for (i=0; i<all_the_teams.size();i++) {
+            Team t = all_the_teams.get(i);
+            ArrayList<Participant> temp =  t.getTeamates();
+
+            textView.append("\n"+"Team " + (t.getTeamID()+1) +": " );
+            int j;
+            for (j=0; j<temp.size();j++) {
+                textView.append(temp.get(j).getFN() +"  ");
+            }
+        }
+
        /* //Logic for generating teams(pairs)
 
         //Sort by bowling average
@@ -331,9 +370,22 @@ public class Create1Activity extends AppCompatActivity {
         //textView.setText("ola kala");
 
         //// */
+        //test
+        //emfanizei tous sympaiktes kathe paikth
+        /*for (i=0; i<teamates.size();i++) {
+            ArrayList<Participant> temp = teamates.get(i);
+
+            textView.append("gia ton paikth " + temp.get(0) + "\n");
+            int j;
+            for (j=0; j<temp.size();j++) {
+               textView.append(temp.get(j).getFN());
+            }
+
+        }
+        */ //test
         Participant p = bowlers.get(0);
         String fnn =p.getFN();
-        textView.setText(fnn);
+        //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();
 
@@ -356,6 +408,7 @@ public class Create1Activity extends AppCompatActivity {
             Intent i =  new Intent(Create1Activity.this, Create2Activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("bowlers",bowlers);
+                bundle.putSerializable("all_the_teams",all_the_teams);
                 i.putExtras(bundle);
             startActivity(i);
 

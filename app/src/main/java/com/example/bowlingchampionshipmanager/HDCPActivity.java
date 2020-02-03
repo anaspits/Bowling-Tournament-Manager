@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class HDCPActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
+    public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters=new ArrayList<>();
     private static EditText par;
     private static EditText par2;
@@ -49,6 +50,7 @@ public class HDCPActivity extends AppCompatActivity {
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
+            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
         }
     }
 
@@ -122,6 +124,7 @@ public class HDCPActivity extends AppCompatActivity {
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
+            extras.putSerializable("all_the_teams",all_the_teams);
             i.putExtras(extras);
             startActivity(i);
 

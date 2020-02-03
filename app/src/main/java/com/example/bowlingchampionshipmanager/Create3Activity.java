@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Create3Activity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
+    public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
     private static TextView t;
     private static RadioButton pins;
@@ -37,6 +38,7 @@ public class Create3Activity extends AppCompatActivity {
         if(bundleObject!=null){
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
+            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
         }
     }
@@ -67,6 +69,7 @@ public class Create3Activity extends AppCompatActivity {
                 Bundle extras = new Bundle();
                 extras.putSerializable("bowlers",bowlers);
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
+                extras.putSerializable("all_the_teams",all_the_teams);
                 i.putExtras(extras);
                 startActivity(i);
             }

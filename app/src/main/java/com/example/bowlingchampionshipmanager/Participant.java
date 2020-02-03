@@ -20,7 +20,7 @@ public class Participant implements Serializable {
     String lastName;
     int bowlAvg;
     int team;
-    ArrayList<Participant> teamates;
+    ArrayList<Participant> teamates= new ArrayList<>();
 
     //Information to be decided
     Participant partner;
@@ -46,6 +46,7 @@ public class Participant implements Serializable {
     public int getTeam(){
         return team;
     }
+
     public ArrayList<Participant> getTeamates(){
         return teamates;
     }
@@ -66,7 +67,8 @@ public class Participant implements Serializable {
     public void setPartner(Participant partner){
         this.partner = partner;
       //  if (partner!=null){
-//        teamates.add(partner);}
+        teamates.add(partner);
+//        }
     }
     public void setTeam (int team) { this.team=team; }
 
@@ -77,7 +79,9 @@ public class Participant implements Serializable {
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
         this.team = team;
+        teamates.add(this);
     }
+
 
     /*Comparator for sorting the list by bowlAvg*/
     public static Comparator<Participant> partBowlAvg = new Comparator<Participant>() {
@@ -152,7 +156,7 @@ public class Participant implements Serializable {
         return bowlers;
     }
 
-    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers){
+    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam){
         //Logic for generating teams(pairs)
 
         //Sort by bowling average
@@ -162,14 +166,14 @@ public class Participant implements Serializable {
         //2D table of friendships -- maybe remove from attributes
         //if [][] = 2, add 2 points to pair in 2D table of poissible matchings?
         int i;
-        for(i = 0; i < bowlers.size(); i++){
+        for(i = 0; i < bowlers.size()/playersPerTeam; i++){
             (bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
             (bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
 
 
         }
 
-        for(i = 0; i < bowlers.size()/2;i++){
+        for(i = 0; i < bowlers.size()/playersPerTeam;i++){
 
             //Print results in form of
             //Team No. , Participant 1 , Participant 2
