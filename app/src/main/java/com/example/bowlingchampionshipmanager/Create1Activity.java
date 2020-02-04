@@ -319,7 +319,7 @@ public class Create1Activity extends AppCompatActivity {
 
         for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
-            Team t = new Team(i,null,temp);
+            Team t = new Team((i+1),null,temp,0);
             all_the_teams.add(t);
             //textView.append("Team " + t.getTeamID() + ", team name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
@@ -332,7 +332,7 @@ public class Create1Activity extends AppCompatActivity {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeamates();
 
-            textView.append("\n"+"Team " + (t.getTeamID()+1) +": " );
+            textView.append("\n"+"Team " + t.getTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
                 textView.append(temp.get(j).getFN() +"  ");

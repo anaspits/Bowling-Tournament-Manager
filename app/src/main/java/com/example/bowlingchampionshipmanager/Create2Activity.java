@@ -68,7 +68,7 @@ public class Create2Activity extends AppCompatActivity {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeamates();
 
-            display_teams.append("\n"+"Team " + (t.getTeamID()+1) +": " );
+            display_teams.append("\n"+"Team " + t.getTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
                 display_teams.append(temp.get(j).getFN() +"  ");

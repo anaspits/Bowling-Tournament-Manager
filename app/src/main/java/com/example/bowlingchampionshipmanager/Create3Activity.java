@@ -15,7 +15,7 @@ public class Create3Activity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
-    private static TextView t;
+    //private static TextView t;
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
     private static Button start;
@@ -26,7 +26,7 @@ public class Create3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create3);
 
-       t= (TextView) findViewById(R.id.textView22);
+       //t= (TextView) findViewById(R.id.textView22);
 
        pins= (RadioButton) findViewById(R.id.pins);
        teamsvsteams= (RadioButton) findViewById(R.id.teamsvsteams);

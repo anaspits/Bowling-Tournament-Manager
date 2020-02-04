@@ -8,8 +8,10 @@ public class Team implements Serializable {
     private int teamID;
     private String teamName;
     private ArrayList<Participant> teamates; //dexetai to ArrayList teams
+    private int score;
+    private ArrayList<Team> vs= new ArrayList<>(); //list me tis omades pou antagwnizetai h antistoixh Team, h thesi ths antagwnistrias omadas sth lista einai kai o gyros ston opoio paizoun antipales
 
-    public Team(int teamID, String teamName, ArrayList teamates) {
+    public Team(int teamID, String teamName, ArrayList teamates, int score) {
         this.teamID = teamID;
         if (teamName!=null) {
             this.teamName = teamName;
@@ -17,6 +19,7 @@ public class Team implements Serializable {
             this.teamName= String.valueOf(this.teamID);
         }
         this.teamates = teamates;
+        this.score=score;
     }
 
     public int getTeamID(){
@@ -28,11 +31,17 @@ public class Team implements Serializable {
     public ArrayList<Participant> getTeamates(){
         return teamates;
     }
+    public int getScore(){return score;}
+
     public void setTeamName(String name) {
         teamName = name;
     }
 
-    static void roundRobin(int teams, int round) {
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void roundRobin(int teams, int round, ArrayList<Team> all_the_teams) {
         if (((teams%2 != 0) && (round != teams - 1))||(teams <= 0))
             throw new IllegalArgumentException();
         int[] cycle = new int[teams];
@@ -46,7 +55,11 @@ public class Team implements Serializable {
 
             //System.out.println(String.format("Round %d", d));
             for (int i = 0; i < n; i++) {
-                //System.out.println(String.format("team %d - team %d",cycle[i],cycle[teams - i - 1]));
+                Team t1 = all_the_teams.get(i); //gia thn i omada
+                if (t1.getTeamID()!=this.teamID) {
+
+                    //System.out.println(String.format("team %d - team %d",cycle[i],cycle[teams - i - 1]));
+                }
             }
             int temp = cycle[1];
             for (int i = 1; i < teams - 1; i++) {

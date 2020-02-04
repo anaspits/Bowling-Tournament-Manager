@@ -33,4 +33,9 @@
     <string name="team_2">Team 2:</string>
     <string name="export">Export</string>
     <string name="import_the_file_of_the_scores">Import the file of the scores</string>
+    <string name="player">Player</string>
+    <string name="_1st">1st</string>
+    <string name="_2nd">2nd</string>
+    <string name="_3rd">3rd</string>
+    <string name="test">test</string>
 </resources>
