@@ -9,17 +9,33 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import javax.persistence.*;
 
+@Entity
+@Table(name="participant")
 public class Participant implements Serializable {
     //Input attributes
+
+    @Id
     int bowlerID;
+
+    @Column(name="name")
     String firstName;
-    String lastName;
+
+    @Column(name="avg")
     int bowlAvg;
-    int team;
+
+    @Column(name="hdcp")
+    int hdcp;
+
+    @Column(name="teamid")
+    int teamid;
+
+    @Column(name="champid")
+    int champid;
+
+    String lastName;
     ArrayList<Participant> teamates= new ArrayList<>();
 
     //Information to be decided
@@ -43,8 +59,8 @@ public class Participant implements Serializable {
         return partner;
     }
 
-    public int getTeam(){
-        return team;
+    public int getTeamid(){
+        return teamid;
     }
 
     public ArrayList<Participant> getTeamates(){
@@ -70,7 +86,7 @@ public class Participant implements Serializable {
         teamates.add(partner);
 //        }
     }
-    public void setTeam (int team) { this.team=team; }
+    public void setTeamid(int teamid) { this.teamid = teamid; }
 
     //constructor
     public Participant(int bowlerID, String firstname, String lastname, int bowlAvg, int team) {
@@ -78,10 +94,12 @@ public class Participant implements Serializable {
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
-        this.team = team;
+        this.teamid = team;
         teamates.add(this);
     }
-
+    public Participant() {
+        super();
+    }
 
     /*Comparator for sorting the list by bowlAvg*/
     public static Comparator<Participant> partBowlAvg = new Comparator<Participant>() {
@@ -179,8 +197,8 @@ public class Participant implements Serializable {
             //Team No. , Participant 1 , Participant 2
 
             Participant p = bowlers.get(i);
-            p.setTeam(i+1);
-            System.out.println("Team " + p.getTeam() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            p.setTeamid(i+1);
+            System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
         }
         return bowlers;

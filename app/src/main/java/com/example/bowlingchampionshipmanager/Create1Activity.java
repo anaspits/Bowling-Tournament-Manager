@@ -11,23 +11,21 @@ import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 
-import static com.example.bowlingchampionshipmanager.R.id.next_btn;
 import android.widget.EditText;
+
+import javax.persistence.*;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 //import com.opecsv.CSVReader;
 
 public class Create1Activity extends AppCompatActivity {
@@ -49,6 +47,17 @@ public class Create1Activity extends AppCompatActivity {
 
         textView = (EditText) findViewById(R.id.fileText);
        Button button_imp  = (Button) findViewById(R.id.button_import);
+
+       /* EntityManagerFactory emf=Persistence.createEntityManagerFactory("Participant_details");
+        EntityManager em=emf.createEntityManager();
+        em.getTransaction().begin();
+        //Test_table s1 = new Test_table(0, "test");
+        //em.persist(s1);
+        //Test_table s=em.find(Test_table.class,1);
+        //s.set_name("yes");
+        em.getTransaction().commit();
+        emf.close();
+        em.close(); */
 
 
         button_imp.setOnClickListener(new View.OnClickListener() {
@@ -321,7 +330,7 @@ public class Create1Activity extends AppCompatActivity {
             ArrayList<Participant> temp = teams.get(i);
             Team t = new Team((i+1),null,temp,0);
             all_the_teams.add(t);
-            //textView.append("Team " + t.getTeamID() + ", team name " + t.getTeamName()+ " players: "+"\n");
+            //textView.append("Team " + t.getTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());

@@ -58,7 +58,7 @@ public class Team implements Serializable {
                 Team t1 = all_the_teams.get(i); //gia thn i omada
                 if (t1.getTeamID()!=this.teamID) {
 
-                    //System.out.println(String.format("team %d - team %d",cycle[i],cycle[teams - i - 1]));
+                    //System.out.println(String.format("teamid %d - teamid %d",cycle[i],cycle[teams - i - 1]));
                 }
             }
             int temp = cycle[1];

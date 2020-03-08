@@ -95,7 +95,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                 //counter2=counter2+2;
 
                 //details.append("Prepei Team "+cycle[i]+ " vs Team "+cycle[teams - i - 1]+"\n");
-                //System.out.println(String.format("team %d - team %d",cycle[i],cycle[teams - i - 1]));
+                //System.out.println(String.format("teamid %d - teamid %d",cycle[i],cycle[teams - i - 1]));
             }
             details.append("\n");
             int temp = cycle[1];
@@ -125,7 +125,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
             i.putExtras(extras);
             startActivity(i);
 
-        } /*else if (button_text.equals("test")){
+        } else if (button_text.equals("test")){
             Intent i = new Intent(this, Start1Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
@@ -135,7 +135,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
             i.putExtras(extras);
             startActivity(i);
 
-        } */
+        }
 
     }
 }

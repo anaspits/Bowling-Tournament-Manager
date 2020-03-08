@@ -60,10 +60,10 @@ public class Start1Activity extends AppCompatActivity {
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
 
         }
-        round(vs);
+        round1(vs);
     }
 
-    public void round(ArrayList<ArrayList> vs){
+    public void round1(ArrayList<ArrayList> vs){
 
        /* gia temp3
        Team t1 = vs.get(0);
@@ -73,13 +73,13 @@ public class Start1Activity extends AppCompatActivity {
 
         //gia vs
         ArrayList<Team> temp= vs.get(0);
-        Team t1 = temp.get(0);
-        Team t2 = temp.get(1);
-        team11.setText("Team: "+t1.getTeamID());
-        team22.setText("Team: "+t2.getTeamID());
+        Team t11 = temp.get(0);
+        Team t22 = temp.get(1);
+        team11.setText("Team: "+t11.getTeamID());
+        team22.setText("Team: "+t22.getTeamID());
 
-        ArrayList<Participant> teamates= t1.getTeamates();
-        int i;
+        ArrayList<Participant> teamates= t11.getTeamates();
+        //int i;
         //for (i=0;i<teamates.size();i++) {
 
             player_11.setText(teamates.get(0).getFN());
@@ -88,7 +88,7 @@ public class Start1Activity extends AppCompatActivity {
         hdcp_12.setText(teamates.get(1).bowlAvg);
 
         //}
-        teamates=t2.getTeamates();
+        teamates=t22.getTeamates();
         //for (i=0;i<teamates.size();i++) {
         player_21.setText(teamates.get(0).getFN());
         hdcp_21.setText(teamates.get(0).bowlAvg);

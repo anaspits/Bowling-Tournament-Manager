@@ -60,7 +60,7 @@ public class HDCPActivity extends AppCompatActivity {
         data.append("Teams");
         for(int i = 0; i < bowlers.size()/2;i++){
             Participant p = bowlers.get(i);
-            data.append("\n"+"Team " + String.valueOf(p.getTeam())+" "+String.valueOf(p.getFN())+ " " + String.valueOf(p.getLN()) + " (Avg: " + String.valueOf(p.getBowlAvg()) + " ) & " + p.getPartner().getFN() + " " + String.valueOf(p.getPartner().getLN()) + " (Avg: " + String.valueOf(p.getPartner().getBowlAvg()) + " )");
+            data.append("\n"+"Team " + String.valueOf(p.getTeamid())+" "+String.valueOf(p.getFN())+ " " + String.valueOf(p.getLN()) + " (Avg: " + String.valueOf(p.getBowlAvg()) + " ) & " + p.getPartner().getFN() + " " + String.valueOf(p.getPartner().getLN()) + " (Avg: " + String.valueOf(p.getPartner().getBowlAvg()) + " )");
         }
         data.append("\n"+" HDCP Parameters"+ "\n");
         data.append("1) Basis scores:"+ "\n" );
