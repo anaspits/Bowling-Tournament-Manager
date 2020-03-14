@@ -2,6 +2,10 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,29 +20,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 
 import android.widget.EditText;
+import android.widget.Toast;
 
-import javax.persistence.*;
+/*import javax.persistence.*;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Persistence; */
 //import com.opecsv.CSVReader;
 
-public class Create1Activity extends AppCompatActivity {
+public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
 
     private static EditText textView;
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
+    private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
+    public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<Team> all_the_teams= new ArrayList<>();
     private static Participant s = new Participant(999,"instance", "instance", 999, 0);
+
+    private String TAG = this.getClass().getSimpleName();
+    private BowlingViewModel bowlingViewModel;
+    private BowlingListAdapter blistAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,7 @@ public class Create1Activity extends AppCompatActivity {
         textView = (EditText) findViewById(R.id.fileText);
        Button button_imp  = (Button) findViewById(R.id.button_import);
 
+       //na svisw
        /* EntityManagerFactory emf=Persistence.createEntityManagerFactory("Participant_details");
         EntityManager em=emf.createEntityManager();
         em.getTransaction().begin();
@@ -59,6 +73,34 @@ public class Create1Activity extends AppCompatActivity {
         emf.close();
         em.close(); */
 
+        ///recyclerview
+        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        blistAdapter = new BowlingListAdapter(this, this);
+        recyclerView.setAdapter(blistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //addnew sto database
+        Button addnew= findViewById(R.id.addnew);
+        addnew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Create1Activity.this, AddNewActivity.class);
+                startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
+            }
+        });
+        ////////////////gia room insert
+        /*final int t_id = 1;
+        Test_table t= new Test_table(t_id, "lol1");
+        bowlingViewModel.insert(t); */
+        /////////////// telos room insert
+
+        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Test_table>>() {
+            @Override
+            public void onChanged(List<Test_table> test_tables) {
+                blistAdapter.setBowls(test_tables);
+            }
+        });
+////////////
 
         button_imp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +108,6 @@ public class Create1Activity extends AppCompatActivity {
                 openFile();
             }
         });
-
     }
 
 
@@ -89,6 +130,50 @@ public class Create1Activity extends AppCompatActivity {
         Uri currentUri = null;
         //Cursor returnCursor = getContentResolver().query(currentUri,null,null,null,null);
 
+        ////////////////gia room insert
+        /*final int t_id = 4;
+        Test_table t= new Test_table(t_id, "lol4");
+        bowlingViewModel.insert(t); */
+        /////////////// telos room insert
+        ////////gia insert sto database tou room
+        if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            // Code to insert note
+            //final String note_id = UUID.randomUUID().toString();
+            final int id=2;
+            Test_table t= new Test_table(id, resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+            bowlingViewModel.insert(t);
+
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.save,
+                    Toast.LENGTH_LONG).show();
+        } else if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
+            Button c= findViewById(R.id.back_btn);
+            //c.setText("Here");
+
+            //check dao for the update()
+            //update step 3
+            // Code to update the note
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                int bowlId;
+                String up;
+
+                bowlId = bundleObject.getInt("bowlId");
+                up =  bundleObject.getString(EditActivity.UPDATED_NOTE);
+
+                Test_table t1 = new Test_table(bowlId,up);
+                bowlingViewModel.update(t1);
+
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        }
+///////////////////////////
         if (resultCode == Activity.RESULT_OK) {
 
             if (requestCode == CREATE_REQUEST_CODE) {
@@ -429,4 +514,8 @@ public class Create1Activity extends AppCompatActivity {
         } */
     }
 
+    @Override
+    public void OnDeleteClickListener(Test_table myNote) {
+        bowlingViewModel.delete(myNote);
+    }
 }

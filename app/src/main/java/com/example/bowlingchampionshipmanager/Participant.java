@@ -10,29 +10,28 @@ import java.io.Serializable;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import javax.persistence.*;
+//import javax.persistence.*;
 
-@Entity
-@Table(name="participant")
+
 public class Participant implements Serializable {
     //Input attributes
 
-    @Id
+
     int bowlerID;
 
-    @Column(name="name")
+    //@Column(name="name")
     String firstName;
 
-    @Column(name="avg")
+    //@Column(name="avg")
     int bowlAvg;
 
-    @Column(name="hdcp")
+   // @Column(name="hdcp")
     int hdcp;
 
-    @Column(name="teamid")
+   // @Column(name="teamid")
     int teamid;
 
-    @Column(name="champid")
+   // @Column(name="champid")
     int champid;
 
     String lastName;

@@ -1,47 +1,52 @@
 package com.example.bowlingchampionshipmanager;
 
-import javax.persistence.*;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+/*import javax.persistence.*;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Persistence; */
 
 
-@Entity
-@Table(name="test_table")
+
+@Entity(tableName = "test_table")
 public class Test_table {
 
-    @Id
+
+    @PrimaryKey
+    @NonNull
     private int id;
 
-    @Column(name="name")
+    @ColumnInfo(name="name")
     private String name;
 
     public Test_table(int id, String name) {
-        super();
+       // super();
         this.id = id;
         this.name = name;
 
     }
 
-    public Test_table() {
-        super();
-    }
 
-    public String get_name() {
+    public String getName() {
         return name;
     }
 
-    public int get_id (){ return id;}
+    public int getId (){ return id;}
 
 
-    public void set_id(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void set_name(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public static void main(String [] args){
+    //delete
+  /*  public static void main(String [] args){
         EntityManagerFactory emf=Persistence.createEntityManagerFactory("Participant_details");
         EntityManager em=emf.createEntityManager();
         em.getTransaction().begin();
@@ -52,6 +57,6 @@ public class Test_table {
         em.getTransaction().commit();
         emf.close();
         em.close();
-    }
+    } */
 
 }

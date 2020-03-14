@@ -1,6 +1,8 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +18,20 @@ public class Create2Activity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     private int playersPerTeam=2;
+    private BowlingListAdapter blistAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
+
+        ///recyclerview?
+       /* RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        blistAdapter = new BowlingListAdapter(this);
+        recyclerView.setAdapter(blistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); */
+////////////
 
         //textView = (TextView) findViewById(R.id.row11);
         display_teams = (TextView) findViewById(R.id.teams);
