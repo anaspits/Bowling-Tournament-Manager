@@ -15,10 +15,13 @@ import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +51,9 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<Team> all_the_teams= new ArrayList<>();
     private static Participant s = new Participant(999,"instance", "instance", 999, 0);
+    public static int t_id=1;
+    private static Test_table test= new Test_table("instance");
+    public static ArrayList<Test_table> testbowlers = new ArrayList<Test_table>();
 
     private String TAG = this.getClass().getSimpleName();
     private BowlingViewModel bowlingViewModel;
@@ -79,6 +85,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         blistAdapter = new BowlingListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         //addnew sto database
         Button addnew= findViewById(R.id.addnew);
         addnew.setOnClickListener(new View.OnClickListener() {
@@ -140,9 +147,10 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
             // Code to insert note
             //final String note_id = UUID.randomUUID().toString();
-            final int id=2;
-            Test_table t= new Test_table(id, resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+
+            Test_table t= new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
             bowlingViewModel.insert(t);
+            t_id++;
 
             Toast.makeText(
                     getApplicationContext(),
@@ -159,12 +167,14 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             if(bundleObject!=null){
                 int bowlId;
                 String up;
+                Test_table t;
 
                 bowlId = bundleObject.getInt("bowlId");
                 up =  bundleObject.getString(EditActivity.UPDATED_NOTE);
-
-                Test_table t1 = new Test_table(bowlId,up);
-                bowlingViewModel.update(t1);
+                t= (Test_table) bundleObject.getSerializable("b_object");
+                t.setName(up);
+               // Test_table t1 = new Test_table(bowlId,up);
+                bowlingViewModel.update(t);
 
                 Toast.makeText(
                         getApplicationContext(),
@@ -174,6 +184,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             }
         }
 ///////////////////////////
+
         if (resultCode == Activity.RESULT_OK) {
 
             if (requestCode == CREATE_REQUEST_CODE) {
@@ -253,7 +264,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
                     //get input
                     input = line.split(cvsSplitBy);
-//                System.out.println(Arrays.toString(input));
+              //  System.out.println(Arrays.toString(input));
 
                     //get first name
                     fn = input[0];
@@ -264,7 +275,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                     //get avg
                     ba = Integer.parseInt(input[2]);
 
-//                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
+              //  System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                     Participant p = new Participant(i, fn, ln, ba);
                     bowlers.add(p);
 
@@ -357,21 +368,29 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         String line = "";
         String cvsSplitBy = ",";
 
-        s.createParticipantList(bowlers, inputStream, line, cvsSplitBy);
-       /* //try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
+         test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
 
+
+ //na ksesxoliasw       s.createParticipantList(bowlers, inputStream, line, cvsSplitBy);
+
+
+        //createParticipantList: (na svisw ta apo katw)
+      /* //try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
+        BufferedReader br =
+                new BufferedReader(new InputStreamReader(
+                        inputStream));
             String [] input = null;
             String fn = null;
             String ln = null;
             int ba = 0;
 
             int i = 0;
-            while ((line = reader.readLine()) != null){
+            while ((line = br.readLine()) != null){
                 // use comma as seperator
 
                 //get input
                 input = line.split(cvsSplitBy);
-//                System.out.println(Arrays.toString(input));
+              //  System.out.println(Arrays.toString(input));
 
                 //get first name
                 fn = input[0];
@@ -382,19 +401,22 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 //get avg
                 ba = Integer.parseInt(input[2]);
 
-//                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
-                Participant p = new Participant(i, fn, ln, ba);
+              //  System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
+                Participant p = new Participant(i, fn, ln, ba,0);
                 bowlers.add(p);
-
                 i++;
+                String name = fn + " " +ln;
+             Test_table t= new Test_table(name);
+                bowlingViewModel.insert(t);
+                t_id++;
 
-            }
+            } */
 
        // } catch(IOException e){
        //     e.printStackTrace();
        // }
 
-        //return bowlers; */
+        //return bowlers;
 
        //create the teams
        int playersPerTeam=2;
@@ -477,8 +499,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
         }
         */ //test
-        Participant p = bowlers.get(0);
-        String fnn =p.getFN();
+ // na ksesxoliasw      Participant p = bowlers.get(0);
+ // na ksesxoliasw       String fnn =p.getFN();
         //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();

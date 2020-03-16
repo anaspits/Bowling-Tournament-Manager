@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 public class EditActivity extends AppCompatActivity {
 
     public static final String BOWL_ID="bowlId";
@@ -19,6 +21,9 @@ public class EditActivity extends AppCompatActivity {
     private Bundle bundle;
     private int bowlId;
     private LiveData<Test_table> test_table;
+    private TextView testid;
+
+    private Test_table t;
 
     EditViewModel editViewModel;
 
@@ -28,11 +33,14 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         editdb = findViewById(R.id.editdb);
+        testid =findViewById(R.id.testid);
 
         bundle = getIntent().getExtras();
 
         if (bundle != null) {
             bowlId = bundle.getInt("bowlId");
+testid.setText(String.valueOf(bowlId));
+            t = (Test_table) bundle.getSerializable("b_object");
         }
 
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
@@ -48,9 +56,10 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void updateDB (View view) {
-        String updatedNote = editdb.getText().toString();
+        String updatedNote = editdb.getText().toString().trim();
         Intent resultIntent = new Intent();
         resultIntent.putExtra("bowlId", bowlId);
+        resultIntent.putExtra("b_object", (Serializable) t);
         resultIntent.putExtra(UPDATED_NOTE, updatedNote);
         setResult(RESULT_OK, resultIntent);
         finish();

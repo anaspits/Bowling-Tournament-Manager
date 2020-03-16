@@ -90,7 +90,9 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, EditActivity.class);
                     intent.putExtra("bowlId", mNotes.get(mPosition).getId());
+                    intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
+                    //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }
             });
             btDelete.setOnClickListener(new View.OnClickListener() {

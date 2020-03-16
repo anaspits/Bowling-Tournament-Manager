@@ -81,7 +81,7 @@ public class Participant implements Serializable {
 
     public void setPartner(Participant partner){
         this.partner = partner;
-      //  if (partner!=null){
+        //  if (partner!=null){
         teamates.add(partner);
 //        }
     }

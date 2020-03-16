@@ -106,8 +106,7 @@ public class HDCPActivity extends AppCompatActivity {
         button_text =((Button)View).getText().toString();
         if(button_text.equals("Cancel"))
         {
-           // Intent goback = new Intent(this,Create2Activity.class);
-           // startActivity(goback);
+            finish();
         }
         else if (button_text.equals("Save"))
         {
