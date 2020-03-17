@@ -10,6 +10,28 @@
         android:layout_height="wrap_content"
         android:hint="note"/>
 
+    <EditText
+        android:id="@+id/editavg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="avg"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editteam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="team"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/edithdcp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hdcp"
+        android:inputType="number"
+        android:autofillHints="" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

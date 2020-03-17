@@ -17,7 +17,7 @@ public class BowlingViewModel extends AndroidViewModel {
     private BowlingDao bowlingDao;
     private BowlingRoomDatabase bDB;
 
-    private LiveData<List<Test_table>> mAllNotes;
+    private LiveData<List<Participant>> mAllNotes;
 
     public BowlingViewModel(@NonNull Application application) {
 
@@ -29,20 +29,20 @@ public class BowlingViewModel extends AndroidViewModel {
     }
 
 
-    public  void insert (Test_table t){
+    public  void insert (Participant t){
         new InsertAsyncTask(bowlingDao).execute(t);
     }
 
-    LiveData<List<Test_table>> getAllBowls() {
+    LiveData<List<Participant>> getAllBowls() {
         return mAllNotes;
     }
 
     //update step 2 -> Create1Activity
-    public void update(Test_table test_table) {
+    public void update(Participant test_table) {
         new UpdateAsyncTask(bowlingDao).execute(test_table); //tsekare pio katw
     }
 
-    public void delete(Test_table test_table) {
+    public void delete(Participant test_table) {
         new DeleteAsyncTask(bowlingDao).execute(test_table);
     }
 
@@ -52,7 +52,7 @@ public class BowlingViewModel extends AndroidViewModel {
         Log.i(TAG, "ViewModel Destroyed");
     }
 
-    private class OperationsAsyncTask extends AsyncTask<Test_table, Void, Void> {
+    private class OperationsAsyncTask extends AsyncTask<Participant, Void, Void> {
 
        BowlingDao mAsyncTaskDao;
 
@@ -61,7 +61,7 @@ public class BowlingViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Test_table... test_tables) {
+        protected Void doInBackground(Participant... participants) {
             return null;
         }
     }
@@ -71,8 +71,8 @@ public class BowlingViewModel extends AndroidViewModel {
             super(bDao);
         }
         @Override
-        protected Void doInBackground(Test_table... test_tables) {
-            mAsyncTaskDao.insert(test_tables[0]);
+        protected Void doInBackground(Participant... participants) {
+            mAsyncTaskDao.insert(participants[0]);
             return null;
         }
     }
@@ -84,8 +84,8 @@ public class BowlingViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Test_table... test_tables) {
-            mAsyncTaskDao.update(test_tables[0]);
+        protected Void doInBackground(Participant... participants) {
+            mAsyncTaskDao.update(participants[0]);
             return null;
         }
     }
@@ -97,8 +97,8 @@ public class BowlingViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Test_table... test_tables) {
-            mAsyncTaskDao.delete(test_tables[0]);
+        protected Void doInBackground(Participant... participants) {
+            mAsyncTaskDao.delete(participants[0]);
             return null;
         }
     }

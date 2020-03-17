@@ -2,7 +2,12 @@ package com.example.bowlingchampionshipmanager;
 
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,36 +17,43 @@ import java.io.BufferedReader;
 import java.io.IOException;
 //import javax.persistence.*;
 
-
+@Entity(tableName = "participant")
 public class Participant implements Serializable {
     //Input attributes
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    int participantID;
 
-
-    int bowlerID;
-
-    //@Column(name="name")
+    @ColumnInfo(name="first_name")
     String firstName;
 
-    //@Column(name="avg")
+    @ColumnInfo(name="last_name")
+    String lastName;
+
+    @ColumnInfo(name="avg")
     int bowlAvg;
 
-   // @Column(name="hdcp")
+    @ColumnInfo(name="hdcp")
     int hdcp;
 
-   // @Column(name="teamid")
+    @ColumnInfo(name="teamid")
     int teamid;
 
-   // @Column(name="champid")
+    @ColumnInfo(name="champid")
     int champid;
 
-    String lastName;
+    @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
 
     //Information to be decided
+    @Ignore
     Participant partner;
     //int laneNum; //stretch goal
 
     //getter methods
+    public int getID() {
+        return participantID;
+    }
     public int getBowlAvg() {
         return bowlAvg;
     }
@@ -54,6 +66,11 @@ public class Participant implements Serializable {
         return lastName;
     }
 
+    public String getFullName(){
+        String fullname = getFN() + " " +getLN();
+        return fullname;
+    }
+
     public Participant getPartner(){
         return partner;
     }
@@ -64,6 +81,10 @@ public class Participant implements Serializable {
 
     public ArrayList<Participant> getTeamates(){
         return teamates;
+    }
+
+    public int getHdcp() {
+        return hdcp;
     }
 
     //setter methods
@@ -87,9 +108,13 @@ public class Participant implements Serializable {
     }
     public void setTeamid(int teamid) { this.teamid = teamid; }
 
+    public void setHdcp(int hdcp) {
+        this.hdcp = hdcp;
+    }
+
     //constructor
-    public Participant(int bowlerID, String firstname, String lastname, int bowlAvg, int team) {
-        this.bowlerID = bowlerID;
+    public Participant( String firstname, String lastname, int bowlAvg, int team) {
+        //this.participantID = participantID;
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
@@ -130,7 +155,7 @@ public class Participant implements Serializable {
      *
      **/
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public ArrayList<Participant> createParticipantList(ArrayList<Participant> bowlers, InputStream inputStream , String line, String cvsSplitBy)throws IOException {
+    public ArrayList<Participant> createParticipantList(BowlingViewModel bowlingViewModel, InputStream inputStream , String line, String cvsSplitBy, ArrayList<Participant> bowlers)throws IOException {
         //try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
         BufferedReader br =
                 new BufferedReader(new InputStreamReader(
@@ -159,8 +184,10 @@ public class Participant implements Serializable {
                 ba = Integer.parseInt(input[2]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
-                Participant p = new Participant(i, fn, ln, ba,0);
+                Participant p = new Participant( fn, ln, ba,0);
                 bowlers.add(p);
+                bowlingViewModel.insert(p);
+                Create1Activity.t_id++;
 
                 i++;
 

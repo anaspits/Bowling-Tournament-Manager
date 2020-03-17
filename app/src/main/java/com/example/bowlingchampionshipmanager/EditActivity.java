@@ -17,13 +17,14 @@ public class EditActivity extends AppCompatActivity {
 
     public static final String BOWL_ID="bowlId";
     static final String UPDATED_NOTE = "bowl_text";
-    private EditText editdb;
+    private EditText editdb,editavg,editteam,edithdcp;
     private Bundle bundle;
     private int bowlId;
-    private LiveData<Test_table> test_table;
+    private LiveData<Participant> participant;
     private TextView testid;
 
-    private Test_table t;
+    //private Test_table t;
+    private Participant t;
 
     EditViewModel editViewModel;
 
@@ -33,6 +34,9 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         editdb = findViewById(R.id.editdb);
+        editavg = findViewById(R.id.editavg);
+        editteam = findViewById(R.id.editteam);
+        edithdcp = findViewById(R.id.edithdcp);
         testid =findViewById(R.id.testid);
 
         bundle = getIntent().getExtras();
@@ -40,27 +44,38 @@ public class EditActivity extends AppCompatActivity {
         if (bundle != null) {
             bowlId = bundle.getInt("bowlId");
 testid.setText(String.valueOf(bowlId));
-            t = (Test_table) bundle.getSerializable("b_object");
+           // t = (Test_table) bundle.getSerializable("b_object");
+            t =  (Participant) bundle.getSerializable("b_object");
         }
 
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 
         //fetch step 3
-        test_table = editViewModel.getBowl(bowlId);
-        test_table.observe(this, new Observer<Test_table>() {
+        participant = editViewModel.getBowl(bowlId);
+        participant.observe(this, new Observer<Participant>() {
             @Override
-            public void onChanged(Test_table test_table) {
-                editdb.setText(test_table.getName());
+            public void onChanged(Participant participant) {
+                editdb.setText(participant.getFullName());
+                editavg.setText(String.valueOf(participant.getBowlAvg()));
+                editteam.setText(String.valueOf(participant.getTeamid()));
+                edithdcp.setText(String.valueOf(participant.getHdcp()));
             }
         });
     }
 
     public void updateDB (View view) {
-        String updatedNote = editdb.getText().toString().trim();
+        String updatedName = editdb.getText().toString().trim();
+        String updatedAvg = editavg.getText().toString().trim();
+        String updatedTeam = editteam.getText().toString().trim();
+        String updatedHdcp = edithdcp.getText().toString().trim();
+
         Intent resultIntent = new Intent();
         resultIntent.putExtra("bowlId", bowlId);
         resultIntent.putExtra("b_object", (Serializable) t);
-        resultIntent.putExtra(UPDATED_NOTE, updatedNote);
+        resultIntent.putExtra(UPDATED_NOTE, updatedName);
+        resultIntent.putExtra("updatedAvg", updatedAvg);
+        resultIntent.putExtra("updatedTeam", updatedTeam);
+        resultIntent.putExtra("updatedHdcp", updatedHdcp);
         setResult(RESULT_OK, resultIntent);
         finish();
     }

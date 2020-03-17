@@ -22,7 +22,7 @@ public class EditViewModel extends AndroidViewModel {
     }
 
     //fetch step 2 -> EditActivity
-    public LiveData<Test_table> getBowl(int bowlId) {
+    public LiveData<Participant> getBowl(int bowlId) {
         return bowlingDao.getBwol(bowlId);
     }
 }

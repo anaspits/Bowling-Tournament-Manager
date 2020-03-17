@@ -10,9 +10,28 @@
         android:id="@+id/newadded"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_gravity="center"
-        android:hint="new_note" />
+        android:ems="10"
+        android:hint="@string/name" />
+
+    <EditText
+        android:id="@+id/newavg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="avg"
+        android:inputType="number"
+        android:autofillHints="" />
+
+
+    <EditText
+        android:id="@+id/newteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="@string/team" />
 
     <Button
         android:id="@+id/bAdd"

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,12 +17,12 @@ import java.util.List;
 public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.BowlingViewHolder>  {
 
     public interface OnDeleteClickListener {
-        void OnDeleteClickListener(Test_table myNote);
+        void OnDeleteClickListener(Participant myNote);
     }
 
     private final LayoutInflater layoutInflater;
     private Context mContext;
-    private List<Test_table> mNotes;
+    private List<Participant> mNotes;
     private OnDeleteClickListener onDeleteClickListener;
 
     public BowlingListAdapter(Context context, OnDeleteClickListener listener) {
@@ -44,8 +43,8 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
     public void onBindViewHolder(@NonNull BowlingViewHolder holder, int position) {
 
         if (mNotes != null) {
-            Test_table note = mNotes.get(position);
-            holder.setData(note.getName(), position);
+            Participant note = mNotes.get(position);
+            holder.setData(note.getFullName(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -60,7 +59,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
         else return 0;
     }
 
-    public void setBowls(List<Test_table> notes) {
+    public void setBowls(List<Participant> notes) {
         mNotes = notes;
         notifyDataSetChanged();
 
@@ -89,7 +88,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, EditActivity.class);
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getId());
+                    intent.putExtra("bowlId", mNotes.get(mPosition).getID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);

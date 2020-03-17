@@ -54,10 +54,10 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
             }
         });
 
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Test_table>>() {
+        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
-            public void onChanged(List<Test_table> test_tables) {
-                blistAdapter.setBowls(test_tables);
+            public void onChanged(List<Participant> participants) {
+                blistAdapter.setBowls(participants);
             }
         });
 ////////////
@@ -129,12 +129,15 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
         /////////////// telos room insert
         ////////gia insert sto database tou room
         if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            // Code to insert note
-            //final String note_id = UUID.randomUUID().toString();
-            final int id = 2;
-            Test_table t = new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+            String nam =resultData.getStringExtra(AddNewActivity.NEW_ADDED);
+            int avg = Integer.parseInt(resultData.getStringExtra("new_avg"));
+            int team = Integer.parseInt(resultData.getStringExtra("new_avg"));
+            int hdcp = Integer.parseInt(resultData.getStringExtra("new_avg")); //na to valw ston constructor
+            //Test_table t= new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+            //na ftia3w to name
+            Participant t = new Participant(resultData.getStringExtra(AddNewActivity.NEW_ADDED), "",avg,team);
             bowlingViewModel.insert(t);
+            Create1Activity.t_id++;
 
             Toast.makeText(
                     getApplicationContext(),
@@ -147,16 +150,26 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
             //check dao for the update()
             //update step 3
             // Code to update the note
-            Bundle bundleObject = resultData.getExtras();
-            if (bundleObject != null) {
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
                 int bowlId;
-                String up;
-                Test_table t;
+                String nam;
+                int avg,team,hdcp;
+                //Test_table t;
+                Participant t;
 
                 bowlId = bundleObject.getInt("bowlId");
-                up =  bundleObject.getString(EditActivity.UPDATED_NOTE);
-                t= (Test_table) bundleObject.getSerializable("b_object");
-                t.setName(up);
+                nam = bundleObject.getString(EditActivity.UPDATED_NOTE);
+                avg = Integer.parseInt( bundleObject.getString("updatedAvg")); //alliws  avg = Integer.valueOf(bundleObject.getString("updatedAvg"));
+                //team = Integer.parseInt( bundleObject.getString("updatedTeam"));
+                hdcp = Integer.parseInt( bundleObject.getString("updatedHdcp"));
+                // t= (Test_table) bundleObject.getSerializable("b_object");
+                t = (Participant) bundleObject.getSerializable("b_object");
+                t.setFirstName(nam); t.setLastName("");
+                t.setBowlAvg(avg);
+                // t.setTeamid(team);
+                t.setHdcp(hdcp);
+                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 
                 Toast.makeText(
@@ -204,7 +217,7 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
     }
 
     @Override
-    public void OnDeleteClickListener(Test_table myNote) {
+    public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);
     }
 }

@@ -13,20 +13,20 @@ import java.util.List;
 public interface BowlingDao {
 
     @Insert
-    void insert(Test_table t);
+    void insert(Participant t);
 
-    @Query("SELECT * FROM test_table")
-    LiveData<List<Test_table>> getAllBowls();
+    @Query("SELECT * FROM participant")
+    LiveData<List<Participant>> getAllBowls();
 
     // fetch step 1 -> editViwModel
-    @Query("SELECT * FROM test_table WHERE id=:bowlId")
-    LiveData<Test_table> getBwol(int bowlId);
+    @Query("SELECT * FROM participant WHERE participantID=:bowlId")
+    LiveData<Participant> getBwol(int bowlId);
 
     // update step 1 -> BowlingViewModel
     @Update
-    void update(Test_table test_table);
+    void update(Participant participant);
 
     @Delete
-    int delete(Test_table test_table);
+    int delete(Participant participant);
 
 }

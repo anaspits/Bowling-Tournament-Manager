@@ -50,7 +50,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<Team> all_the_teams= new ArrayList<>();
-    private static Participant s = new Participant(999,"instance", "instance", 999, 0);
+   // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
+   private static Participant s = new Participant("instance", "instance", 999, 0);
     public static int t_id=1;
     private static Test_table test= new Test_table("instance");
     public static ArrayList<Test_table> testbowlers = new ArrayList<Test_table>();
@@ -101,10 +102,10 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         bowlingViewModel.insert(t); */
         /////////////// telos room insert
 
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Test_table>>() {
+        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
-            public void onChanged(List<Test_table> test_tables) {
-                blistAdapter.setBowls(test_tables);
+            public void onChanged(List<Participant> participants) {
+                blistAdapter.setBowls(participants);
             }
         });
 ////////////
@@ -147,8 +148,13 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
             // Code to insert note
             //final String note_id = UUID.randomUUID().toString();
-
-            Test_table t= new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+            String nam =resultData.getStringExtra(AddNewActivity.NEW_ADDED);
+            int avg = Integer.parseInt(resultData.getStringExtra("new_avg"));
+            int team = Integer.parseInt(resultData.getStringExtra("new_avg"));
+            int hdcp = Integer.parseInt(resultData.getStringExtra("new_avg")); //na to valw ston constructor
+            //Test_table t= new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
+            //na ftia3w to name
+            Participant t = new Participant(resultData.getStringExtra(AddNewActivity.NEW_ADDED), "",avg,team);
             bowlingViewModel.insert(t);
             t_id++;
 
@@ -166,13 +172,22 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 int bowlId;
-                String up;
-                Test_table t;
+                String nam;
+                int avg,team,hdcp;
+                //Test_table t;
+                Participant t;
 
                 bowlId = bundleObject.getInt("bowlId");
-                up =  bundleObject.getString(EditActivity.UPDATED_NOTE);
-                t= (Test_table) bundleObject.getSerializable("b_object");
-                t.setName(up);
+                nam = bundleObject.getString(EditActivity.UPDATED_NOTE);
+                avg = Integer.parseInt( bundleObject.getString("updatedAvg")); //alliws  avg = Integer.valueOf(bundleObject.getString("updatedAvg"));
+                //team = Integer.parseInt( bundleObject.getString("updatedTeam"));
+                hdcp = Integer.parseInt( bundleObject.getString("updatedHdcp"));
+               // t= (Test_table) bundleObject.getSerializable("b_object");
+                t = (Participant) bundleObject.getSerializable("b_object");
+                t.setFirstName(nam); t.setLastName("");
+                t.setBowlAvg(avg);
+               // t.setTeamid(team);
+                t.setHdcp(hdcp);
                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 
@@ -368,10 +383,10 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         String line = "";
         String cvsSplitBy = ",";
 
-         test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
+         //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
 
 
- //na ksesxoliasw       s.createParticipantList(bowlers, inputStream, line, cvsSplitBy);
+       s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy,bowlers);
 
 
         //createParticipantList: (na svisw ta apo katw)
@@ -537,7 +552,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     }
 
     @Override
-    public void OnDeleteClickListener(Test_table myNote) {
+    public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);
     }
 }

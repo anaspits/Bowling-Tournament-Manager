@@ -37,7 +37,7 @@ public class Test_table implements Serializable {
     @ColumnInfo(name="name")
     private String name;
 
-
+//na svisw
     @ColumnInfo(name="bowlAvg")
     private int bowlAvg;
 
@@ -133,7 +133,7 @@ public class Test_table implements Serializable {
            // bowlers.add(p);
             String fullname = fn + " " +ln;
             Test_table t= new Test_table(fullname);
-            bowlingViewModel.insert(t);
+//            bowlingViewModel.insert(t);
             Create1Activity.t_id++;
             bowlers.add(t);
             i++;

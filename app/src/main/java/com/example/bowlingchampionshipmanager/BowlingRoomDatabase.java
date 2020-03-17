@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = Test_table.class, version = 1,exportSchema = false)
+@Database(entities = Participant.class, version = 1,exportSchema = false)
 public abstract class BowlingRoomDatabase extends RoomDatabase {
 
     public  abstract BowlingDao bowlingDao();
