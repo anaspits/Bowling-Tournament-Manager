@@ -12,19 +12,16 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -51,14 +48,17 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<Team> all_the_teams= new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
-   private static Participant s = new Participant("instance", "instance", 999, 0);
+   private static Participant s = new Participant(999,"instance", "instance", 999, 0);
     public static int t_id=1;
+    public static int allbowls=0;
     private static Test_table test= new Test_table("instance");
     public static ArrayList<Test_table> testbowlers = new ArrayList<Test_table>();
 
     private String TAG = this.getClass().getSimpleName();
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
+    private BowlingListAdapter blistAdapter2;
+    private int sum =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         blistAdapter = new BowlingListAdapter(this, this);
+        blistAdapter2 = new BowlingListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -108,6 +109,15 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 blistAdapter.setBowls(participants);
             }
         });
+        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> participants) {
+                blistAdapter2.setBowls(participants);
+                sum =blistAdapter2.getItemCount();
+                addnew.setText(String.valueOf(sum));
+            }
+        });
+
 ////////////
 
         button_imp.setOnClickListener(new View.OnClickListener() {
@@ -148,20 +158,29 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
             // Code to insert note
             //final String note_id = UUID.randomUUID().toString();
-            String nam =resultData.getStringExtra(AddNewActivity.NEW_ADDED);
+           /*axrista String nam =resultData.getStringExtra(AddNewActivity.NEW_ADDED);
             int avg = Integer.parseInt(resultData.getStringExtra("new_avg"));
             int team = Integer.parseInt(resultData.getStringExtra("new_avg"));
             int hdcp = Integer.parseInt(resultData.getStringExtra("new_avg")); //na to valw ston constructor
+            int champ = Integer.parseInt(resultData.getStringExtra("new_avg"));*/
+            //int fakeid = bowlingViewModel.getAllPlayersofChamp(champ);
+           // int fakeid = Integer.parseInt(resultData.getStringExtra("new_fid"));
+            int fakeid = sum+1;
             //Test_table t= new Test_table( resultData.getStringExtra(AddNewActivity.NEW_ADDED));
             //na ftia3w to name
-            Participant t = new Participant(resultData.getStringExtra(AddNewActivity.NEW_ADDED), "",avg,team);
-            bowlingViewModel.insert(t);
-            t_id++;
+            //Participant t = new Participant(fakeid,resultData.getStringExtra(AddNewActivity.NEW_ADDED), "",avg,team);
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null) {
+                Participant t = (Participant) bundleObject.getSerializable("b_object");
+                t.setFakeID(fakeid);
+                bowlingViewModel.insert(t);
+                t_id++; //axristo
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.save,
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+            }
         } else if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
             Button c= findViewById(R.id.back_btn);
             //c.setText("Here");
@@ -171,23 +190,25 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             // Code to update the note
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
-                int bowlId;
+             /*axrista   int bowlId;
                 String nam;
-                int avg,team,hdcp;
+                int avg,team,hdcp,fid; */
                 //Test_table t;
                 Participant t;
 
-                bowlId = bundleObject.getInt("bowlId");
+               /* axrista bowlId = bundleObject.getInt("bowlId");
                 nam = bundleObject.getString(EditActivity.UPDATED_NOTE);
                 avg = Integer.parseInt( bundleObject.getString("updatedAvg")); //alliws  avg = Integer.valueOf(bundleObject.getString("updatedAvg"));
                 //team = Integer.parseInt( bundleObject.getString("updatedTeam"));
                 hdcp = Integer.parseInt( bundleObject.getString("updatedHdcp"));
-               // t= (Test_table) bundleObject.getSerializable("b_object");
+                fid = Integer.parseInt( bundleObject.getString("updatedfid")); */
+              // t= (Test_table) bundleObject.getSerializable("b_object");
                 t = (Participant) bundleObject.getSerializable("b_object");
-                t.setFirstName(nam); t.setLastName("");
+              /*axrista  t.setFirstName(nam); t.setLastName("");
                 t.setBowlAvg(avg);
                // t.setTeamid(team);
                 t.setHdcp(hdcp);
+                t.setFakeID(fid); */
                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 
@@ -440,7 +461,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         int i;
        /* //teamates mallon axristo
         for (i=0; i<bowlers.size();i++){
-            teamates.add(bowlers.get(i).getTeamates());
+            teamates.add(bowlers.get(i).getTeammates());
         } */
         for (i=0; i<bowlers.size()/playersPerTeam;i++){
             teams.add(bowlers.get(i).getTeamates());
@@ -452,7 +473,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             ArrayList<Participant> temp = teams.get(i);
             Team t = new Team((i+1),null,temp,0);
             all_the_teams.add(t);
-            //textView.append("Team " + t.getTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
+            //textView.append("Team " + t.getfTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());
@@ -461,9 +482,9 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         //emfanish test
         for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
-            ArrayList<Participant> temp =  t.getTeamates();
+            ArrayList<Participant> temp =  t.getTeammates();
 
-            textView.append("\n"+"Team " + t.getTeamID() +": " );
+            textView.append("\n"+"Team " + t.getfTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
                 textView.append(temp.get(j).getFN() +"  ");

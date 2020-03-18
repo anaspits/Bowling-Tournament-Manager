@@ -1,44 +1,109 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+@Entity(tableName = "team")
 public class Team implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int teamID;
+
+    @ColumnInfo(name="fakeID")
+    @NonNull
+    private int fteamID; //to id pou exei h omada sto sugkekrimeno prwtathlima
+
+    @ColumnInfo(name="team_name")
     private String teamName;
-    private ArrayList<Participant> teamates; //dexetai to ArrayList teams
+
+    @ColumnInfo(name = "score")
     private int score;
+
+
+    @ColumnInfo(name = "vs")
+    private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid
+
+    @ColumnInfo(name = "champID")
+    private int champid; //se poio round paizoyn antipales
+
+    @ColumnInfo(name = "round")
+    private int round; //se poio round vriskonte me thn antipalh omada
+
+    @Ignore
     private ArrayList<Team> vs= new ArrayList<>(); //list me tis omades pou antagwnizetai h antistoixh Team, h thesi ths antagwnistrias omadas sth lista einai kai o gyros ston opoio paizoun antipales
 
-    public Team(int teamID, String teamName, ArrayList teamates, int score) {
-        this.teamID = teamID;
+    @Ignore
+    private ArrayList<Participant> teammates; //dexetai to ArrayList teams
+
+
+
+    public Team(int fteamID, String teamName, ArrayList teammates, int score) {
+        this.fteamID = fteamID;
         if (teamName!=null) {
             this.teamName = teamName;
         } else {
-            this.teamName= String.valueOf(this.teamID);
+            this.teamName= String.valueOf(this.fteamID);
         }
-        this.teamates = teamates;
+        this.teammates = teammates;
         this.score=score;
     }
 
     public int getTeamID(){
         return teamID;
     }
+
+    public int getfTeamID(){
+        return fteamID;
+    }
+
     public String getTeamName(){
         return teamName;
     }
-    public ArrayList<Participant> getTeamates(){
-        return teamates;
+    public ArrayList<Participant> getTeammates(){
+        return teammates;
     }
     public int getScore(){return score;}
+    public int getThis_vs() {
+        return this_vs;
+    }
 
+    public int getChampid() {
+        return champid;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setFteamID(int fteamID) {
+        this.fteamID = fteamID;
+    }
     public void setTeamName(String name) {
         teamName = name;
     }
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+
+    public void setThis_vs(int this_vs) {
+        this.this_vs = this_vs;
+    }
+
+    public void setChampid(int champid) {
+        this.champid = champid;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     public void roundRobin(int teams, int round, ArrayList<Team> all_the_teams) {
@@ -56,7 +121,7 @@ public class Team implements Serializable {
             //System.out.println(String.format("Round %d", d));
             for (int i = 0; i < n; i++) {
                 Team t1 = all_the_teams.get(i); //gia thn i omada
-                if (t1.getTeamID()!=this.teamID) {
+                if (t1.getfTeamID()!=this.fteamID) {
 
                     //System.out.println(String.format("teamid %d - teamid %d",cycle[i],cycle[teams - i - 1]));
                 }

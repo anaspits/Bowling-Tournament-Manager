@@ -44,7 +44,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
 
         if (mNotes != null) {
             Participant note = mNotes.get(position);
-            holder.setData(note.getFullName(), position);
+            holder.setData(note.getFullName(),note.getTeamid(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -67,7 +67,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView noteItemView;
+        private TextView noteItemView,teamItemView;
         private int mPosition;
         private Button btDelete, btEdit;
 
@@ -76,10 +76,12 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
             noteItemView = itemView.findViewById(R.id.txvNote);
             btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
             btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
+            teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int position) {
+        public void setData(String note, int teamid, int position) {
             noteItemView.setText(note);
+            teamItemView.setText(String.valueOf(teamid));
             mPosition = position;
         }
 

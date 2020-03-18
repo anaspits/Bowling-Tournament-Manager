@@ -32,6 +32,15 @@
         android:layout_gravity="center"
         android:ems="10"
         android:hint="@string/team" />
+    <EditText
+        android:id="@+id/newchamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="championship"
+        android:inputType="number"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/bAdd"

@@ -60,7 +60,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                 ArrayList<Team> temp1 = new ArrayList<>(); //voithitiki lista gia thn vs
                 //int counter=0; //gia thn 2h omada gia ton temp2
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw poia omada exetazoume
-                    if (all_the_teams.get(j).getTeamID()== cycle[i]){
+                    if (all_the_teams.get(j).getfTeamID()== cycle[i]){
                         Team t1 = all_the_teams.get(j);
 
                         temp1.add(t1); //kai tin pernaw sthn lista temp1
@@ -72,7 +72,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                     }
                 }
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw tin alli omada poy tha einai antipalos
-                    if (all_the_teams.get(j).getTeamID()== cycle[teams - i - 1]){
+                    if (all_the_teams.get(j).getfTeamID()== cycle[teams - i - 1]){
                         Team t2 = all_the_teams.get(j);
 
                         temp1.add(t2); //tin pernaw kai afti sti lista gia na exw mia lista apo antipales omades
@@ -85,13 +85,13 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                 }
 
                 vs.add(temp1); //pernaw tin lista twn 2 antipalwn omadwn stin lista vs, opou h thesi tous einai o gyros ston opoio paizoun+1
-                details.append(" Team "+temp1.get(0).getTeamID()+ " vs Team "+temp1.get(1).getTeamID()+"\n");
+                details.append(" Team "+temp1.get(0).getfTeamID()+ " vs Team "+temp1.get(1).getfTeamID()+"\n");
 
                 //emfanish me temp2
-                //details.append(" Team "+temp2[i][0].getTeamID()+ " vs Team "+temp2[i][1].getTeamID()+"\n");
+                //details.append(" Team "+temp2[i][0].getfTeamID()+ " vs Team "+temp2[i][1].getfTeamID()+"\n");
 
                 //emfanish me temp3
-                //details.append(" Team "+temp3.get(counter2).getTeamID()+ " vs Team "+temp3.get(counter2+1).getTeamID()+"\n");
+                //details.append(" Team "+temp3.get(counter2).getfTeamID()+ " vs Team "+temp3.get(counter2+1).getfTeamID()+"\n");
                 //counter2=counter2+2;
 
                 //details.append("Prepei Team "+cycle[i]+ " vs Team "+cycle[teams - i - 1]+"\n");

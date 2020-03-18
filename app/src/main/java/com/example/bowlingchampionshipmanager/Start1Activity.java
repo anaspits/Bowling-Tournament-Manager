@@ -2,7 +2,6 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -68,17 +67,17 @@ public class Start1Activity extends AppCompatActivity {
        /* gia temp3
        Team t1 = vs.get(0);
         Team t2 = vs.get(1);
-        player_view.setText("Team: "+t1.getTeamID());
-        hdcp_view.setText("Team: "+t2.getTeamID()); */
+        player_view.setText("Team: "+t1.getfTeamID());
+        hdcp_view.setText("Team: "+t2.getfTeamID()); */
 
         //gia vs
         ArrayList<Team> temp= vs.get(0);
         Team t11 = temp.get(0);
         Team t22 = temp.get(1);
-        team11.setText("Team: "+t11.getTeamID());
-        team22.setText("Team: "+t22.getTeamID());
+        team11.setText("Team: "+t11.getfTeamID());
+        team22.setText("Team: "+t22.getfTeamID());
 
-        ArrayList<Participant> teamates= t11.getTeamates();
+        ArrayList<Participant> teamates= t11.getTeammates();
         //int i;
         //for (i=0;i<teamates.size();i++) {
 
@@ -88,7 +87,7 @@ public class Start1Activity extends AppCompatActivity {
         hdcp_12.setText(teamates.get(1).bowlAvg);
 
         //}
-        teamates=t22.getTeamates();
+        teamates=t22.getTeammates();
         //for (i=0;i<teamates.size();i++) {
         player_21.setText(teamates.get(0).getFN());
         hdcp_21.setText(teamates.get(0).bowlAvg);

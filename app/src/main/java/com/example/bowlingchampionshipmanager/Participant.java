@@ -22,7 +22,11 @@ public class Participant implements Serializable {
     //Input attributes
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    int participantID;
+    int participantID; //to id pou exei o paiktis stin database
+
+    @ColumnInfo(name="fakeID")
+    @NonNull
+    int fakeID; //to id pou exei o paiktis sto sugkekrimeno prwtathlima
 
     @ColumnInfo(name="first_name")
     String firstName;
@@ -36,11 +40,11 @@ public class Participant implements Serializable {
     @ColumnInfo(name="hdcp")
     int hdcp;
 
-    @ColumnInfo(name="teamid")
+    @ColumnInfo(name="teamID")
     int teamid;
 
-    @ColumnInfo(name="champid")
-    int champid;
+    @ColumnInfo(name="champID")
+    int champid; //to id tou prwtathlimatos sto opoio paizei me tin omada teamid kai tous paiktes teamates
 
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
@@ -70,6 +74,9 @@ public class Participant implements Serializable {
         String fullname = getFN() + " " +getLN();
         return fullname;
     }
+    public int getFakeID() {
+        return fakeID;
+    }
 
     public Participant getPartner(){
         return partner;
@@ -96,6 +103,10 @@ public class Participant implements Serializable {
         this.lastName = lastname;
     }
 
+    public void setFakeID(int fakeID) {
+        this.fakeID = fakeID;
+    }
+
     public void setBowlAvg(int bowlAvg) {
         this.bowlAvg = bowlAvg;
     }
@@ -113,8 +124,9 @@ public class Participant implements Serializable {
     }
 
     //constructor
-    public Participant( String firstname, String lastname, int bowlAvg, int team) {
+    public Participant( int fakeID, String firstname, String lastname, int bowlAvg, int team) {
         //this.participantID = participantID;
+        this.fakeID = fakeID;
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
@@ -184,10 +196,10 @@ public class Participant implements Serializable {
                 ba = Integer.parseInt(input[2]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
-                Participant p = new Participant( fn, ln, ba,0);
+                Participant p = new Participant( i,fn, ln, ba,0);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
-                Create1Activity.t_id++;
+                Create1Activity.t_id++; //axristo
 
                 i++;
 
@@ -211,8 +223,12 @@ public class Participant implements Serializable {
         //if [][] = 2, add 2 points to pair in 2D table of poissible matchings?
         int i;
         for(i = 0; i < bowlers.size()/playersPerTeam; i++){
-            (bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
-            (bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
+            Participant p1 = bowlers.get(i);
+            Participant p2 = bowlers.get(bowlers.size() - i - 1);
+            p1.setPartner(p2);
+            p2.setPartner(p1);
+            //(bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
+            //(bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
 
 
         }
@@ -224,6 +240,7 @@ public class Participant implements Serializable {
 
             Participant p = bowlers.get(i);
             p.setTeamid(i+1);
+            p.getPartner().setTeamid(i+1);
             System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
         }

@@ -17,7 +17,7 @@ public class EditActivity extends AppCompatActivity {
 
     public static final String BOWL_ID="bowlId";
     static final String UPDATED_NOTE = "bowl_text";
-    private EditText editdb,editavg,editteam,edithdcp;
+    private EditText editdb,editavg,editteam,edithdcp,editfid;
     private Bundle bundle;
     private int bowlId;
     private LiveData<Participant> participant;
@@ -37,6 +37,7 @@ public class EditActivity extends AppCompatActivity {
         editavg = findViewById(R.id.editavg);
         editteam = findViewById(R.id.editteam);
         edithdcp = findViewById(R.id.edithdcp);
+        editfid = findViewById(R.id.editfid);
         testid =findViewById(R.id.testid);
 
         bundle = getIntent().getExtras();
@@ -59,6 +60,7 @@ testid.setText(String.valueOf(bowlId));
                 editavg.setText(String.valueOf(participant.getBowlAvg()));
                 editteam.setText(String.valueOf(participant.getTeamid()));
                 edithdcp.setText(String.valueOf(participant.getHdcp()));
+                editfid.setText(String.valueOf(participant.getFakeID()));
             }
         });
     }
@@ -68,14 +70,21 @@ testid.setText(String.valueOf(bowlId));
         String updatedAvg = editavg.getText().toString().trim();
         String updatedTeam = editteam.getText().toString().trim();
         String updatedHdcp = edithdcp.getText().toString().trim();
+        String updatedfid = editfid.getText().toString().trim();
 
+        t.setFirstName(updatedName); t.setLastName("");
+        t.setBowlAvg(Integer.parseInt(updatedAvg));
+         t.setTeamid(Integer.parseInt(updatedTeam));
+        t.setHdcp(Integer.parseInt(updatedHdcp));
+        t.setFakeID(Integer.parseInt(updatedfid));
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("bowlId", bowlId);
+       // resultIntent.putExtra("bowlId", bowlId);
         resultIntent.putExtra("b_object", (Serializable) t);
-        resultIntent.putExtra(UPDATED_NOTE, updatedName);
+      /*axrista  resultIntent.putExtra(UPDATED_NOTE, updatedName);
         resultIntent.putExtra("updatedAvg", updatedAvg);
         resultIntent.putExtra("updatedTeam", updatedTeam);
         resultIntent.putExtra("updatedHdcp", updatedHdcp);
+        resultIntent.putExtra("updatedfid", updatedfid); */
         setResult(RESULT_OK, resultIntent);
         finish();
     }

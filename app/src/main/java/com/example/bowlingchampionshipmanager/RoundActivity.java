@@ -67,17 +67,17 @@ public class RoundActivity extends AppCompatActivity {
        /* gia temp3
        Team t1 = vs.get(0);
         Team t2 = vs.get(1);
-        player_view.setText("Team: "+t1.getTeamID());
-        hdcp_view.setText("Team: "+t2.getTeamID()); */
+        player_view.setText("Team: "+t1.getfTeamID());
+        hdcp_view.setText("Team: "+t2.getfTeamID()); */
 
        //gia vs
         ArrayList<Team> temp= vs.get(0);
         Team t1 = temp.get(0);
         Team t2 = temp.get(1);
-        team1.setText("Team: "+t1.getTeamID());
-        team2.setText("Team: "+t2.getTeamID());
+        team1.setText("Team: "+t1.getfTeamID());
+        team2.setText("Team: "+t2.getfTeamID());
 
-        ArrayList<Participant> teamates= t1.getTeamates();
+        ArrayList<Participant> teamates= t1.getTeammates();
         int i;
         for (i=0;i<teamates.size();i++) {
 
@@ -85,7 +85,7 @@ public class RoundActivity extends AppCompatActivity {
             hdcp_view.append(teamates.get(i).bowlAvg+"\n");
 
         }
-        teamates=t2.getTeamates();
+        teamates=t2.getTeammates();
         for (i=0;i<teamates.size();i++) {
 
             player2_view.append(teamates.get(i).getFN()+"\n");
