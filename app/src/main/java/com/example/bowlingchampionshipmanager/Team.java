@@ -23,7 +23,7 @@ public class Team implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name="teamid")
+   // @ColumnInfo(name="teamid")
     int teamID;
 
     @ColumnInfo(name="fakeID")

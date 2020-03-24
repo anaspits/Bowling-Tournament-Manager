@@ -25,7 +25,7 @@ public interface TeamDao { //gia ta Team
     LiveData<List<Team>> getAllTeams();
 
 
-    // fetch step 1 -> editViwModel
+    // fetch step 1 -> BowlViwModel //mipws na to valw sto edit?
     @Query("SELECT * FROM team WHERE teamID=:teamID")
     LiveData<Team> getTeam(int teamID);
 

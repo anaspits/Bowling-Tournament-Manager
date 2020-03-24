@@ -15,11 +15,13 @@ public class BowlingViewModel extends AndroidViewModel {
     private String TAG = this.getClass().getSimpleName();
     private BowlingDao bowlingDao;
     private TeamDao teamDao;
+    private ChampDao champDao;
     private BowlingRoomDatabase bDB;
 
     private LiveData<List<Participant>> mAllNotes;
    // private LiveData<List<Participant>> testNotes;
    private LiveData<List<Team>> allteams;
+    private LiveData<List<Championship>> allchamp;
 
     public BowlingViewModel(@NonNull Application application) {
 
@@ -28,8 +30,10 @@ public class BowlingViewModel extends AndroidViewModel {
         bDB= BowlingRoomDatabase.getDatabase(application);
         bowlingDao = bDB.bowlingDao();
         teamDao = bDB.teamDao();
+        champDao= bDB.champDao();
         mAllNotes = bowlingDao.getAllBowls();
         allteams = teamDao.getAllTeams();
+        allchamp = champDao.getAllChamp();
         //testNotes = bowlingDao.getAllPlayersofChamp(teamid);
     }
 
@@ -171,11 +175,6 @@ public  void insert (Team t){
         new TeamDeleteAsyncTask(teamDao).execute(t);
     }
 
-    LiveData<List<Team>> getAllteams() {
-        return allteams;
-    }
-
-
     public LiveData<Team> getTeam(int teamID) {
         return teamDao.getTeam(teamID);
     }
@@ -237,4 +236,80 @@ public  void insert (Team t){
         }
     }
 ///////////////////////////////////////////////////
+
+////////////////////gia Champ
+public  void insert (Championship t){
+    new ChampInsertAsyncTask(champDao).execute(t);
+}
+
+    //update step 2 -> Create1Activity
+    public void update(Championship t) {
+        new ChampUpdateAsyncTask(champDao).execute(t); //tsekare pio katw
+    }
+
+    public void delete(Championship t) {
+        new ChampDeleteAsyncTask(champDao).execute(t);
+    }
+
+    LiveData<List<Championship>> getAllChamp() {
+        return allchamp;
+    }
+
+    public LiveData<Championship> getChamp(int champID) {
+        return champDao.getChamp(champID);
+    }
+
+    private class ChampOperationsAsyncTask extends AsyncTask<Championship, Void, Void> {
+
+        ChampDao mAsyncTaskDao;
+
+        ChampOperationsAsyncTask(ChampDao dao) {
+            this.mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Championship... champs) {
+            return null;
+        }
+    }
+    private class ChampInsertAsyncTask extends ChampOperationsAsyncTask {
+
+        public ChampInsertAsyncTask(ChampDao bDao) {
+            super(bDao);
+        }
+        @Override
+        protected Void doInBackground(Championship... champs) {
+            mAsyncTaskDao.insert(champs[0]);
+
+            return null;
+        }
+    }
+
+    private class ChampUpdateAsyncTask extends ChampOperationsAsyncTask {
+
+        ChampUpdateAsyncTask(ChampDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Championship... champs) {
+            mAsyncTaskDao.update(champs[0]);
+            return null;
+        }
+    }
+
+    private class ChampDeleteAsyncTask extends ChampOperationsAsyncTask {
+
+        public ChampDeleteAsyncTask(ChampDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Championship... champs) {
+            mAsyncTaskDao.delete(champs[0]);
+            return null;
+        }
+    }
+//////////////////////////////////////
+
 }

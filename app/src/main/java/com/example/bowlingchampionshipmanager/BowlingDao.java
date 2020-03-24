@@ -22,7 +22,7 @@ public interface BowlingDao {
 
     //step 1 ->BowlingViewModel
     @Query("SELECT COUNT(participantID) FROM participant WHERE champID=:champID")
-    int getAllPlayersofChamp2( int champID); //na to kaw List<Participant> anti gia int
+    int getAllPlayersofChamp2( int champID); //na to kaw List<Participant> anti gia int //na to svisw
 
     // fetch step 1 -> editViwModel
     @Query("SELECT * FROM participant WHERE participantID=:bowlId")
@@ -49,8 +49,6 @@ public interface BowlingDao {
 
     @Query("SELECT * FROM participant WHERE participantID IN (SELECT teamatesid FROM team WHERE teamID=:teamid )") //olous tous umpaiktes tou paikth //dokimh, na to svisw an einai axristo
     LiveData<List<Participant>> getTeammates(int teamid);
-
-    //gia Championship //ToDo: isws xreiastei 3exwristo DAO to Champ
 
 
 }

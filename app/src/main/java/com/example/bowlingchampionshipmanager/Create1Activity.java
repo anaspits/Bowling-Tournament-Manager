@@ -47,7 +47,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<ArrayList> teamsplayersid = new ArrayList<>();
-    public static ArrayList<Team> all_the_teams= new ArrayList<>();
+    public static ArrayList<Team> all_the_teams = new ArrayList<>();
+    public static ArrayList<Integer> teamsid = new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
    private static Participant s = new Participant(999,"instance", "instance", 999, 0);
     public static int t_id=1;
@@ -494,12 +495,17 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             t.setChampid(0); //todo: to fid tou champ
             all_the_teams.add(t);
             bowlingViewModel.insert(t);
+            teamsid.add(t.getTeamID());
             //textView.append("Team " + t.getFTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());
             } */
         }
+        int fakeid=0; //Todo: to fid tou champ
+        Championship ch = new Championship(fakeid,0,0, "created");
+        ch.setTeamsid(teamsid);
+        bowlingViewModel.insert(ch);
         //emfanish test
         for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);

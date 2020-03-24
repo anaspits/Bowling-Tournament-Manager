@@ -6,8 +6,10 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Entity(tableName = "championship"/*,foreignKeys = {
         @ForeignKey(entity = Participant.class,
@@ -42,6 +44,11 @@ public class Championship implements Serializable {
     @ColumnInfo(name = "round")
     private int round; //se poio round vrisketai
 
+    @TypeConverters(Converters.class) // add here
+    @ColumnInfo(name = "teamsid")
+    // @Ignore
+    private ArrayList<Integer> teamsid;
+
     public int getChampID() {
         return champID;
     }
@@ -62,6 +69,10 @@ public class Championship implements Serializable {
         return status;
     }
 
+    public ArrayList<Integer> getTeamsid() {
+        return teamsid;
+    }
+
     public void setChampID(int champID) {
         this.champID = champID;
     }
@@ -80,6 +91,10 @@ public class Championship implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setTeamsid(ArrayList<Integer> teamsid) {
+        this.teamsid = teamsid;
     }
 
     @ColumnInfo(name = "status")

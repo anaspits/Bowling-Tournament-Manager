@@ -276,9 +276,8 @@ public class Participant implements Serializable {
             Participant p = bowlers.get(i);
             p.setTeamid(i+1);
             p.getPartner().setTeamid(i+1);
-            int fakeid=0; //Todo: to fid tou champ
-            Championship ch = new Championship(fakeid,i+1,0, "created");
-           //bowlingViewModel.insert(ch);
+
+
             System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
         }

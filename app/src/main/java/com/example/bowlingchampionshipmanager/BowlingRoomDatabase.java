@@ -13,6 +13,7 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
 
     public  abstract BowlingDao bowlingDao();
     public  abstract TeamDao teamDao();
+    public  abstract ChampDao champDao();
 
     private static volatile BowlingRoomDatabase BowlingRoomInstance;
 
