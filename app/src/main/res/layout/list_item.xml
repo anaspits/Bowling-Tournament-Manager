@@ -67,7 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
                 android:layout_margin="0dp"
-                android:text="delete"
+                android:src="@drawable/ic_delete"
+
                 android:tint="#9E9E9E" />
 
         </LinearLayout>

@@ -5,9 +5,15 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,19 +23,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 //import javax.persistence.*;
 
-@Entity(tableName = "participant")
+@Entity(tableName = "participant"/*, foreignKeys = {
+        @ForeignKey(entity = Team.class,
+                parentColumns = "teamID",
+                childColumns = "teamID"),
+        @ForeignKey(entity = Championship.class,
+                parentColumns = "champID",
+                childColumns = "champID")
+}, indices= {
+        @Index(name="index_teamID", value="teamID", unique=true),
+        @Index(name="index_champID", value="champID", unique=true)
+} */
+)
 public class Participant implements Serializable {
     //Input attributes
     @PrimaryKey(autoGenerate = true)
     @NonNull
     int participantID; //to id pou exei o paiktis stin database
 
-    @ColumnInfo(name="fakeID")
+    @ColumnInfo(name="fakeID") //axristo
     @NonNull
     int fakeID; //to id pou exei o paiktis sto sugkekrimeno prwtathlima
 
     @ColumnInfo(name="first_name")
-    String firstName;
+    String firstName; //todo: na to kanw fullname?
 
     @ColumnInfo(name="last_name")
     String lastName;
@@ -41,13 +58,17 @@ public class Participant implements Serializable {
     int hdcp;
 
     @ColumnInfo(name="teamID")
-    int teamid;
+    int teamid; //axristo?
 
     @ColumnInfo(name="champID")
     int champid; //to id tou prwtathlimatos sto opoio paizei me tin omada teamid kai tous paiktes teamates
 
+
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
+
+    @TypeConverters(Converters.class)
+    ArrayList<Integer> teamatesid= new ArrayList<>();
 
     //Information to be decided
     @Ignore
@@ -86,8 +107,15 @@ public class Participant implements Serializable {
         return teamid;
     }
 
+    /* @Embedded
+     @TypeConverters(Converters.class)
+     @SerializedName("getTeamates") */
     public ArrayList<Participant> getTeamates(){
         return teamates;
+    }
+
+    public ArrayList<Integer> getTeamatesid(){
+        return teamatesid;
     }
 
     public int getHdcp() {
@@ -115,15 +143,21 @@ public class Participant implements Serializable {
         this.partner = partner;
         //  if (partner!=null){
         teamates.add(partner);
+        teamatesid.add(partner.getID());
 //        }
     }
+
+    public void setTeamatesid(ArrayList<Integer> teamatesid) {
+        this.teamatesid = teamatesid;
+    }
+
     public void setTeamid(int teamid) { this.teamid = teamid; }
 
     public void setHdcp(int hdcp) {
         this.hdcp = hdcp;
     }
 
-    //constructor
+   //constructor
     public Participant( int fakeID, String firstname, String lastname, int bowlAvg, int team) {
         //this.participantID = participantID;
         this.fakeID = fakeID;
@@ -132,6 +166,7 @@ public class Participant implements Serializable {
         this.bowlAvg = bowlAvg;
         this.teamid = team;
         teamates.add(this);
+        teamatesid.add(this.participantID);
     }
     public Participant() {
         super();
@@ -212,7 +247,7 @@ public class Participant implements Serializable {
         return bowlers;
     }
 
-    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam){
+    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel){
         //Logic for generating teams(pairs)
 
         //Sort by bowling average
@@ -241,6 +276,9 @@ public class Participant implements Serializable {
             Participant p = bowlers.get(i);
             p.setTeamid(i+1);
             p.getPartner().setTeamid(i+1);
+            int fakeid=0; //Todo: to fid tou champ
+            Championship ch = new Championship(fakeid,i+1,0, "created");
+           //bowlingViewModel.insert(ch);
             System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
         }

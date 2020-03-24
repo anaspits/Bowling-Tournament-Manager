@@ -1,6 +1,10 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Teamsvsteams1Activity extends AppCompatActivity {
+public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener{
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
@@ -19,7 +24,9 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
     private static int rounds=3;
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
-
+    private BowlingViewModel bowlingViewModel;
+    private BowlingListAdapter blistAdapter;
+    private BowlingListAdapter blistAdapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,21 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
         }
+
+        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        blistAdapter = new BowlingListAdapter(this, this);
+        blistAdapter2 = new BowlingListAdapter(this, this);
+        recyclerView.setAdapter(blistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        int teamid = 0;
+        bowlingViewModel.getAllPlayersofTeam(teamid).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> participants) {
+                blistAdapter.setBowls(participants);
+            }
+        });
 
         roundRobin(all_the_teams.size(),rounds);
 
@@ -60,7 +82,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                 ArrayList<Team> temp1 = new ArrayList<>(); //voithitiki lista gia thn vs
                 //int counter=0; //gia thn 2h omada gia ton temp2
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw poia omada exetazoume
-                    if (all_the_teams.get(j).getfTeamID()== cycle[i]){
+                    if (all_the_teams.get(j).getFTeamID()== cycle[i]){
                         Team t1 = all_the_teams.get(j);
 
                         temp1.add(t1); //kai tin pernaw sthn lista temp1
@@ -72,7 +94,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                     }
                 }
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw tin alli omada poy tha einai antipalos
-                    if (all_the_teams.get(j).getfTeamID()== cycle[teams - i - 1]){
+                    if (all_the_teams.get(j).getFTeamID()== cycle[teams - i - 1]){
                         Team t2 = all_the_teams.get(j);
 
                         temp1.add(t2); //tin pernaw kai afti sti lista gia na exw mia lista apo antipales omades
@@ -85,13 +107,13 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
                 }
 
                 vs.add(temp1); //pernaw tin lista twn 2 antipalwn omadwn stin lista vs, opou h thesi tous einai o gyros ston opoio paizoun+1
-                details.append(" Team "+temp1.get(0).getfTeamID()+ " vs Team "+temp1.get(1).getfTeamID()+"\n");
+                details.append(" Team "+temp1.get(0).getFTeamID()+ " vs Team "+temp1.get(1).getFTeamID()+"\n");
 
                 //emfanish me temp2
-                //details.append(" Team "+temp2[i][0].getfTeamID()+ " vs Team "+temp2[i][1].getfTeamID()+"\n");
+                //details.append(" Team "+temp2[i][0].getFTeamID()+ " vs Team "+temp2[i][1].getFTeamID()+"\n");
 
                 //emfanish me temp3
-                //details.append(" Team "+temp3.get(counter2).getfTeamID()+ " vs Team "+temp3.get(counter2+1).getfTeamID()+"\n");
+                //details.append(" Team "+temp3.get(counter2).getFTeamID()+ " vs Team "+temp3.get(counter2+1).getFTeamID()+"\n");
                 //counter2=counter2+2;
 
                 //details.append("Prepei Team "+cycle[i]+ " vs Team "+cycle[teams - i - 1]+"\n");
@@ -137,5 +159,10 @@ public class Teamsvsteams1Activity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    public void OnDeleteClickListener(Participant myNote) {
+        bowlingViewModel.delete(myNote);
     }
 }

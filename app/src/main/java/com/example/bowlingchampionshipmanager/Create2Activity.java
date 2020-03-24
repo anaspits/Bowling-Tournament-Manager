@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Create2Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener{
+public class Create2Activity extends AppCompatActivity implements TeamListAdapter.OnDeleteClickListener {
     private static TextView textView;
     private static TextView display_teams;
     static ArrayList<Participant> bowlers;
@@ -28,8 +29,10 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
     private String TAG = this.getClass().getSimpleName();
     private BowlingListAdapter blistAdapter;
     private BowlingListAdapter blistAdapter2;
+    private TeamListAdapter tlistAdapter;
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
+    public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     private BowlingViewModel bowlingViewModel;
     public int sum =0;
 
@@ -42,9 +45,11 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
         ///recyclerview
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        blistAdapter = new BowlingListAdapter(this, this);
-        blistAdapter2 = new BowlingListAdapter(this, this);
-        recyclerView.setAdapter(blistAdapter);
+        //blistAdapter = new BowlingListAdapter(this, this);
+       // blistAdapter2 = new BowlingListAdapter(this, this);
+        tlistAdapter = new TeamListAdapter(this, this);
+        //recyclerView.setAdapter(blistAdapter);
+        recyclerView.setAdapter(tlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //addnew sto database
@@ -57,21 +62,35 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
             }
         });
 
+        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() {
+            @Override
+            public void onChanged(List<Team> team) {
+                tlistAdapter.setTeams(team);
+                //int id = team.get(2).getTeamID();
+                //addnew.setText(String.valueOf(id));
+            }
+        });
 
-        bowlingViewModel.getAllPlayersofTeamOrdered().observe(this, new Observer<List<Participant>>() {
+       /* bowlingViewModel.getAllPlayersofTeamOrdered().observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter.setBowls(participants);
             }
-        });
-        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
+        }); */
+/*        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
-                blistAdapter2.setBowls(participants);
-                sum =blistAdapter2.getItemCount();
+                //blistAdapter2.setBowls(participants);
+//                sum =blistAdapter2.getItemCount();
                 //addnew.setText(String.valueOf(sum));
             }
-        });
+        }); */
+       /* bowlingViewModel.getTeammates(7).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> participants) {
+                blistAdapter.setBowls(participants);
+            }
+        });*/
 
 ////////////
 
@@ -84,6 +103,7 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             }
+
 
 
        /*Participant p = bowlers.get(0);
@@ -120,7 +140,7 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
 
-            display_teams.append("\n"+"Team " + t.getfTeamID() +": " );
+            display_teams.append("\n"+"Team " + t.getFTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
                 display_teams.append(temp.get(j).getFN() +"  ");
@@ -199,6 +219,19 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
                         Toast.LENGTH_LONG).show();
 
             }
+        } else if (requestCode == UPDATE_TEAM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
+            Button c= findViewById(R.id.back_btn);
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                Team t;
+                t = (Team) bundleObject.getSerializable("b_object");
+                bowlingViewModel.update(t);
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
         }
 ///////////////////////////
     }
@@ -237,9 +270,14 @@ public class Create2Activity extends AppCompatActivity implements BowlingListAda
         }
     }
 
-    @Override
+/*    @Override
     public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);
+    }
+*/
+    @Override
+    public void OnDeleteClickListener(Team myNote) {
+
     }
 }
 

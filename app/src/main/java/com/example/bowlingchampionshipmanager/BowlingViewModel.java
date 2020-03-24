@@ -3,7 +3,6 @@ package com.example.bowlingchampionshipmanager;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,10 +14,12 @@ public class BowlingViewModel extends AndroidViewModel {
 
     private String TAG = this.getClass().getSimpleName();
     private BowlingDao bowlingDao;
+    private TeamDao teamDao;
     private BowlingRoomDatabase bDB;
 
     private LiveData<List<Participant>> mAllNotes;
    // private LiveData<List<Participant>> testNotes;
+   private LiveData<List<Team>> allteams;
 
     public BowlingViewModel(@NonNull Application application) {
 
@@ -26,11 +27,13 @@ public class BowlingViewModel extends AndroidViewModel {
 
         bDB= BowlingRoomDatabase.getDatabase(application);
         bowlingDao = bDB.bowlingDao();
+        teamDao = bDB.teamDao();
         mAllNotes = bowlingDao.getAllBowls();
+        allteams = teamDao.getAllTeams();
         //testNotes = bowlingDao.getAllPlayersofChamp(teamid);
     }
 
-
+///////////////////////////////////////gia Participant
     public  void insert (Participant t){
         new InsertAsyncTask(bowlingDao).execute(t);
     }
@@ -40,7 +43,7 @@ public class BowlingViewModel extends AndroidViewModel {
     }
 
     //step 2 -> Create1Activity 157 h AddNeActivity //mhpws na to grapsw sto ediViewModel? //na to svisw
-    public int getAllPlayersofChamp2(int champID) {
+    public int getAllPlayersofChamp2(int champID) { //axristo
         return ((int) bowlingDao.getAllPlayersofChamp2(champID));
         //new getAllPlayersofChamp2AsyncTask(bowlingDao).execute(champID);
     }
@@ -64,10 +67,14 @@ public class BowlingViewModel extends AndroidViewModel {
         return bowlingDao.getAllPlayersofTeam(teamid);
     }
     public LiveData<List<Participant>> getAllPlayersofTeamOrdered() {
-        return bowlingDao.getAllPlayersofTeamOrdered();
+        return bowlingDao.getAllPlayersofTeamsOrdered();
     }
     public LiveData<List<Participant>> getAllPlayersofChamp(int champid) {
-        return bowlingDao.getAllPlayersofTeamOrdered(champid);
+        return bowlingDao.getAllPlayersofChamp(champid);
+    }
+
+    public LiveData<List<Participant>> getTeammates (int teamid) {
+        return bowlingDao.getTeammates(teamid);
     }
 
     private class OperationsAsyncTask extends AsyncTask<Participant, Void, Void> {
@@ -120,7 +127,7 @@ public class BowlingViewModel extends AndroidViewModel {
             return null;
         }
     }
-
+/* na svisw
     private class getAllPlayersofChamp2AsyncTask extends AsyncTask<Integer, Void, Void> {
 
         BowlingDao mAsyncTaskDao;
@@ -143,5 +150,91 @@ public class BowlingViewModel extends AndroidViewModel {
                 Toast.makeText(getApplication(),"sum = kati ="+sum, Toast.LENGTH_LONG).show();
             }
         }
+    } */
+///////////////////////////////////////////////////
+
+////////////////////////gia Team
+public  void insert (Team t){
+    new TeamInsertAsyncTask(teamDao).execute(t);
+}
+
+    LiveData<List<Team>> getAllTeams() {
+        return allteams;
     }
+
+    //update step 2 -> Create1Activity
+    public void update(Team t) {
+        new TeamUpdateAsyncTask(teamDao).execute(t); //tsekare pio katw
+    }
+
+    public void delete(Team t) {
+        new TeamDeleteAsyncTask(teamDao).execute(t);
+    }
+
+    LiveData<List<Team>> getAllteams() {
+        return allteams;
+    }
+
+
+    public LiveData<Team> getTeam(int teamID) {
+        return teamDao.getTeam(teamID);
+    }
+
+    public LiveData<List<Team>> getAllTeamsofChamp(int champid) {
+        return teamDao.getAllTeamsofChamp(champid);
+    }
+
+
+    private class TeamOperationsAsyncTask extends AsyncTask<Team, Void, Void> {
+
+        TeamDao mAsyncTaskDao;
+
+        TeamOperationsAsyncTask(TeamDao dao) {
+            this.mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Team... teams) {
+            return null;
+        }
+    }
+    private class TeamInsertAsyncTask extends TeamOperationsAsyncTask {
+
+        public TeamInsertAsyncTask(TeamDao bDao) {
+            super(bDao);
+        }
+        @Override
+        protected Void doInBackground(Team... teams) {
+            mAsyncTaskDao.insert(teams[0]);
+
+            return null;
+        }
+    }
+
+    private class TeamUpdateAsyncTask extends TeamOperationsAsyncTask {
+
+        TeamUpdateAsyncTask(TeamDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Team... teams) {
+            mAsyncTaskDao.update(teams[0]);
+            return null;
+        }
+    }
+
+    private class TeamDeleteAsyncTask extends TeamOperationsAsyncTask {
+
+        public TeamDeleteAsyncTask(TeamDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Team... teams) {
+            mAsyncTaskDao.delete(teams[0]);
+            return null;
+        }
+    }
+///////////////////////////////////////////////////
 }

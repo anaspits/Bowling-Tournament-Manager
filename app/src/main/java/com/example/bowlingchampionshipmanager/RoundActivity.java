@@ -67,15 +67,15 @@ public class RoundActivity extends AppCompatActivity {
        /* gia temp3
        Team t1 = vs.get(0);
         Team t2 = vs.get(1);
-        player_view.setText("Team: "+t1.getfTeamID());
-        hdcp_view.setText("Team: "+t2.getfTeamID()); */
+        player_view.setText("Team: "+t1.getFTeamID());
+        hdcp_view.setText("Team: "+t2.getFTeamID()); */
 
        //gia vs
         ArrayList<Team> temp= vs.get(0);
         Team t1 = temp.get(0);
         Team t2 = temp.get(1);
-        team1.setText("Team: "+t1.getfTeamID());
-        team2.setText("Team: "+t2.getfTeamID());
+        team1.setText("Team: "+t1.getFTeamID());
+        team2.setText("Team: "+t2.getFTeamID());
 
         ArrayList<Participant> teamates= t1.getTeammates();
         int i;

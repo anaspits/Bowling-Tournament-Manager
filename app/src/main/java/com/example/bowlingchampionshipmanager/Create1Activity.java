@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 
@@ -43,9 +42,11 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private static final int SAVE_REQUEST_CODE = 42;
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
+    public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
+    public static ArrayList<ArrayList> teamsplayersid = new ArrayList<>();
     public static ArrayList<Team> all_the_teams= new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
    private static Participant s = new Participant(999,"instance", "instance", 999, 0);
@@ -58,6 +59,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
     private BowlingListAdapter blistAdapter2;
+    private TeamListAdapter tlistAdapter;
     private int sum =0;
 
     @Override
@@ -212,6 +214,19 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        } else if (requestCode == UPDATE_TEAM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
+            Button c= findViewById(R.id.back_btn);
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                Team t;
+                t = (Team) bundleObject.getSerializable("b_object");
+                bowlingViewModel.update(t);
                 Toast.makeText(
                         getApplicationContext(),
                         R.string.save,
@@ -456,7 +471,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
        //create the teams
        int playersPerTeam=2;
-        s.generateTeams(bowlers,playersPerTeam);
+        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel);
 
         int i;
        /* //teamates mallon axristo
@@ -465,15 +480,21 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         } */
         for (i=0; i<bowlers.size()/playersPerTeam;i++){
             teams.add(bowlers.get(i).getTeamates());
+            teamsplayersid.add(bowlers.get(i).getTeamatesid());
         }
 
         //to teams pou einai arraylist me participants
 
         for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
-            Team t = new Team((i+1),null,temp,0);
+            ArrayList<Integer> tempid = teamsplayersid.get(i);
+            Team t = new Team((i+1),null,0);
+            t.setTeammates(temp);
+            t.setTeammatesid(tempid);
+            t.setChampid(0); //todo: to fid tou champ
             all_the_teams.add(t);
-            //textView.append("Team " + t.getfTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
+            bowlingViewModel.insert(t);
+            //textView.append("Team " + t.getFTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());
@@ -484,7 +505,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
 
-            textView.append("\n"+"Team " + t.getfTeamID() +": " );
+            textView.append("\n"+"Team " + t.getFTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
                 textView.append(temp.get(j).getFN() +"  ");
@@ -576,4 +597,5 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);
     }
+
 }

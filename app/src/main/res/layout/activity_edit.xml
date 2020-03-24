@@ -4,11 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/pname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player's name"
+        android:textSize="18sp" />
+
     <EditText
         android:id="@+id/editdb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="note"/>
+
+    <TextView
+        android:id="@+id/pavg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Avegare"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/editavg"
@@ -17,12 +31,26 @@
         android:hint="avg"
         android:inputType="number" />
 
+    <TextView
+        android:id="@+id/tfid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Team fid"
+        android:textSize="18sp" />
+
     <EditText
         android:id="@+id/editteam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="team"
         android:inputType="number" />
+
+    <TextView
+        android:id="@+id/phdcp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hdcp"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/edithdcp"
@@ -31,6 +59,14 @@
         android:hint="@string/hdcp"
         android:inputType="number"
         android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/pfid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player's fid"
+        android:textSize="18sp" />
+
     <EditText
         android:id="@+id/editfid"
         android:layout_width="match_parent"

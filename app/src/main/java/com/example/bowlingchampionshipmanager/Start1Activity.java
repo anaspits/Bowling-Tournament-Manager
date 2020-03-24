@@ -67,15 +67,15 @@ public class Start1Activity extends AppCompatActivity {
        /* gia temp3
        Team t1 = vs.get(0);
         Team t2 = vs.get(1);
-        player_view.setText("Team: "+t1.getfTeamID());
-        hdcp_view.setText("Team: "+t2.getfTeamID()); */
+        player_view.setText("Team: "+t1.getFTeamID());
+        hdcp_view.setText("Team: "+t2.getFTeamID()); */
 
         //gia vs
         ArrayList<Team> temp= vs.get(0);
         Team t11 = temp.get(0);
         Team t22 = temp.get(1);
-        team11.setText("Team: "+t11.getfTeamID());
-        team22.setText("Team: "+t22.getfTeamID());
+        team11.setText("Team: "+t11.getFTeamID());
+        team22.setText("Team: "+t22.getFTeamID());
 
         ArrayList<Participant> teamates= t11.getTeammates();
         //int i;

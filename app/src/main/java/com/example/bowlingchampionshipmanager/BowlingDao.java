@@ -11,6 +11,7 @@ import java.util.List;
 
 @Dao
 public interface BowlingDao {
+    //ola ta Queries gia tous Participants //epistrefoun Participant
 
     @Insert
     void insert(Participant t);
@@ -35,13 +36,21 @@ public interface BowlingDao {
     int delete(Participant participant);
 
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant WHERE teamID=:teamid") //na to kanw k gia sugkekrimeno champ
+    @Query("SELECT * FROM participant WHERE teamID=:teamid") // olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ
     LiveData<List<Participant>> getAllPlayersofTeam( int teamid);
+
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant ORDER BY teamID") //na to kanw k gia sugkekrimeno champ
-    LiveData<List<Participant>> getAllPlayersofTeamOrdered();
+    @Query("SELECT * FROM participant ORDER BY teamID") //olous tous paiktes me seira omadas //ToDo:na to kanw k gia sugkekrimeno champ H na to enwsw me to katw
+    LiveData<List<Participant>> getAllPlayersofTeamsOrdered();
+
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant WHERE champID=:champid") //na to kanw k gia sugkekrimeno champ
-    LiveData<List<Participant>> getAllPlayersofTeamOrdered(int champid);
+    @Query("SELECT * FROM participant WHERE champID=:champid") ////olous tous paiktes tou champ//ToDo:na to kanw k gia sugkekrimeno champ
+    LiveData<List<Participant>> getAllPlayersofChamp(int champid);
+
+    @Query("SELECT * FROM participant WHERE participantID IN (SELECT teamatesid FROM team WHERE teamID=:teamid )") //olous tous umpaiktes tou paikth //dokimh, na to svisw an einai axristo
+    LiveData<List<Participant>> getTeammates(int teamid);
+
+    //gia Championship //ToDo: isws xreiastei 3exwristo DAO to Champ
+
 
 }

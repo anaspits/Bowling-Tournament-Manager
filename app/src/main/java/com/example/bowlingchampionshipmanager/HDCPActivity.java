@@ -112,18 +112,28 @@ public class HDCPActivity extends AppCompatActivity {
         {
             //Intent gonext = new Intent(this,Create2Activity.class);
             //startActivity(gonext);
+            HDCPparameters h = new HDCPparameters(0,0,0,0,0,0);
             if (pressed==0) {
+                //axrista
                 hdcp_parameters.add(par2.getText().toString());
                 hdcp_parameters.add(par3.getText().toString());
                 hdcp_parameters.add(par5.getText().toString());
                 hdcp_parameters.add(par.getText().toString());
-                hdcp_parameters.add(par4.getText().toString());
+                hdcp_parameters.add(par4.getText().toString()); //
+
+                h.setBegBS(Integer.parseInt(par2.getText().toString()));
+                h.setAdvBS(Integer.parseInt(par3.getText().toString()));
+                h.setLessBS(Integer.parseInt(par5.getText().toString()));
+                h.setFactor(Integer.parseInt(par.getText().toString()));
+                h.setTavani(Integer.parseInt(par4.getText().toString()));
+                //na to kanw insert sth vash
             }
             Intent i =  new Intent(this, Create3Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
+            extras.putSerializable("hdcppar_object",h);
             i.putExtras(extras);
             startActivity(i);
 

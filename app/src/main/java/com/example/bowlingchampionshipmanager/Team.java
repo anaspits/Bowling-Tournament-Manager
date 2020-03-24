@@ -3,22 +3,32 @@ package com.example.bowlingchampionshipmanager;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-@Entity(tableName = "team")
+@Entity(tableName = "team"/*,foreignKeys = {
+        @ForeignKey(entity = Championship.class,
+                parentColumns = "champID",
+                childColumns = "champID")
+}, indices= {
+        @Index(name="index_champID", value="champID", unique=true)
+}*/)
 public class Team implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    private int teamID;
+    @ColumnInfo(name="teamid")
+    int teamID;
 
     @ColumnInfo(name="fakeID")
     @NonNull
-    private int fteamID; //to id pou exei h omada sto sugkekrimeno prwtathlima
+    private int fTeamID; //to id pou exei h omada sto sugkekrimeno prwtathlima //axristo?
 
     @ColumnInfo(name="team_name")
     private String teamName;
@@ -28,10 +38,10 @@ public class Team implements Serializable {
 
 
     @ColumnInfo(name = "vs")
-    private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid
+    private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid//se poio round paizoyn antipales
 
     @ColumnInfo(name = "champID")
-    private int champid; //se poio round paizoyn antipales
+    private int champid;
 
     @ColumnInfo(name = "round")
     private int round; //se poio round vriskonte me thn antipalh omada
@@ -43,24 +53,18 @@ public class Team implements Serializable {
     private ArrayList<Participant> teammates; //dexetai to ArrayList teams
 
 
+    @TypeConverters(Converters.class) // add here
+    @ColumnInfo(name = "teammatesid")
+   // @Ignore
+    private ArrayList<Integer> teammatesid; //dexetai ta ids twn paiktwn pou paizoun se afti tin omada
 
-    public Team(int fteamID, String teamName, ArrayList teammates, int score) {
-        this.fteamID = fteamID;
-        if (teamName!=null) {
-            this.teamName = teamName;
-        } else {
-            this.teamName= String.valueOf(this.fteamID);
-        }
-        this.teammates = teammates;
-        this.score=score;
-    }
 
     public int getTeamID(){
         return teamID;
     }
 
-    public int getfTeamID(){
-        return fteamID;
+    public int getFTeamID(){
+        return fTeamID;
     }
 
     public String getTeamName(){
@@ -82,9 +86,30 @@ public class Team implements Serializable {
         return round;
     }
 
-    public void setFteamID(int fteamID) {
-        this.fteamID = fteamID;
+    public ArrayList<Integer> getTeammatesid() {
+        return teammatesid;
     }
+
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
+    }
+
+    public void setfTeamID(int fTeamID) {
+        this.fTeamID = fTeamID;
+    }
+
+    public void setVs(ArrayList<Team> vs) {
+        this.vs = vs;
+    }
+
+    public void setTeammates(ArrayList<Participant> teammates) {
+        this.teammates = teammates;
+    }
+
+    public void setTeammatesid(ArrayList<Integer> teammatesid) {
+        this.teammatesid = teammatesid;
+    }
+
     public void setTeamName(String name) {
         teamName = name;
     }
@@ -106,6 +131,20 @@ public class Team implements Serializable {
         this.round = round;
     }
 
+
+    public Team(int fTeamID, String teamName, int score) {
+        // public Team(int fTeamID, String teamName, ArrayList teammates, int score) {
+        this.fTeamID = fTeamID;
+        if (teamName!=null) {
+            this.teamName = teamName;
+        } else {
+            this.teamName= String.valueOf(this.fTeamID);
+        }
+        //this.teammates = teammates;
+        this.score=score;
+    }
+
+
     public void roundRobin(int teams, int round, ArrayList<Team> all_the_teams) {
         if (((teams%2 != 0) && (round != teams - 1))||(teams <= 0))
             throw new IllegalArgumentException();
@@ -121,7 +160,7 @@ public class Team implements Serializable {
             //System.out.println(String.format("Round %d", d));
             for (int i = 0; i < n; i++) {
                 Team t1 = all_the_teams.get(i); //gia thn i omada
-                if (t1.getfTeamID()!=this.fteamID) {
+                if (t1.getFTeamID()!=this.fTeamID) {
 
                     //System.out.println(String.format("teamid %d - teamid %d",cycle[i],cycle[teams - i - 1]));
                 }
