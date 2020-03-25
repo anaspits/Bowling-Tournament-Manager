@@ -87,6 +87,12 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
                 cname.append(" No. "+ String.valueOf(bowlId));
                 editstatus.setText(String.valueOf(champ.getStatus()));
                 editround.setText(String.valueOf(champ.getRound()));
+                ArrayList<Integer> h = t.getHdcp_parameters();
+                par1.setText(String.valueOf(h.get(0)));
+                par2.setText(String.valueOf(h.get(1)));
+                par3.setText(String.valueOf(h.get(2)));
+                par5.setText(String.valueOf(h.get(3)));
+                par4.setText(String.valueOf(h.get(4)));
             }
         });
     }

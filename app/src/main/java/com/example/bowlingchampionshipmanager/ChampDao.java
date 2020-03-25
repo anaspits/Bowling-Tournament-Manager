@@ -30,4 +30,10 @@ public interface ChampDao { //gia ta Team
     @Query("SELECT * FROM championship WHERE champID=:champID")
     LiveData<Championship> getChamp(int champID);
 
+    /*@Query("SELECT last_insert_rowid() FROM championship")
+    LiveData<Championship> getLastInsertChamp(); */ //thelei POJO
+
+    @Query("SELECT * FROM championship WHERE champID=(SELECT MAX(champID) FROM championship)")
+    LiveData<Championship> getLastInsertChamp();
+
 }

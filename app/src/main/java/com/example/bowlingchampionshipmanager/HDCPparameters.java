@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "hdcpparameters")
-public class HDCPparameters implements Serializable {
+public class HDCPparameters implements Serializable { //axristo?
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int hdcpparid;

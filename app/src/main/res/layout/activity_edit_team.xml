@@ -44,21 +44,6 @@
         android:inputType="number" />
 
     <TextView
-        android:id="@+id/pid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Players"
-        android:textSize="18sp" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/precyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="304dp"
-        android:layout_marginTop="2dp"
-        tools:listitem="@layout/list_item" />
-
-    <TextView
         android:id="@+id/round"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,6 +57,22 @@
         android:hint="round"
         android:inputType="number"
         android:autofillHints="" />
+
+
+    <TextView
+        android:id="@+id/pid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Players"
+        android:textSize="18sp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/precyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="304dp"
+        android:layout_marginTop="2dp"
+        tools:listitem="@layout/list_item" />
 
     <LinearLayout
         android:layout_width="match_parent"

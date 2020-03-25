@@ -255,6 +255,10 @@ public  void insert (Championship t){
         return allchamp;
     }
 
+    LiveData<Championship> getLastInsertChamp(){
+        return champDao.getLastInsertChamp();
+    }
+
     private class ChampOperationsAsyncTask extends AsyncTask<Championship, Void, Void> {
 
         ChampDao mAsyncTaskDao;

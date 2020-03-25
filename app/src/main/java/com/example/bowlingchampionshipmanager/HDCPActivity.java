@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +25,7 @@ public class HDCPActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters=new ArrayList<>();
+    static ArrayList<Integer> chh=new ArrayList<>();
     private static EditText par;
     private static EditText par2;
     private static EditText par3;
@@ -29,11 +34,17 @@ public class HDCPActivity extends AppCompatActivity {
     private static int pressed=0; //an patithei to export tha ginei =1, alliws tha minei 0 gia na perastoun oi times tou hdcp me to save
     //enalaktika apla kanw 1 koumpi pou tha ta kanei kai ta 2: EXPORT-SAVE & NEXT
 
+    private BowlingViewModel bViewModel;
+    private LiveData<Championship> c;
+    private Championship champ;
+
+    private TextView textView1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hdcp);
-
+        textView1= (TextView) findViewById(R.id.textView1);
         par = (EditText) findViewById(R.id.editHDCPparameters);
         par2 = (EditText) findViewById(R.id.editHDCPparameters2);
         par3 = (EditText) findViewById(R.id.editHDCPparameters3);
@@ -52,6 +63,16 @@ public class HDCPActivity extends AppCompatActivity {
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
         }
+
+        bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
+        c = bViewModel.getLastInsertChamp();
+        c.observe(this, new Observer<Championship>() {
+            @Override
+            public void onChanged(Championship ch) {
+               champ= ch;
+               textView1.setText(String.valueOf(ch.getChampID()));
+            }
+        });
     }
 
     public void exportcsv(View view){
@@ -121,19 +142,54 @@ public class HDCPActivity extends AppCompatActivity {
                 hdcp_parameters.add(par.getText().toString());
                 hdcp_parameters.add(par4.getText().toString()); //
 
+                //axristo?
                 h.setBegBS(Integer.parseInt(par2.getText().toString()));
                 h.setAdvBS(Integer.parseInt(par3.getText().toString()));
                 h.setLessBS(Integer.parseInt(par5.getText().toString()));
                 h.setFactor(Integer.parseInt(par.getText().toString()));
                 h.setTavani(Integer.parseInt(par4.getText().toString()));
                 //na to kanw insert sth vash
+
+
+                String upar1 = par2.getText().toString();
+                String upar2 = par3.getText().toString();
+                String upar3 = par5.getText().toString();
+                String upar4 = par.getText().toString();
+                String upar5 = par4.getText().toString();
+//FIXME: na perastoun oles oi parametroi
+                if (upar1.matches("")){
+                    chh.add(null);
+                } else {
+                    chh.add(Integer.parseInt(upar1));
+                }
+                if (upar2.matches("")){
+                    chh.add(null);
+                } else {
+                    chh.add(Integer.parseInt(upar2));
+                }
+                if (upar3.matches("")){
+                    chh.add(null);
+                } else {
+                    chh.add(Integer.parseInt(upar3));
+                }
+                if (upar4.matches("")){
+                    chh.add(null);
+                } else {
+                    chh.add(Integer.parseInt(upar4));
+                }
+                if (upar5.matches("")){
+                    chh.add(null);
+                } else {
+                    chh.add(Integer.parseInt(upar5));
+                }
+                champ.setHdcp_parameters(chh);
             }
             Intent i =  new Intent(this, Create3Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
-            extras.putSerializable("hdcppar_object",h);
+            extras.putSerializable("hdcppar_object",h); //axristo?
             i.putExtras(extras);
             startActivity(i);
 

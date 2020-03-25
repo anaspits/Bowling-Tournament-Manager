@@ -52,18 +52,6 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         editround = findViewById(R.id.editr);
         tid = findViewById(R.id.teamid);
 
-        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
-        RecyclerView recyclerView = findViewById(R.id.precyclerView);
-        blistAdapter = new BowlingListAdapter(this, this);
-        recyclerView.setAdapter(blistAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
-            @Override
-            public void onChanged(List<Participant> p) {
-                blistAdapter.setBowls(p);
-            }
-        });
-
         bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -72,6 +60,18 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
             // t = (Test_table) bundle.getSerializable("b_object");
             t = (Team) bundle.getSerializable("b_object");
         }
+
+        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        RecyclerView recyclerView = findViewById(R.id.precyclerView);
+        blistAdapter = new BowlingListAdapter(this, this);
+        recyclerView.setAdapter(blistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        bowlingViewModel.getAllPlayersofTeam(bowlId).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> p) {
+                blistAdapter.setBowls(p);
+            }
+        });
 
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 
