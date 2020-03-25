@@ -41,7 +41,7 @@ public class Team implements Serializable {
     private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid//se poio round paizoyn antipales
 
     @ColumnInfo(name = "champID")
-    private int champid;
+    private int champid; //todo: na ginei list me ta champid sta opoia summetexei h omada
 
     @ColumnInfo(name = "round")
     private int round; //se poio round vriskonte me thn antipalh omada

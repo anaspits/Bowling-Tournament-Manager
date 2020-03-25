@@ -39,15 +39,24 @@ public class Championship implements Serializable {
 
     @ColumnInfo(name="teamID")
     @NonNull
-    private int teamID;
+    private int teamID; //axristo
 
     @ColumnInfo(name = "round")
     private int round; //se poio round vrisketai
+
+    @ColumnInfo(name = "status")
+    private String status;
+
 
     @TypeConverters(Converters.class) // add here
     @ColumnInfo(name = "teamsid")
     // @Ignore
     private ArrayList<Integer> teamsid;
+
+
+    @TypeConverters(Converters.class) // add here
+    @ColumnInfo(name = "hdcp_parameters")
+    private ArrayList<Integer> hdcp_parameters;
 
     public int getChampID() {
         return champID;
@@ -71,6 +80,10 @@ public class Championship implements Serializable {
 
     public ArrayList<Integer> getTeamsid() {
         return teamsid;
+    }
+
+    public ArrayList<Integer> getHdcp_parameters() {
+        return hdcp_parameters;
     }
 
     public void setChampID(int champID) {
@@ -97,8 +110,9 @@ public class Championship implements Serializable {
         this.teamsid = teamsid;
     }
 
-    @ColumnInfo(name = "status")
-    private String status;
+    public void setHdcp_parameters(ArrayList<Integer> hdcp_parameters) {
+        this.hdcp_parameters = hdcp_parameters;
+    }
 
     public Championship( int fakeID, int teamID, int round, String status) {
        // this.participantID = participantID;

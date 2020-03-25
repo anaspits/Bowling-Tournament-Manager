@@ -43,6 +43,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
+    public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();

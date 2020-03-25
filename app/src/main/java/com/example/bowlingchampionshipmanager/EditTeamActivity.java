@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,39 +12,108 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ContinueChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
+public class EditTeamActivity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
 
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
+    public static final String BOWL_ID="bowlId";
+    static final String UPDATED_NOTE = "bowl_text";
+    private EditText editname,editscore,editround;
+    private Bundle bundle;
+    private int bowlId;
+    private LiveData<Team> team;
+    private TextView tid;
+
+    //private Test_table t;
+    private Team t;
+
+    EditViewModel editViewModel;
+    private BowlingListAdapter blistAdapter;
     private BowlingViewModel bowlingViewModel;
-    private ChampListAdapter clistAdapter;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_continue_champ);
+        setContentView(R.layout.activity_edit_team);
+
+        editname = findViewById(R.id.editn);
+        editscore = findViewById(R.id.editsc);
+        editround = findViewById(R.id.editr);
+        tid = findViewById(R.id.teamid);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        clistAdapter = new ChampListAdapter(this, this);
-        recyclerView.setAdapter(clistAdapter);
+        RecyclerView recyclerView = findViewById(R.id.precyclerView);
+        blistAdapter = new BowlingListAdapter(this, this);
+        recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
-            public void onChanged(List<Championship> c) {
-                clistAdapter.setChamp(c);
+            public void onChanged(List<Participant> p) {
+                blistAdapter.setBowls(p);
             }
         });
+
+        bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            bowlId = bundle.getInt("bowlId");
+            //tid.setText(String.valueOf(bowlId));
+            // t = (Test_table) bundle.getSerializable("b_object");
+            t = (Team) bundle.getSerializable("b_object");
+        }
+
+        editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
+
+        //fetch step 3
+        team = editViewModel.getTeam(bowlId);
+        team.observe(this, new Observer<Team>() {
+            @Override
+            public void onChanged(Team team) {
+                tid.append(" No. "+ String.valueOf(bowlId));
+                editname.setText(team.getTeamName());
+                editscore.setText(String.valueOf(team.getScore()));
+                editround.setText(String.valueOf(team.getRound()));
+            }
+        });
+    }
+    public void updateDB (View view) {
+        String updatedsc = editscore.getText().toString().trim();
+        String updatedr = editround.getText().toString().trim();
+        String updatedn = editname.getText().toString().trim();
+
+        t.setTeamName(updatedn);
+        t.setScore(Integer.parseInt(updatedsc));
+        t.setRound(Integer.parseInt(updatedr));
+        Intent resultIntent = new Intent();
+        // resultIntent.putExtra("bowlId", bowlId);
+        resultIntent.putExtra("b_object", (Serializable) t);
+      /*axrista  resultIntent.putExtra(UPDATED_NOTE, updatedName);
+        resultIntent.putExtra("updatedAvg", updatedAvg);
+        resultIntent.putExtra("updatedTeam", updatedTeam);
+        resultIntent.putExtra("updatedHdcp", updatedHdcp);
+        resultIntent.putExtra("updatedfid", updatedfid); */
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
+
+    public void cancelUpdate (View view) {
+        finish();
+    }
+
+    @Override
+    public void OnDeleteClickListener(Participant myNote) {
+        bowlingViewModel.delete(myNote);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -53,7 +123,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
 
-        if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
+        if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { //axristo?
             Button c= findViewById(R.id.back_btn);
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
@@ -100,9 +170,5 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
 
             }
         }
-    }
-    @Override
-    public void OnDeleteClickListener(Championship myNote) {
-        bowlingViewModel.delete(myNote);
     }
 }

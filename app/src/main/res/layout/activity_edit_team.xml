@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/teamid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Team"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/tname"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="text" />
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Score"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editsc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Score"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/pid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Players"
+        android:textSize="18sp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/precyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="304dp"
+        android:layout_marginTop="2dp"
+        tools:listitem="@layout/list_item" />
+
+    <TextView
+        android:id="@+id/round"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Round"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="round"
+        android:inputType="number"
+        android:autofillHints="" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="updateDB"
+            android:text="update"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cancelUpdate"
+            android:text="cancel" />
+    </LinearLayout>
+
+</LinearLayout>

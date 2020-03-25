@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Championship"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
 
     <TextView
@@ -28,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Status"
-        android:inputType="number" />
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/tid"
@@ -41,7 +42,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/crecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="304dp"
+        android:layout_height="157dp"
         android:layout_marginTop="2dp"
         tools:listitem="@layout/list_item" />
 
@@ -59,6 +60,239 @@
         android:hint="round"
         android:inputType="number"
         android:autofillHints="" />
+
+
+    <TextView
+        android:id="@+id/param"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/handicap_parameters"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/basis_scores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/basis_scores"
+        android:textSize="18sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/begginers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="For begginers"
+                android:textColor="#616161"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editHDCP1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/e_g_200"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/adv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="For advanced"
+                android:textColor="#616161"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editHDCP2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/e_g_200"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/less"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="@string/for_teams_with_less_players"
+                android:textColor="#616161"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editHDCP3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/e_g_200"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/factor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="@string/_2_percentage_factor"
+                android:textColor="#616161"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editHDCP4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/e_g_80"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tavani"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="@string/_3_tavani"
+                android:textColor="#616161"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editHDCP5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/e_g_200"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -33,6 +33,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
+    public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     private BowlingViewModel bowlingViewModel;
     public int sum =0;
 

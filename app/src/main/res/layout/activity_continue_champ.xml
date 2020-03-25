@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:text="Player"
+                android:text="Status"
                 android:textColor="#616161"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:text="Team"
+                android:text="@string/championship"
                 android:textAlignment="center"
                 android:textColor="#616161"
                 android:textSize="18sp"

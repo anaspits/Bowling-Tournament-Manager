@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditChampActivity"></activity>
+        <activity android:name=".EditTeamActivity"></activity>
+        <activity android:name=".EditChampActivity" />
         <activity android:name=".ContinueChampActivity" />
         <activity android:name=".AddNewActivity" />
         <activity android:name=".EditActivity" />
