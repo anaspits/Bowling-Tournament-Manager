@@ -90,7 +90,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
             btEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, EditActivity.class);
+                    Intent intent = new Intent(mContext, EditActivity.class); ////TODO: na anoigei editTeamActivity
                     intent.putExtra("bowlId", mNotes.get(mPosition).getTeamID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_TEAM_ACTIVITY_REQUEST_CODE);

@@ -277,7 +277,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 */
     @Override
     public void OnDeleteClickListener(Team myNote) {
-
+        bowlingViewModel.delete(myNote);
     }
 }
 

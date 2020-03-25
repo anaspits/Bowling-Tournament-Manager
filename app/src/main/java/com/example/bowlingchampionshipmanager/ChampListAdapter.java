@@ -89,7 +89,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
             btEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, EditActivity.class);
+                    Intent intent = new Intent(mContext, EditChampActivity.class);
                     intent.putExtra("bowlId", mNotes.get(mPosition).getChampID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, ContinueChampActivity.UPDATE_CHAMP_ACTIVITY_REQUEST_CODE);

@@ -12,6 +12,7 @@ public class EditViewModel extends AndroidViewModel {
     private String TAG = this.getClass().getSimpleName();
     private BowlingDao bowlingDao;
     private TeamDao teamDao;
+    private ChampDao champDao;
     private BowlingRoomDatabase bDB;
 
     public EditViewModel(@NonNull Application application) {
@@ -21,6 +22,8 @@ public class EditViewModel extends AndroidViewModel {
         bDB= BowlingRoomDatabase.getDatabase(application);
         bowlingDao = bDB.bowlingDao();
         teamDao = bDB.teamDao();
+        champDao= bDB.champDao();
+
     }
 
     //fetch step 2 -> EditActivity
@@ -30,5 +33,9 @@ public class EditViewModel extends AndroidViewModel {
 
     public LiveData<Team> getTeam(int teamID) {
         return teamDao.getTeam(teamID);
+    }
+
+    public LiveData<Championship> getChamp(int champID) {
+        return champDao.getChamp(champID);
     }
 }
