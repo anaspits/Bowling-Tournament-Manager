@@ -66,12 +66,18 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         blistAdapter = new BowlingListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        bowlingViewModel.getAllPlayersofTeam(bowlId).observe(this, new Observer<List<Participant>>() {
+       /* bowlingViewModel.getAllPlayersofTeam(bowlId).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> p) {
                 blistAdapter.setBowls(p);
             }
         });
+        bowlingViewModel.getTeammates(bowlId).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> participants) {
+                blistAdapter.setBowls(participants);
+            }
+        });*/
 
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 

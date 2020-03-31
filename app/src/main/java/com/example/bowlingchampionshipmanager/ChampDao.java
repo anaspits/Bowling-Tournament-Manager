@@ -36,4 +36,7 @@ public interface ChampDao { //gia ta Team
     @Query("SELECT * FROM championship WHERE champID=(SELECT MAX(champID) FROM championship)")
     LiveData<Championship> getLastInsertChamp();
 
+    @Query("SELECT teamsid FROM championship WHERE champID=:champid")
+    LiveData<TeammatesTuple> getTeamsid(int champid);
+
 }

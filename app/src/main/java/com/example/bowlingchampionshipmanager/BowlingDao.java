@@ -36,7 +36,7 @@ public interface BowlingDao {
     int delete(Participant participant);
 
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant WHERE teamID=:teamid") // olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ
+    @Query("SELECT * FROM participant WHERE teamID=:teamid") // olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
     LiveData<List<Participant>> getAllPlayersofTeam( int teamid);
 
     //-> BowlingViewModel

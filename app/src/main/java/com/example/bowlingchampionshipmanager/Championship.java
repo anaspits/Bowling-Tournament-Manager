@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 
 @Entity(tableName = "championship"/*,foreignKeys = {
@@ -39,24 +40,49 @@ public class Championship implements Serializable {
 
     @ColumnInfo(name="teamID")
     @NonNull
-    private int teamID; //axristo
+    private int teamID;
 
-    @ColumnInfo(name = "round")
+    @ColumnInfo(name = "round")//axristo
     private int round; //se poio round vrisketai
 
     @ColumnInfo(name = "status")
-    private String status;
+    private String status; //0: energo, 1:teleiwse
 
 
-    @TypeConverters(Converters.class) // add here
+    @TypeConverters(Converters.class) // axristo
     @ColumnInfo(name = "teamsid")
     // @Ignore
     private ArrayList<Integer> teamsid;
 
-
-    @TypeConverters(Converters.class) // add here
+    @TypeConverters(Converters.class) // axristo
     @ColumnInfo(name = "hdcp_parameters")
     private ArrayList<Integer> hdcp_parameters;
+
+    @ColumnInfo(name = "hdcp_beginners")
+    private int hdcp_beginners;
+
+    @ColumnInfo(name = "hdcp_advanced")
+    private int hdcp_adv;
+
+    @ColumnInfo(name = "hdcp_less")
+    private int hdcp_less;
+
+    @ColumnInfo(name = "hdcp_percentage")
+    private int hdcp_factor;
+
+    @ColumnInfo(name = "hdcp_tavani")
+    private int hdcp_tav;
+
+    @ColumnInfo(name = "type")
+    private int type; //1,2,3..
+
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "start_date")
+    private Date start_date;
+
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "end_date")
+    private Date end_date;
 
     public int getChampID() {
         return champID;
@@ -86,6 +112,38 @@ public class Championship implements Serializable {
         return hdcp_parameters;
     }
 
+    public int getFakeID() {
+        return fakeID;
+    }
+
+    public int getHdcp_beginners() {
+        return hdcp_beginners;
+    }
+
+    public int getHdcp_adv() {
+        return hdcp_adv;
+    }
+
+    public int getHdcp_less() {
+        return hdcp_less;
+    }
+
+    public int getHdcp_factor() {
+        return hdcp_factor;
+    }
+
+    public int getHdcp_tav() {
+        return hdcp_tav;
+    }
+
+    public Date getStart_date() {
+        return start_date;
+    }
+
+    public Date getEnd_date() {
+        return end_date;
+    }
+
     public void setChampID(int champID) {
         this.champID = champID;
     }
@@ -112,6 +170,38 @@ public class Championship implements Serializable {
 
     public void setHdcp_parameters(ArrayList<Integer> hdcp_parameters) {
         this.hdcp_parameters = hdcp_parameters;
+    }
+
+    public void setFakeID(int fakeID) {
+        this.fakeID = fakeID;
+    }
+
+    public void setHdcp_beginners(int hdcp_beginners) {
+        this.hdcp_beginners = hdcp_beginners;
+    }
+
+    public void setHdcp_adv(int hdcp_adv) {
+        this.hdcp_adv = hdcp_adv;
+    }
+
+    public void setHdcp_less(int hdcp_less) {
+        this.hdcp_less = hdcp_less;
+    }
+
+    public void setHdcp_factor(int hdcp_factor) {
+        this.hdcp_factor = hdcp_factor;
+    }
+
+    public void setHdcp_tav(int hdcp_tav) {
+        this.hdcp_tav = hdcp_tav;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
     }
 
     public Championship( int fakeID, int teamID, int round, String status) {

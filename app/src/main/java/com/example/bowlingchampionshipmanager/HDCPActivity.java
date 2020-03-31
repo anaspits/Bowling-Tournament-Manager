@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -134,55 +135,57 @@ public class HDCPActivity extends AppCompatActivity {
             //Intent gonext = new Intent(this,Create2Activity.class);
             //startActivity(gonext);
             HDCPparameters h = new HDCPparameters(0,0,0,0,0,0);
+
+            //axristo?
+            h.setBegBS(Integer.parseInt(par2.getText().toString()));
+            h.setAdvBS(Integer.parseInt(par3.getText().toString()));
+            h.setLessBS(Integer.parseInt(par5.getText().toString()));
+            h.setFactor(Integer.parseInt(par.getText().toString()));
+            h.setTavani(Integer.parseInt(par4.getText().toString()));
+            //na to kanw insert sth vash
+
+            String upar1 = par2.getText().toString();
+            String upar2 = par3.getText().toString();
+            String upar3 = par5.getText().toString();
+            String upar4 = par.getText().toString();
+            String upar5 = par4.getText().toString();
+
+            if (upar1.matches("")){
+                chh.add(null);
+            } else {
+                chh.add(Integer.parseInt(upar1));
+            }
+            if (upar2.matches("")){
+                chh.add(null);
+            } else {
+                chh.add(Integer.parseInt(upar2));
+            }
+            if (upar3.matches("")){
+                chh.add(null);
+            } else {
+                chh.add(Integer.parseInt(upar3));
+            }
+            if (upar4.matches("")){
+                chh.add(null);
+            } else {
+                chh.add(Integer.parseInt(upar4));
+            }
+            if (upar5.matches("")){
+                chh.add(null);
+            } else {
+                chh.add(Integer.parseInt(upar5));
+            }
+            champ.setHdcp_parameters(chh);
+            bViewModel.update(champ);
+
             if (pressed==0) {
-                //axrista
+
                 hdcp_parameters.add(par2.getText().toString());
                 hdcp_parameters.add(par3.getText().toString());
                 hdcp_parameters.add(par5.getText().toString());
                 hdcp_parameters.add(par.getText().toString());
-                hdcp_parameters.add(par4.getText().toString()); //
+                hdcp_parameters.add(par4.getText().toString());
 
-                //axristo?
-                h.setBegBS(Integer.parseInt(par2.getText().toString()));
-                h.setAdvBS(Integer.parseInt(par3.getText().toString()));
-                h.setLessBS(Integer.parseInt(par5.getText().toString()));
-                h.setFactor(Integer.parseInt(par.getText().toString()));
-                h.setTavani(Integer.parseInt(par4.getText().toString()));
-                //na to kanw insert sth vash
-
-
-                String upar1 = par2.getText().toString();
-                String upar2 = par3.getText().toString();
-                String upar3 = par5.getText().toString();
-                String upar4 = par.getText().toString();
-                String upar5 = par4.getText().toString();
-//FIXME: na perastoun oles oi parametroi
-                if (upar1.matches("")){
-                    chh.add(null);
-                } else {
-                    chh.add(Integer.parseInt(upar1));
-                }
-                if (upar2.matches("")){
-                    chh.add(null);
-                } else {
-                    chh.add(Integer.parseInt(upar2));
-                }
-                if (upar3.matches("")){
-                    chh.add(null);
-                } else {
-                    chh.add(Integer.parseInt(upar3));
-                }
-                if (upar4.matches("")){
-                    chh.add(null);
-                } else {
-                    chh.add(Integer.parseInt(upar4));
-                }
-                if (upar5.matches("")){
-                    chh.add(null);
-                } else {
-                    chh.add(Integer.parseInt(upar5));
-                }
-                champ.setHdcp_parameters(chh);
             }
             Intent i =  new Intent(this, Create3Activity.class);
             Bundle extras = new Bundle();
@@ -192,6 +195,10 @@ public class HDCPActivity extends AppCompatActivity {
             extras.putSerializable("hdcppar_object",h); //axristo?
             i.putExtras(extras);
             startActivity(i);
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.save,
+                    Toast.LENGTH_LONG).show();
 
         }
 

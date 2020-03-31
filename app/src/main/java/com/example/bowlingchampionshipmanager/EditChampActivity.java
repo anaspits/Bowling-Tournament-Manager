@@ -35,8 +35,9 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     private int bowlId;
     private LiveData<Championship> champ;
     private Championship t;
-    private TextView cname;
+    private TextView cname,param;
     static ArrayList<Integer> hdcp_parameters=new ArrayList<>();
+    private ArrayList<Integer> tid = new ArrayList<>();
 
     EditViewModel editViewModel;
     private TeamListAdapter tlistAdapter;
@@ -55,18 +56,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         par3 = (EditText) findViewById(R.id.editHDCP3);
         par5 = (EditText) findViewById(R.id.editHDCP4);
         par4= (EditText) findViewById(R.id.editHDCP5);
+        param= (TextView)  findViewById(R.id.param);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.crecyclerView);
         tlistAdapter = new TeamListAdapter(this, this);
         recyclerView.setAdapter(tlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() {
-            @Override
-            public void onChanged(List<Team> team) {
-                tlistAdapter.setTeams(team);
-            }
-        });
 
         bundle = getIntent().getExtras();
 
@@ -76,6 +72,34 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             // t = (Test_table) bundle.getSerializable("b_object");
             t =  (Championship) bundle.getSerializable("b_object");
         }
+
+        /*bowlingViewModel.getAllTeamsofChamp(bowlId).observe(this, new Observer<List<Team>>() {
+            @Override
+            public void onChanged(List<Team> team) {
+                tlistAdapter.setTeams(team);
+            }
+        }); */
+
+        bowlingViewModel.getTeamsid(bowlId).observe(this, new Observer<TeammatesTuple>() {
+            @Override
+            public void onChanged(TeammatesTuple teamsid) {
+              tid = teamsid.getListids();
+            }
+        });
+        param.setText(String.valueOf(tid.get(1)));
+        ArrayList<Team> te = new ArrayList<>();
+        for (int i=0; i<tid.size();i++) {
+            bowlingViewModel.getTeam(i).observe(this, new Observer<Team>() {
+                @Override
+                public void onChanged(Team team) {
+
+                    te.add(team);
+                    //param.setText(String.valueOf(team.getTeamID()));
+                    tlistAdapter.setTeams(te);
+                }
+            });
+        }
+
 
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 

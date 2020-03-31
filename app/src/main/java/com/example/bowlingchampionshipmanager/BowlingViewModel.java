@@ -183,6 +183,9 @@ public  void insert (Team t){
         return teamDao.getAllTeamsofChamp(champid);
     }
 
+   // public List<TeammatesTuple> getTeammatesid(int teamid){
+     //   return teamDao.getTeammatesid(teamid);
+    //}
 
     private class TeamOperationsAsyncTask extends AsyncTask<Team, Void, Void> {
 
@@ -257,6 +260,10 @@ public  void insert (Championship t){
 
     LiveData<Championship> getLastInsertChamp(){
         return champDao.getLastInsertChamp();
+    }
+
+    public LiveData<TeammatesTuple> getTeamsid(int champid){
+        return champDao.getTeamsid(champid);
     }
 
     private class ChampOperationsAsyncTask extends AsyncTask<Championship, Void, Void> {

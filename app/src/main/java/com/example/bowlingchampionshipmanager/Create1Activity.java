@@ -493,7 +493,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             Team t = new Team((i+1),null,0);
             t.setTeammates(temp);
             t.setTeammatesid(tempid);
-            t.setChampid(0); //todo: to fid tou champ
+           // t.setChampid(0); //todo: to fid tou champ
             all_the_teams.add(t);
             bowlingViewModel.insert(t);
             teamsid.add(t.getTeamID());

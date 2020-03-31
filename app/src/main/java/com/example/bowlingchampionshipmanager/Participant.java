@@ -60,14 +60,14 @@ public class Participant implements Serializable {
     @ColumnInfo(name="teamID")
     int teamid; //axristo?
 
-    @ColumnInfo(name="champID")
+    @ColumnInfo(name="champID") //axristo
     int champid; //to id tou prwtathlimatos sto opoio paizei me tin omada teamid kai tous paiktes teamates
 
 
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
 
-    @TypeConverters(Converters.class)
+    @TypeConverters(Converters.class) //axristo
     ArrayList<Integer> teamatesid= new ArrayList<>();
 
     //Information to be decided

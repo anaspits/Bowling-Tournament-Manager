@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 
 @Entity(tableName = "team"/*,foreignKeys = {
@@ -36,14 +37,21 @@ public class Team implements Serializable {
     @ColumnInfo(name = "score")
     private int score;
 
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "start_date")
+    private Date start_date;
 
-    @ColumnInfo(name = "vs")
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "end_date")
+    private Date end_date;
+
+    @ColumnInfo(name = "vs") //axristo
     private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid//se poio round paizoyn antipales
 
-    @ColumnInfo(name = "champID")
+    @ColumnInfo(name = "champID") //axristo
     private int champid; //todo: na ginei list me ta champid sta opoia summetexei h omada
 
-    @ColumnInfo(name = "round")
+    @ColumnInfo(name = "round") //axristo
     private int round; //se poio round vriskonte me thn antipalh omada
 
     @Ignore
@@ -53,11 +61,13 @@ public class Team implements Serializable {
     private ArrayList<Participant> teammates; //dexetai to ArrayList teams
 
 
-    @TypeConverters(Converters.class) // add here
+    @TypeConverters(Converters.class) // axristo
     @ColumnInfo(name = "teammatesid")
    // @Ignore
     private ArrayList<Integer> teammatesid; //dexetai ta ids twn paiktwn pou paizoun se afti tin omada
 
+    @ColumnInfo(name = "active_flag") //an einai energh, dld paizei se trexon championship
+    private int active_flag;
 
     public int getTeamID(){
         return teamID;
@@ -84,6 +94,18 @@ public class Team implements Serializable {
 
     public int getRound() {
         return round;
+    }
+
+    public int getActive_flag() { //0:energo, 1: mh energo
+        return active_flag;
+    }
+
+    public Date getStart_date() {
+        return start_date;
+    }
+
+    public Date getEnd_date() {
+        return end_date;
     }
 
     public ArrayList<Integer> getTeammatesid() {
@@ -118,6 +140,9 @@ public class Team implements Serializable {
         this.score = score;
     }
 
+    public void setActive_flag(int active_flag) {
+        this.active_flag = active_flag;
+    }
 
     public void setThis_vs(int this_vs) {
         this.this_vs = this_vs;
@@ -131,6 +156,13 @@ public class Team implements Serializable {
         this.round = round;
     }
 
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
 
     public Team(int fTeamID, String teamName, int score) {
         // public Team(int fTeamID, String teamName, ArrayList teammates, int score) {

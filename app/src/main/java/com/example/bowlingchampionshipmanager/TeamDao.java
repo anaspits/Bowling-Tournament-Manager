@@ -36,4 +36,7 @@ public interface TeamDao { //gia ta Team
    /* //step 1 ->BowlingViewModel
     @Query("SELECT teammatesid FROM team  WHERE teamID=:teamID") //olous tous umpaiktes tou paikth //dokimh, na to svisw an einai axristo
     LiveData<List<Integer>> getTeammates(int teamID); //gia na to xrishmopoihsw prepei na kanw POJO, dld nea klash */
+
+    //@Query("SELECT teammatesid FROM team WHERE teamID=:teamid")
+    //List<TeammatesTuple> getTeammatesid(int teamid);
 }
