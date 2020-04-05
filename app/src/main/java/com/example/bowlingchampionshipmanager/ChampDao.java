@@ -21,22 +21,34 @@ public interface ChampDao { //gia ta Team
     @Delete
     int delete(Championship t);
 
+    @Query("DELETE FROM championship where status='finished'")
+    void deleteOldChamp();
+
     //step 1 ->BowlingViewModel
     @Query("SELECT * FROM championship")
     LiveData<List<Championship>> getAllChamp();
 
 
     // fetch step 1 -> editViwModel
-    @Query("SELECT * FROM championship WHERE champID=:champID")
+    @Query("SELECT * FROM championship WHERE fchampID=:champID") //oxi to sys
     LiveData<Championship> getChamp(int champID);
 
     /*@Query("SELECT last_insert_rowid() FROM championship")
     LiveData<Championship> getLastInsertChamp(); */ //thelei POJO
 
-    @Query("SELECT * FROM championship WHERE champID=(SELECT MAX(champID) FROM championship)")
+    @Query("SELECT * FROM championship WHERE sys_champID=(SELECT MAX(fchampID) FROM championship)") //fchamp gia vash 2
     LiveData<Championship> getLastInsertChamp();
 
-    @Query("SELECT teamsid FROM championship WHERE champID=:champid")
-    LiveData<TeammatesTuple> getTeamsid(int champid);
+    //@Query("SELECT teamsid FROM championship WHERE fchampID=:champid")
+    //LiveData<TeammatesTuple> getTeamsid(int champid);
+
+    /////////////////////////////
+
+    @Query("SELECT MIN(fchampID) FROM championship WHERE status='created'") //vash 2 //malon axristo
+    LiveData<List<Integer>> getActiveChamp();
+
+    @Query("SELECT * FROM championship WHERE status='created'") //vash 3
+    LiveData<List<Championship>> getActiveChamp3();
 
 }
+

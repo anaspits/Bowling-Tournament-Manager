@@ -36,6 +36,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     private BowlingViewModel bowlingViewModel;
     public int sum =0;
+    private static int champinsertID;
 
 
     @Override
@@ -67,7 +68,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             @Override
             public void onChanged(List<Team> team) {
                 tlistAdapter.setTeams(team);
-                //int id = team.get(2).getTeamID();
+                //int id = team.get(2).getSys_teamID();
                 //addnew.setText(String.valueOf(id));
             }
         });
@@ -104,6 +105,26 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             }
+
+
+        //insert td and chd
+        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+            @Override
+            public void onChanged(List<Championship> ch) {
+                champinsertID =ch.size();
+            }
+        });
+        System.out.println("chid 3" +champinsertID);
+        for (int i=0; i<all_the_teams.size();i++) {
+            Championship_detail cd = new Championship_detail(champinsertID,all_the_teams.get(i).getSys_teamID());
+            bowlingViewModel.insert(cd);
+
+            ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
+            for (int j=0; j<t.size();j++) {
+                Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(i).getParticipantID());
+                bowlingViewModel.insert(td);
+            }
+        }
 
 
 
@@ -210,7 +231,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
                 t.setBowlAvg(avg);
                 // t.setTeamid(team);
                 t.setHdcp(hdcp);
-                t.setFakeID(fid); */
+                t.setFchampID(fid); */
                 // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 

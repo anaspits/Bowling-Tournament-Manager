@@ -45,7 +45,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
 
         if (mNotes != null) {
             Team note = mNotes.get(position);
-            holder.setData(note.getTeamName(),note.getTeamID(), position);
+            holder.setData(note.getTeamName(),note.getSys_teamID(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -91,7 +91,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, EditTeamActivity.class);
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getTeamID());
+                    intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_TEAM_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);

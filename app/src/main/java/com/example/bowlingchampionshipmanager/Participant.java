@@ -5,15 +5,9 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.google.gson.annotations.SerializedName;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,20 +19,22 @@ import java.io.IOException;
 
 @Entity(tableName = "participant"/*, foreignKeys = {
         @ForeignKey(entity = Team.class,
-                parentColumns = "teamID",
-                childColumns = "teamID"),
+                parentColumns = "sys_teamID",
+                childColumns = "sys_teamID"),
         @ForeignKey(entity = Championship.class,
                 parentColumns = "champID",
                 childColumns = "champID")
 }, indices= {
-        @Index(name="index_teamID", value="teamID", unique=true),
+        @Index(name="index_teamID", value="sys_teamID", unique=true),
         @Index(name="index_champID", value="champID", unique=true)
 } */
 )
 public class Participant implements Serializable {
+
     //Input attributes
     @PrimaryKey(autoGenerate = true)
     @NonNull
+   // @ColumnInfo(name="sys_participantID")
     int participantID; //to id pou exei o paiktis stin database
 
     @ColumnInfo(name="fakeID") //axristo
@@ -67,7 +63,8 @@ public class Participant implements Serializable {
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
 
-    @TypeConverters(Converters.class) //axristo
+    @Ignore
+    //@TypeConverters(Converters.class) //axristo
     ArrayList<Integer> teamatesid= new ArrayList<>();
 
     //Information to be decided
@@ -76,7 +73,7 @@ public class Participant implements Serializable {
     //int laneNum; //stretch goal
 
     //getter methods
-    public int getID() {
+    public int getParticipantID() {
         return participantID;
     }
     public int getBowlAvg() {
@@ -123,6 +120,10 @@ public class Participant implements Serializable {
     }
 
     //setter methods
+    public void setParticipantID(int participantID) {
+        this.participantID = participantID;
+    }
+
     public void setFirstName(String firstname) {
         this.firstName = firstname;
     }
@@ -143,7 +144,7 @@ public class Participant implements Serializable {
         this.partner = partner;
         //  if (partner!=null){
         teamates.add(partner);
-        teamatesid.add(partner.getID());
+        teamatesid.add(partner.getParticipantID());
 //        }
     }
 
@@ -160,13 +161,14 @@ public class Participant implements Serializable {
    //constructor
     public Participant( int fakeID, String firstname, String lastname, int bowlAvg, int team) {
         //this.participantID = participantID;
-        this.fakeID = fakeID;
+        this.fakeID = fakeID; //axristo
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
         this.teamid = team;
         teamates.add(this);
         teamatesid.add(this.participantID);
+        //todo: na valw kai hdcp
     }
     public Participant() {
         super();
@@ -233,11 +235,14 @@ public class Participant implements Serializable {
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                 Participant p = new Participant( i,fn, ln, ba,0);
                 bowlers.add(p);
-                bowlingViewModel.insert(p);
+               bowlingViewModel.insert(p);
                 Create1Activity.t_id++; //axristo
-
                 i++;
-
+if (Create1Activity.ok=="ok"){
+    System.out.println("Ok insert p :"+p.getParticipantID());
+} else {
+    System.out.println("Not Ok insert p");
+}
             }
 
        // } catch(IOException e){
@@ -247,7 +252,7 @@ public class Participant implements Serializable {
         return bowlers;
     }
 
-    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel){
+    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel, int champID){
         //Logic for generating teams(pairs)
 
         //Sort by bowling average
@@ -277,8 +282,28 @@ public class Participant implements Serializable {
             p.setTeamid(i+1);
             p.getPartner().setTeamid(i+1);
 
+            Team t = new Team((i+1),null,0);
+            bowlingViewModel.insert(t);
 
-            System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            // Championship c = new Championship(fchampID,i+1,0,"created"); //vash 2
+            // bowlingViewModel.insert(c);
+            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+
+           //vash 3
+          /*  System.out.println("champid = "+champID);
+            Championship_detail cd = new Championship_detail(champID,i+1);
+            bowlingViewModel.insert(cd);
+
+            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            System.out.println("Cd: ch " + (i+1) +" tema "+  cd.getSys_teamID());
+
+            Team_detail td = new Team_detail(t.sys_teamID,p.getParticipantID());
+            bowlingViewModel.insert(td);
+            System.out.println("Td: p " + td.getParticipantID() +" team "+  td.getTeamID());
+
+            Team_detail td2 = new Team_detail(t.getSys_teamID(),p.getPartner().getParticipantID());
+            bowlingViewModel.insert(td2);
+            System.out.println("Td2 " + td2.getParticipantID() +" "+  td2.getTeamID()); */
 
         }
         return bowlers;

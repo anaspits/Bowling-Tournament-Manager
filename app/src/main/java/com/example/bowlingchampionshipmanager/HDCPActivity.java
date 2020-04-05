@@ -71,7 +71,7 @@ public class HDCPActivity extends AppCompatActivity {
             @Override
             public void onChanged(Championship ch) {
                champ= ch;
-               textView1.setText(String.valueOf(ch.getChampID()));
+               textView1.setText(String.valueOf(ch.getSys_champID()));
             }
         });
     }

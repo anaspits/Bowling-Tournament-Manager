@@ -1,8 +1,5 @@
 package com.example.bowlingchampionshipmanager;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,20 +9,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
-public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.BowlingViewHolder>  {
+public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.BowlingViewHolder>  { //malon axristo
 
     public interface OnDeleteClickListener {
-        void OnDeleteClickListener(Participant myNote);
+        void OnDeleteClickListener(Championship_detail myNote);
     }
 
     private final LayoutInflater layoutInflater;
     private Context mContext;
-    private List<Participant> mNotes;
-    private OnDeleteClickListener onDeleteClickListener;
+    private List<Championship_detail> mNotes;
+    private DetailListAdapter.OnDeleteClickListener onDeleteClickListener;
 
-    public BowlingListAdapter(Context context, OnDeleteClickListener listener) {
+    public DetailListAdapter(Context context, DetailListAdapter.OnDeleteClickListener listener) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         this.onDeleteClickListener = listener;
@@ -33,18 +33,18 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
 
     @NonNull
     @Override
-    public BowlingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DetailListAdapter.BowlingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = layoutInflater.inflate(R.layout.list_item, parent, false);
-        BowlingViewHolder viewHolder = new BowlingViewHolder(itemView);
+        DetailListAdapter.BowlingViewHolder viewHolder = new DetailListAdapter.BowlingViewHolder(itemView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BowlingViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DetailListAdapter.BowlingViewHolder holder, int position) {
 
         if (mNotes != null) {
-            Participant note = mNotes.get(position);
-            holder.setData(note.getFullName(),note.getTeamid(), position);
+            Championship_detail note = mNotes.get(position);
+            holder.setData(String.valueOf(note.getSys_champID()),note.getSys_teamID(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -59,7 +59,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
         else return 0;
     }
 
-    public void setBowls(List<Participant> notes) {
+    public void setTeam_detail(List<Championship_detail> notes) {
         mNotes = notes;
         notifyDataSetChanged();
 
@@ -80,22 +80,22 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
         }
 
         public void setData(String note, int teamid, int position) {
-            noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(teamid));
+            noteItemView.setText("teamid "+note);
+            teamItemView.setText("participantid " +String.valueOf(teamid));
             mPosition = position;
         }
 
         public void setListeners() {
-            btEdit.setOnClickListener(new View.OnClickListener() {
+           /* btEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, EditActivity.class);
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getParticipantID());
+                    Intent intent = new Intent(mContext, EditTeamActivity.class);
+                    intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamDetailID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
-                    ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
+                    ((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_TEAM_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }
-            });
+            }); */
             btDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,4 +106,5 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
             });
         }
     }
+
 }

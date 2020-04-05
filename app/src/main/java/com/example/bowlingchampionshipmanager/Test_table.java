@@ -41,7 +41,7 @@ public class Test_table implements Serializable {
     @ColumnInfo(name="bowlAvg")
     private int bowlAvg;
 
-    @ColumnInfo(name="teamID")
+    @ColumnInfo(name="sys_teamID")
     int teamid;
 
     public Test_table( String name) {

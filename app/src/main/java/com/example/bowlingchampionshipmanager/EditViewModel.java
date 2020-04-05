@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class EditViewModel extends AndroidViewModel {
 
     private String TAG = this.getClass().getSimpleName();
@@ -35,7 +37,7 @@ public class EditViewModel extends AndroidViewModel {
         return teamDao.getTeam(teamID);
     }
 
-    public LiveData<Championship> getChamp(int champID) {
+    public LiveData<Championship> getChamp(int champID) { //oxi to sys
         return champDao.getChamp(champID);
     }
 }

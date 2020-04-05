@@ -42,6 +42,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     EditViewModel editViewModel;
     private TeamListAdapter tlistAdapter;
     private BowlingViewModel bowlingViewModel;
+    private BowlingViewModel bowlingViewModel2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +60,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         param= (TextView)  findViewById(R.id.param);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        bowlingViewModel2 = ViewModelProviders.of(this).get(BowlingViewModel.class);
         RecyclerView recyclerView = findViewById(R.id.crecyclerView);
         tlistAdapter = new TeamListAdapter(this, this);
         recyclerView.setAdapter(tlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 
         bundle = getIntent().getExtras();
 
@@ -78,15 +82,15 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             public void onChanged(List<Team> team) {
                 tlistAdapter.setTeams(team);
             }
-        }); */
+        });
 
         bowlingViewModel.getTeamsid(bowlId).observe(this, new Observer<TeammatesTuple>() {
             @Override
             public void onChanged(TeammatesTuple teamsid) {
               tid = teamsid.getListids();
             }
-        });
-        param.setText(String.valueOf(tid.get(1)));
+        });*/
+      /*  param.setText(String.valueOf(tid.get(1))); //den 3erw
         ArrayList<Team> te = new ArrayList<>();
         for (int i=0; i<tid.size();i++) {
             bowlingViewModel.getTeam(i).observe(this, new Observer<Team>() {
@@ -94,32 +98,85 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
                 public void onChanged(Team team) {
 
                     te.add(team);
-                    //param.setText(String.valueOf(team.getTeamID()));
+                    //param.setText(String.valueOf(team.getSys_teamID()));
                     tlistAdapter.setTeams(te);
                 }
             });
-        }
+        } */
+
+       // ArrayList<Team> te = new ArrayList<>();
+
+       // for (int i=0; i<tid.size();i++) {
+            bowlingViewModel.getAllTeamsofChamp2().observe(this, new Observer<List<ActiveChampsTuple>>() {
+                @Override
+                public void onChanged(List<ActiveChampsTuple> t) {
+List<Team> a = t.get(0).getT();
+
+                    tlistAdapter.setTeams(a);
+                    if(t!=null) {
+                        //int a = t.get(0).getSys_teamID();
+                       // param.setText(String.valueOf(a.size()));
+                    } else{
+                        param.setText("wtf");
+                    }
+
+                     }
+                       });
+        bowlingViewModel.getAllChamp_detail().observe(this, new Observer<List<Championship_detail>>() {
+            @Override
+            public void onChanged(List<Championship_detail> t) {
+               if(t!=null) {
+                    //int a = t.get(0).getSys_teamID();
+                    param.setText(String.valueOf(t.size()));
+                } else{
+                    param.setText("wtf");
+                }
+
+            }
+        });
 
 
-        editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
+       // ArrayList<Integer> te = new ArrayList<>();
 
         //fetch step 3
-        champ = editViewModel.getChamp(bowlId);
-        champ.observe(this, new Observer<Championship>() {
+       /* champ = editViewModel.getChamp(bowlId);
+        champ*/
+       editViewModel.getChamp(bowlId).observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship champ) {
+                /*for (int i = 0; i < c.size(); i++) {
+                    te.add(c.get(i).getTeamID());
+                } */
+                //Championship champ = c.get(0); //vash 2
                 cname.append(" No. "+ String.valueOf(bowlId));
                 editstatus.setText(String.valueOf(champ.getStatus()));
-                editround.setText(String.valueOf(champ.getRound()));
-                ArrayList<Integer> h = t.getHdcp_parameters();
-                par1.setText(String.valueOf(h.get(0)));
+                editround.setText(String.valueOf(champ.getRound())); //axristo
+              /*   ArrayList<Integer> h = t.getHdcp_parameters(); //prin
+               par1.setText(String.valueOf(h.get(0)));
                 par2.setText(String.valueOf(h.get(1)));
                 par3.setText(String.valueOf(h.get(2)));
                 par5.setText(String.valueOf(h.get(3)));
-                par4.setText(String.valueOf(h.get(4)));
+                par4.setText(String.valueOf(h.get(4))); */
+
+                if (String.valueOf(champ.getHdcp_beginners())!= null){ //meta
+                    par1.setText(String.valueOf(champ.getHdcp_beginners()));
+                }
+                if (String.valueOf(champ.getHdcp_adv())!= null){ //meta
+                    par2.setText(String.valueOf(champ.getHdcp_adv()));
+                }
+                if (String.valueOf(champ.getHdcp_less())!= null){ //meta
+                    par3.setText(String.valueOf(champ.getHdcp_beginners()));
+                }
+                if (String.valueOf(champ.getHdcp_factor())!= null){ //meta
+                    par4.setText(String.valueOf(champ.getHdcp_factor()));
+                }
+                if (String.valueOf(champ.getHdcp_tav())!= null){ //meta
+                    par5.setText(String.valueOf(champ.getHdcp_tav()));
+                }
             }
         });
     }
+
 
     public void updateDB (View view) {
         String updatedst = editstatus.getText().toString();
@@ -193,7 +250,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 Championship t;
-                t = (Championship) bundleObject.getSerializable("b_object");
+                t = (Championship) bundleObject.getSerializable("b_object"); //todo: prepei na ta kanei update ola ta champ me auto to champid
                 bowlingViewModel.update(t);
                 Toast.makeText(
                         getApplicationContext(),

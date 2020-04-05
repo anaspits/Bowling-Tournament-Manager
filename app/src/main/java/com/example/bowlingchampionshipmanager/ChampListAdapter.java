@@ -44,7 +44,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
 
         if (mNotes != null) {
             Championship note = mNotes.get(position);
-            holder.setData(note.getStatus(),note.getChampID(), position);
+            holder.setData(note.getStatus(),note.getSys_champID(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -79,9 +79,9 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int teamid, int position) {
+        public void setData(String note, int chid, int position) {
             noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(teamid));
+            teamItemView.setText(String.valueOf(chid));
             mPosition = position;
         }
 
@@ -90,7 +90,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, EditChampActivity.class);
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getChampID());
+                    intent.putExtra("bowlId", mNotes.get(mPosition).getSys_champID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent, ContinueChampActivity.UPDATE_CHAMP_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);

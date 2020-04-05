@@ -3,9 +3,7 @@ package com.example.bowlingchampionshipmanager;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -24,12 +22,12 @@ public class Team implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-   // @ColumnInfo(name="teamid")
-    int teamID;
+    //@ColumnInfo(name="teamid")
+    int sys_teamID;
 
-    @ColumnInfo(name="fakeID")
+    @ColumnInfo(name="fteamID")
     @NonNull
-    private int fTeamID; //to id pou exei h omada sto sugkekrimeno prwtathlima //axristo?
+    private int fTeamID; //to id pou exei h omada sto sugkekrimeno prwtathlima  //to thelw gia to generateTeams
 
     @ColumnInfo(name="team_name")
     private String teamName;
@@ -51,7 +49,8 @@ public class Team implements Serializable {
     @ColumnInfo(name = "champID") //axristo
     private int champid; //todo: na ginei list me ta champid sta opoia summetexei h omada
 
-    @ColumnInfo(name = "round") //axristo
+    @Ignore
+    //@ColumnInfo(name = "round") //axristo
     private int round; //se poio round vriskonte me thn antipalh omada
 
     @Ignore
@@ -61,16 +60,16 @@ public class Team implements Serializable {
     private ArrayList<Participant> teammates; //dexetai to ArrayList teams
 
 
-    @TypeConverters(Converters.class) // axristo
-    @ColumnInfo(name = "teammatesid")
-   // @Ignore
+    //@TypeConverters(Converters.class) // axristo
+    //@ColumnInfo(name = "teammatesid")
+    @Ignore
     private ArrayList<Integer> teammatesid; //dexetai ta ids twn paiktwn pou paizoun se afti tin omada
 
     @ColumnInfo(name = "active_flag") //an einai energh, dld paizei se trexon championship
     private int active_flag;
 
-    public int getTeamID(){
-        return teamID;
+    public int getSys_teamID(){
+        return sys_teamID;
     }
 
     public int getFTeamID(){
@@ -112,8 +111,8 @@ public class Team implements Serializable {
         return teammatesid;
     }
 
-    public void setTeamID(int teamID) {
-        this.teamID = teamID;
+    public void setSys_teamID(int sys_teamID) {
+        this.sys_teamID = sys_teamID;
     }
 
     public void setfTeamID(int fTeamID) {
@@ -210,7 +209,7 @@ public class Team implements Serializable {
 
    /* @Override
     public String toString() {
-        return "[ ID: " + teamID + ", Name: " + teamName  + "]";
+        return "[ ID: " + sys_teamID + ", Name: " + teamName  + "]";
     } */
 
    /* public StringBuilder displayTeams(){

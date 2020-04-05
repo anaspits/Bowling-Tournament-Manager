@@ -63,6 +63,9 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private BowlingListAdapter blistAdapter2;
     private TeamListAdapter tlistAdapter;
     private int sum =0;
+    private int champinsertID;
+    public int fchampID=1;
+    public static String ok= "fail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +107,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         ////////////////gia room insert
         /*final int t_id = 1;
         Test_table t= new Test_table(t_id, "lol1");
-        bowlingViewModel.insert(t); */
+        bowlingViewModel.insert(t);*/
         /////////////// telos room insert
 
         bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
@@ -121,7 +124,14 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 addnew.setText(String.valueOf(sum));
             }
         });
-
+        bowlingViewModel.getLastInsertChamp().observe(this, new Observer<Championship>() {
+            @Override
+            public void onChanged(Championship c) {
+               if(c!=null) {
+                   fchampID = c.getFchampID()+1;
+               }
+            }
+        });
 ////////////
 
         button_imp.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +222,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 t.setBowlAvg(avg);
                // t.setTeamid(team);
                 t.setHdcp(hdcp);
-                t.setFakeID(fid); */
+                t.setFchampID(fid); */
                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
 
@@ -421,9 +431,19 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         String line = "";
         String cvsSplitBy = ",";
 
+
+        Championship ch = new Championship(fchampID,0,0, "created"); ////vash 3
+        bowlingViewModel.insert(ch);
+        System.out.println("chid " +ch.getSys_champID());
+        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+            @Override
+            public void onChanged(List<Championship> ch) {
+                champinsertID =ch.size();
+            }
+        });
+        System.out.println("chid 2" +champinsertID);
+
          //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
-
-
        s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy,bowlers);
 
 
@@ -471,9 +491,11 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
         //return bowlers;
 
+
+
        //create the teams
        int playersPerTeam=2;
-        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel);
+        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel,champinsertID);
 
         int i;
        /* //teamates mallon axristo
@@ -490,23 +512,23 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
             ArrayList<Integer> tempid = teamsplayersid.get(i);
-            Team t = new Team((i+1),null,0);
+            Team t = new Team((i+1),null,0); /////////////////////////////////////////vash 1
             t.setTeammates(temp);
             t.setTeammatesid(tempid);
-           // t.setChampid(0); //todo: to fid tou champ
+           // t.setChampid(fchampID);
             all_the_teams.add(t);
-            bowlingViewModel.insert(t);
-            teamsid.add(t.getTeamID());
+           // bowlingViewModel.insert(t);
+            teamsid.add(t.getSys_teamID());
             //textView.append("Team " + t.getFTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());
             } */
         }
-        int fakeid=0; //Todo: to fid tou champ
-        Championship ch = new Championship(fakeid,0,0, "created");
+
+   /*     Championship ch = new Championship(fchampID,0,0, "created"); ////vash 1
         ch.setTeamsid(teamsid);
-        bowlingViewModel.insert(ch);
+        bowlingViewModel.insert(ch); */
         //emfanish test
         for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
@@ -568,7 +590,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();
-
+System.out.println("Telos snart");
     }
 
 
@@ -604,5 +626,6 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);
     }
+
 
 }

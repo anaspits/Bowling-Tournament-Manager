@@ -102,4 +102,15 @@
             android:text="@string/pins" />
     </RadioGroup>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="421dp"
+        android:layout_height="253dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_hdcp_parameters"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeofgame"
+        tools:listitem="@layout/list_item" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

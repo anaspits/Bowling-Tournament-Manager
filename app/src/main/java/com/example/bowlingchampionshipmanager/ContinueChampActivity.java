@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContinueChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
@@ -23,6 +24,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     private BowlingViewModel bowlingViewModel;
+    private EditViewModel eViewModel;
     private ChampListAdapter clistAdapter;
 
 
@@ -37,14 +39,20 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
         clistAdapter = new ChampListAdapter(this, this);
         recyclerView.setAdapter(clistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        eViewModel= ViewModelProviders.of(this).get(EditViewModel.class);
 
-        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+
+
+        bowlingViewModel.getActiveChamp3().observe(this, new Observer<List<Championship>>() {
             @Override
             public void onChanged(List<Championship> c) {
                 clistAdapter.setChamp(c);
             }
         });
+
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode,

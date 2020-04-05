@@ -36,19 +36,26 @@ public interface BowlingDao {
     int delete(Participant participant);
 
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant WHERE teamID=:teamid") // olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
+    @Query("SELECT * FROM participant WHERE teamID=:teamid") //vash 1 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
     LiveData<List<Participant>> getAllPlayersofTeam( int teamid);
 
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant ORDER BY teamID") //olous tous paiktes me seira omadas //ToDo:na to kanw k gia sugkekrimeno champ H na to enwsw me to katw
+    @Query("SELECT * FROM participant ORDER BY teamID") //vash 1 //olous tous paiktes me seira omadas //ToDo:na to kanw k gia sugkekrimeno champ H na to enwsw me to katw
     LiveData<List<Participant>> getAllPlayersofTeamsOrdered();
 
     //-> BowlingViewModel
-    @Query("SELECT * FROM participant WHERE champID=:champid") ////olous tous paiktes tou champ//ToDo:na to kanw k gia sugkekrimeno champ
+    @Query("SELECT * FROM participant WHERE champID=:champid") //vash 1 //olous tous paiktes tou champ//ToDo:na to kanw k gia sugkekrimeno champ
     LiveData<List<Participant>> getAllPlayersofChamp(int champid);
 
-    @Query("SELECT * FROM participant WHERE participantID IN (SELECT teamatesid FROM team WHERE teamID=:teamid )") //olous tous umpaiktes tou paikth //dokimh, na to svisw an einai axristo
-    LiveData<List<Participant>> getTeammates(int teamid);
+  ////  //@Query("SELECT * FROM participant WHERE sys_participantID IN (SELECT teamatesid FROM team WHERE teamID=:teamid )") //olous tous umpaiktes tou paikth //dokimh, na to svisw an einai axristo
+    //LiveData<List<Participant>> getTeammates(int teamid);
+@Query("SELECT * FROM participant WHERE teamID=:teamid ") //NA SVISW
+    LiveData<List<Participant>> getTeammates(int teamid);////////
+
+    ///////////////
+
+    @Query("SELECT participant.participantID, participant.avg, participant.first_name, participant.last_name, participant.hdcp, participant.champID,participant.teamID, participant.fakeID FROM participant INNER JOIN team_detail ON participant.participantID=team_detail.sys_participantID INNER join championship_detail on team_detail.sys_teamID = championship_detail.sys_teamID  WHERE championship_detail.sys_champID=:chID AND team_detail.sys_teamID=:teamid") //vash 3 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
+    LiveData<List<Participant>> getAllPlayersofTeam2( int teamid, int chID);
 
 
 }

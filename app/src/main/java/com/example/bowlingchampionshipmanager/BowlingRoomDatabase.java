@@ -7,13 +7,15 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Participant.class, Team.class,Championship.class,Round.class,HDCPparameters.class}, version = 1,exportSchema = false)
+@Database(entities = {Participant.class, Team.class,Championship.class,Round.class,Team_detail.class,Championship_detail.class,Round_detail.class,HDCPparameters.class}, version = 1,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class BowlingRoomDatabase extends RoomDatabase {
 
     public  abstract BowlingDao bowlingDao();
     public  abstract TeamDao teamDao();
     public  abstract ChampDao champDao();
+    public  abstract Team_detailDao team_detailDao();
+    public  abstract Championship_detailDao championship_detailDao();
 
     private static volatile BowlingRoomDatabase BowlingRoomInstance;
 
@@ -22,7 +24,7 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
             synchronized (BowlingRoomDatabase.class) {
                 if (BowlingRoomInstance == null) {
                     BowlingRoomInstance = Room.databaseBuilder(context.getApplicationContext(),
-                            BowlingRoomDatabase.class, "Bowling")
+                            BowlingRoomDatabase.class, "test")
                             .build();
                 }
             }

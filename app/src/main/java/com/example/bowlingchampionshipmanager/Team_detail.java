@@ -9,19 +9,18 @@ import androidx.room.PrimaryKey;
 public class Team_detail {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    // @ColumnInfo(name="teamid")
-    int teamDetailID;
+    int sys_teamDetailID;
 
-    @ColumnInfo(name="teamID")
+    @ColumnInfo(name="sys_teamID")
     @NonNull
     private int teamID;
 
-    @ColumnInfo(name="participantID")
+    @ColumnInfo(name="sys_participantID")
     @NonNull
     private int participantID;
 
-    public int getTeamDetailID() {
-        return teamDetailID;
+    public int getSys_teamDetailID() {
+        return sys_teamDetailID;
     }
 
     public int getTeamID() {
@@ -32,6 +31,9 @@ public class Team_detail {
         return participantID;
     }
 
+    public void setSys_teamDetailID(int sys_teamDetailID) {
+        this.sys_teamDetailID = sys_teamDetailID;
+    }
     public void setTeamID(int teamID) {
         this.teamID = teamID;
     }
@@ -39,6 +41,7 @@ public class Team_detail {
     public void setParticipantID(int participantID) {
         this.participantID = participantID;
     }
+
     public Team_detail(int teamID, int participantID) {
         this.teamID = teamID;
         this.participantID = participantID;

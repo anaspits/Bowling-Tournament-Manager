@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Converters {
 
 
-        @TypeConverter
+       /* @TypeConverter
         public static String fromArrayList(ArrayList<Integer> teamatesid) {
         Gson gson = new Gson();
         String json = gson.toJson(teamatesid);
@@ -21,7 +21,7 @@ public class Converters {
             Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
             return new Gson().fromJson(value, listType);
         }
-
+*/
         //gia date
         @TypeConverter
         public static Date fromTimestamp(Long value) {

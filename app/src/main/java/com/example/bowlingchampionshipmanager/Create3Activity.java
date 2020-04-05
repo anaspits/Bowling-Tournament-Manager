@@ -1,6 +1,10 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +14,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Create3Activity extends AppCompatActivity {
+public class Create3Activity extends AppCompatActivity implements DetailListAdapter.OnDeleteClickListener {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
@@ -19,6 +24,9 @@ public class Create3Activity extends AppCompatActivity {
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
     private static Button start;
+
+    private BowlingViewModel bowlingViewModel;
+    private DetailListAdapter dlistAdapter;
 
 
     @Override
@@ -41,6 +49,20 @@ public class Create3Activity extends AppCompatActivity {
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
         }
+
+        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        dlistAdapter = new DetailListAdapter(this, this);
+        recyclerView.setAdapter(dlistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        bowlingViewModel.getAllChamp_detail().observe(this, new Observer<List<Championship_detail>>() {
+            @Override
+            public void onChanged(List<Championship_detail> td) {
+                dlistAdapter.setTeam_detail(td);
+
+            }
+        });
     }
 
     public void openNewActivity(View View) {
@@ -77,5 +99,9 @@ public class Create3Activity extends AppCompatActivity {
 
         }
 
+    }
+    @Override
+    public void OnDeleteClickListener(Championship_detail myNote) {
+        bowlingViewModel.delete(myNote);
     }
 }

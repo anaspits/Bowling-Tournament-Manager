@@ -3,8 +3,7 @@ package com.example.bowlingchampionshipmanager;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -17,28 +16,29 @@ import java.util.ArrayList;
                 parentColumns = "participantID",
                 childColumns = "participantID"),
         @ForeignKey(entity = Team.class,
-                parentColumns = "teamID",
-                childColumns = "teamID")
+                parentColumns = "sys_teamID",
+                childColumns = "sys_teamID")
 }, indices= {
-        @Index(name="index_teamID", value="teamID", unique=true),
+        @Index(name="index_teamID", value="sys_teamID", unique=true),
         @Index(name="index_participantID", value="participantID", unique=true)
 }*/)
 public class Championship implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="sys_champID")
     @NonNull
-    private int champID; //to id pou exei sti vash
+    private int sys_champID; //to id pou exei sti vash
 
-    @ColumnInfo(name="fakeID")
+    @ColumnInfo(name="fchampID")
     @NonNull
-    int fakeID; //to id pou exei to sugkekrimeno prwtathlima
+    int fchampID; //to id pou exei to sugkekrimeno prwtathlima
 
 
-    @ColumnInfo(name="participantID")
+    @ColumnInfo(name="participantID")//axristo
     @NonNull
     private int participantID; //axristo
 
-    @ColumnInfo(name="teamID")
+    @ColumnInfo(name="sys_teamID") //vash 1: axristo, vash 2: xrhsimo, vash 3: axristo
     @NonNull
     private int teamID;
 
@@ -46,16 +46,17 @@ public class Championship implements Serializable {
     private int round; //se poio round vrisketai
 
     @ColumnInfo(name = "status")
-    private String status; //0: energo, 1:teleiwse
+    private String status; //created, active, finished //todo: int? 0: energo, 1:teleiwse
 
 
-    @TypeConverters(Converters.class) // axristo
-    @ColumnInfo(name = "teamsid")
-    // @Ignore
+   // @TypeConverters(Converters.class) // axristo
+   // @ColumnInfo(name = "teamsid")
+     @Ignore
     private ArrayList<Integer> teamsid;
 
-    @TypeConverters(Converters.class) // axristo
-    @ColumnInfo(name = "hdcp_parameters")
+  //  @TypeConverters(Converters.class) // axristo
+   // @ColumnInfo(name = "hdcp_parameters")
+    @Ignore
     private ArrayList<Integer> hdcp_parameters;
 
     @ColumnInfo(name = "hdcp_beginners")
@@ -84,8 +85,8 @@ public class Championship implements Serializable {
     @ColumnInfo(name = "end_date")
     private Date end_date;
 
-    public int getChampID() {
-        return champID;
+    public int getSys_champID() {
+        return sys_champID;
     }
 
     public int getParticipantID() {
@@ -112,8 +113,8 @@ public class Championship implements Serializable {
         return hdcp_parameters;
     }
 
-    public int getFakeID() {
-        return fakeID;
+    public int getFchampID() {
+        return fchampID;
     }
 
     public int getHdcp_beginners() {
@@ -144,8 +145,12 @@ public class Championship implements Serializable {
         return end_date;
     }
 
-    public void setChampID(int champID) {
-        this.champID = champID;
+    public int getType() {
+        return type;
+    }
+
+    public void setSys_champID(int sys_champID) {
+        this.sys_champID = sys_champID;
     }
 
     public void setParticipantID(int participantID) {
@@ -172,8 +177,8 @@ public class Championship implements Serializable {
         this.hdcp_parameters = hdcp_parameters;
     }
 
-    public void setFakeID(int fakeID) {
-        this.fakeID = fakeID;
+    public void setFchampID(int fchampID) {
+        this.fchampID = fchampID;
     }
 
     public void setHdcp_beginners(int hdcp_beginners) {
@@ -204,9 +209,13 @@ public class Championship implements Serializable {
         this.end_date = end_date;
     }
 
-    public Championship( int fakeID, int teamID, int round, String status) {
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Championship( int fchampID, int teamID, int round, String status) {
        // this.participantID = participantID;
-        this.fakeID = fakeID;
+        this.fchampID = fchampID;
         this.teamID = teamID;
         this.round = round;
         this.status = status;
