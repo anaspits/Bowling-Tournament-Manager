@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class AddNewActivity extends AppCompatActivity {
 
@@ -44,9 +45,9 @@ public class AddNewActivity extends AppCompatActivity {
                     String avg = newavg.getText().toString();
                     String team = newteam.getText().toString();
                     String champ = newchamp.getText().toString();
-
-                    Participant t = new Participant(0,name, "",Integer.parseInt(avg),Integer.parseInt(team));
-
+                    String uuid = UUID.randomUUID().toString();
+                    Participant t = new Participant(0,uuid,name, "",Integer.parseInt(avg),Integer.parseInt(team),null);
+//todo: na ftia3w to date
                     /*axrista resultIntent.putExtra(NEW_ADDED, name);
                     resultIntent.putExtra("new_avg", avg);
                     resultIntent.putExtra("new_team", team);

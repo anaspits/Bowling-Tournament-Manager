@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
-@Entity(tableName = "team"/*,foreignKeys = {
+@Entity(tableName = "team",indices= {@Index(name="index_teamUUID", value="team_uuid", unique=true)}/*,foreignKeys = {
         @ForeignKey(entity = Championship.class,
                 parentColumns = "champID",
                 childColumns = "champID")
@@ -22,8 +23,11 @@ public class Team implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    //@ColumnInfo(name="teamid")
+    @ColumnInfo(name="sys_teamID")
     int sys_teamID;
+
+    @ColumnInfo(name="team_uuid")
+    String uuid;
 
     @ColumnInfo(name="fteamID")
     @NonNull
@@ -111,6 +115,10 @@ public class Team implements Serializable {
         return teammatesid;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     public void setSys_teamID(int sys_teamID) {
         this.sys_teamID = sys_teamID;
     }
@@ -163,9 +171,14 @@ public class Team implements Serializable {
         this.end_date = end_date;
     }
 
-    public Team(int fTeamID, String teamName, int score) {
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Team(int fTeamID, String uuid, String teamName, int score) {
         // public Team(int fTeamID, String teamName, ArrayList teammates, int score) {
         this.fTeamID = fTeamID;
+        this.uuid = uuid;
         if (teamName!=null) {
             this.teamName = teamName;
         } else {

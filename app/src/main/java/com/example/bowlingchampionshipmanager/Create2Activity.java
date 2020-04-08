@@ -35,7 +35,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     private BowlingViewModel bowlingViewModel;
-    public int sum =0;
+    public static int sum;
     private static int champinsertID;
 
 
@@ -64,14 +64,6 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             }
         });
 
-        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() {
-            @Override
-            public void onChanged(List<Team> team) {
-                tlistAdapter.setTeams(team);
-                //int id = team.get(2).getSys_teamID();
-                //addnew.setText(String.valueOf(id));
-            }
-        });
 
        /* bowlingViewModel.getAllPlayersofTeamOrdered().observe(this, new Observer<List<Participant>>() {
             @Override
@@ -105,13 +97,55 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             }
+        //System.out.println("Team 1 = " + all_the_teams.get(0).getTeamName());
+        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() { //fixme: mono tis teleutaies omadew pou isirthan
+            @Override
+            public void onChanged(List<Team> team) {
+                //tlistAdapter.setTeams(team);
+    /*gai sysid ws primary            for(int i=0; i<all_the_teams.size();i++){
+                    all_the_teams.get(i).setTeamName(String.valueOf(team.get(i).getSys_teamID()));
+                    team.get(i).setTeamName(String.valueOf(team.get(i).getSys_teamID()));
+                    bowlingViewModel.update(team.get(i));
+                    ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
+                   /* for (int j=0; j<t.size();j++) {
+                        System.out.println("Td: teamid "+team.get(i).getSys_teamID()+" pid "+t.get(j).getParticipantID());
+                        Team_detail td = new Team_detail(team.get(i).getSys_teamID(),t.get(j).getParticipantID());
+                        bowlingViewModel.insert(td);
+                    } */ /*
+
+                }
+               // int id = team.get(2).getSys_teamID();
+                //addnew.setText(String.valueOf(id));
+                sum=team.get(2).getSys_teamID(); telos*/
+                tlistAdapter.setTeams(team);
+            }
+        });
 
 
         //insert td and chd
-        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+
+        bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> team) {
+                System.out.println("sum = id = "+team.get(0).getParticipantID());
+            }
+        });
+       /* bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
             @Override
             public void onChanged(List<Championship> ch) {
                 champinsertID =ch.size();
+                System.out.println("chid 3 " +ch.get(champinsertID-1).getSys_champID());
+                System.out.println("chid 4 " +all_the_teams.get(0).getSys_teamID());
+                for (int i=0; i<all_the_teams.size();i++) {
+                    Championship_detail cd = new Championship_detail(champinsertID,all_the_teams.get(i).getSys_teamID());
+                    bowlingViewModel.insert(cd);
+
+                    ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
+                    for (int j=0; j<t.size();j++) {
+                        Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipantID());
+                        bowlingViewModel.insert(td);
+                    }
+                }
             }
         });
         System.out.println("chid 3" +champinsertID);
@@ -121,10 +155,10 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
             ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
             for (int j=0; j<t.size();j++) {
-                Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(i).getParticipantID());
+                Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipantID());
                 bowlingViewModel.insert(td);
             }
-        }
+        }*/
 
 
 

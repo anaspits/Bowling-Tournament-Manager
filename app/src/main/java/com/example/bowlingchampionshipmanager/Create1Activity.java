@@ -51,7 +51,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static ArrayList<Team> all_the_teams = new ArrayList<>();
     public static ArrayList<Integer> teamsid = new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
-   private static Participant s = new Participant(999,"instance", "instance", 999, 0);
+   private static Participant s = new Participant(999,"","instance", "instance", 999, 0,null);
     public static int t_id=1;
     public static int allbowls=0;
     private static Test_table test= new Test_table("instance");
@@ -104,18 +104,29 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
             }
         });
-        ////////////////gia room insert
-        /*final int t_id = 1;
-        Test_table t= new Test_table(t_id, "lol1");
-        bowlingViewModel.insert(t);*/
-        /////////////// telos room insert
 
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
+       /* bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter.setBowls(participants);
             }
+        });*/
+
+        bowlingViewModel.getAllPlayersofTeam3("d6a80964-df59-41d2-aee2-080502e2f3f6").observe(this, new Observer<List<TeammatesTuple>>() {
+            @Override
+            public void onChanged(List<TeammatesTuple> t) {
+                if(t!=null) {
+
+                    //blistAdapter.setBowls(t.get(0).getT());
+                    //int a = t.get(0).getSys_teamID();
+                    button_imp.setText(String.valueOf(t.size()));
+                } else{
+                    button_imp.setText("wtf");
+                }
+
+            }
         });
+
         bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
@@ -512,7 +523,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
             ArrayList<Integer> tempid = teamsplayersid.get(i);
-            Team t = new Team((i+1),null,0); /////////////////////////////////////////vash 1
+            Team t = new Team((i+1),"",null,0); /////////////////////////////////////////vash 1
             t.setTeammates(temp);
             t.setTeammatesid(tempid);
            // t.setChampid(fchampID);
@@ -590,7 +601,6 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();
-System.out.println("Telos snart");
     }
 
 

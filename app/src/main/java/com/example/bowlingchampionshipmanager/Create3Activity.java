@@ -56,14 +56,18 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
         recyclerView.setAdapter(dlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bowlingViewModel.getAllChamp_detail().observe(this, new Observer<List<Championship_detail>>() {
+        bowlingViewModel.getAllTeam_detail().observe(this, new Observer<List<Team_detail>>() {
             @Override
-            public void onChanged(List<Championship_detail> td) {
+            public void onChanged(List<Team_detail> td) {
                 dlistAdapter.setTeam_detail(td);
+                int a= dlistAdapter.getItemCount();
+                System.out.println("count ="+a);
 
             }
         });
+
     }
+
 
     public void openNewActivity(View View) {
         String button_text;
@@ -101,7 +105,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
 
     }
     @Override
-    public void OnDeleteClickListener(Championship_detail myNote) {
+    public void OnDeleteClickListener(Team_detail myNote) {
         bowlingViewModel.delete(myNote);
     }
 }

@@ -30,6 +30,9 @@ public interface TeamDao { //gia ta Team
     @Query("SELECT * FROM team WHERE sys_teamID=:teamID")
     LiveData<Team> getTeam(int teamID);
 
+    @Query("SELECT * FROM team WHERE sys_teamID=:teamID")
+    Team getTeam2(int teamID);
+
     //step 1 ->BowlingViewModel //vash1
     @Query("SELECT * FROM team WHERE champID=:champid ORDER BY sys_teamID") //to order xreiazetai? //oles tis omades tou champ
     LiveData<List<Team>> getAllTeamsofChamp(int champid);

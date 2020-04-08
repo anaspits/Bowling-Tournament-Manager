@@ -8,7 +8,7 @@ import androidx.room.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActiveChampsTuple {
+public class ActiveChampsTuple { //relationship many to many
    /* @ColumnInfo(name = "activeChampsid")
     private ArrayList<Integer> listids;
 

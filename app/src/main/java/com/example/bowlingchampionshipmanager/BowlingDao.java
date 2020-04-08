@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -54,8 +55,14 @@ public interface BowlingDao {
 
     ///////////////
 
-    @Query("SELECT participant.participantID, participant.avg, participant.first_name, participant.last_name, participant.hdcp, participant.champID,participant.teamID, participant.fakeID FROM participant INNER JOIN team_detail ON participant.participantID=team_detail.sys_participantID INNER join championship_detail on team_detail.sys_teamID = championship_detail.sys_teamID  WHERE championship_detail.sys_champID=:chID AND team_detail.sys_teamID=:teamid") //vash 3 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
+    @Query("SELECT participant.participantID, participant.avg, participant.first_name, participant.last_name, participant.hdcp, participant.champID,participant.teamID, participant.fakeID, participant.start_date, participant.end_date, participant.participant_uuid FROM participant INNER JOIN team_detail ON participant.participantID=team_detail.participant_uuid INNER join championship_detail on team_detail.team_uuid = championship_detail.sys_teamID  WHERE championship_detail.sys_champID=:chID AND team_detail.team_uuid=:teamid") //vash 3 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
     LiveData<List<Participant>> getAllPlayersofTeam2( int teamid, int chID);
 
+    @Transaction
+    @Query("SELECT * FROM team WHERE team_uuid=:s")
+    LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s);
+
+    @Query("SELECT * FROM participant WHERE first_name=:fn AND  last_name=:ln")
+    LiveData<List<Participant>> getParticipantByName( String fn, String ln);
 
 }

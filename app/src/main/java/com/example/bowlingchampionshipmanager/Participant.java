@@ -4,20 +4,28 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 //import javax.persistence.*;
 
-@Entity(tableName = "participant"/*, foreignKeys = {
+@Entity(tableName = "participant",indices= {
+        @Index(name="index_participant_uuid", value="participant_uuid", unique=true)
+}/*, foreignKeys = {
         @ForeignKey(entity = Team.class,
                 parentColumns = "sys_teamID",
                 childColumns = "sys_teamID"),
@@ -34,8 +42,11 @@ public class Participant implements Serializable {
     //Input attributes
     @PrimaryKey(autoGenerate = true)
     @NonNull
-   // @ColumnInfo(name="sys_participantID")
+   @ColumnInfo(name="participantID")
     int participantID; //to id pou exei o paiktis stin database
+
+    @ColumnInfo(name="participant_uuid")
+    String uuid;
 
     @ColumnInfo(name="fakeID") //axristo
     @NonNull
@@ -59,6 +70,14 @@ public class Participant implements Serializable {
     @ColumnInfo(name="champID") //axristo
     int champid; //to id tou prwtathlimatos sto opoio paizei me tin omada teamid kai tous paiktes teamates
 
+
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "start_date")
+    private Date start_date;
+
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "end_date")
+    private Date end_date;
 
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
@@ -119,6 +138,18 @@ public class Participant implements Serializable {
         return hdcp;
     }
 
+    public Date getStart_date() {
+        return start_date;
+    }
+
+    public Date getEnd_date() {
+        return end_date;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
     //setter methods
     public void setParticipantID(int participantID) {
         this.participantID = participantID;
@@ -140,12 +171,24 @@ public class Participant implements Serializable {
         this.bowlAvg = bowlAvg;
     }
 
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     public void setPartner(Participant partner){
         this.partner = partner;
         //  if (partner!=null){
         teamates.add(partner);
         teamatesid.add(partner.getParticipantID());
 //        }
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
     }
 
     public void setTeamatesid(ArrayList<Integer> teamatesid) {
@@ -159,15 +202,17 @@ public class Participant implements Serializable {
     }
 
    //constructor
-    public Participant( int fakeID, String firstname, String lastname, int bowlAvg, int team) {
+    public Participant( int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
+        this.uuid = uuid;
         this.firstName = firstname;
         this.lastName = lastname;
         this.bowlAvg = bowlAvg;
         this.teamid = team;
         teamates.add(this);
         teamatesid.add(this.participantID);
+        this.start_date=start_date;
         //todo: na valw kai hdcp
     }
     public Participant() {
@@ -190,6 +235,7 @@ public class Participant implements Serializable {
         }
     };
 
+    @Ignore
     @Override
     public String toString() {
         return "[ Name: " + firstName + " " + lastName + ", Average: " + bowlAvg + ", Partner: " + partner.getFN() + " " + partner.getLN() + ", Partner Avg: " + partner.getBowlAvg() + "]";
@@ -233,10 +279,29 @@ public class Participant implements Serializable {
                 ba = Integer.parseInt(input[2]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
-                Participant p = new Participant( i,fn, ln, ba,0);
+               uuid = UUID.randomUUID().toString();
+               Long ts = System.currentTimeMillis();
+               String timestamp = ts.toString();
+               System.out.println("uuid "+ uuid+" ts "+timestamp);
+                //Date date = (Date) Calendar.getInstance().getTime();//fixme
+               // System.out.println("time = "+date);
+                Participant p = new Participant( i,uuid,fn, ln, ba,0,null);
                 bowlers.add(p);
-               bowlingViewModel.insert(p);
-                Create1Activity.t_id++; //axristo
+                bowlingViewModel.insert(p);
+   //  Long a=     bowlingViewModel.insert(p);
+   //  System.out.println(String.valueOf(a));
+//Team_detail td = new Team_detail(i+1, bowlingViewModel.insert(p));
+/*                bowlingViewModel.insertP(p).observe((LifecycleOwner) this, new Observer<Long>() {
+                    @Override
+                    public void onChanged(Long aLong) {
+                        System.out.println("aLong = "+aLong);
+
+                        Team_detail td = new Team_detail(p.teamid,aLong);
+                        bowlingViewModel.insert(td);
+                    }
+                }); */
+
+Create1Activity.t_id++; //axristo
                 i++;
 if (Create1Activity.ok=="ok"){
     System.out.println("Ok insert p :"+p.getParticipantID());
@@ -281,15 +346,25 @@ if (Create1Activity.ok=="ok"){
             Participant p = bowlers.get(i);
             p.setTeamid(i+1);
             p.getPartner().setTeamid(i+1);
-
-            Team t = new Team((i+1),null,0);
+            String tuuid = UUID.randomUUID().toString();
+            System.out.println("team uuid "+tuuid);
+            Team t = new Team((i+1),tuuid,null,0);
             bowlingViewModel.insert(t);
 
             // Championship c = new Championship(fchampID,i+1,0,"created"); //vash 2
             // bowlingViewModel.insert(c);
             System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
-           //vash 3
+            Team_detail td = new Team_detail(t.getUuid(),p.getUuid());
+            bowlingViewModel.insert(td);
+            System.out.println("Td: p " + td.getParticipantID() +" team "+  td.getTeamID());
+
+            Team_detail td2 = new Team_detail(t.getUuid(),p.getPartner().getUuid());
+            bowlingViewModel.insert(td2);
+            System.out.println("Td2 " + td2.getParticipantID() +" "+  td2.getTeamID());
+
+
+            //vash 3
           /*  System.out.println("champid = "+champID);
             Championship_detail cd = new Championship_detail(champID,i+1);
             bowlingViewModel.insert(cd);

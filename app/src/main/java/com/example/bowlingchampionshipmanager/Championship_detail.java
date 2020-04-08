@@ -7,7 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "championship_detail"/*, foreignKeys = {
+@Entity(tableName = "championship_detail",primaryKeys = {"sys_champID","sys_teamID"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
                 parentColumns = "sys_teamID",
                 childColumns = "sys_teamID"),
@@ -17,11 +17,11 @@ import androidx.room.PrimaryKey;
 }, indices= {
         @Index(name="index_teamID", value="sys_teamID", unique=true),
         @Index(name="index_champID", value="sys_champID", unique=true)
-}  primaryKeys = {"sys_champID","sys_teamID"}*/)
+}  )
 public class Championship_detail {
-    @PrimaryKey(autoGenerate = true)
+   /* @PrimaryKey(autoGenerate = true)
     @NonNull
-    int sys_champDetailID;
+    int sys_champDetailID;*/
 
     @ColumnInfo(name="sys_champID")
     @NonNull
@@ -43,9 +43,9 @@ public class Championship_detail {
         return sys_teamID;
     }
 
-    public void setSys_champDetailID(int sys_champDetailID) {
+   /* public void setSys_champDetailID(int sys_champDetailID) {
         this.sys_champDetailID = sys_champDetailID;
-    }
+    }*/
 
     public void setSys_teamID(int sys_teamID) {
         this.sys_teamID = sys_teamID;

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -25,7 +26,9 @@ public class BowlingViewModel extends AndroidViewModel {
    // private LiveData<List<Participant>> testNotes;
    private LiveData<List<Team>> allteams;
     private LiveData<List<Championship>> allchamp;
-    long insertResult;
+    long insertResult=-1;
+
+    private MutableLiveData<Long> dbId = new MutableLiveData<>();
 
     public BowlingViewModel(@NonNull Application application) {
 
@@ -44,11 +47,31 @@ public class BowlingViewModel extends AndroidViewModel {
     }
 
 ///////////////////////////////////////gia Participant
-    public void insert (Participant t){
-        new InsertAsyncTask(bowlingDao).execute(t);
-      //  return bowlingDao.insert(t);
-    }
+  /*  public Long insert (Participant t){
+      PInsertAsyncTask i =  new PInsertAsyncTask(bowlingDao);
+      i.execute(t);
+     Long a= i.in;
+      // return bowlingDao.insert(t);
+        return a;
+    }*/
+  //long insert
+/* public void  insert(Participant p){
+      insertAsync(p);
+  }
+  private void insertAsync(final Participant p){
+      new Thread(new Runnable() {
+          @Override
+          public void run() {
+              Long id= bowlingDao.insert(p);
+              dbId.postValue(id);
+          }
+      }).start();
+  }
+  public LiveData<Long> insertP(Participant t){
+      return dbId;
+  } */
 
+    public void  insert(Participant t){  new InsertAsyncTask(bowlingDao).execute(t);  }
     LiveData<List<Participant>> getAllBowls() {
         return mAllNotes;
     }
@@ -92,7 +115,44 @@ public class BowlingViewModel extends AndroidViewModel {
         return bowlingDao.getAllPlayersofTeam2(teamid,chID);
     }
 
+    LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s){
+        return bowlingDao.getAllPlayersofTeam3(s);
+    }
 
+    public LiveData<List<Participant>> getParticipantByName(String fn, String ln){
+        return bowlingDao.getParticipantByName(fn, ln);
+    }
+
+    private class PInsertAsyncTask extends AsyncTask<Participant, Void, Long> {
+
+        BowlingDao mAsyncTaskDao;
+        Long in;
+
+        public PInsertAsyncTask(BowlingDao bDao) {
+            mAsyncTaskDao=bDao;
+        }
+        @Override
+        protected Long doInBackground(Participant... participants) {
+           // insertResult =  mAsyncTaskDao.insert(participants[0]);
+           // in=insertResult;
+            // mAsyncTaskDao.insert(participants[0]);
+            System.out.println("insert player");
+            return insertResult;
+        }
+
+        @Override
+        protected void onPostExecute(Long a) {
+            super.onPostExecute(a);
+            Create1Activity.ok = "ok";
+            System.out.println("twra insert player");
+            if(insertResult==-1){
+                Toast.makeText(getApplication(), " fail ", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplication(), " insert p " + insertResult, Toast.LENGTH_SHORT).show();
+            }
+            in=insertResult;
+        }
+    }
     private class OperationsAsyncTask extends AsyncTask<Participant, Void, Void> {
 
        BowlingDao mAsyncTaskDao;
@@ -120,7 +180,7 @@ public class BowlingViewModel extends AndroidViewModel {
         }
         @Override
         protected Void doInBackground(Participant... participants) {
-           // insertResult =  mAsyncTaskDao.insert(participants[0]);
+//            insertResult =  mAsyncTaskDao.insert(participants[0]);
             mAsyncTaskDao.insert(participants[0]);
             System.out.println("insert player");
             return null;
@@ -208,8 +268,8 @@ public  void insert (Team t){
         new TeamDeleteAsyncTask(teamDao).execute(t);
     }
 
-    public LiveData<Team> getTeam(int teamID) {
-        return teamDao.getTeam(teamID);
+    public Team getTeam2(int teamID) {
+        return teamDao.getTeam2(teamID);
     }
 
     public LiveData<List<Team>> getAllTeamsofChamp(int champid) {

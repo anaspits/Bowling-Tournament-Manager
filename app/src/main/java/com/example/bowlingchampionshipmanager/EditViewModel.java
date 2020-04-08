@@ -37,6 +37,7 @@ public class EditViewModel extends AndroidViewModel {
         return teamDao.getTeam(teamID);
     }
 
+
     public LiveData<Championship> getChamp(int champID) { //oxi to sys
         return champDao.getChamp(champID);
     }

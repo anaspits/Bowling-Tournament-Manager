@@ -17,12 +17,12 @@ import java.util.List;
 public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.BowlingViewHolder>  { //malon axristo
 
     public interface OnDeleteClickListener {
-        void OnDeleteClickListener(Championship_detail myNote);
+        void OnDeleteClickListener(Team_detail myNote);
     }
 
     private final LayoutInflater layoutInflater;
     private Context mContext;
-    private List<Championship_detail> mNotes;
+    private List<Team_detail> mNotes;
     private DetailListAdapter.OnDeleteClickListener onDeleteClickListener;
 
     public DetailListAdapter(Context context, DetailListAdapter.OnDeleteClickListener listener) {
@@ -43,8 +43,8 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Bo
     public void onBindViewHolder(@NonNull DetailListAdapter.BowlingViewHolder holder, int position) {
 
         if (mNotes != null) {
-            Championship_detail note = mNotes.get(position);
-            holder.setData(String.valueOf(note.getSys_champID()),note.getSys_teamID(), position);
+            Team_detail note = mNotes.get(position);
+            holder.setData(String.valueOf(note.getTeamID()),note.getParticipantID(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -59,7 +59,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Bo
         else return 0;
     }
 
-    public void setTeam_detail(List<Championship_detail> notes) {
+    public void setTeam_detail(List<Team_detail> notes) {
         mNotes = notes;
         notifyDataSetChanged();
 
@@ -79,7 +79,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Bo
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int teamid, int position) {
+        public void setData(String note, String teamid, int position) {
             noteItemView.setText("teamid "+note);
             teamItemView.setText("participantid " +String.valueOf(teamid));
             mPosition = position;
