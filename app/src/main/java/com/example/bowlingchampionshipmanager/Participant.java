@@ -303,11 +303,7 @@ public class Participant implements Serializable {
 
 Create1Activity.t_id++; //axristo
                 i++;
-if (Create1Activity.ok=="ok"){
-    System.out.println("Ok insert p :"+p.getParticipantID());
-} else {
-    System.out.println("Not Ok insert p");
-}
+
             }
 
        // } catch(IOException e){

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Create2Activity extends AppCompatActivity implements TeamListAdapter.OnDeleteClickListener {
+
     private static TextView textView;
     private static TextView display_teams;
     static ArrayList<Participant> bowlers;
@@ -34,9 +35,12 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
+    private static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private BowlingViewModel bowlingViewModel;
     public static int sum;
     private static int champinsertID;
+    public static int countTeam;
+    public String teamuuid;
 
 
     @Override
@@ -124,10 +128,10 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
         //insert td and chd
 
-        bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> team) {
-                System.out.println("sum = id = "+team.get(0).getParticipantID());
+                //System.out.println("sum = id = "+team.get(0).getParticipantID()); //fixme : meta apo to update den to vriskei
             }
         });
        /* bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
@@ -282,6 +286,20 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
                 Team t;
                 t = (Team) bundleObject.getSerializable("b_object");
                 bowlingViewModel.update(t);
+                countTeam = bundleObject.getInt("count");
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        } else if (requestCode == SELECT_TEAM_ACTIVITY_REQUEST_CODE) { ////////gia edit kai update
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                Team t;
+                t = (Team) bundleObject.getSerializable("b_object");
+                countTeam = bundleObject.getInt("count");
+                teamuuid = t.getUuid();
                 Toast.makeText(
                         getApplicationContext(),
                         R.string.save,
@@ -308,6 +326,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
             bundle.putSerializable("all_the_teams",all_the_teams);
+            bundle.putString("teamid",teamuuid);
             i.putExtras(bundle);
             startActivity(i);
 

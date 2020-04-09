@@ -111,13 +111,11 @@ public class BowlingViewModel extends AndroidViewModel {
         return bowlingDao.getTeammates(teamid);
     }
 
-    public LiveData<List<Participant>> getAllPlayersofTeam2(int teamid, int chID) {
-        return bowlingDao.getAllPlayersofTeam2(teamid,chID);
+    public LiveData<List<Participant>> getAllPlayersofTeam2(String teamid) {
+        return bowlingDao.getAllPlayersofTeam2(teamid);
     }
 
-    LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s){
-        return bowlingDao.getAllPlayersofTeam3(s);
-    }
+
 
     public LiveData<List<Participant>> getParticipantByName(String fn, String ln){
         return bowlingDao.getParticipantByName(fn, ln);
@@ -143,7 +141,7 @@ public class BowlingViewModel extends AndroidViewModel {
         @Override
         protected void onPostExecute(Long a) {
             super.onPostExecute(a);
-            Create1Activity.ok = "ok";
+
             System.out.println("twra insert player");
             if(insertResult==-1){
                 Toast.makeText(getApplication(), " fail ", Toast.LENGTH_SHORT).show();
@@ -189,7 +187,7 @@ public class BowlingViewModel extends AndroidViewModel {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Create1Activity.ok = "ok";
+
             System.out.println("twra insert player");
          /*   if(insertResult==-1){
                 Toast.makeText(getApplication(), " fail ", Toast.LENGTH_SHORT).show();
@@ -282,6 +280,10 @@ public  void insert (Team t){
 
     public LiveData<List<ActiveChampsTuple>> getAllTeamsofChamp2( ){
     return teamDao.getAllTeamsofChamp2();
+    }
+
+    LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s){
+        return teamDao.getAllPlayersofTeam3(s);
     }
 
     private class TeamOperationsAsyncTask extends AsyncTask<Team, Void, Void> {

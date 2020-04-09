@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.BowlingViewHolder>  {
 
     public interface OnDeleteClickListener {
@@ -69,13 +71,14 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
 
         private TextView noteItemView,teamItemView;
         private int mPosition;
-        private Button btDelete, btEdit;
+        private Button btDelete, btEdit,btSel;
 
         public BowlingViewHolder(@NonNull View itemView) {
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
             btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
+            btSel 	 = itemView.findViewById(R.id.ivRowSelect);
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
@@ -92,6 +95,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                     Intent intent = new Intent(mContext, EditActivity.class);
                     intent.putExtra("bowlId", mNotes.get(mPosition).getParticipantID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
+                    intent.putExtra("count", getItemCount());
                     ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }
@@ -102,6 +106,16 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                     if (onDeleteClickListener != null) {
                         onDeleteClickListener.OnDeleteClickListener(mNotes.get(mPosition));
                     }
+                }
+            });
+            btSel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent(mContext,mContext.getClass()); //fixme
+                    intent.putExtra("bowlId", mNotes.get(mPosition).getParticipantID());
+                    intent.putExtra("count", getItemCount());
+                    intent.putExtra("b_object", mNotes.get(mPosition));
+                    ((Activity)mContext).startActivityForResult(intent,Create1Activity.SELECT_NOTE_ACTIVITY_REQUEST_CODE);
                 }
             });
         }

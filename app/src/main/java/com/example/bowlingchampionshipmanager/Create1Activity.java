@@ -36,6 +36,8 @@ import javax.persistence.Persistence; */
 
 public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
 
+
+    public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private static EditText textView;
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
@@ -44,6 +46,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
     public static final int UPDATE_TEAM_ACTIVITY_REQUEST_CODE = 3;
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
+    public static final int SELECT_NOTE_ACTIVITY_REQUEST_CODE = 5;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
@@ -65,7 +68,10 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private int sum =0;
     private int champinsertID;
     public int fchampID=1;
-    public static String ok= "fail";
+    public int countPart;
+    public static int countTeam;
+    public String teamuuid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,14 +111,14 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             }
         });
 
-       /* bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter.setBowls(participants);
             }
-        });*/
+        });
 
-        bowlingViewModel.getAllPlayersofTeam3("d6a80964-df59-41d2-aee2-080502e2f3f6").observe(this, new Observer<List<TeammatesTuple>>() {
+        /*bowlingViewModel.getAllPlayersofTeam3("d6a80964-df59-41d2-aee2-080502e2f3f6").observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
             public void onChanged(List<TeammatesTuple> t) {
                 if(t!=null) {
@@ -125,7 +131,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 }
 
             }
-        });
+        });*/
 
         bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
             @Override
@@ -236,7 +242,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 t.setFchampID(fid); */
                // Test_table t1 = new Test_table(bowlId,up);
                 bowlingViewModel.update(t);
-
+                countPart = bundleObject.getInt("count");
                 Toast.makeText(
                         getApplicationContext(),
                         R.string.save,
@@ -250,6 +256,31 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 Team t;
                 t = (Team) bundleObject.getSerializable("b_object");
                 bowlingViewModel.update(t);
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        } else if (requestCode == SELECT_NOTE_ACTIVITY_REQUEST_CODE) { ////////gia edit kai update
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                Participant t;
+                t = (Participant) bundleObject.getSerializable("b_object");
+                countPart = bundleObject.getInt("count");
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.save,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        } else if (requestCode == SELECT_TEAM_ACTIVITY_REQUEST_CODE) { ////////gia edit kai update
+            Bundle bundleObject =resultData.getExtras();
+            if(bundleObject!=null){
+                Team t;
+                t = (Team) bundleObject.getSerializable("b_object");
+                Create2Activity.countTeam = bundleObject.getInt("count");
+                teamuuid = t.getUuid();
                 Toast.makeText(
                         getApplicationContext(),
                         R.string.save,

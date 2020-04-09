@@ -32,6 +32,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
     private EditText editname,editscore,editround;
     private Bundle bundle;
     private int bowlId;
+    private String tuuid;
     private LiveData<Team> team;
     private TextView tid;
 
@@ -59,6 +60,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
             //tid.setText(String.valueOf(bowlId));
             // t = (Test_table) bundle.getSerializable("b_object");
             t = (Team) bundle.getSerializable("b_object");
+           tuuid= t.getUuid();
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
@@ -66,19 +68,27 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         blistAdapter = new BowlingListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       /* bowlingViewModel.getAllPlayersofTeam(bowlId).observe(this, new Observer<List<Participant>>() {
+       /* bowlingViewModel.getAllPlayersofTeam(bowlId).observe(this, new Observer<List<Participant>>() { //vash 1
             @Override
             public void onChanged(List<Participant> p) {
                 blistAdapter.setBowls(p);
             }
         });
-        bowlingViewModel.getTeammates(bowlId).observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getTeammates(bowlId).observe(this, new Observer<List<Participant>>() { //vash 1
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter.setBowls(participants);
             }
         });*/
 
+       //vash 3
+        bowlingViewModel.getAllPlayersofTeam2(tuuid).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> t) {
+                    blistAdapter.setBowls(t);
+
+            }
+        });
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 
         //fetch step 3

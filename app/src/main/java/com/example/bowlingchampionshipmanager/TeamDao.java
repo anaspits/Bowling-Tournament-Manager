@@ -55,4 +55,7 @@ public interface TeamDao { //gia ta Team
     @Query("SELECT * FROM championship")
     LiveData<List<ActiveChampsTuple>>  getAllTeamsofChamp2();
 
+    @Transaction
+    @Query("SELECT * FROM team WHERE team_uuid=:s")
+    LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s);
 }

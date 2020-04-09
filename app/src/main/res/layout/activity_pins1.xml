@@ -60,6 +60,17 @@
         app:layout_constraintVertical_bias="0.122"
         tools:text="Import" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="421dp"
+        android:layout_height="253dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/next_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_import"
+        tools:listitem="@layout/list_item" />
+
     <Button
         android:id="@+id/next_btn"
         android:layout_width="wrap_content"
