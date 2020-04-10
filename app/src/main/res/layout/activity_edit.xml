@@ -8,14 +8,27 @@
         android:id="@+id/pname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Player's name"
+        android:text="Player's first name"
         android:textSize="18sp" />
 
     <EditText
         android:id="@+id/editdb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="note"/>
+        android:hint="First Name"/>
+
+    <TextView
+        android:id="@+id/plastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player's last name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editlastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last Name"/>
 
     <TextView
         android:id="@+id/pavg"

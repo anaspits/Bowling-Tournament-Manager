@@ -48,7 +48,7 @@ public class Participant implements Serializable {
     @ColumnInfo(name="participant_uuid")
     String uuid;
 
-    @ColumnInfo(name="fakeID") //axristo
+    @ColumnInfo(name="fakeID") //axristo //todo: na dw pws kanw autoIncrement
     @NonNull
     int fakeID; //to id pou exei o paiktis sto sugkekrimeno prwtathlima
 
@@ -313,7 +313,7 @@ Create1Activity.t_id++; //axristo
         return bowlers;
     }
 
-    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel, int champID){
+    public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel, String champID){
         //Logic for generating teams(pairs)
 
         //Sort by bowling average
@@ -346,6 +346,10 @@ Create1Activity.t_id++; //axristo
             System.out.println("team uuid "+tuuid);
             Team t = new Team((i+1),tuuid,null,0);
             bowlingViewModel.insert(t);
+            t.setTeammates(p.getTeamates());
+            Create1Activity.all_the_teams.add(t);
+            Championship_detail cd = new Championship_detail(champID,t.getUuid());
+            bowlingViewModel.insert(cd);
 
             // Championship c = new Championship(fchampID,i+1,0,"created"); //vash 2
             // bowlingViewModel.insert(c);

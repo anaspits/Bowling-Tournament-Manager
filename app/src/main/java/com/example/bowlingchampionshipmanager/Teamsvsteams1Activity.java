@@ -21,12 +21,14 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=3;
+    private static int rounds=6; //fixme
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
-    private BowlingListAdapter blistAdapter2;
+    public String champuuid;
+    public String teamuuid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +43,16 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
+            champuuid = bundleObject.getString("champuuid");
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         blistAdapter = new BowlingListAdapter(this, this);
-        blistAdapter2 = new BowlingListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int teamid = 0;
-        bowlingViewModel.getAllPlayersofTeam(teamid).observe(this, new Observer<List<Participant>>() {
-            @Override
-            public void onChanged(List<Participant> participants) {
-                blistAdapter.setBowls(participants);
-            }
-        });
+
 
         roundRobin(all_the_teams.size(),rounds);
 
@@ -143,6 +139,8 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
+            extras.putString("teamid",teamuuid);
+            extras.putString("champuuid",champuuid);
             extras.putSerializable("vs",vs);
             i.putExtras(extras);
             startActivity(i);
@@ -153,6 +151,8 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
+            extras.putString("teamid",teamuuid);
+            extras.putString("champuuid",champuuid);
             extras.putSerializable("vs",vs);
             i.putExtras(extras);
             startActivity(i);

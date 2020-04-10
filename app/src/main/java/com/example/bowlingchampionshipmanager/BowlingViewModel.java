@@ -278,8 +278,8 @@ public  void insert (Team t){
      //   return teamDao.getTeammatesid(teamid);
     //}
 
-    public LiveData<List<ActiveChampsTuple>> getAllTeamsofChamp2( ){
-    return teamDao.getAllTeamsofChamp2();
+    public LiveData<List<ActiveChampsTuple>> getAllTeamsofChamp2( String champuuid){
+    return teamDao.getAllTeamsofChamp2(champuuid);
     }
 
     LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s){
@@ -355,6 +355,10 @@ public  void insert (Championship t){
 
     LiveData<List<Championship>> getAllChamp() {
         return allchamp;
+    }
+
+    LiveData<Championship> getChampUUID ( String champUUID) {
+        return champDao.getChampUUID(champUUID);
     }
 
     LiveData<Championship> getLastInsertChamp(){

@@ -33,6 +33,10 @@ public interface ChampDao { //gia ta Team
     @Query("SELECT * FROM championship WHERE fchampID=:champID") //oxi to sys
     LiveData<Championship> getChamp(int champID);
 
+    // fetch step 1 -> bowlingViwModel
+    @Query("SELECT * FROM championship WHERE champ_uuid=:champUUID")
+    LiveData<Championship> getChampUUID(String champUUID);
+
     /*@Query("SELECT last_insert_rowid() FROM championship")
     LiveData<Championship> getLastInsertChamp(); */ //thelei POJO
 

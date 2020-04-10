@@ -33,6 +33,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     private EditText editstatus, editround,par1,par2,par3,par4,par5;
     private Bundle bundle;
     private int bowlId;
+    public String champuuid;
     private LiveData<Championship> champ;
     private Championship t;
     private TextView cname,param;
@@ -75,6 +76,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             //cname.setText(String.valueOf(bowlId));
             // t = (Test_table) bundle.getSerializable("b_object");
             t =  (Championship) bundle.getSerializable("b_object");
+            champuuid = t.getUuid();
         }
 
         /*bowlingViewModel.getAllTeamsofChamp(bowlId).observe(this, new Observer<List<Team>>() {
@@ -107,11 +109,11 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
        // ArrayList<Team> te = new ArrayList<>();
 
        // for (int i=0; i<tid.size();i++) {
-            bowlingViewModel.getAllTeamsofChamp2().observe(this, new Observer<List<ActiveChampsTuple>>() {
+            bowlingViewModel.getAllTeamsofChamp2(champuuid).observe(this, new Observer<List<ActiveChampsTuple>>() {
                 @Override
                 public void onChanged(List<ActiveChampsTuple> t) {
 List<Team> a = t.get(0).getT();
-
+System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT().size());
                     tlistAdapter.setTeams(a);
                     if(t!=null) {
                         //int a = t.get(0).getSys_teamID();

@@ -7,55 +7,55 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "championship_detail",primaryKeys = {"sys_champID","sys_teamID"}, foreignKeys = {
+@Entity(tableName = "championship_detail",primaryKeys = {"champ_uuid","team_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
-                parentColumns = "sys_teamID",
-                childColumns = "sys_teamID"),
+                parentColumns = "team_uuid",
+                childColumns = "team_uuid"),
         @ForeignKey(entity = Championship.class,
-                parentColumns = "sys_champID",
-                childColumns = "sys_champID")
+                parentColumns = "champ_uuid",
+                childColumns = "champ_uuid")
 }, indices= {
-        @Index(name="index_teamID", value="sys_teamID", unique=true),
-        @Index(name="index_champID", value="sys_champID", unique=true)
+        @Index(name="index_cd_teamID", value="team_uuid", unique=true),
+        @Index(name="index_champID", value="champ_uuid")
 }  )
 public class Championship_detail {
    /* @PrimaryKey(autoGenerate = true)
     @NonNull
     int sys_champDetailID;*/
 
-    @ColumnInfo(name="sys_champID")
+    @ColumnInfo(name="champ_uuid")
     @NonNull
-    private int sys_champID;
+    private String sys_champID;
 
-    @ColumnInfo(name="sys_teamID")
+    @ColumnInfo(name="team_uuid")
     @NonNull
-    private int sys_teamID;
+    private String sys_teamID;
 
-  /*  public int getSys_champDetailID() {
+  /*  public String getSys_champDetailID() {
         return sys_champDetailID;
     } */
 
-    public int getSys_champID() {
+    public String getSys_champID() {
         return sys_champID;
     }
 
-    public int getSys_teamID() {
+    public String getSys_teamID() {
         return sys_teamID;
     }
 
-   /* public void setSys_champDetailID(int sys_champDetailID) {
+   /* public void setSys_champDetailID(String sys_champDetailID) {
         this.sys_champDetailID = sys_champDetailID;
     }*/
 
-    public void setSys_teamID(int sys_teamID) {
+    public void setSys_teamID(String sys_teamID) {
         this.sys_teamID = sys_teamID;
     }
 
-    public void setSys_champID(int sys_champID) {
+    public void setSys_champID(String sys_champID) {
         this.sys_champID = sys_champID;
     }
 
-    public Championship_detail(int sys_champID, int sys_teamID) {
+    public Championship_detail(String sys_champID, String sys_teamID) {
         this.sys_teamID = sys_teamID;
         this.sys_champID = sys_champID;
     }

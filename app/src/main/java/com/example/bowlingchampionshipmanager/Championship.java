@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
-@Entity(tableName = "championship"/*,foreignKeys = {
+@Entity(tableName = "championship", indices= { @Index(name="index_champ_uuid", value="champ_uuid", unique=true)}/*,foreignKeys = {
         @ForeignKey(entity = Participant.class,
                 parentColumns = "participantID",
                 childColumns = "participantID"),
@@ -28,6 +29,9 @@ public class Championship implements Serializable {
     @ColumnInfo(name="sys_champID")
     @NonNull
     private int sys_champID; //to id pou exei sti vash
+
+    @ColumnInfo(name="champ_uuid")
+    String uuid;
 
     @ColumnInfo(name="fchampID")
     @NonNull
@@ -149,8 +153,16 @@ public class Championship implements Serializable {
         return type;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     public void setSys_champID(int sys_champID) {
         this.sys_champID = sys_champID;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public void setParticipantID(int participantID) {
@@ -213,10 +225,11 @@ public class Championship implements Serializable {
         this.type = type;
     }
 
-    public Championship( int fchampID, int teamID, int round, String status) {
+    public Championship( int fchampID, String uuid, int teamID, int round, String status) {
        // this.participantID = participantID;
         this.fchampID = fchampID;
-        this.teamID = teamID;
+        this.uuid=uuid;
+        this.teamID = teamID; //vash 2
         this.round = round;
         this.status = status;
     }

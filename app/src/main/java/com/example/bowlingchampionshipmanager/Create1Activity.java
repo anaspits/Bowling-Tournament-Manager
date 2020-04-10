@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -35,7 +36,7 @@ import javax.persistence.Persistence; */
 //import com.opecsv.CSVReader;
 
 public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
-
+//TODO NA KANW OLA TA ACTIVITIES SCROLLABLE
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private static EditText textView;
@@ -66,11 +67,12 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     private BowlingListAdapter blistAdapter2;
     private TeamListAdapter tlistAdapter;
     private int sum =0;
-    private int champinsertID;
     public int fchampID=1;
     public int countPart;
     public static int countTeam;
     public String teamuuid;
+    public String champuuid;
+    private Championship ch;
 
 
     @Override
@@ -133,7 +135,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             }
         });*/
 
-        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter2.setBowls(participants);
@@ -145,7 +147,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             @Override
             public void onChanged(Championship c) {
                if(c!=null) {
-                   fchampID = c.getFchampID()+1;
+                   fchampID = c.getFchampID()+1; //den exei nohma
                }
             }
         });
@@ -473,17 +475,11 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         String line = "";
         String cvsSplitBy = ",";
 
-
-        Championship ch = new Championship(fchampID,0,0, "created"); ////vash 3
+        champuuid = UUID.randomUUID().toString();
+        ch = new Championship(fchampID,champuuid,0,0, "created"); ////vash 3
         bowlingViewModel.insert(ch);
         System.out.println("chid " +ch.getSys_champID());
-        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
-            @Override
-            public void onChanged(List<Championship> ch) {
-                champinsertID =ch.size();
-            }
-        });
-        System.out.println("chid 2" +champinsertID);
+
 
          //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
        s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy,bowlers);
@@ -536,8 +532,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
 
        //create the teams
-       int playersPerTeam=2;
-        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel,champinsertID);
+       int playersPerTeam=2; //fixme gia perissoterous players
+        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel,ch.getUuid());
 
         int i;
        /* //teamates mallon axristo
@@ -550,15 +546,15 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         }
 
         //to teams pou einai arraylist me participants
-
-        for (i=0; i<teams.size();i++) {
+//apo dw 547 ws 563
+/*        for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
             ArrayList<Integer> tempid = teamsplayersid.get(i);
             Team t = new Team((i+1),"",null,0); /////////////////////////////////////////vash 1
             t.setTeammates(temp);
             t.setTeammatesid(tempid);
            // t.setChampid(fchampID);
-            all_the_teams.add(t);
+            all_the_teams.add(t); //vash 1, tha to paw mesa sto participant
            // bowlingViewModel.insert(t);
             teamsid.add(t.getSys_teamID());
             //textView.append("Team " + t.getFTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
@@ -566,13 +562,14 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             for (j=0; j<temp.size();j++) {
                // textView.append(temp.get(j).getFN());
             } */
-        }
+//        } //ws edw einai h dhmiourgia omadwn sto all the teams gia th vash 1
 
    /*     Championship ch = new Championship(fchampID,0,0, "created"); ////vash 1
         ch.setTeamsid(teamsid);
         bowlingViewModel.insert(ch); */
+
         //emfanish test
-        for (i=0; i<all_the_teams.size();i++) {
+  /*apo dw      for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
 
@@ -581,7 +578,9 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             for (j=0; j<temp.size();j++) {
                 textView.append(temp.get(j).getFN() +"  ");
             }
-        }
+        } ws edw einai h emfanish twn omadwn gia th vash 1 */
+System.out.println("all size "+all_the_teams.size());
+
 
        /* //Logic for generating teams(pairs)
 
@@ -644,7 +643,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             //Intent goback = new Intent(this,MainActivity.class);
             //startActivity(goback);
         }
-        else if (button_text.equals("Next"))
+        else if (button_text.equals("Next")) //todo: an den kanei import na mhn mporei na kanei next
         {
             //Intent gonext = new Intent(this,Create2Activity.class);
             //startActivity(gonext);
@@ -652,6 +651,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("bowlers",bowlers);
                 bundle.putSerializable("all_the_teams",all_the_teams);
+                bundle.putSerializable("champ",ch);
+                bundle.putString("champuuid",champuuid); //na perasw auto h to object championship oloklhro?
                 i.putExtras(bundle);
             startActivity(i);
 

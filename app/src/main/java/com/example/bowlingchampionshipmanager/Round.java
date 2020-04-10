@@ -25,7 +25,7 @@ import java.sql.Date;
 public class Round implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name="sys_roundid")
+    @ColumnInfo(name="sys_roundID")
     private int roundid;
 
     @ColumnInfo(name="froundid")
@@ -35,11 +35,21 @@ public class Round implements Serializable {
     @NonNull
     private int champid;
 
+    @ColumnInfo(name="champ_uuid")
+    @NonNull
+    private String champuuid;
+
     @ColumnInfo(name="team1ID")
     private int team1ID;
 
     @ColumnInfo(name="team2ID")
     private int team2ID;
+
+    @ColumnInfo(name="team1UUID")
+    private String team1UUID;
+
+    @ColumnInfo(name="team2UUID")
+    private String team2UUID;
 
     @ColumnInfo(name="score1")
     private int score1;
@@ -54,6 +64,19 @@ public class Round implements Serializable {
 
     public int getChampid() {
         return champid;
+    }
+
+    @NonNull
+    public String getChampuuid() {
+        return champuuid;
+    }
+
+    public String getTeam1UUID() {
+        return team1UUID;
+    }
+
+    public String getTeam2UUID() {
+        return team2UUID;
     }
 
     public int getTeam1ID() {
@@ -88,6 +111,18 @@ public class Round implements Serializable {
         this.champid = champid;
     }
 
+    public void setChampuuid(@NonNull String champuuid) {
+        this.champuuid = champuuid;
+    }
+
+    public void setTeam1UUID(String team1UUID) {
+        this.team1UUID = team1UUID;
+    }
+
+    public void setTeam2UUID(String team2UUID) {
+        this.team2UUID = team2UUID;
+    }
+
     public void setTeam1ID(int teamID) {
         this.team1ID = teamID;
     }
@@ -117,10 +152,13 @@ public class Round implements Serializable {
     }
 
 
-    public Round(int roundid, int champid, int team1ID) {
+    public Round(int roundid, int champid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID) {
         this.roundid = roundid;
         this.champid = champid;
         this.team1ID = team1ID;
+        this.team1UUID = team1UUID;
+        this.team2UUID = team2UUID;
+        this.champuuid = champuuid;
     }
 
 

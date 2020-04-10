@@ -28,6 +28,8 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
 
     private BowlingViewModel bowlingViewModel;
     private DetailListAdapter dlistAdapter;
+    public String champuuid;
+    public Championship championship;
 
 
     @Override
@@ -50,8 +52,10 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
             teamuuid=bundleObject.getString("teamid");
+            champuuid = bundleObject.getString("champuuid");
+            championship= (Championship) bundleObject.getSerializable("champ");
         }
-
+        System.out.println("all size 3 "+all_the_teams.size());
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         dlistAdapter = new DetailListAdapter(this, this);
@@ -90,6 +94,8 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
                 extras.putSerializable("bowlers",bowlers);
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
                extras.putString("teamid",teamuuid);
+               extras.putString("champuuid",champuuid);
+               extras.putSerializable("all_the_teams",all_the_teams);
                 i.putExtras(extras);
                 startActivity(i);
 
@@ -99,6 +105,8 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
                 extras.putSerializable("bowlers",bowlers);
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
                 extras.putSerializable("all_the_teams",all_the_teams);
+                extras.putString("champuuid",champuuid);
+                extras.putSerializable("champ",championship);
                 i.putExtras(extras);
                 startActivity(i);
             }

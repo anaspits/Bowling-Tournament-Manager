@@ -41,6 +41,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     private static int champinsertID;
     public static int countTeam;
     public String teamuuid;
+    public String champuuid;
+    public Championship championship;
 
 
     @Override
@@ -100,7 +102,11 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
+           championship = (Championship) bundleObject.getSerializable("champ");
+           champuuid = bundleObject.getString("champuuid");
             }
+
+        System.out.println("all size 2"+all_the_teams.size());
         //System.out.println("Team 1 = " + all_the_teams.get(0).getTeamName());
         bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() { //fixme: mono tis teleutaies omadew pou isirthan
             @Override
@@ -127,7 +133,6 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
 
         //insert td and chd
-
         bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> team) {
@@ -195,8 +200,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
         } */
 
-        //nea nea emfanish me xrhsh tou arraylist all_the_teams pou exei mesa Team
-        for (i=0; i<all_the_teams.size();i++) {
+        //nea nea TELIKH emfanish me xrhsh tou arraylist all_the_teams pou exei mesa Team gia thn vash 1
+/*apo edw 201 ws 210        for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
 
@@ -205,7 +210,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             for (j=0; j<temp.size();j++) {
                 display_teams.append(temp.get(j).getFN() +"  ");
             }
-        }
+        } ws edw */
 
     }
 
@@ -327,6 +332,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             bundle.putSerializable("bowlers",bowlers);
             bundle.putSerializable("all_the_teams",all_the_teams);
             bundle.putString("teamid",teamuuid);
+            bundle.putString("champuuid",champuuid);
+            bundle.putSerializable("champ",championship);
             i.putExtras(bundle);
             startActivity(i);
 
@@ -339,6 +346,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
             bundle.putSerializable("all_the_teams",all_the_teams);
+            bundle.putString("champuuid",champuuid);
+            bundle.putSerializable("champ",championship);
             i.putExtras(bundle);
             startActivity(i);
 

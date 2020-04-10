@@ -24,7 +24,7 @@ public class ActiveChampsTuple { //relationship many to many
     @Embedded
     public Championship c;
 
-    @Relation(parentColumn = "sys_champID", entityColumn = "sys_teamID", associateBy = @Junction(Championship_detail.class))
+    @Relation(parentColumn = "champ_uuid", entityColumn = "team_uuid", associateBy = @Junction(Championship_detail.class))
     List<Team> t;
 
     public void setC(Championship c) {

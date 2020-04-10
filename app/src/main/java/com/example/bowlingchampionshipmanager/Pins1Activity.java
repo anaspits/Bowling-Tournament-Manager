@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     public String teamuuid;
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
-    private BowlingListAdapter blistAdapter2;
+    public String champuuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,35 +36,47 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
             teamuuid=bundleObject.getString("teamid");
+            champuuid = bundleObject.getString("champuuid");
         }
 
-
+ System.out.println("all size "+all_the_teams.size());
         Button button_imp  = (Button) findViewById(R.id.button_import);
+
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
         blistAdapter = new BowlingListAdapter(this, this);
-        blistAdapter2 = new BowlingListAdapter(this, this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        System.out.println("teamuuid "+teamuuid);
-        bowlingViewModel.getAllPlayersofTeam2("9376e458-1de9-405e-a09d-7e6926f47e83").observe(this, new Observer<List<Participant>>() {
-            @Override
-            public void onChanged(List<Participant> t) {
-                if(t!=null) {
-                    button_imp.setText(String.valueOf(t.size()));
-                    //blistAdapter.setBowls(t.get(0).getT());
-                    System.out.println("participants "+t.get(0).uuid);
-                    blistAdapter.setBowls(t);
-                    //int a = t.get(0).getSys_teamID();
-                    button_imp.setText(String.valueOf(t.size()));
-                } else{
-                    button_imp.setText("wtf");
-                }
 
-            }
-        });
     }
+
+
+    public void openNewActivity(View View) {
+        String button_text;
+        button_text =((Button)View).getText().toString();
+        if(button_text.equals("Back"))
+        {
+            // Intent goback = new Intent(this,Create2Activity.class);
+            // startActivity(goback);
+        }
+        else if (button_text.equals("Start Championship"))
+        {
+            //Intent gonext = new Intent(this,Create3Activity.class);
+            //startActivity(gonext);
+
+            Intent i = new Intent(this, Pins1Activity.class);
+            Bundle extras = new Bundle();
+            extras.putSerializable("bowlers",bowlers);
+            extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
+            extras.putString("teamid",teamuuid);
+            extras.putString("champuuid",champuuid);
+            i.putExtras(extras);
+            startActivity(i);
+        }
+
+    }
+
     @Override
     public void OnDeleteClickListener(Participant myNote) {
         bowlingViewModel.delete(myNote);

@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 
 import java.util.ArrayList;
 
-public class HDCPActivity extends AppCompatActivity {
+public class HDCPActivity extends AppCompatActivity { //fixme
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters=new ArrayList<>();
@@ -40,6 +40,8 @@ public class HDCPActivity extends AppCompatActivity {
     private Championship champ;
 
     private TextView textView1;
+    public String champuuid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +65,23 @@ public class HDCPActivity extends AppCompatActivity {
         if(bundleObject!=null){
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
+            champuuid = bundleObject.getString("champuuid"); //an den kanei import tous players e3 arxis den tha leitourgisei profanws
+            champ = (Championship) bundleObject.getSerializable("champ");
         }
 
-        bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
+/*        bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);//Auto mazi me th grammh 186 kanonika douleve, twra 3afnika den douleuei alla telos pantwn. Exairetika ta nea mas!
         c = bViewModel.getLastInsertChamp();
         c.observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship ch) {
-               champ= ch;
+                champ= ch;
                textView1.setText(String.valueOf(ch.getSys_champID()));
+
             }
-        });
+        }); */
+
     }
+
 
     public void exportcsv(View view){
         //generate data
@@ -154,26 +161,31 @@ public class HDCPActivity extends AppCompatActivity {
                 chh.add(null);
             } else {
                 chh.add(Integer.parseInt(upar1));
+                champ.setHdcp_beginners(Integer.parseInt(upar1));
             }
             if (upar2.matches("")){
                 chh.add(null);
             } else {
                 chh.add(Integer.parseInt(upar2));
+                champ.setHdcp_adv(Integer.parseInt(upar2));
             }
             if (upar3.matches("")){
                 chh.add(null);
             } else {
                 chh.add(Integer.parseInt(upar3));
+                champ.setHdcp_less(Integer.parseInt(upar3));
             }
             if (upar4.matches("")){
                 chh.add(null);
             } else {
                 chh.add(Integer.parseInt(upar4));
+                champ.setHdcp_factor(Integer.parseInt(upar4));
             }
             if (upar5.matches("")){
                 chh.add(null);
             } else {
                 chh.add(Integer.parseInt(upar5));
+                champ.setHdcp_tav(Integer.parseInt(upar5));
             }
             champ.setHdcp_parameters(chh);
             bViewModel.update(champ);
@@ -192,7 +204,9 @@ public class HDCPActivity extends AppCompatActivity {
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
+            extras.putString("champuuid",champuuid);
             extras.putSerializable("hdcppar_object",h); //axristo?
+            extras.putSerializable("champ",champ);
             i.putExtras(extras);
             startActivity(i);
             Toast.makeText(
