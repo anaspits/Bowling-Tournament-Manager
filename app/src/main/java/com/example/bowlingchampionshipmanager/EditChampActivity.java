@@ -78,7 +78,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             t =  (Championship) bundle.getSerializable("b_object");
             champuuid = t.getUuid();
         }
-
+        System.out.println("1 hdcp "+t.getHdcp_adv());
         /*bowlingViewModel.getAllTeamsofChamp(bowlId).observe(this, new Observer<List<Team>>() {
             @Override
             public void onChanged(List<Team> team) {
@@ -159,6 +159,8 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                 par3.setText(String.valueOf(h.get(2)));
                 par5.setText(String.valueOf(h.get(3)));
                 par4.setText(String.valueOf(h.get(4))); */
+
+              System.out.println("2 hdcp "+champ.getHdcp_adv());
 
                 if (String.valueOf(champ.getHdcp_beginners())!= null){ //meta
                     par1.setText(String.valueOf(champ.getHdcp_beginners()));
@@ -252,8 +254,10 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 Championship t;
-                t = (Championship) bundleObject.getSerializable("b_object"); //todo: prepei na ta kanei update ola ta champ me auto to champid
+                t = (Championship) bundleObject.getSerializable("b_object"); //todo: prepei na ta kanei update ola ta champ me auto to champid gia vash 2
+                System.out.println("3 hdcp "+t.getHdcp_adv());
                 bowlingViewModel.update(t);
+
                 Toast.makeText(
                         getApplicationContext(),
                         R.string.save,

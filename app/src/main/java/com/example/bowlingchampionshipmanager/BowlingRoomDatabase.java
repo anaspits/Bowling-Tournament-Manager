@@ -16,6 +16,8 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
     public  abstract ChampDao champDao();
     public  abstract Team_detailDao team_detailDao();
     public  abstract Championship_detailDao championship_detailDao();
+    public  abstract RoundDao roundDao();
+
 
     private static volatile BowlingRoomDatabase BowlingRoomInstance;
 

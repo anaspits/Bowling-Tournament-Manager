@@ -37,7 +37,7 @@ public class HDCPActivity extends AppCompatActivity { //fixme
 
     private BowlingViewModel bViewModel;
     private LiveData<Championship> c;
-    private Championship champ;
+    public Championship champ;
 
     private TextView textView1;
     public String champuuid;
@@ -69,8 +69,9 @@ public class HDCPActivity extends AppCompatActivity { //fixme
             champ = (Championship) bundleObject.getSerializable("champ");
         }
 
-/*        bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);//Auto mazi me th grammh 186 kanonika douleve, twra 3afnika den douleuei alla telos pantwn. Exairetika ta nea mas!
-        c = bViewModel.getLastInsertChamp();
+        bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
+        //Auto mazi me th grammh 192 (bViewModel.update(champ);) kanonika douleve, twra 3afnika den douleuei alla telos pantwn. Exairetika ta nea mas!
+ /*       c = bViewModel.getLastInsertChamp();
         c.observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship ch) {
@@ -79,6 +80,9 @@ public class HDCPActivity extends AppCompatActivity { //fixme
 
             }
         }); */
+//todo 1: getChamp(uuid) -> adapter -> HDCPActivity.champ H'
+//todo 2: update champ where uuid=champUUID
+        System.out.println("champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " to allo u "+ champuuid);
 
     }
 
@@ -188,6 +192,7 @@ public class HDCPActivity extends AppCompatActivity { //fixme
                 champ.setHdcp_tav(Integer.parseInt(upar5));
             }
             champ.setHdcp_parameters(chh);
+            System.out.println("2 champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " par "+ champ.getHdcp_adv() );
             bViewModel.update(champ);
 
             if (pressed==0) {

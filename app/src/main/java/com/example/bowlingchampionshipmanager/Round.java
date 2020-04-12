@@ -152,10 +152,11 @@ public class Round implements Serializable {
     }
 
 
-    public Round(int roundid, int champid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID) {
-        this.roundid = roundid;
+    public Round(int froundid, int champid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID) {
+        this.froundid = froundid;
         this.champid = champid;
         this.team1ID = team1ID;
+        this.team2ID = team2ID;
         this.team1UUID = team1UUID;
         this.team2UUID = team2UUID;
         this.champuuid = champuuid;

@@ -106,7 +106,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
            champuuid = bundleObject.getString("champuuid");
             }
 
-        System.out.println("all size 2"+all_the_teams.size());
+        System.out.println("all size 2"+all_the_teams.size()+ "champ id "+championship.getFchampID());
         //System.out.println("Team 1 = " + all_the_teams.get(0).getTeamName());
         bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() { //fixme: mono tis teleutaies omadew pou isirthan
             @Override

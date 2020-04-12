@@ -95,6 +95,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
                extras.putString("teamid",teamuuid);
                extras.putString("champuuid",champuuid);
+               extras.putSerializable("champ",championship);
                extras.putSerializable("all_the_teams",all_the_teams);
                 i.putExtras(extras);
                 startActivity(i);

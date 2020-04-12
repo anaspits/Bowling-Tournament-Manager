@@ -15,19 +15,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener{
+public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundListAdapter.OnDeleteClickListener{
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=6; //fixme
+    private static int rounds=3; //fixme
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
-    private BowlingListAdapter blistAdapter;
-    public String champuuid;
+    private RoundListAdapter blistAdapter;
+    public static String champuuid;
     public String teamuuid;
+    public Championship championship;
 
 
     @Override
@@ -44,11 +45,12 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             champuuid = bundleObject.getString("champuuid");
+            championship= (Championship) bundleObject.getSerializable("champ");
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        blistAdapter = new BowlingListAdapter(this, this);
+        blistAdapter = new RoundListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -58,7 +60,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
 
     }
 
-    static void roundRobin(int teams, int round) {
+    void roundRobin(int teams, int round) {
       //temp2=new Team[round][teams];
         if (((teams%2 != 0) && (round != teams - 1))||(teams <= 0))
             throw new IllegalArgumentException();
@@ -72,7 +74,8 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
 
         //int counter2=0; //gia thn swsth emfanisei twn antipalwn omadwn gia thn temp3
         for(int d = 1; d <= round; d++) {
-             details.append(" Round "+ d +": \n");
+            details.append(" Round "+ d +": \n");
+
             //System.out.println(String.format("Round %d", d));
             for (int i = 0; i < n; i++) {
                 ArrayList<Team> temp1 = new ArrayList<>(); //voithitiki lista gia thn vs
@@ -105,6 +108,9 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
                 vs.add(temp1); //pernaw tin lista twn 2 antipalwn omadwn stin lista vs, opou h thesi tous einai o gyros ston opoio paizoun+1
                 details.append(" Team "+temp1.get(0).getFTeamID()+ " vs Team "+temp1.get(1).getFTeamID()+"\n");
 
+                Round r = new Round (d,1, temp1.get(0).getFTeamID(), temp1.get(1).getFTeamID() , champuuid, temp1.get(0).getUuid(),  temp1.get(1).getUuid());
+                System.out.println("t1: "+temp1.get(0).getFTeamID()+" t2: " + temp1.get(1).getFTeamID());
+                bowlingViewModel.insert(r);
                 //emfanish me temp2
                 //details.append(" Team "+temp2[i][0].getFTeamID()+ " vs Team "+temp2[i][1].getFTeamID()+"\n");
 
@@ -124,6 +130,19 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
             }
             cycle[1] = temp;
         }
+        bowlingViewModel.getAllRound().observe(this, new Observer<List<Round>>() {
+            @Override
+            public void onChanged(List<Round> t) {
+                if(t!=null) {
+                    //int a = t.get(0).getSys_teamID();
+                    blistAdapter.setRounds(t);
+                    details.append(String.valueOf(t.size()));
+                } else{
+                    details.append("wtf");
+                }
+
+            }
+        });
     }
 
     public void openNewActivity(View View) {
@@ -162,7 +181,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity implements BowlingL
     }
 
     @Override
-    public void OnDeleteClickListener(Participant myNote) {
+    public void OnDeleteClickListener(Round myNote) {
         bowlingViewModel.delete(myNote);
     }
 }

@@ -20,12 +20,14 @@ public class BowlingViewModel extends AndroidViewModel {
     private ChampDao champDao;
     private Team_detailDao tdDao;
     private Championship_detailDao cdDao;
+    private RoundDao rDao;
     private BowlingRoomDatabase bDB;
 
     private LiveData<List<Participant>> mAllNotes;
    // private LiveData<List<Participant>> testNotes;
    private LiveData<List<Team>> allteams;
     private LiveData<List<Championship>> allchamp;
+    private LiveData<List<Round>> allrounds;
     long insertResult=-1;
 
     private MutableLiveData<Long> dbId = new MutableLiveData<>();
@@ -40,9 +42,11 @@ public class BowlingViewModel extends AndroidViewModel {
         champDao= bDB.champDao();
         tdDao=bDB.team_detailDao();
         cdDao=bDB.championship_detailDao();
+        rDao=bDB.roundDao();
         mAllNotes = bowlingDao.getAllBowls();
         allteams = teamDao.getAllTeams();
         allchamp = champDao.getAllChamp();
+        allrounds = rDao.getAllRound();
         //testNotes = bowlingDao.getAllPlayersofChamp(teamid);
     }
 
@@ -249,7 +253,7 @@ public class BowlingViewModel extends AndroidViewModel {
 ///////////////////////////////////////////////////
 
 ////////////////////////gia Team
-public  void insert (Team t){
+    public  void insert (Team t){
     new TeamInsertAsyncTask(teamDao).execute(t);
 }
 
@@ -347,6 +351,7 @@ public  void insert (Championship t){
     //update step 2 -> Create1Activity
     public void update(Championship t) {
         new ChampUpdateAsyncTask(champDao).execute(t); //tsekare pio katw
+
     }
 
     public void delete(Championship t) {
@@ -412,6 +417,7 @@ public  void insert (Championship t){
         @Override
         protected Void doInBackground(Championship... champs) {
             mAsyncTaskDao.update(champs[0]);
+            System.out.println("update ch "+champs[0].getSys_champID());
             return null;
         }
     }
@@ -568,6 +574,79 @@ public  void insert (Team_detail t){
         @Override
         protected Void doInBackground(Championship_detail... cds) {
             mAsyncTaskDao.delete(cds[0]);
+            return null;
+        }
+    }
+
+    /////////////////////////////////////
+///////////////////////////////////////
+///////////gia Round
+
+    public  void insert (Round t){
+        new RoundInsertAsyncTask(rDao).execute(t);
+    }
+
+    LiveData<List<Round>> getAllRound() {
+        return allrounds;
+    }
+
+    //update step 2 -> Create1Activity
+    public void update(Round t) {
+        new RoundUpdateAsyncTask(rDao).execute(t); //tsekare pio katw
+    }
+
+    public void delete(Round t) {
+        new RoundDeleteAsyncTask(rDao).execute(t);
+    }
+
+    private class RoundOperationsAsyncTask extends AsyncTask<Round, Void, Void> {
+
+        RoundDao mAsyncTaskDao;
+
+        RoundOperationsAsyncTask(RoundDao dao) {
+            this.mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Round... rounds) {
+            return null;
+        }
+    }
+    private class RoundInsertAsyncTask extends RoundOperationsAsyncTask {
+
+        public RoundInsertAsyncTask(RoundDao bDao) {
+            super(bDao);
+        }
+        @Override
+        protected Void doInBackground(Round... rounds) {
+            mAsyncTaskDao.insert(rounds[0]);
+
+            return null;
+        }
+    }
+
+    private class RoundUpdateAsyncTask extends RoundOperationsAsyncTask {
+
+        RoundUpdateAsyncTask(RoundDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Round... rounds) {
+            mAsyncTaskDao.update(rounds[0]);
+            return null;
+        }
+    }
+
+    private class RoundDeleteAsyncTask extends RoundOperationsAsyncTask {
+
+        public RoundDeleteAsyncTask(RoundDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Round... rounds) {
+            mAsyncTaskDao.delete(rounds[0]);
             return null;
         }
     }
