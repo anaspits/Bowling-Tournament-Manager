@@ -28,6 +28,9 @@ public class RoundActivity extends AppCompatActivity {
     private static TextView third2;
     private static TextView team1;
     private static TextView team2;
+    public int bowlId;
+    public Team t;
+    public String tuuid;
 
 
 
@@ -58,8 +61,14 @@ public class RoundActivity extends AppCompatActivity {
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
+           bowlId = bundleObject.getInt("bowlId");
+           t = (Team) bundleObject.getSerializable("b_object");
+           tuuid= t.getUuid();
         }
-        round();
+
+        System.out.println("Team selected: "+t.getFTeamID()+" sys "+t.getSys_teamID()+" uuid "+t.getUuid());
+team1.setText(t.getTeamName() );
+        //round();
     }
 
     public void round(){

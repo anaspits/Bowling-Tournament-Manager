@@ -11,7 +11,8 @@ import androidx.room.TypeConverters;
 import java.io.Serializable;
 import java.sql.Date;
 
-@Entity(tableName = "round"/*,foreignKeys = {
+@Entity(tableName = "round",indices= {
+        @Index(name="index_round_uuid", value="round_uuid", unique=true)}/*,foreignKeys = {
         @ForeignKey(entity = Championship.class,
                 parentColumns = "champID",
                 childColumns = "champID"),
@@ -28,6 +29,9 @@ public class Round implements Serializable {
     @ColumnInfo(name="sys_roundID")
     private int roundid;
 
+    @ColumnInfo(name="round_uuid")
+    private String rounduuid;
+
     @ColumnInfo(name="froundid")
     private int froundid;
 
@@ -39,10 +43,10 @@ public class Round implements Serializable {
     @NonNull
     private String champuuid;
 
-    @ColumnInfo(name="team1ID")
+    @ColumnInfo(name="team1ID") //axristo?
     private int team1ID;
 
-    @ColumnInfo(name="team2ID")
+    @ColumnInfo(name="team2ID") //axristo?
     private int team2ID;
 
     @ColumnInfo(name="team1UUID")
@@ -58,6 +62,10 @@ public class Round implements Serializable {
     @ColumnInfo(name="score2")
     private int score2;
 
+    @ColumnInfo(name="status")
+    private String status; //H na to kanw int? //done, current, next
+
+
     @TypeConverters(Converters.class)
     @ColumnInfo(name="date")
     private Date date;
@@ -69,6 +77,14 @@ public class Round implements Serializable {
     @NonNull
     public String getChampuuid() {
         return champuuid;
+    }
+
+    public String getRounduuid() {
+        return rounduuid;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getTeam1UUID() {
@@ -109,6 +125,14 @@ public class Round implements Serializable {
 
     public void setChampid(int champid) {
         this.champid = champid;
+    }
+
+    public void setRounduuid(String rounduuid) {
+        this.rounduuid = rounduuid;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setChampuuid(@NonNull String champuuid) {
@@ -152,14 +176,17 @@ public class Round implements Serializable {
     }
 
 
-    public Round(int froundid, int champid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID) {
+    public Round( String rounduuid,int froundid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID, int score1, int score2, String status) {
+        this.rounduuid=rounduuid;
         this.froundid = froundid;
-        this.champid = champid;
         this.team1ID = team1ID;
         this.team2ID = team2ID;
         this.team1UUID = team1UUID;
         this.team2UUID = team2UUID;
         this.champuuid = champuuid;
+        this.score1=score1;
+        this.score2=score2;
+        this.status=status;
     }
 
 

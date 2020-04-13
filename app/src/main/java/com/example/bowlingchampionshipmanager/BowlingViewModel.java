@@ -21,6 +21,7 @@ public class BowlingViewModel extends AndroidViewModel {
     private Team_detailDao tdDao;
     private Championship_detailDao cdDao;
     private RoundDao rDao;
+    private Round_detailDao rdDao;
     private BowlingRoomDatabase bDB;
 
     private LiveData<List<Participant>> mAllNotes;
@@ -28,6 +29,7 @@ public class BowlingViewModel extends AndroidViewModel {
    private LiveData<List<Team>> allteams;
     private LiveData<List<Championship>> allchamp;
     private LiveData<List<Round>> allrounds;
+    private LiveData<List<Round_detail>> allrds;
     long insertResult=-1;
 
     private MutableLiveData<Long> dbId = new MutableLiveData<>();
@@ -43,10 +45,12 @@ public class BowlingViewModel extends AndroidViewModel {
         tdDao=bDB.team_detailDao();
         cdDao=bDB.championship_detailDao();
         rDao=bDB.roundDao();
+        rdDao=bDB.rdDao();
         mAllNotes = bowlingDao.getAllBowls();
         allteams = teamDao.getAllTeams();
         allchamp = champDao.getAllChamp();
         allrounds = rDao.getAllRound();
+        allrds = rdDao.getAllRound_detail();
         //testNotes = bowlingDao.getAllPlayersofChamp(teamid);
     }
 
@@ -210,6 +214,7 @@ public class BowlingViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(Participant... participants) {
             mAsyncTaskDao.update(participants[0]);
+            System.out.println("update p "+participants[0].getParticipantID());
             return null;
         }
     }
@@ -586,10 +591,6 @@ public  void insert (Team_detail t){
         new RoundInsertAsyncTask(rDao).execute(t);
     }
 
-    LiveData<List<Round>> getAllRound() {
-        return allrounds;
-    }
-
     //update step 2 -> Create1Activity
     public void update(Round t) {
         new RoundUpdateAsyncTask(rDao).execute(t); //tsekare pio katw
@@ -597,6 +598,18 @@ public  void insert (Team_detail t){
 
     public void delete(Round t) {
         new RoundDeleteAsyncTask(rDao).execute(t);
+    }
+
+    LiveData<List<Round>> getAllRound() {
+        return allrounds;
+    }
+
+    LiveData<List<Round>> getRoundsofTeam( String teamuuid){
+        return rDao.getRoundsofTeam(teamuuid);
+    }
+
+    LiveData<Round> getRoundofTeam( String teamuuid, String champuuid){
+        return rDao.getRoundofTeam(teamuuid,champuuid);
     }
 
     private class RoundOperationsAsyncTask extends AsyncTask<Round, Void, Void> {
@@ -647,6 +660,79 @@ public  void insert (Team_detail t){
         @Override
         protected Void doInBackground(Round... rounds) {
             mAsyncTaskDao.delete(rounds[0]);
+            return null;
+        }
+    }
+
+    /////////////////////////////////////
+///////////////////////////////////////
+///////////gia Round_detail
+
+    public  void insert (Round_detail t){
+        new Round_detailInsertAsyncTask(rdDao).execute(t);
+    }
+
+    //update step 2 -> Create1Activity
+    public void update(Round_detail t) {
+        new Round_detailUpdateAsyncTask(rdDao).execute(t); //tsekare pio katw
+    }
+
+    public void delete(Round_detail t) {
+        new Round_detailDeleteAsyncTask(rdDao).execute(t);
+    }
+
+    LiveData<List<Round_detail>> getAllRound_detail() {
+        return allrds;
+    }
+
+    private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {
+
+        Round_detailDao mAsyncTaskDao;
+
+        Round_detailOperationsAsyncTask(Round_detailDao dao) {
+            this.mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Round_detail... rds) {
+            return null;
+        }
+    }
+    private class Round_detailInsertAsyncTask extends Round_detailOperationsAsyncTask {
+
+        public Round_detailInsertAsyncTask(Round_detailDao bDao) {
+            super(bDao);
+        }
+        @Override
+        protected Void doInBackground(Round_detail... rds) {
+            mAsyncTaskDao.insert(rds[0]);
+
+            return null;
+        }
+    }
+
+    private class Round_detailUpdateAsyncTask extends Round_detailOperationsAsyncTask {
+
+        Round_detailUpdateAsyncTask(Round_detailDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Round_detail... rds) {
+            mAsyncTaskDao.update(rds[0]);
+            return null;
+        }
+    }
+
+    private class Round_detailDeleteAsyncTask extends Round_detailOperationsAsyncTask {
+
+        public Round_detailDeleteAsyncTask(Round_detailDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Round_detail... rds) {
+            mAsyncTaskDao.delete(rds[0]);
             return null;
         }
     }

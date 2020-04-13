@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundListAdapter.OnDeleteClickListener{
     static ArrayList<Participant> bowlers;
@@ -21,7 +22,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=3; //fixme
+    private static int rounds=3; //todo : na to vazei o user
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -54,10 +55,23 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+ /*       //todo: na kanw to championship update to status se "started" h "in progress" h kati allo analogo
+        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() { //fixme: leitourgei perierga
+            @Override
+            public void onChanged(Championship c) {
+                System.out.println(" edw to ch einai "+c.getStatus());
+                System.out.println(" edw to ch to 8etw ws started");
+                c.setStatus("started");
+                bowlingViewModel.update(c);
+                System.out.println(" edw to ch to 8etw egine "+c.getStatus());
+            }
+        }); */
 
+        if (all_the_teams.size()!=0) {
+            roundRobin(all_the_teams.size(), rounds);
 
-        roundRobin(all_the_teams.size(),rounds);
-
+            test();
+        }
     }
 
     void roundRobin(int teams, int round) {
@@ -83,7 +97,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw poia omada exetazoume
                     if (all_the_teams.get(j).getFTeamID()== cycle[i]){
                         Team t1 = all_the_teams.get(j);
-
+System.out.println("t1 teammates " + t1.getTeammates().size());
                         temp1.add(t1); //kai tin pernaw sthn lista temp1
 
                         //temp2[i][counter]=t1;
@@ -95,7 +109,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
                 for (int j=0; j<all_the_teams.size();j++){ //vriskw tin alli omada poy tha einai antipalos
                     if (all_the_teams.get(j).getFTeamID()== cycle[teams - i - 1]){
                         Team t2 = all_the_teams.get(j);
-
+                        System.out.println("t2 teammates " + t2.getTeammates().size());
                         temp1.add(t2); //tin pernaw kai afti sti lista gia na exw mia lista apo antipales omades
 
                         //temp2[i][counter]=t2;
@@ -108,9 +122,18 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
                 vs.add(temp1); //pernaw tin lista twn 2 antipalwn omadwn stin lista vs, opou h thesi tous einai o gyros ston opoio paizoun+1
                 details.append(" Team "+temp1.get(0).getFTeamID()+ " vs Team "+temp1.get(1).getFTeamID()+"\n");
 
-                Round r = new Round (d,1, temp1.get(0).getFTeamID(), temp1.get(1).getFTeamID() , champuuid, temp1.get(0).getUuid(),  temp1.get(1).getUuid());
+                String ruuid= UUID.randomUUID().toString();
+                Round r = new Round (ruuid,d,temp1.get(0).getFTeamID(), temp1.get(1).getFTeamID() , champuuid, temp1.get(0).getUuid(),  temp1.get(1).getUuid(),temp1.get(0).getScore(),temp1.get(1).getScore(), "");
                 System.out.println("t1: "+temp1.get(0).getFTeamID()+" t2: " + temp1.get(1).getFTeamID());
-                bowlingViewModel.insert(r);
+                bowlingViewModel.insert(r); //todo na valw ta status sta round (sthn arxh ola next, meta 8a valw sto prwto current
+                //gia ka8e paikth ths ka8e omadas vazw to rd
+                for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
+                    ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
+                    for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
+                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(),pa.get(p).getBowlAvg()); //ftiaxnw to rd
+                        bowlingViewModel.insert(rd);
+                    }
+                }
                 //emfanish me temp2
                 //details.append(" Team "+temp2[i][0].getFTeamID()+ " vs Team "+temp2[i][1].getFTeamID()+"\n");
 
@@ -135,11 +158,51 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
             public void onChanged(List<Round> t) {
                 if(t!=null) {
                     //int a = t.get(0).getSys_teamID();
-                    blistAdapter.setRounds(t);
-                    details.append(String.valueOf(t.size()));
+                    //blistAdapter.setRounds(t);
+                    details.append("size of round "+String.valueOf(t.size()));
                 } else{
                     details.append("wtf");
                 }
+
+            }
+        });
+    }
+
+    public void test(){
+        //test rd
+        bowlingViewModel.getAllRound_detail().observe(this, new Observer<List<Round_detail>>() {
+            @Override
+            public void onChanged(List<Round_detail> t) {
+                if(t!=null) {
+                    //int a = t.get(0).getSys_teamID();
+                    //details.append(" rd size= "+String.valueOf(t.size())+"\n");
+                    System.out.println("here rd size ="+t.size());
+                    System.out.println(" td 1 " +t.get(0).getParticipantID()+" + "+t.get(0).getRound_uuid());
+                } else{
+                    details.append("wtf");
+                }
+
+            }
+        });
+        Team t = all_the_teams.get(0);
+        bowlingViewModel.getRoundsofTeam(t.getUuid()).observe(this, new Observer<List<Round>>() {
+            @Override
+            public void onChanged(List<Round> r) {
+                if(t!=null) {
+                    blistAdapter.setRounds(r);
+                   // details.append("size of round of team 1: "+String.valueOf(r.size())+"\n");
+                   // System.out.println("size of round of team 1: "+r.size() );
+                } else{
+                    details.append("wtf");
+                }
+
+            }
+        });
+        bowlingViewModel.getRoundofTeam(t.getUuid(), champuuid).observe(this, new Observer<Round>() {
+            @Override
+            public void onChanged(Round r) {
+                details.append("Team 1:"+r.getTeam1ID()+" or "+r.getTeam2ID()+", first round: "+r.getFroundid()+"\n");
+                System.out.println("Team 1:"+r.getTeam1ID()+" or "+r.getTeam2ID()+", first round: "+r.getFroundid());
 
             }
         });
@@ -153,13 +216,14 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
         {
             // Intent gonext = new Intent(this,Create3Activity.class);
             //startActivity(gonext);
-            Intent i = new Intent(this, RoundActivity.class);
+            Intent i = new Intent(this, SelectTeamActivity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
             extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
             extras.putSerializable("all_the_teams",all_the_teams);
-            extras.putString("teamid",teamuuid);
+            extras.putString("teamid",teamuuid); //?
             extras.putString("champuuid",champuuid);
+            extras.putSerializable("champ",championship);
             extras.putSerializable("vs",vs);
             i.putExtras(extras);
             startActivity(i);

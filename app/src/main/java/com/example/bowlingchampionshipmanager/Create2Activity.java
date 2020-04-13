@@ -106,7 +106,6 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
            champuuid = bundleObject.getString("champuuid");
             }
 
-        System.out.println("all size 2"+all_the_teams.size()+ "champ id "+championship.getFchampID());
         //System.out.println("Team 1 = " + all_the_teams.get(0).getTeamName());
         bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() { //fixme: mono tis teleutaies omadew pou isirthan
             @Override
@@ -136,7 +135,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
         bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> team) {
-                //System.out.println("sum = id = "+team.get(0).getParticipantID()); //fixme : meta apo to update den to vriskei
+                //System.out.println("sum = id = "+team.get(0).getParticipantID()); //
             }
         });
        /* bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {

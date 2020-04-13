@@ -81,7 +81,8 @@ public class HDCPActivity extends AppCompatActivity { //fixme
             }
         }); */
 //todo 1: getChamp(uuid) -> adapter -> HDCPActivity.champ H'
-//todo 2: update champ where uuid=champUUID
+//todo 2: update champ where uuid=champUUID H'
+// todo 3: check teamsvsteams line 60
         System.out.println("champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " to allo u "+ champuuid);
 
     }

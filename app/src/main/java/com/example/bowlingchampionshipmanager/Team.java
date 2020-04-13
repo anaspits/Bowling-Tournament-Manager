@@ -51,7 +51,7 @@ public class Team implements Serializable {
     private int this_vs; // to id tis omadas me thn opoia paizoun antipales sto sugkekrimeno prwtathlima champid//se poio round paizoyn antipales
 
     @ColumnInfo(name = "champID") //axristo
-    private int champid; //todo: na ginei list me ta champid sta opoia summetexei h omada
+    private int champid; //todo: gia vash 2 na ginei list me ta champid sta opoia summetexei h omada
 
     @Ignore
     //@ColumnInfo(name = "round") //axristo
@@ -61,7 +61,7 @@ public class Team implements Serializable {
     private ArrayList<Team> vs= new ArrayList<>(); //list me tis omades pou antagwnizetai h antistoixh Team, h thesi ths antagwnistrias omadas sth lista einai kai o gyros ston opoio paizoun antipales
 
     @Ignore
-    private ArrayList<Participant> teammates; //dexetai to ArrayList teams
+    private ArrayList<Participant> teammates; //dexetai to ArrayList teams, xrisimo!
 
 
     //@TypeConverters(Converters.class) // axristo
@@ -182,7 +182,7 @@ public class Team implements Serializable {
         if (teamName!=null) {
             this.teamName = teamName;
         } else {
-            this.teamName= String.valueOf(this.fTeamID);
+            this.teamName= String.valueOf(this.fTeamID); //todo: to name na apoteleitai apo champid kai fteamid
         }
         //this.teammates = teammates;
         this.score=score;

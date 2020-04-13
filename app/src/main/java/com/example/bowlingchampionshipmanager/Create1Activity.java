@@ -37,6 +37,7 @@ import javax.persistence.Persistence; */
 
 public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
 //TODO NA KANW OLA TA ACTIVITIES SCROLLABLE
+    //todo na ftiaxw to background sto recycleview h sto list
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private static EditText textView;
@@ -153,7 +154,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         });
 ////////////
 
-        button_imp.setOnClickListener(new View.OnClickListener() {
+        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai kai na emfanizei ton titlo tou arxeiou
             @Override
             public void onClick(View v) {
                 openFile();

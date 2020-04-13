@@ -9,15 +9,15 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "round_detail",primaryKeys = {"sys_roundID","participant_uuid"}, foreignKeys = {
+@Entity(tableName = "round_detail",primaryKeys = {"round_uuid","participant_uuid"}, foreignKeys = {
         @ForeignKey(entity = Round.class,
-                parentColumns = "sys_roundID",
-                childColumns = "sys_roundID"),
+                parentColumns = "round_uuid",
+                childColumns = "round_uuid"),
         @ForeignKey(entity = Participant.class,
                 parentColumns = "participant_uuid",
                 childColumns = "participant_uuid")
 }, indices= {
-        @Index(name="index_roundID", value="sys_roundID"),
+        @Index(name="index_roundID", value="round_uuid"),
         @Index(name="index_round_participantID", value="participant_uuid")
 })
 public class Round_detail  implements Serializable {
@@ -25,23 +25,24 @@ public class Round_detail  implements Serializable {
     @NonNull
     int sys_roundDetailID; */
 
-    @ColumnInfo(name="sys_roundID")
+    @ColumnInfo(name="round_uuid")
     @NonNull
-    private int sys_raoundID;
+    private String round_uuid;
 
     @ColumnInfo(name="participant_uuid")
     @NonNull
     private String participantID;
 
-    @ColumnInfo(name="score")
+    @ColumnInfo(name="score") //tou participant
     private int score;
 
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
     } */
 
-    public int getSys_raoundID() {
-        return sys_raoundID;
+    @NonNull
+    public String getRound_uuid() {
+        return round_uuid;
     }
 
     public String getParticipantID() {
@@ -56,8 +57,8 @@ public class Round_detail  implements Serializable {
         this.sys_roundDetailID = sys_roundDetailID;
     } */
 
-    public void setSys_raoundID(int sys_raoundID) {
-        this.sys_raoundID = sys_raoundID;
+    public void setRound_uuid(String round_uuid) {
+        this.round_uuid = round_uuid;
     }
 
     public void setParticipantID(String participantID) {
@@ -68,10 +69,11 @@ public class Round_detail  implements Serializable {
         this.score = score;
     }
 
-    public Round_detail(int sys_raoundID, String participantID, int score) {
-        this.sys_raoundID = sys_raoundID;
+    public Round_detail(String round_uuid, String participantID, int score) {
+        this.round_uuid = round_uuid;
         this.participantID = participantID;
         this.score = score;
+        //todo: mhpws 8elei k ton champid?
     }
 
 }

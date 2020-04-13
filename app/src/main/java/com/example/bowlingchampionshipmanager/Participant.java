@@ -53,7 +53,7 @@ public class Participant implements Serializable {
     int fakeID; //to id pou exei o paiktis sto sugkekrimeno prwtathlima
 
     @ColumnInfo(name="first_name")
-    String firstName; //todo: na to kanw fullname?
+    String firstName;
 
     @ColumnInfo(name="last_name")
     String lastName;
