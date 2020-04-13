@@ -608,8 +608,12 @@ public  void insert (Team_detail t){
         return rDao.getRoundsofTeam(teamuuid);
     }
 
-    LiveData<Round> getRoundofTeam( String teamuuid, String champuuid){
-        return rDao.getRoundofTeam(teamuuid,champuuid);
+    LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid){
+        return rDao.getCurrentRoundofTeam(teamuuid,champuuid);
+    }
+
+    LiveData<Round> getNextRoundofTeamofChamp(String teamuuid, String champuuid){
+        return rDao.getNextRoundofTeamofChamp(teamuuid,champuuid);
     }
 
     private class RoundOperationsAsyncTask extends AsyncTask<Round, Void, Void> {

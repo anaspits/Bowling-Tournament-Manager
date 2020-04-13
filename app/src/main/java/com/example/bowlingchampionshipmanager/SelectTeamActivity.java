@@ -30,6 +30,7 @@ public class SelectTeamActivity extends AppCompatActivity {
     private SelectListAdapter blistAdapter;
     public String champuuid, teamuuid;
     public Championship championship;
+    public static List<Round> rofTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class SelectTeamActivity extends AppCompatActivity {
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
             champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
+            rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
@@ -57,8 +59,8 @@ public class SelectTeamActivity extends AppCompatActivity {
             public void onChanged(List<ActiveChampsTuple> t) {
                 List<Team> a = t.get(0).getT();
                 System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT().size());
-                blistAdapter.setBowls(a);
-
+                blistAdapter.setSelected(a);
+                blistAdapter.setChamp(championship);
             }
         });
     }

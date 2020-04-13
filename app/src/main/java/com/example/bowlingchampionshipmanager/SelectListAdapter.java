@@ -20,6 +20,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
     private Context mContext;
    //fixme private List<Object> mNotes;
     private List<Team> mNotes;
+    private Championship ch;
 
     public SelectListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
@@ -56,10 +57,16 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
         else return 0;
     }
 
-    public void setBowls(List<Team> notes) {
+    public void setSelected(List<Team> notes) {
         mNotes = notes;
         notifyDataSetChanged();
 
+    }
+
+
+    public void setChamp(Championship champ) {
+       ch=champ;
+       System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
     }
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
@@ -89,6 +96,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                     intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                     intent.putExtra("count", getItemCount());
                     intent.putExtra("b_object", mNotes.get(mPosition));
+                    intent.putExtra("champ", ch);
                     //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                     mContext.startActivity(intent);
                 }

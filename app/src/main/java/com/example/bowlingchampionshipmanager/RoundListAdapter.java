@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.BowlingViewHolder>  {
 
-    public interface OnDeleteClickListener {
+    public interface OnDeleteClickListener { //axristo
         void OnDeleteClickListener(Round myNote);
     }
 
@@ -63,6 +63,26 @@ public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.Bowl
         mNotes = notes;
         notifyDataSetChanged();
 
+    }
+
+    public void returnRounds(List<Round> notes) { //axristo
+        mNotes = notes;
+        //((Activity)mContext).class.test();
+        Teamsvsteams1Activity.test2(mNotes);
+    }
+
+    public void returnRounds2(List<Round> notes) {
+        mNotes = notes;
+        //((Activity)mContext).class.test();
+        RoundActivity.getRoundsofTeam(mNotes);
+    }
+    public List<Round> returnRounds3(List<Round> notes) { //mallon axristo
+        mNotes = notes;
+        //((Activity)mContext).class.test();
+        return (mNotes);
+    }
+    public void returnCurrentRound(Round r) {
+        RoundActivity.getRoundofTeam(r);
     }
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {

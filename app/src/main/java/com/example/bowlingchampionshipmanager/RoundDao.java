@@ -28,6 +28,10 @@ public interface RoundDao {
     @Query("SELECT round.sys_roundID,round.round_uuid, round.froundid, round.fchampID, round.champ_uuid, round.team1ID, round.team2ID,round.team1UUID, round.team2UUID, round.score1, round.score2,round.status, round.date FROM round INNER JOIN team ON (round.team1UUID=team.team_uuid or round.team2UUID=team.team_uuid) WHERE (team.team_uuid=:teamuuid)")
     LiveData<List<Round>> getRoundsofTeam( String teamuuid); //todo na valw k champid k status=current
 
-    @Query("SELECT * FROM  round WHERE (team1UUID=:teamuuid or team2UUID=:teamuuid) and champ_uuid=:champuuid ORDER BY froundid DESC LIMIT 1 ")
-    LiveData<Round> getRoundofTeam( String teamuuid, String champuuid); //todo na valw k champid k status=current
+    @Query("SELECT * FROM  round WHERE (team1UUID=:teamuuid or team2UUID=:teamuuid) and champ_uuid=:champuuid and status='current'")
+    LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid); //???
+
+    @Query("SELECT * FROM  round WHERE (team1UUID=:teamuuid or team2UUID=:teamuuid) and champ_uuid=:champuuid and status='next' ORDER BY froundid ASC LIMIT 1 ") //DESC 8a fernei to last round
+    LiveData<Round> getNextRoundofTeamofChamp(String teamuuid, String champuuid); //fixme
+
 }

@@ -1,6 +1,10 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RoundActivity extends AppCompatActivity {
+public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener{ //todo na deixnei tous participants
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs;//list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
    // public static ArrayList<Team> temp3; //lista me omades opou paizoun antipales oi omades se seiriakes theseis, dld 0-1, 2-3 klp
-    private static TextView player_view;
+    private static TextView textTitle,player_view;
     private static TextView hdcp_view;
     private static TextView first;
     private static TextView second;
@@ -29,9 +34,17 @@ public class RoundActivity extends AppCompatActivity {
     private static TextView team1;
     private static TextView team2;
     public int bowlId;
-    public Team t;
+    public static Team t;
     public String tuuid;
-
+    private BowlingViewModel bowlingViewModel;
+    private RoundListAdapter rlistAdapter;
+    public String champuuid;
+    public Championship championship; //todo na to perasw?
+    public static List<Round> rofTeam;
+    public static List<Round> test;
+    public static List<Round> test2;
+    public static Round curRound;
+    public static Round curRound2;
 
 
     @Override
@@ -52,7 +65,7 @@ public class RoundActivity extends AppCompatActivity {
         first2=(TextView) findViewById(R.id.first2_view);
         second2=(TextView) findViewById(R.id.second2_view);
         third2=(TextView) findViewById(R.id.third2_view);
-
+        textTitle=(TextView) findViewById(R.id.third2_view);
 
 
 
@@ -64,11 +77,56 @@ public class RoundActivity extends AppCompatActivity {
            bowlId = bundleObject.getInt("bowlId");
            t = (Team) bundleObject.getSerializable("b_object");
            tuuid= t.getUuid();
+           championship = (Championship) bundleObject.getSerializable("champ");
+           System.out.println("Champ in round = "+championship.getFchampID()+" "+ championship.getUuid());
         }
 
         System.out.println("Team selected: "+t.getFTeamID()+" sys "+t.getSys_teamID()+" uuid "+t.getUuid());
 team1.setText(t.getTeamName() );
+
+        bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        rlistAdapter = new RoundListAdapter(this,this);
+        recyclerView.setAdapter(rlistAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        bowlingViewModel.getRoundsofTeam(t.getUuid()).observe(this, new Observer<List<Round>>() { //todo na valw kai to champ
+            @Override
+            public void onChanged(List<Round> r) {
+                    rlistAdapter.setRounds(r);
+                    rlistAdapter.returnRounds2(r);
+                    // details.append("size of round of team 1: "+String.valueOf(r.size())+"\n");
+                    System.out.println("size of round of team: "+r.size() );
+                    test = r;
+                    test2 = rlistAdapter.returnRounds3(r);
+                    System.out.println("test3 size of round of team: "+test.size() );
+                 textTitle.append(String.valueOf(r.get(0).getFroundid()));
+                System.out.println("FRoundid "+r.get(0).getFroundid() ); //ton prwto gyro
+            }
+        });
+        if(test!=null) { //test
+            System.out.println("test4 size of round of team 1: "+test.size() );
+        } else{
+            System.out.println("test4 wtf");
+        } //
+        if(test2!=null) { //test
+            System.out.println("test5 size of round of team 1: "+test2.size() );
+        } else{
+            System.out.println("test5 wtf");
+        } //
+
+       bowlingViewModel.getNextRoundofTeamofChamp(tuuid,champuuid).observe(this, new Observer<Round>() {
+            @Override
+            public void onChanged(Round r) {
+                if(r!=null) {
+                    System.out.println("Current Round of team "+t.getFTeamID()+" is round "+r.getFroundid()+" with t1: "+r.getTeam1ID()+" and t2: "+ r.getTeam2ID()+" and sysID: "+r.getRoundid());
+                    curRound2=r;
+                    rlistAdapter.returnCurrentRound(r);
+                }
+            }
+        });
         //round();
+
+        //score(t);
     }
 
     public void round(){
@@ -103,24 +161,69 @@ team1.setText(t.getTeamName() );
         }
     }
 
+    public void score(Team te){
+        //todo: upologismos tou neou score k update TeamScore k RoundTeamScore k participant score
+    }
+
+    public static void getRoundsofTeam(List<Round> r){ //ola ta rounds
+        rofTeam = r;
+        System.out.println("roundactivity rofteam "+rofTeam.size());
+    }
+
+    public static void getRoundofTeam(Round r) { //to currentRound
+        curRound=r;
+        System.out.println("2 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
+
+    }
+
+
     public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+        System.out.println("3 Current Round of team "+t.getFTeamID()+" is round "+curRound2.getFroundid()+" with t1: "+curRound2.getTeam1ID()+" and t2: "+ curRound2.getTeam2ID()+" and sysID: "+curRound2.getRoundid());
 
-        if (button_text.equals("Start Championship"))
-        {
-            // Intent gonext = new Intent(this,Create3Activity.class);
-            //startActivity(gonext);
-            Intent i = new Intent(this, RoundActivity.class);
-            Bundle extras = new Bundle();
-            extras.putSerializable("bowlers",bowlers);
-            extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
-            extras.putSerializable("all_the_teams",all_the_teams);
-            extras.putSerializable("vs",vs);
-            i.putExtras(extras);
-            startActivity(i);
+        if (curRound.getStatus()=="next") {
+            curRound.setStatus("done");
+            bowlingViewModel.update(curRound);
+            if (button_text.equals("next")) {
+                // Intent gonext = new Intent(this,Create3Activity.class);
+                //startActivity(gonext);
+                curRound.setStatus("done");
+                bowlingViewModel.update(curRound);
+                Intent i = new Intent(this, RoundActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("bowlers", bowlers);
+                extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                extras.putSerializable("all_the_teams", all_the_teams);
+                extras.putSerializable("vs", vs);
+                i.putExtras(extras);
+                startActivity(i);
 
+            }
+        } else if (curRound.getStatus()=="last"){
+            curRound.setStatus("done");
+            bowlingViewModel.update(curRound);
+            if (button_text.equals("next")) {
+                // Intent gonext = new Intent(this,Create3Activity.class);
+                //startActivity(gonext);
+                curRound.setStatus("done");
+                bowlingViewModel.update(curRound);
+                Intent i = new Intent(this, MainActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("bowlers", bowlers);
+                extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                extras.putSerializable("all_the_teams", all_the_teams);
+                extras.putSerializable("vs", vs);
+                i.putExtras(extras);
+                startActivity(i);
+
+            }
         }
 
+    }
+
+    @Override
+    public void OnDeleteClickListener(Round myNote) {
+        bowlingViewModel.delete(myNote);
     }
 }

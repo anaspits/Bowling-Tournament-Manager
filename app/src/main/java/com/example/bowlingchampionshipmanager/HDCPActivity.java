@@ -82,7 +82,8 @@ public class HDCPActivity extends AppCompatActivity { //fixme
         }); */
 //todo 1: getChamp(uuid) -> adapter -> HDCPActivity.champ H'
 //todo 2: update champ where uuid=champUUID H'
-// todo 3: check teamsvsteams line 60
+// todo 3: check teamsvsteams line 60 H'
+//todo 4: check RoundListAdapter returnRounds
         System.out.println("champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " to allo u "+ champuuid);
 
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +31,9 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static String champuuid;
     public String teamuuid;
     public Championship championship;
+    public static List<Round> rofTeam; //axristo
+    public static List<Round> test;
+    private static String firstRounduud;
 
 
     @Override
@@ -124,7 +128,17 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
 
                 String ruuid= UUID.randomUUID().toString();
                 Round r = new Round (ruuid,d,temp1.get(0).getFTeamID(), temp1.get(1).getFTeamID() , champuuid, temp1.get(0).getUuid(),  temp1.get(1).getUuid(),temp1.get(0).getScore(),temp1.get(1).getScore(), "");
-                System.out.println("t1: "+temp1.get(0).getFTeamID()+" t2: " + temp1.get(1).getFTeamID());
+                if (d==1){
+                   // r.setStatus("current");
+                    r.setStatus("next");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                } else if (d==round){
+                    r.setStatus("last");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                } else {
+                    r.setStatus("next");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                }
                 bowlingViewModel.insert(r); //todo na valw ta status sta round (sthn arxh ola next, meta 8a valw sto prwto current
                 //gia ka8e paikth ths ka8e omadas vazw to rd
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
@@ -168,6 +182,12 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
         });
     }
 
+
+    public static void test2(List<Round> r){
+        rofTeam = r;
+        System.out.println("rofteam "+rofTeam.size());
+    }
+
     public void test(){
         //test rd
         bowlingViewModel.getAllRound_detail().observe(this, new Observer<List<Round_detail>>() {
@@ -190,27 +210,47 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
             public void onChanged(List<Round> r) {
                 if(t!=null) {
                     blistAdapter.setRounds(r);
+                    blistAdapter.returnRounds(r);
                    // details.append("size of round of team 1: "+String.valueOf(r.size())+"\n");
-                   // System.out.println("size of round of team 1: "+r.size() );
+                    System.out.println("size of round of team 1: "+r.size() );
+                    test = r;
+                    System.out.println("test1 size of round of team 1: "+test.size() );
                 } else{
                     details.append("wtf");
                 }
 
             }
         });
-        bowlingViewModel.getRoundofTeam(t.getUuid(), champuuid).observe(this, new Observer<Round>() {
+
+        //test
+        if(test!=null) { //edw to test.size=0 omws sto openActivity...
+            System.out.println("test2 size of round of team 1: "+test.size() );
+        } else{
+            System.out.println("test2 wtf");
+        } //
+
+       /*axrhsto
+        bowlingViewModel.getFirstRoundofTeamofChamp(t.getUuid(), champuuid).observe(this, new Observer<Round>() {
             @Override
             public void onChanged(Round r) {
                 details.append("Team 1:"+r.getTeam1ID()+" or "+r.getTeam2ID()+", first round: "+r.getFroundid()+"\n");
                 System.out.println("Team 1:"+r.getTeam1ID()+" or "+r.getTeam2ID()+", first round: "+r.getFroundid());
 
             }
-        });
+        }); */
+
     }
 
     public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+
+        System.out.println("rofteam 2 ="+rofTeam.size()); //rofTeam=3
+        if(test!=null) { //edw test.size = 3
+            System.out.println("final test size of round of team 1: "+test.size() );
+        } else{
+            System.out.println("final test wtf");
+        } //
 
         if (button_text.equals("Start Championship"))
         {
@@ -224,6 +264,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
             extras.putString("teamid",teamuuid); //?
             extras.putString("champuuid",champuuid);
             extras.putSerializable("champ",championship);
+            extras.putSerializable("listround", (Serializable) rofTeam); //axristo
             extras.putSerializable("vs",vs);
             i.putExtras(extras);
             startActivity(i);
