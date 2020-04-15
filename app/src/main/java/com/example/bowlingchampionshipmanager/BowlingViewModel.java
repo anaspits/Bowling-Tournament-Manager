@@ -604,15 +604,15 @@ public  void insert (Team_detail t){
         return allrounds;
     }
 
-    LiveData<List<Round>> getRoundsofTeam( String teamuuid){
-        return rDao.getRoundsofTeam(teamuuid);
+    LiveData<List<Round>> getRoundsofTeam( String teamuuid, String champuuid){
+        return rDao.getRoundsofTeam(teamuuid,champuuid);
     }
 
     LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid){
         return rDao.getCurrentRoundofTeam(teamuuid,champuuid);
     }
 
-    LiveData<Round> getNextRoundofTeamofChamp(String teamuuid, String champuuid){
+     LiveData<List<Round>> getNextRoundofTeamofChamp(String teamuuid, String champuuid){
         return rDao.getNextRoundofTeamofChamp(teamuuid,champuuid);
     }
 

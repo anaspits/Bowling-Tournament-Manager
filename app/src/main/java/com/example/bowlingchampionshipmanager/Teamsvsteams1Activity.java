@@ -131,7 +131,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                 if (d==1){
                    // r.setStatus("current");
                     r.setStatus("next");
-                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus() +" chid "+ champuuid);
                 } else if (d==round){
                     r.setStatus("last");
                     System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
@@ -205,7 +205,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
             }
         });
         Team t = all_the_teams.get(0);
-        bowlingViewModel.getRoundsofTeam(t.getUuid()).observe(this, new Observer<List<Round>>() {
+        bowlingViewModel.getRoundsofTeam(t.getUuid(), champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> r) {
                 if(t!=null) {
