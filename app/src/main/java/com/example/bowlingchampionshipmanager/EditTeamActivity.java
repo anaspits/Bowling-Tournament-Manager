@@ -38,6 +38,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
 
     //private Test_table t;
     private Team t;
+    private Championship c;
 
     EditViewModel editViewModel;
     private BowlingListAdapter blistAdapter;
@@ -61,6 +62,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
             // t = (Test_table) bundle.getSerializable("b_object");
             t = (Team) bundle.getSerializable("b_object");
            tuuid= t.getUuid();
+           c = (Championship) bundle.getSerializable("champ");
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
@@ -82,7 +84,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         });*/
 
        //vash 3
-        bowlingViewModel.getAllPlayersofTeam2(tuuid).observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllPlayersofTeam3(tuuid, c.getUuid()).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> t) {
                     blistAdapter.setBowls(t);

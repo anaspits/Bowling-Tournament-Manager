@@ -49,7 +49,7 @@ public class Start1Activity extends AppCompatActivity {
         hdcp_22=(TextView) findViewById(R.id.hdcp22);
         hdcp_23=(TextView) findViewById(R.id.hdcp23);
         team11=(TextView) findViewById(R.id.team1);
-        team22=(TextView) findViewById(R.id.team2);
+        // team22=(TextView) findViewById(R.id.team2);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -75,7 +75,7 @@ public class Start1Activity extends AppCompatActivity {
         Team t11 = temp.get(0);
         Team t22 = temp.get(1);
         team11.setText("Team: "+t11.getFTeamID());
-        team22.setText("Team: "+t22.getFTeamID());
+        //team22.setText("Team: "+t22.getFTeamID());
 
         ArrayList<Participant> teamates= t11.getTeammates();
         //int i;

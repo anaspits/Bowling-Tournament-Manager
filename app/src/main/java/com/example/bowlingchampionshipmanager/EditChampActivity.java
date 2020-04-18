@@ -35,7 +35,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     private int bowlId;
     public String champuuid;
     private LiveData<Championship> champ;
-    private Championship t;
+    private Championship c;
     private TextView cname,param;
     static ArrayList<Integer> hdcp_parameters=new ArrayList<>();
     private ArrayList<Integer> tid = new ArrayList<>();
@@ -74,11 +74,11 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         if (bundle != null) {
             bowlId = bundle.getInt("bowlId");
             //cname.setText(String.valueOf(bowlId));
-            // t = (Test_table) bundle.getSerializable("b_object");
-            t =  (Championship) bundle.getSerializable("b_object");
-            champuuid = t.getUuid();
+            // c = (Test_table) bundle.getSerializable("b_object");
+            c =  (Championship) bundle.getSerializable("b_object");
+            champuuid = c.getUuid();
         }
-        System.out.println("1 hdcp "+t.getHdcp_adv());
+        System.out.println("1 hdcp "+ c.getHdcp_adv());
         /*bowlingViewModel.getAllTeamsofChamp(bowlId).observe(this, new Observer<List<Team>>() {
             @Override
             public void onChanged(List<Team> team) {
@@ -115,8 +115,9 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
 List<Team> a = t.get(0).getT();
 System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT().size());
                     tlistAdapter.setTeams(a);
+                    tlistAdapter.setChamp(c);
                     if(t!=null) {
-                        //int a = t.get(0).getSys_teamID();
+                        //int a = c.get(0).getSys_teamID();
                        // param.setText(String.valueOf(a.size()));
                     } else{
                         param.setText("wtf");
@@ -128,7 +129,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             @Override
             public void onChanged(List<Championship_detail> t) {
                if(t!=null) {
-                    //int a = t.get(0).getSys_teamID();
+                    //int a = c.get(0).getSys_teamID();
                     param.setText(String.valueOf(t.size()));
                 } else{
                     param.setText("wtf");
@@ -153,7 +154,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                 cname.append(" No. "+ String.valueOf(bowlId));
                 editstatus.setText(String.valueOf(champ.getStatus()));
                 editround.setText(String.valueOf(champ.getRound())); //axristo
-              /*   ArrayList<Integer> h = t.getHdcp_parameters(); //prin
+              /*   ArrayList<Integer> h = c.getHdcp_parameters(); //prin
                par1.setText(String.valueOf(h.get(0)));
                 par2.setText(String.valueOf(h.get(1)));
                 par3.setText(String.valueOf(h.get(2)));
@@ -217,13 +218,13 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             hdcp_parameters.add(Integer.parseInt(upar5));
         }
 
-        t.setStatus(updatedst);
-        t.setRound(Integer.parseInt(updatedr));
-        t.setHdcp_parameters(hdcp_parameters);
+        c.setStatus(updatedst);
+        c.setRound(Integer.parseInt(updatedr));
+        c.setHdcp_parameters(hdcp_parameters);
 
         Intent resultIntent = new Intent();
         // resultIntent.putExtra("bowlId", bowlId);
-        resultIntent.putExtra("b_object", (Serializable) t);
+        resultIntent.putExtra("b_object", (Serializable) c);
       /*axrista  resultIntent.putExtra(UPDATED_NOTE, updatedName);
         resultIntent.putExtra("updatedAvg", updatedAvg);
         resultIntent.putExtra("updatedTeam", updatedTeam);

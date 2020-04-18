@@ -139,7 +139,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                     r.setStatus("next");
                     System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
                 }
-                bowlingViewModel.insert(r); //todo na valw ta status sta round (sthn arxh ola next, meta 8a valw sto prwto current
+                bowlingViewModel.insert(r);
                 //gia ka8e paikth ths ka8e omadas vazw to rd
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths

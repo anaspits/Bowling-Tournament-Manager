@@ -10,20 +10,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO NA KANW EDITROUND
 public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener{ //todo na deixnei tous participants
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs;//list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
    // public static ArrayList<Team> temp3; //lista me omades opou paizoun antipales oi omades se seiriakes theseis, dld 0-1, 2-3 klp
-    private static TextView textTitle,player_view;
-    private static TextView hdcp_view;
+    private static TextView textTitle;
+    private static EditText txvHDCP,txv1,txv2,txv3;
+    private static TextView player_view, hdcp_view;
     private static TextView first;
     private static TextView second;
     private static TextView third;
@@ -36,9 +39,10 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
     private static TextView team2;
     public int bowlId;
     public static Team t;
-    public String tuuid;
+    public static String tuuid;
     private BowlingViewModel bowlingViewModel;
     private RoundListAdapter rlistAdapter;
+    private RoundScoreListAdapter2 blistAdapter;
     public String champuuid;
     public Championship championship; //todo na to perasw? nai
     public static List<Round> rofTeam;
@@ -47,6 +51,9 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
     public static Round curRound;
     public static Round curRound2;
     public static String status_flag;
+    public static List<Participant> part1; //apo livedata
+    public static List<Participant> part2; //msw sunartisis
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +61,29 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         setContentView(R.layout.activity_round);
         Bundle bundleObject = this.getIntent().getExtras();
 
-        player_view=(TextView) findViewById(R.id.player);
+    /* vash 1    player_view=(TextView) findViewById(R.id.player);
         hdcp_view=(TextView) findViewById(R.id.hdcp_view);
         first=(TextView) findViewById(R.id.first_view);
         second=(TextView) findViewById(R.id.second_view);
         third=(TextView) findViewById(R.id.third_view);
-        team1=(TextView) findViewById(R.id.team1);
         team2=(TextView) findViewById(R.id.team2);
         player2_view=(TextView) findViewById(R.id.player2);
         hdcp2_view=(TextView) findViewById(R.id.hdcp2_view);
         first2=(TextView) findViewById(R.id.first2_view);
         second2=(TextView) findViewById(R.id.second2_view);
-        third2=(TextView) findViewById(R.id.third2_view);
-        textTitle=(TextView) findViewById(R.id.textTitle);
+        third2=(TextView) findViewById(R.id.third2_view); */
 
+        textTitle= findViewById(R.id.textTitle);
+        team1=(TextView) findViewById(R.id.team1);
+
+
+//test
+        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
+
+            team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
+
+        }
+        //
 
 
         if(bundleObject!=null){
@@ -89,7 +105,8 @@ team1.setText("Team "+t.getTeamName() );
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         rlistAdapter = new RoundListAdapter(this,this);
-        recyclerView.setAdapter(rlistAdapter);
+        blistAdapter = new RoundScoreListAdapter2(this);
+        recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //axristo
@@ -113,27 +130,71 @@ team1.setText("Team "+t.getTeamName() );
             @Override
             public void onChanged(List<Round> ro) {
                 if(ro.size()!=0) {
-                    rlistAdapter.setRounds(ro);
+                    //rlistAdapter.setRounds(ro);
                     Round r = ro.get(0);
                     rlistAdapter.returnCurrentRound(r);
                    // textTitle.append(" "+String.valueOf(ro.get(0).getFroundid()));
                     System.out.println("kai to size einai "+ro.size());
                     System.out.println("Current Round of team "+t.getFTeamID()+" stat " + r.getStatus()+" is round "+r.getFroundid()+" with t1: "+r.getTeam1ID()+" and t2: "+ r.getTeam2ID()+" and sysID: "+r.getRoundid());
                     curRound2=r; //svisto
+                    curRound.setStatus("done");
+                    if (tuuid.equals(r.getTeam1UUID())) {
+                        textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + r.getTeam2ID());
+                    } else {
+                        textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + r.getTeam1ID());
+                    }
                     //r.setStatus("done");
-                    //bowlingViewModel.update(curRound); //todo mhpws na to valw mesa sto observe?
+                    //bowlingViewModel.update(curRound);
                 }
             }
         });
        // System.out.println("2.5 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" stat "+curRound.getStatus()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
 
+        System.out.println("tuuid "+tuuid+" champuuid "+champuuid);
+        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
+            @Override
+            public void onChanged(List<Participant> part) {
+                blistAdapter.setBowls(part);
+                System.out.println("part size "+part.size());
+                part2=part;
+                //blistAdapter.returnParticiapants(part);
+                //score TODO na to valw sthn class Round
+                System.out.println("part 1 ="+part1.size());
+                System.out.println("part 2 ="+part2.size());
+
+             /*   txvHDCP=(EditText) findViewById(R.id.txvHDCP);
+                txv1 =(EditText) findViewById(R.id.txv1);
+                txv2 =(EditText) findViewById(R.id.txv2);
+                txv3 =(EditText) findViewById(R.id.txv3);
+                int sum =0;
+                int sumhdcp=0;
+                for (int i=0;i<part.size();i++){
+                    String updatedHdcp = txvHDCP.getText().toString().trim();
+                    String updated1 = txv1.getText().toString().trim();
+                    String updated2 = txv2.getText().toString().trim();
+                    String updated3 = txv3.getText().toString().trim();
+
+                    part1.get(i).setHdcp(Integer.parseInt(updatedHdcp));
+                    sum = sum+Integer.parseInt(updated1)+Integer.parseInt(updated2)+Integer.parseInt(updated3)+ Integer.parseInt(updatedHdcp);
+                    sumhdcp =Integer.parseInt(updatedHdcp);
+                    //todo na rwthsw an to avg einai to score tou paikth se kathe guro
+                }
+                if (tuuid.equals(curRound.getTeam1UUID())) {
+                    curRound.setScore1(sum);
+                    System.out.println("score 1 ="+curRound.getScore1());
+                } else {
+                    curRound.setScore2(sum);
+                    System.out.println("score 2 ="+curRound.getScore2());
+                } */
+            }
+        });
 
         //round();
 
-        //score(t);
+       // score(t); //axristo?
     }
 
-    public void round(){
+    public void round(){ //vash 1
 
        /* gia temp3
        Team t1 = vs.get(0);
@@ -166,8 +227,14 @@ team1.setText("Team "+t.getTeamName() );
     }
 
     public void score(Team te){
-        //todo: upologismos tou neou score k update TeamScore k RoundTeamScore k participant score
+        //todo: upologismos tou neou score k update TeamScore k RoundTeamScore k participant score + Round_detail
+
+        System.out.println("part 1 ="+part1.size());
+        System.out.println("part 2 ="+part2.size());
+
     }
+
+
 
     public static void getRoundsofTeam(List<Round> r){ //ola ta rounds
         rofTeam = r;
@@ -182,8 +249,8 @@ team1.setText("Team "+t.getTeamName() );
         curRound.setStatus("done");
     }
 
-    public static void getParticipantsofTeam(List<Participant> mNotes) {
-//todo
+    public static void getParticipantsofTeam(List<Participant> p) {
+        part1 = p;
     }
 
     public void openNewActivity(View View) {
@@ -191,10 +258,11 @@ team1.setText("Team "+t.getTeamName() );
        // button_text =((Button)View).getText().toString();
 
 
+//round
         System.out.println("3 Current Round of team "+t.getFTeamID()+" is round "+curRound2.getFroundid()+" with t1: "+curRound2.getTeam1ID()+" and t2: "+ curRound2.getTeam2ID()+" and sysID: "+curRound2.getRoundid());
         System.out.println("4 Current Round of team "+t.getFTeamID()+" stat "+curRound.getStatus()+" is round "+curRound.getFroundid()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
-String stat = curRound.getStatus();
 System.out.println("stat "+status_flag);
+
         if (status_flag.equals("next")) {
            // curRound.setStatus("done");
             bowlingViewModel.update(curRound);

@@ -55,11 +55,8 @@ public interface BowlingDao {
 
     ///////////////
 
-   // @Query("SELECT participant.participantID, participant.avg, participant.first_name, participant.last_name, participant.hdcp, participant.champID,participant.teamID, participant.fakeID, participant.start_date, participant.end_date, participant.participant_uuid FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER join championship_detail on team_detail.team_uuid = championship_detail.sys_teamID  WHERE championship_detail.sys_champID=:chID AND team_detail.team_uuid=:teamid") //vash 3 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
-   // LiveData<List<Participant>> getAllPlayersofTeam2( int teamid, int chID);
-
-    @Query("SELECT participant.participantID,  participant.participant_uuid, participant.fakeID, participant.first_name, participant.last_name,participant.avg,  participant.hdcp, participant.teamID,participant.champID, participant.start_date, participant.end_date FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid WHERE team_detail.team_uuid=:teamid") //test panw //todo na valw champid dld to panw
-    LiveData<List<Participant>> getAllPlayersofTeam2( String teamid);
+    @Query("SELECT participant.participantID,  participant.participant_uuid, participant.fakeID, participant.first_name, participant.last_name,participant.avg,  participant.hdcp, participant.teamID,participant.champID, participant.start_date, participant.end_date FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER JOIN championship_detail ON team_detail.team_uuid = championship_detail.team_uuid  WHERE championship_detail.champ_uuid=:chID AND team_detail.team_uuid=:teamid") //vash 3 //olous tous paiktes mias omadas//ToDo: na to kanw k gia sugkekrimeno champ //allagh to teamid
+    LiveData<List<Participant>> getAllPlayersofTeam3( String teamid, String chID);
 
 
     @Query("SELECT * FROM participant WHERE first_name=:fn AND  last_name=:ln")

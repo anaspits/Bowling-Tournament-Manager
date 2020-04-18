@@ -1,12 +1,11 @@
 package com.example.bowlingchampionshipmanager;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,8 +29,8 @@ public class RoundScoreListAdapter extends RecyclerView.Adapter<RoundScoreListAd
     @NonNull
     @Override
     public RoundScoreListAdapter.BowlingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = layoutInflater.inflate(R.layout.list_item, parent, false);
-        RoundScoreListAdapter.BowlingViewHolder viewHolder = new RoundScoreListAdapter.BowlingViewHolder(itemView);
+        View itemView = layoutInflater.inflate(R.layout.roundlist, parent, false);
+        RoundScoreListAdapter.BowlingViewHolder viewHolder = new RoundScoreListAdapter.BowlingViewHolder(itemView, new MyCustomEditTextListener());
         return viewHolder;
     }
 
@@ -45,6 +44,8 @@ public class RoundScoreListAdapter extends RecyclerView.Adapter<RoundScoreListAd
             // Covers the case of data not being ready yet.
             holder.noteItemView.setText(R.string.exit);
         }
+        holder.myCustomEditTextListener.updatePosition(holder.getAdapterPosition());
+        holder.mEditText.setText((CharSequence) String.valueOf( mNotes.get(holder.getAdapterPosition()).getHdcp()));
     }
 
     @Override
@@ -70,24 +71,51 @@ public class RoundScoreListAdapter extends RecyclerView.Adapter<RoundScoreListAd
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
 
         private TextView noteItemView;
-        private EditText hdcp, first,second,thierd;
+        public EditText hdcp, first,second, third;
         private int mPosition;
+        public EditText mEditText;
+        public MyCustomEditTextListener myCustomEditTextListener;
 
-        public BowlingViewHolder(@NonNull View itemView) {
+        public BowlingViewHolder(@NonNull View itemView,MyCustomEditTextListener myCustomEditTextListener) {
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
-            hdcp 	 = itemView.findViewById(R.id.txvHDCP);
+            //hdcp 	 = itemView.findViewById(R.id.txvHDCP);
             first 	 = itemView.findViewById(R.id.txv1);
             second 	 = itemView.findViewById(R.id.txv2);
-            thierd = itemView.findViewById(R.id.txv3);
+            third = itemView.findViewById(R.id.txv3);
+            this.mEditText = (EditText)  itemView.findViewById(R.id.txvHDCP);
+            this.myCustomEditTextListener = myCustomEditTextListener;
+            this.mEditText.addTextChangedListener(myCustomEditTextListener);
         }
 
         public void setData(String note, int phdcp, int position) {
             noteItemView.setText(note);
-            hdcp.setText(phdcp);
+            mEditText.setText(String.valueOf(phdcp));
             mPosition = position;
         }
 
     }
 
+    private class MyCustomEditTextListener implements TextWatcher {
+        private int position;
+
+        public void updatePosition(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            // no op
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+          mNotes.get(position).setHdcp(Integer.parseInt(charSequence.toString()));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            // no op
+        }
+    }
 }

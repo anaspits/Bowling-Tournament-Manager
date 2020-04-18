@@ -24,6 +24,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
     private final LayoutInflater layoutInflater;
     private Context mContext;
     private List<Team> mNotes;
+    private Championship ch;
     private TeamListAdapter.OnDeleteClickListener onDeleteClickListener;
 
     public TeamListAdapter(Context context, TeamListAdapter.OnDeleteClickListener listener) {
@@ -66,6 +67,11 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
 
     }
 
+    public void setChamp(Championship champ) {
+        ch=champ;
+        System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
+    }
+
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
 
         private TextView noteItemView,teamItemView;
@@ -95,6 +101,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
                     intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     intent.putExtra("count", getItemCount());
+                    intent.putExtra("champ", ch);
                     ((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_TEAM_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }

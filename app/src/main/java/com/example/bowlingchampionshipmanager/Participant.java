@@ -4,8 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -17,7 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,7 +58,7 @@ public class Participant implements Serializable {
     @ColumnInfo(name="avg")
     int bowlAvg;
 
-    @ColumnInfo(name="hdcp")
+    @ColumnInfo(name="hdcp") //todo
     int hdcp;
 
     @ColumnInfo(name="teamID")
@@ -202,7 +199,7 @@ public class Participant implements Serializable {
     }
 
    //constructor
-    public Participant( int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date) {
+    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
         this.uuid = uuid;
@@ -213,7 +210,7 @@ public class Participant implements Serializable {
         teamates.add(this);
         teamatesid.add(this.participantID);
         this.start_date=start_date;
-        //todo: na valw kai hdcp
+        this.hdcp=hdcp;
     }
     public Participant() {
         super();
@@ -285,7 +282,7 @@ public class Participant implements Serializable {
                System.out.println("uuid "+ uuid+" ts "+timestamp);
                 //Date date = (Date) Calendar.getInstance().getTime();//fixme
                // System.out.println("time = "+date);
-                Participant p = new Participant( i,uuid,fn, ln, ba,0,null);
+                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
    //  Long a=     bowlingViewModel.insert(p);

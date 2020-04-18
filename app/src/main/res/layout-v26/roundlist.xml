@@ -9,7 +9,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -61,13 +61,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
+                    android:autofillHints=""
+                    android:hint="@string/_1st"
                     android:inputType="number"
-                    android:text="@string/_1st"
                     android:textAlignment="center"
                     android:textColor="#616161"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:autofillHints="" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,13 +82,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
+                    android:autofillHints=""
+                    android:hint="@string/_2nd"
                     android:inputType="number"
-                    android:text="@string/_2nd"
                     android:textAlignment="center"
                     android:textColor="#616161"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:autofillHints="" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,13 +103,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
+                    android:autofillHints=""
+                    android:hint="@string/_3rd"
                     android:inputType="number"
-                    android:text="@string/_3rd"
                     android:textAlignment="center"
                     android:textColor="#616161"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:autofillHints="" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
