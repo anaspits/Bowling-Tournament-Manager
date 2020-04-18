@@ -62,7 +62,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
         recyclerView.setAdapter(dlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bowlingViewModel.getAllTeam_detail().observe(this, new Observer<List<Team_detail>>() {
+        bowlingViewModel.getAllTeam_detail().observe(this, new Observer<List<Team_detail>>() { //an krathsw to uuid to auto einai axristo
             @Override
             public void onChanged(List<Team_detail> td) {
                 dlistAdapter.setTeam_detail(td);
@@ -72,6 +72,13 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             }
         });
 
+        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
+            @Override
+            public void onChanged(Championship c) {
+championship = c;
+
+            }
+        });
     }
 
 
@@ -89,6 +96,9 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             //startActivity(gonext);
 
            if (pins.isChecked()){
+               System.out.println("champion sid "+championship.getSys_champID());
+               championship.setType(0);
+               bowlingViewModel.update(championship);
                 Intent i = new Intent(this, Pins1Activity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable("bowlers",bowlers);
@@ -101,6 +111,9 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
                 startActivity(i);
 
             } else if (teamsvsteams.isChecked()) {
+               System.out.println("champion sid "+championship.getSys_champID());
+               championship.setType(1);
+               bowlingViewModel.update(championship);
                 Intent i = new Intent(this, Teamsvsteams1Activity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable("bowlers",bowlers);

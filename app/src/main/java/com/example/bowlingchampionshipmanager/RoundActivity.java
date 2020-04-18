@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO NA KANW EDITROUND
+//TODO NA VALW KOUMPI EXIT
 public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener{ //todo na deixnei tous participants
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
@@ -39,6 +40,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
     private static TextView team2;
     public int bowlId;
     public static Team t;
+    public static Round r;
     public static String tuuid;
     private BowlingViewModel bowlingViewModel;
     private RoundListAdapter rlistAdapter;
@@ -77,13 +79,6 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         team1=(TextView) findViewById(R.id.team1);
 
 
-//test
-        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
-
-            team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
-
-        }
-        //
 
 
         if(bundleObject!=null){
@@ -97,6 +92,8 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
            championship = (Championship) bundleObject.getSerializable("champ");
            System.out.println("Champ in round = "+championship.getFchampID()+" "+ championship.getUuid());
            champuuid = championship.getUuid();
+            r = (Round) bundleObject.getSerializable("round");
+            System.out.println("got round = "+r.getFroundid());
         }
 
         System.out.println("Team selected: "+t.getFTeamID()+" sys "+t.getSys_teamID()+" uuid "+t.getUuid());
@@ -151,7 +148,7 @@ team1.setText("Team "+t.getTeamName() );
        // System.out.println("2.5 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" stat "+curRound.getStatus()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
 
         System.out.println("tuuid "+tuuid+" champuuid "+champuuid);
-        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() { //todo: mhpws na valw kai tous antipalous paiktes?
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setBowls(part);
@@ -159,7 +156,7 @@ team1.setText("Team "+t.getTeamName() );
                 part2=part;
                 //blistAdapter.returnParticiapants(part);
                 //score TODO na to valw sthn class Round
-                System.out.println("part 1 ="+part1.size());
+               // System.out.println("part 1 ="+part1.size());
                 System.out.println("part 2 ="+part2.size());
 
              /*   txvHDCP=(EditText) findViewById(R.id.txvHDCP);
@@ -186,12 +183,22 @@ team1.setText("Team "+t.getTeamName() );
                     curRound.setScore2(sum);
                     System.out.println("score 2 ="+curRound.getScore2());
                 } */
+
             }
         });
 
         //round();
 
        // score(t); //axristo?
+
+        //test
+    /*    for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
+
+            team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
+
+        } */
+        //
+
     }
 
     public void round(){ //vash 1
@@ -251,11 +258,38 @@ team1.setText("Team "+t.getTeamName() );
 
     public static void getParticipantsofTeam(List<Participant> p) {
         part1 = p;
-    }
+    } //axristo
 
     public void openNewActivity(View View) {
         //String button_text;
        // button_text =((Button)View).getText().toString();
+
+        //todo score:
+
+        //gia tin omada 1
+        ArrayList<Integer> first1= new ArrayList<>(); //ta vazw se pinakes gia na exw ta score tou kate paikth gia na kanw meta tis sugkriseis gia tous vathmous ths oamadas
+        ArrayList<Integer> second1= new ArrayList<>();
+        ArrayList<Integer> third1= new ArrayList<>();
+         int first_sum1=0;
+        int second_sum1=0;
+        int third_sum1=0;
+        int sum_hdcp1=0;
+        int[] sum={0,0,0};
+        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
+           // team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
+            System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
+            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+            first1.add(RoundScoreListAdapter2.edited[0]); //to first tou paikth i //todo ta 8elw gia sugkriseis me tous antipalous
+            second1.add(RoundScoreListAdapter2.edited[1]); //to second tou paikth i
+            third1.add(RoundScoreListAdapter2.edited[2]);
+            first_sum1 += RoundScoreListAdapter2.edited[0];
+            second_sum1 += RoundScoreListAdapter2.edited[1];
+            third_sum1 += RoundScoreListAdapter2.edited[2];
+            sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
+        }
+        first_sum1 += sum_hdcp1;
+        second_sum1 += sum_hdcp1;
+        third_sum1 += sum_hdcp1;
 
 
 //round
@@ -268,7 +302,7 @@ System.out.println("stat "+status_flag);
             bowlingViewModel.update(curRound);
             System.out.println("5 Current round stat = " + curRound.getStatus());
 
-            bowlingViewModel.getNextRoundofTeamofChamp(tuuid,champuuid).observe(this, new Observer<List<Round>>() {
+            bowlingViewModel.getNextRoundofTeamofChamp(tuuid,champuuid).observe(this, new Observer<List<Round>>() { //axristo-test
                 @Override
                 public void onChanged(List<Round> ro) {
                     if(ro.size()!=0) {
