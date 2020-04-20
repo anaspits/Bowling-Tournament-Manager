@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.BowlingViewHolder>  {
@@ -26,8 +27,10 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
     private List<Team> mNotes;
     private Championship ch;
  private int position;
-    private Round round;
+    private static  Round round;
     private BowlingViewModel bowlingViewModel;
+
+    public static List<Round> rounds = new ArrayList<>(); //test
 
     public SelectListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
@@ -73,22 +76,25 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
 
     public void setChamp(Championship champ) {
        ch=champ;
-       System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid()); //fixme den doulevei, na ta valw se list
-       bowlingViewModel.getNextRoundofTeamofChamp( mNotes.get(position).getUuid(),ch.getUuid()).observe((LifecycleOwner) mContext, new Observer<List<Round>>() {
-                        @Override
-                        public void onChanged(List<Round> ro) {
-                            if(ro.size()!=0) {
-                                Round r = ro.get(0);
-                                round=ro.get(0);
-                                System.out.println("Sel Current Round of team "+mNotes.get(position).getFTeamID()+" stat " + r.getStatus()+" is round "+r.getFroundid()+" with t1: "+r.getTeam1ID()+" and t2: "+ r.getTeam2ID()+" and sysID: "+r.getRoundid());
+       System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
+        for (int i=0;i<mNotes.size();i++) {
+            System.out.println("Sel Current Round of team " + mNotes.get(i).getFTeamID()+" :");
+            bowlingViewModel.getNextRoundofTeamofChamp(mNotes.get(i).getUuid(), ch.getUuid()).observe((LifecycleOwner) mContext, new Observer<List<Round>>() {
+                @Override
+                public void onChanged(List<Round> ro) {
+                    if (ro.size() != 0) {
+                        Round r = ro.get(0);
+                        rounds.add(r);
+                        System.out.println( " stat " + r.getStatus() + " is round " + r.getFroundid() + " with t1: " + r.getTeam1ID() + " and t2: " + r.getTeam2ID() + " and sysID: " + r.getRoundid());
                                 /*if (tuuid.equals(r.getTeam1UUID())) {
                                     textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + r.getTeam2ID());
                                 } else {
                                     textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + r.getTeam1ID());
                                 }*/
-                            }
-                        }
-                    });
+                    }
+                }
+            });
+        }
     }
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
@@ -115,12 +121,11 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                 @Override
                 public void onClick(View v) {
                     Intent intent= new Intent(mContext,RoundActivity.class);
-                    if (round!= null) {
+//todo leitourgei alla se kapoia fash den leitourghse, opote na to checkarw mhpws kanw to plan b
+                        round=rounds.get(getAdapterPosition()); //todo na dokimasw na to kanw done edw?
                         System.out.println("lol Sel Current Round of team " + mNotes.get(mPosition).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
-                    } else {
-                        System.out.println("sel round ERROR");
-                    }
-                    intent.putExtra("round2", round);
+
+                    intent.putExtra("round", round);
                     intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                     intent.putExtra("count", getItemCount());
                     intent.putExtra("b_object", mNotes.get(mPosition));

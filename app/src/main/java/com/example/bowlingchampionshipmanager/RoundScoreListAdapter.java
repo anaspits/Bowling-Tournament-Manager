@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
+//na svisw
 public class RoundScoreListAdapter extends RecyclerView.Adapter<RoundScoreListAdapter.BowlingViewHolder>  {
 
 

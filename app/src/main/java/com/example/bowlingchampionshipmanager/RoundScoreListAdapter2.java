@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+//gia team 1
 public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListAdapter2.MyViewHolder> {
 
 
