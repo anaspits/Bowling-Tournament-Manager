@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 
 import java.util.ArrayList;
 
-public class HDCPActivity extends AppCompatActivity { //fixme
+public class HDCPActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters=new ArrayList<>();
@@ -71,7 +71,8 @@ public class HDCPActivity extends AppCompatActivity { //fixme
 
         bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
         //Auto mazi me th grammh 192 (bViewModel.update(champ);) kanonika douleve, twra 3afnika den douleuei alla telos pantwn. Exairetika ta nea mas!
- /*       c = bViewModel.getLastInsertChamp();
+        //twra doulevei mia xara pali! lol
+        c = bViewModel.getLastInsertChamp();
         c.observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship ch) {
@@ -79,7 +80,7 @@ public class HDCPActivity extends AppCompatActivity { //fixme
                textView1.setText(String.valueOf(ch.getSys_champID()));
 
             }
-        }); */
+        });
 //todo 1: getChamp(uuid) -> adapter -> HDCPActivity.champ H'
 //todo 2: update champ where uuid=champUUID H'
 // todo 3: check teamsvsteams line 60 H'

@@ -55,6 +55,9 @@ public class Participant implements Serializable {
     @ColumnInfo(name="last_name")
     String lastName;
 
+    @ColumnInfo(name="sex")
+    String sex;
+
     @ColumnInfo(name="avg")
     int bowlAvg;
 
@@ -120,9 +123,13 @@ public class Participant implements Serializable {
         return teamid;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
     /* @Embedded
-     @TypeConverters(Converters.class)
-     @SerializedName("getTeamates") */
+         @TypeConverters(Converters.class)
+         @SerializedName("getTeamates") */
     public ArrayList<Participant> getTeamates(){
         return teamates;
     }
@@ -172,6 +179,10 @@ public class Participant implements Serializable {
         this.uuid = uuid;
     }
 
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public void setPartner(Participant partner){
         this.partner = partner;
         //  if (partner!=null){
@@ -199,7 +210,7 @@ public class Participant implements Serializable {
     }
 
    //constructor
-    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp) {
+    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp, String sex) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
         this.uuid = uuid;
@@ -211,6 +222,7 @@ public class Participant implements Serializable {
         teamatesid.add(this.participantID);
         this.start_date=start_date;
         this.hdcp=hdcp;
+        this.sex=sex;
     }
     public Participant() {
         super();
@@ -282,7 +294,7 @@ public class Participant implements Serializable {
                System.out.println("uuid "+ uuid+" ts "+timestamp);
                 //Date date = (Date) Calendar.getInstance().getTime();//fixme
                // System.out.println("time = "+date);
-                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0);
+                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, null);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
    //  Long a=     bowlingViewModel.insert(p);

@@ -56,7 +56,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static ArrayList<Team> all_the_teams = new ArrayList<>();
     public static ArrayList<Integer> teamsid = new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
-   private static Participant s = new Participant(999,"","instance", "instance", 999, 0,null,0 );
+   private static Participant s = new Participant(999,"","instance", "instance", 999, 0,null,0, null);
     public static int t_id=1;
     public static int allbowls=0;
     private static Test_table test= new Test_table("instance");

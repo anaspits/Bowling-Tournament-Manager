@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
@@ -35,6 +34,15 @@ public class Round_detail  implements Serializable {
 
     @ColumnInfo(name="score") //tou participant
     private int score;
+    @ColumnInfo(name="hdcp") //tou participant
+    private int hdcp;
+    @ColumnInfo(name="first") //tou participant
+    private int first;
+    @ColumnInfo(name="second") //tou participant
+    private int second;
+    @ColumnInfo(name="third") //tou participant
+    private int third;
+
 
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
@@ -53,9 +61,24 @@ public class Round_detail  implements Serializable {
         return score;
     }
 
-   /* public void setSys_roundDetailID(int sys_roundDetailID) {
+    public int getFirst() {
+        return first;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public int getThird() {
+        return third;
+    }
+/* public void setSys_roundDetailID(int sys_roundDetailID) {
         this.sys_roundDetailID = sys_roundDetailID;
     } */
+
+    public int getHdcp() {
+        return hdcp;
+    }
 
     public void setRound_uuid(String round_uuid) {
         this.round_uuid = round_uuid;
@@ -69,10 +92,29 @@ public class Round_detail  implements Serializable {
         this.score = score;
     }
 
-    public Round_detail(String round_uuid, String participantID, int score) {
+    public void setFirst(int first) {
+        this.first = first;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public void setThird(int third) {
+        this.third = third;
+    }
+
+    public void setHdcp(int hdcp) {
+        this.hdcp = hdcp;
+    }
+
+    public Round_detail(String round_uuid, String participantID, int first, int second, int third, int hdcp) {
         this.round_uuid = round_uuid;
         this.participantID = participantID;
-        this.score = score;
+        this.first = first;
+        this.second = second;
+        this.third = third;
+        this.hdcp=hdcp;
         //todo: mhpws 8elei k ton champid?
     }
 

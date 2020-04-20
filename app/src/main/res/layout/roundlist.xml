@@ -17,7 +17,7 @@
 
                 <TextView
                     android:id="@+id/txvNote"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:text="@string/player"
@@ -36,11 +36,11 @@
 
                 <EditText
                     android:id="@+id/txvHDCP"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:inputType="number"
-                    android:text="@string/hdcp"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textColor="#616161"
                     android:textSize="18sp"
@@ -58,11 +58,11 @@
 
                 <EditText
                     android:id="@+id/txv1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:autofillHints=""
-                    android:hint="@string/_1st"
+                    android:hint="0"
                     android:inputType="number"
                     android:textAlignment="center"
                     android:textColor="#616161"
@@ -79,11 +79,11 @@
 
                 <EditText
                     android:id="@+id/txv2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:autofillHints=""
-                    android:hint="@string/_2nd"
+                    android:hint="0"
                     android:inputType="number"
                     android:textAlignment="center"
                     android:textColor="#616161"
@@ -100,10 +100,10 @@
 
                 <EditText
                     android:id="@+id/txv3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
-                    android:hint="@string/_3rd"
+                    android:hint="0"
                     android:inputType="number"
                     android:textAlignment="center"
                     android:textColor="#616161"

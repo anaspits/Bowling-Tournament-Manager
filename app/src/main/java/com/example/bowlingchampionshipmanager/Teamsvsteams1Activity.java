@@ -23,7 +23,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=3; //todo : na to vazei o user
+    private static int rounds=3; //todo : na to vazei o user? all_the_teams.size*2
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -144,7 +144,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
                     for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(),pa.get(p).getBowlAvg()); //ftiaxnw to rd
+                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp() ); //ftiaxnw to rd //todo na kanw setScore to score tou paikth
                         bowlingViewModel.insert(rd);
                     }
                 }

@@ -65,11 +65,12 @@
             <Button
                 android:id="@+id/ivRowDelete"
                 android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-                android:src="@drawable/ic_delete"
+                android:background="@drawable/ic_delete"
 
-                android:tint="#9E9E9E" />
+                android:src="@drawable/ic_delete"
+                android:tint="#00FFFFFF" />
             <Button
                 android:id="@+id/ivRowSelect"
                 android:layout_width="wrap_content"

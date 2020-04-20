@@ -22,7 +22,7 @@ public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.Bowl
 
     private final LayoutInflater layoutInflater;
     private Context mContext;
-    private List<Round> mNotes;
+    public static List<Round> mNotes;
     private RoundListAdapter.OnDeleteClickListener onDeleteClickListener;
 
     public RoundListAdapter(Context context, RoundListAdapter.OnDeleteClickListener listener) {

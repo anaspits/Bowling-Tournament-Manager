@@ -24,4 +24,5 @@ public interface Round_detailDao {
     //step 1 ->BowlingViewModel
     @Query("SELECT * FROM round_detail")
     LiveData<List<Round_detail>> getAllRound_detail();
+
 }

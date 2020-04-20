@@ -124,6 +124,9 @@ public class BowlingViewModel extends AndroidViewModel {
         return bowlingDao.getAllPlayersofTeam3(teamid, chID);
     }
 
+    public LiveData<List<Participant>> getAllPlayersofOpositeTeam(String teamid, String chID) {
+        return bowlingDao.getAllPlayersofOpositeTeam(teamid, chID);
+    }
 
     public LiveData<List<Participant>> getParticipantByName(String fn, String ln){
         return bowlingDao.getParticipantByName(fn, ln);

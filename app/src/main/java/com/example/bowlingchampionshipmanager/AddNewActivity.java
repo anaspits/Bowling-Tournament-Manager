@@ -46,7 +46,7 @@ public class AddNewActivity extends AppCompatActivity {
                     String team = newteam.getText().toString();
                     String champ = newchamp.getText().toString();
                     String uuid = UUID.randomUUID().toString();
-                    Participant t = new Participant(0,uuid,name, "",Integer.parseInt(avg),Integer.parseInt(team),null,0 );
+                    Participant t = new Participant(0,uuid,name, "",Integer.parseInt(avg),Integer.parseInt(team),null,0,null );
 //todo: na ftia3w to date k to hdcp
                     /*axrista resultIntent.putExtra(NEW_ADDED, name);
                     resultIntent.putExtra("new_avg", avg);

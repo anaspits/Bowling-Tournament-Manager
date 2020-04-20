@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +23,11 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
 
         private LayoutInflater inflater;
         public static List<Participant> editModelArrayList;
-        public static int[] edited = {0,0,0};
+        public static String[] edited = {"0","0","0"}; //na svisw
+        public Round r;
+        public static ArrayList<Round_detail> rd = new ArrayList<>();
+        private static int position;
+
 
 
         //public RoundScoreListAdapter2(Context ctx, ArrayList<Participant> editModelArrayList){
@@ -45,7 +50,9 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
             if (editModelArrayList != null) {
                 Participant note = editModelArrayList.get(position);
                 //holder.setData(String.valueOf(note.getFullName()),note.getHdcp(), position);
+                holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
                 holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
+                this.position=position;
                 Log.d("print","yes");
             } else {
                 // Covers the case of data not being ready yet.
@@ -60,6 +67,25 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         notifyDataSetChanged();
 
     }
+
+    public void setBowls2(List<Participant> notes, Round round) { //todo test it
+        editModelArrayList = notes;
+        r = round;
+        for (int i = 0; i < editModelArrayList.size(); i++) {
+            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0, editModelArrayList.get(position).getHdcp());
+            rd.add(round_detail);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setRound(Round round) {
+        r=round;
+        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+            Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0,editModelArrayList.get(position).getHdcp() );
+            rd.add(round_detail);
+            //notifyDataSetChanged();
+        }
+    }
         @Override
         public int getItemCount() {
             if (editModelArrayList != null)
@@ -70,15 +96,16 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         class MyViewHolder extends RecyclerView.ViewHolder{
 
             protected EditText hdcp,first,second, third; //hdcp
-
+            protected TextView txvNote;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-
+                txvNote = itemView.findViewById(R.id.txvNote);
                 hdcp = (EditText) itemView.findViewById(R.id.txvHDCP);
                 first 	 = itemView.findViewById(R.id.txv1);
                 second 	 = itemView.findViewById(R.id.txv2);
                 third = itemView.findViewById(R.id.txv3);
+
 
                 hdcp.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -89,13 +116,12 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         if (hdcp.getText().toString().equals("")) {
-System.out.println("on change");
+System.out.println("hdcp keno");
                         } else {
                             editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
-                            System.out.println("on change 2: "+ hdcp.getText().toString());
-
-                            //score //todo mhpws na to kanw san sunarthsh allou?
-
+                            rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                            System.out.println("1 player "+editModelArrayList.get(getAdapterPosition()).getParticipantID()+" position "+getAdapterPosition()+editModelArrayList.get(getAdapterPosition()).getFullName()+ "hdcp "+editModelArrayList.get(getAdapterPosition()).getHdcp() );
+                            System.out.println("2 player "+editModelArrayList.get(getAdapterPosition()).getUuid()+" position "+position+" rd "+rd.get(getAdapterPosition()).getParticipantID()+ "hdcp "+ rd.get(getAdapterPosition()).getHdcp()); //fixme problem me to position
 
                         }
                     }
@@ -113,11 +139,12 @@ System.out.println("on change");
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (hdcp.getText().toString().equals("")) {
+                        if (first.getText().toString().equals("")) {
                             System.out.println("on change");
                         } else {
-                           //todo na kanw class pou na ta krataei auta?
-                            edited[0]= Integer.parseInt(first.getText().toString());
+                            System.out.println("on change "+first.getText().toString());
+                            //edited[0]= first.getText().toString();
+                            rd.get(getAdapterPosition()).setFirst(Integer.parseInt(first.getText().toString()));
                         }
                     }
                     @Override
@@ -134,10 +161,11 @@ System.out.println("on change");
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (hdcp.getText().toString().equals("")) {
+                        if (second.getText().toString().equals("")) {
                             System.out.println("on change");
                         } else {
-                            edited[1]= Integer.parseInt(second.getText().toString());
+                           // edited[1]= second.getText().toString();
+                            rd.get(getAdapterPosition()).setSecond(Integer.parseInt(second.getText().toString()));
                         }
                     }
                     @Override
@@ -154,10 +182,11 @@ System.out.println("on change");
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (hdcp.getText().toString().equals("")) {
+                        if (third.getText().toString().equals("")) {
                             System.out.println("on change");
                         } else {
-                            edited[2]= Integer.parseInt(third.getText().toString());
+                            //edited[2]= third.getText().toString();
+                            rd.get(getAdapterPosition()).setThird(Integer.parseInt(third.getText().toString()));
                         }
                     }
                     @Override
