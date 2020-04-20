@@ -197,7 +197,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                     //int a = t.get(0).getSys_teamID();
                     //details.append(" rd size= "+String.valueOf(t.size())+"\n");
                     System.out.println("here rd size ="+t.size());
-                    System.out.println(" td 1 " +t.get(0).getParticipantID()+" + "+t.get(0).getRound_uuid());
+                    System.out.println(" td 1 " +t.get(0).getParticipant_uuid()+" + "+t.get(0).getRound_uuid());
                 } else{
                     details.append("wtf");
                 }

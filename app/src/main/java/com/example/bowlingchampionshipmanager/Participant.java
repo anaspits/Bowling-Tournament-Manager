@@ -381,13 +381,13 @@ Create1Activity.t_id++; //axristo
             System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
             System.out.println("Cd: ch " + (i+1) +" tema "+  cd.getSys_teamID());
 
-            Team_detail td = new Team_detail(t.sys_teamID,p.getParticipantID());
+            Team_detail td = new Team_detail(t.sys_teamID,p.getParticipant_uuid());
             bowlingViewModel.insert(td);
-            System.out.println("Td: p " + td.getParticipantID() +" team "+  td.getTeamID());
+            System.out.println("Td: p " + td.getParticipant_uuid() +" team "+  td.getTeamID());
 
-            Team_detail td2 = new Team_detail(t.getSys_teamID(),p.getPartner().getParticipantID());
+            Team_detail td2 = new Team_detail(t.getSys_teamID(),p.getPartner().getParticipant_uuid());
             bowlingViewModel.insert(td2);
-            System.out.println("Td2 " + td2.getParticipantID() +" "+  td2.getTeamID()); */
+            System.out.println("Td2 " + td2.getParticipant_uuid() +" "+  td2.getTeamID()); */
 
         }
         return bowlers;

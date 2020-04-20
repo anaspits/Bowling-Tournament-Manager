@@ -8,7 +8,7 @@ import androidx.room.Index;
 
 import java.io.Serializable;
 //axristo? //todo na svisw
-@Entity(tableName = "round_detail",primaryKeys = {"round_uuid","participant_uuid"}, foreignKeys = {
+@Entity(tableName = "round_team",primaryKeys = {"round_uuid","team_uuid"}, foreignKeys = {
         @ForeignKey(entity = Round.class,
                 parentColumns = "round_uuid",
                 childColumns = "round_uuid"),

@@ -174,9 +174,17 @@ team1.setText("Team "+t.getTeamName() );
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setBowls(part);
-                System.out.println("r id here "+r.getFroundid());
-                //blistAdapter.setRound(rlistAdapter.mNotes.get(0)); //fixme
-                blistAdapter.setRound(r); //fixme
+//                System.out.println("r id here "+r.getFroundid());
+                blistAdapter.setRound(rlistAdapter.mNotes.get(0)); //fixme
+               // blistAdapter.setRound(r); //fixme
+                r=rlistAdapter.mNotes.get(0);
+                  ArrayList<Round_detail> rd = new ArrayList<>();
+                for (int i = 0; i < part.size(); i++) {
+                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp() );
+                    System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
+                    rd.add(round_detail);
+                }
+                blistAdapter.setRound_detail(rd);
                 System.out.println("part size "+part.size());
                 part2=part;
                 //blistAdapter.returnParticiapants(part);
@@ -298,10 +306,12 @@ team1.setText("Team "+t.getTeamName() );
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
             // team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
             System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
-            System.out.println(" emda size " +RoundScoreListAdapter2.editModelArrayList.size()+" "+ RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
+            System.out.println(" emda player "  +" id "+RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()+" hdcp "+RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
-            bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+           // bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+           // bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+            System.out.println(" rd size " +RoundScoreListAdapter2.rd.size()+" rid "+RoundScoreListAdapter2.rd.get(i).getRound_uuid()+" pid "+RoundScoreListAdapter2.rd.get(i).getParticipant_uuid()+" h "+ RoundScoreListAdapter2.rd.get(i).getHdcp() +" 1st "+ RoundScoreListAdapter2.rd.get(i).getFirst()+" 2nd "+ RoundScoreListAdapter2.rd.get(i).getSecond()+" 3rd "+ RoundScoreListAdapter2.rd.get(i).getThird());
+
            /* first1.add(Integer.parseInt(RoundScoreListAdapter2.edited[0])); //to first tou paikth i //todo ta 8elw gia sugkriseis me tous antipalous
             second1.add(Integer.parseInt(RoundScoreListAdapter2.edited[1])); //to second tou paikth i
             third1.add(Integer.parseInt(RoundScoreListAdapter2.edited[2])); */
@@ -325,7 +335,13 @@ team1.setText("Team "+t.getTeamName() );
        // button_text =((Button)View).getText().toString();
 
         //todo na mhn mporei na patithei an den pathsw prwta calculate
-
+        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+            System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+            System.out.println(" paikths " +i+" "+  RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()+ " hdcp "+RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+            bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+            System.out.println(" rd: "+i+" rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
+        }
 
 //round
         System.out.println(" lol dokimh " + RoundListAdapter.mNotes.get(0).getFroundid() +" t1 " +RoundListAdapter.mNotes.get(0).getTeam1ID()+" t2 "+RoundListAdapter.mNotes.get(0).getTeam2ID());

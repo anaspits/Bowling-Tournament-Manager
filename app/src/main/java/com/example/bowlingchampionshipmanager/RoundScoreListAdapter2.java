@@ -52,6 +52,14 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 //holder.setData(String.valueOf(note.getFullName()),note.getHdcp(), position);
                 holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
                 holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
+                if (String.valueOf(rd.get(position).getFirst())!=null){
+                holder.first.setText(String.valueOf(rd.get(position).getFirst()));}
+                if (String.valueOf(rd.get(position).getSecond())!=null) {
+                    holder.second.setText(String.valueOf(rd.get(position).getSecond()));
+                }
+                if (String.valueOf(rd.get(position).getThird())!=null) {
+                    holder.third.setText(String.valueOf(rd.get(position).getThird()));
+                }
                 this.position=position;
                 Log.d("print","yes");
             } else {
@@ -78,12 +86,16 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         }
     }
 
+    public void setRound_detail(ArrayList<Round_detail> roundD) {
+            rd=roundD;
+    }
     public void setRound(Round round) {
         r=round;
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
-            Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0,editModelArrayList.get(position).getHdcp() );
+            Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0,editModelArrayList.get(i).getHdcp() );
+            System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ editModelArrayList.get(i).getFN());
             rd.add(round_detail);
-            //notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
         @Override
@@ -120,9 +132,8 @@ System.out.println("hdcp keno");
                         } else {
                             editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
                             rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
-                            System.out.println("1 player "+editModelArrayList.get(getAdapterPosition()).getParticipantID()+" position "+getAdapterPosition()+editModelArrayList.get(getAdapterPosition()).getFullName()+ "hdcp "+editModelArrayList.get(getAdapterPosition()).getHdcp() );
-                            System.out.println("2 player "+editModelArrayList.get(getAdapterPosition()).getUuid()+" position "+position+" rd "+rd.get(getAdapterPosition()).getParticipantID()+ "hdcp "+ rd.get(getAdapterPosition()).getHdcp()); //fixme problem me to position
-
+                            System.out.println("1)HDCP: player "+editModelArrayList.get(getAdapterPosition()).getUuid()+" "+getAdapterPosition()+editModelArrayList.get(getAdapterPosition()).getFullName()+" position "+getAdapterPosition()+ " hdcp "+editModelArrayList.get(getAdapterPosition()).getHdcp() );
+                            System.out.println("2)HDCP rd: player "+rd.get(getAdapterPosition()).getParticipant_uuid()+" position "+getAdapterPosition()+" hdcp "+ rd.get(getAdapterPosition()).getHdcp() +" 1st " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getThird());
                         }
                     }
                     @Override
@@ -145,6 +156,8 @@ System.out.println("hdcp keno");
                             System.out.println("on change "+first.getText().toString());
                             //edited[0]= first.getText().toString();
                             rd.get(getAdapterPosition()).setFirst(Integer.parseInt(first.getText().toString()));
+                            System.out.println("1)FIRST: player "+editModelArrayList.get(getAdapterPosition()).getUuid()+" "+getAdapterPosition()+editModelArrayList.get(getAdapterPosition()).getFullName()+" position "+getAdapterPosition()+ " hdcp "+editModelArrayList.get(getAdapterPosition()).getHdcp() );
+                            System.out.println("2)FIRST rd: player "+rd.get(getAdapterPosition()).getParticipant_uuid()+" position "+getAdapterPosition()+" hdcp "+ rd.get(getAdapterPosition()).getHdcp() +" 1st " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getThird());
                         }
                     }
                     @Override

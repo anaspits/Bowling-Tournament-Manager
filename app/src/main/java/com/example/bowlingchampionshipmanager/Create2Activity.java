@@ -117,8 +117,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
                     bowlingViewModel.update(team.get(i));
                     ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
                    /* for (int j=0; j<t.size();j++) {
-                        System.out.println("Td: teamid "+team.get(i).getSys_teamID()+" pid "+t.get(j).getParticipantID());
-                        Team_detail td = new Team_detail(team.get(i).getSys_teamID(),t.get(j).getParticipantID());
+                        System.out.println("Td: teamid "+team.get(i).getSys_teamID()+" pid "+t.get(j).getParticipant_uuid());
+                        Team_detail td = new Team_detail(team.get(i).getSys_teamID(),t.get(j).getParticipant_uuid());
                         bowlingViewModel.insert(td);
                     } */ /*
 
@@ -135,7 +135,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
         bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> team) {
-                //System.out.println("sum = id = "+team.get(0).getParticipantID()); //
+                //System.out.println("sum = id = "+team.get(0).getParticipant_uuid()); //
             }
         });
        /* bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
@@ -150,7 +150,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
                     ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
                     for (int j=0; j<t.size();j++) {
-                        Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipantID());
+                        Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipant_uuid());
                         bowlingViewModel.insert(td);
                     }
                 }
@@ -163,7 +163,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
             ArrayList<Participant> t = all_the_teams.get(i).getTeammates();
             for (int j=0; j<t.size();j++) {
-                Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipantID());
+                Team_detail td = new Team_detail(all_the_teams.get(i).getSys_teamID(),t.get(j).getParticipant_uuid());
                 bowlingViewModel.insert(td);
             }
         }*/

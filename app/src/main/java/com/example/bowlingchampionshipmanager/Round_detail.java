@@ -30,7 +30,7 @@ public class Round_detail  implements Serializable {
 
     @ColumnInfo(name="participant_uuid")
     @NonNull
-    private String participantID;
+    private String participant_uuid;
 
     @ColumnInfo(name="score") //tou participant
     private int score;
@@ -53,8 +53,8 @@ public class Round_detail  implements Serializable {
         return round_uuid;
     }
 
-    public String getParticipantID() {
-        return participantID;
+    public String getParticipant_uuid() {
+        return participant_uuid;
     }
 
     public int getScore() {
@@ -84,8 +84,8 @@ public class Round_detail  implements Serializable {
         this.round_uuid = round_uuid;
     }
 
-    public void setParticipantID(String participantID) {
-        this.participantID = participantID;
+    public void setParticipant_uuid(String participant_uuid) {
+        this.participant_uuid = participant_uuid;
     }
 
     public void setScore(int score) {
@@ -108,9 +108,9 @@ public class Round_detail  implements Serializable {
         this.hdcp = hdcp;
     }
 
-    public Round_detail(String round_uuid, String participantID, int first, int second, int third, int hdcp) {
+    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp) {
         this.round_uuid = round_uuid;
-        this.participantID = participantID;
+        this.participant_uuid = participant_uuid;
         this.first = first;
         this.second = second;
         this.third = third;

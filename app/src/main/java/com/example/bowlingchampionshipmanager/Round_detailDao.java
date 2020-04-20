@@ -25,4 +25,7 @@ public interface Round_detailDao {
     @Query("SELECT * FROM round_detail")
     LiveData<List<Round_detail>> getAllRound_detail();
 
+    @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid AND round_uuid=:rid")
+    LiveData<Round_detail> getRound_detail(String pid, String rid);
+
 }

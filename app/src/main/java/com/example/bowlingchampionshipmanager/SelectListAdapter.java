@@ -73,7 +73,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
 
     public void setChamp(Championship champ) {
        ch=champ;
-       System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
+       System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid()); //fixme den doulevei, na ta valw se list
        bowlingViewModel.getNextRoundofTeamofChamp( mNotes.get(position).getUuid(),ch.getUuid()).observe((LifecycleOwner) mContext, new Observer<List<Round>>() {
                         @Override
                         public void onChanged(List<Round> ro) {
@@ -116,7 +116,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                 public void onClick(View v) {
                     Intent intent= new Intent(mContext,RoundActivity.class);
                     if (round!= null) {
-                        System.out.println("lol Sel Current Round of team " + mNotes.get(position).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
+                        System.out.println("lol Sel Current Round of team " + mNotes.get(mPosition).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
                     } else {
                         System.out.println("sel round ERROR");
                     }
