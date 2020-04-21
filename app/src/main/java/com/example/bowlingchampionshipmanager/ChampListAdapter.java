@@ -70,13 +70,14 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
 
         private TextView noteItemView,teamItemView;
         private int mPosition;
-        private Button btDelete, btEdit;
+        private Button btDelete, btEdit,btSel;
 
         public BowlingViewHolder(@NonNull View itemView) {
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
             btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
+            btSel 	 = itemView.findViewById(R.id.ivRowSelect);
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
@@ -103,6 +104,16 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                     if (onDeleteClickListener != null) {
                         onDeleteClickListener.OnDeleteClickListener(mNotes.get(mPosition));
                     }
+                }
+            });
+            btSel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent(mContext,SelectTeamActivity.class);
+                    intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
+                    intent.putExtra("champ", mNotes.get(mPosition));
+                    //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
+                    mContext.startActivity(intent);
                 }
             });
         }

@@ -54,12 +54,21 @@ public class SelectTeamActivity extends AppCompatActivity {
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bowlingViewModel.getAllTeamsofChamp2(champuuid).observe(this, new Observer<List<ActiveChampsTuple>>() {
+        //PAS ROUND PART 1
+       /* bowlingViewModel.getAllTeamsofChamp2(champuuid).observe(this, new Observer<List<ActiveChampsTuple>>() {
             @Override
             public void onChanged(List<ActiveChampsTuple> t) {
                 List<Team> a = t.get(0).getT();
                 System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT().size());
                 blistAdapter.setSelected(a);
+                blistAdapter.setChamp(championship);
+            }
+        });
+    } doulevei*/
+        bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() { //todo na epistrefei tis omades pou den exoun teleiwsei akoma me ta rounds
+            @Override
+            public void onChanged(List<Team> t) {
+                blistAdapter.setSelected(t);
                 blistAdapter.setChamp(championship);
             }
         });

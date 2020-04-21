@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "championship_detail",primaryKeys = {"champ_uuid","team_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
@@ -31,6 +30,9 @@ public class Championship_detail {
     @NonNull
     private String sys_teamID;
 
+    @ColumnInfo(name="active_flag") //0:energo :teleiwse
+    private int active_flag;
+
   /*  public String getSys_champDetailID() {
         return sys_champDetailID;
     } */
@@ -43,7 +45,10 @@ public class Championship_detail {
         return sys_teamID;
     }
 
-   /* public void setSys_champDetailID(String sys_champDetailID) {
+    public int getActive_flag() {
+        return active_flag;
+    }
+/* public void setSys_champDetailID(String sys_champDetailID) {
         this.sys_champDetailID = sys_champDetailID;
     }*/
 
@@ -55,9 +60,14 @@ public class Championship_detail {
         this.sys_champID = sys_champID;
     }
 
-    public Championship_detail(String sys_champID, String sys_teamID) {
+    public void setActive_flag(int active_flag) {
+        this.active_flag = active_flag;
+    }
+
+    public Championship_detail(String sys_champID, String sys_teamID, int active_flag) {
         this.sys_teamID = sys_teamID;
         this.sys_champID = sys_champID;
+        this.active_flag=active_flag;
     }
 
 }

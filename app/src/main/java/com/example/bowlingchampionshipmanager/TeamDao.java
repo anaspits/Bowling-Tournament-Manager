@@ -52,7 +52,7 @@ public interface TeamDao { //gia ta Team
     //@Query("SELECT team.teamid, team.fteamID, team.team_name, team.score, team.start_date, team.end_date, team.vs, team.champID, team.active_flag  //vash 3
     //@Query("SELECT team.teamid, team.fteamID, team.team_name, team.score, team.start_date, team.end_date, team.vs, team.champID, team.active_flag FROM team INNER JOIN championship_detail ON team.teamid=championship_detail.sys_teamID WHERE championship_detail.sys_champID=:champid") //vash 3
 
-    @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid") //test panw
+    @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid ORDER BY team.fteamID") //test panw
     LiveData<List<Team>> getAllTeamsofChamp3( String champid); //plan B
 
     @Transaction

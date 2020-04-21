@@ -25,4 +25,7 @@ public interface Championship_detailDao {
     @Query("SELECT * FROM championship_detail")
     LiveData<List<Championship_detail>> getAllChamp_detail();
 
+    @Query("SELECT * FROM championship_detail WHERE team_uuid=:tid AND champ_uuid=:chid")
+    LiveData<Championship_detail> getChamp_detailofTeamandChamp(String tid, String chid);
+
 }
