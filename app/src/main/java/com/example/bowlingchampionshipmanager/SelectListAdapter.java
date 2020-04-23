@@ -122,6 +122,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //todo if type = tvst else if type=pins
                     Intent intent= new Intent(mContext,RoundActivity.class);
 
                         //PAS ROUND PART 3//

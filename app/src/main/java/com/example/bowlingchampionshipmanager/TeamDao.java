@@ -27,14 +27,17 @@ public interface TeamDao { //gia ta Team
 
 
     // fetch step 1 -> BowlViwModel //mipws na to valw sto edit?
-    @Query("SELECT * FROM team WHERE sys_teamID=:teamID")
+    @Query("SELECT * FROM team WHERE sys_teamID=:teamID") //vash 2
     LiveData<Team> getTeam(int teamID);
+
+    @Query("SELECT * FROM team WHERE team_uuid=:teamID") //vash 3
+    LiveData<Team> getTeamfromUUID(String teamID);
 
     @Query("SELECT * FROM team WHERE sys_teamID=:teamID")
     Team getTeam2(int teamID);
 
     //step 1 ->BowlingViewModel //vash1
-    @Query("SELECT * FROM team WHERE champID=:champid ORDER BY sys_teamID") //to order xreiazetai? //oles tis omades tou champ
+    @Query("SELECT * FROM team WHERE champID=:champid ORDER BY sys_teamID") //to order xreiazetai? //oles tis omades tou champ //vash 2
     LiveData<List<Team>> getAllTeamsofChamp(int champid);
 
    /* //step 1 ->BowlingViewModel
@@ -54,6 +57,10 @@ public interface TeamDao { //gia ta Team
 
     @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid ORDER BY team.fteamID") //test panw
     LiveData<List<Team>> getAllTeamsofChamp3( String champid); //plan B
+
+    @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid AND championship_detail.active_flag>0 ORDER BY team.fteamID")
+    LiveData<List<Team>> getActiveTeamsofChamp(String champid);
+
 
     @Transaction
     @Query("SELECT * FROM championship WHERE champ_uuid=:champuuid") //todo: na valw order

@@ -282,6 +282,10 @@ public class BowlingViewModel extends AndroidViewModel {
         return teamDao.getTeam2(teamID);
     }
 
+    public LiveData<Team> getTeamfromUUID(String teamID) {
+        return teamDao.getTeamfromUUID(teamID);
+    }
+
     public LiveData<List<Team>> getAllTeamsofChamp(int champid) {
         return teamDao.getAllTeamsofChamp(champid);
     }
@@ -297,6 +301,9 @@ public class BowlingViewModel extends AndroidViewModel {
         return teamDao.getAllTeamsofChamp3(champid);
     }
 
+    public LiveData<List<Team>> getActiveTeamsofChamp(String champid){
+        return teamDao.getActiveTeamsofChamp(champid);
+    }
     LiveData<List<TeammatesTuple>>  getAllPlayersofTeam3(String s){
         return teamDao.getAllPlayersofTeam3(s);
     }
@@ -535,6 +542,14 @@ public  void insert (Team_detail t){
 
     public LiveData<List<Championship_detail>> getAllChamp_detail(){
         return cdDao.getAllChamp_detail();
+    }
+
+    public LiveData<List<Championship_detail>>getChamp_detailofChamp(String chid){
+        return cdDao.getChamp_detailofChamp(chid);
+    }
+
+    public LiveData<List<Championship_detail>>getChamp_detailofChampofFinnishedTeams(String chid){
+        return cdDao.getChamp_detailofChampofFinnishedTeams(chid);
     }
 
     public LiveData<Championship_detail> getChamp_detailofTeamandChamp(String tid, String chid){

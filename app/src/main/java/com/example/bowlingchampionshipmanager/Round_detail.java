@@ -43,7 +43,7 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="third") //tou participant
     private int third;
 
-//todo na valw kai type?
+//todo na valw kai type
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
     } */

@@ -23,7 +23,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=3; //todo : na to vazei o user? all_the_teams.size*2
+    private static int rounds=3; //todo : na to vazei o user? all_the_teams meta3u tous x2
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -31,6 +31,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static String champuuid;
     public String teamuuid;
     public Championship championship;
+    public List<Championship_detail> cd;
     public static List<Round> rofTeam; //axristo
     public static List<Round> test;
     private static String firstRounduud;
@@ -59,17 +60,30 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
- /*       //todo: na kanw to championship update to status se "started" h "in progress" h kati allo analogo
-        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() { //fixme: leitourgei perierga
+
+        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship c) {
                 System.out.println(" edw to ch einai "+c.getStatus());
                 System.out.println(" edw to ch to 8etw ws started");
-                c.setStatus("started");
-                bowlingViewModel.update(c);
+                championship=c;
+                championship.setStatus("started");
+                //bowlingViewModel.update(c);
                 System.out.println(" edw to ch to 8etw egine "+c.getStatus());
             }
-        }); */
+        });
+
+
+ //pairnaw sto flag ka8e omadas tou champ ton arithom twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0
+        bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() {
+            @Override
+            public void onChanged(List<Championship_detail> c) {
+                cd=c;
+                for(int i=0;i<c.size();i++){
+                    c.get(i).setActive_flag(rounds);
+                }
+            }
+        });
 
         if (all_the_teams.size()!=0) {
             roundRobin(all_the_teams.size(), rounds);
@@ -244,6 +258,13 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
     public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+
+        System.out.println("ch status ="+championship.getStatus());
+        bowlingViewModel.update(championship);
+        for(int i=0;i<cd.size();i++){
+            bowlingViewModel.update(cd.get(i));
+            System.out.println("cd flag="+cd.get(i).getActive_flag()+" me size "+cd.size());
+        }
 
         System.out.println("rofteam 2 ="+rofTeam.size()); //rofTeam=3
         if(test!=null) { //edw test.size = 3

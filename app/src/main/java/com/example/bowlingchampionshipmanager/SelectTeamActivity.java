@@ -11,9 +11,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -65,7 +62,8 @@ public class SelectTeamActivity extends AppCompatActivity {
             }
         });
     } doulevei*/
-        bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() { //todo na epistrefei tis omades pou den exoun teleiwsei akoma me ta rounds
+        //bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+        bowlingViewModel.getActiveTeamsofChamp(champuuid).observe(this, new Observer<List<Team>>(){
             @Override
             public void onChanged(List<Team> t) {
                 blistAdapter.setSelected(t);

@@ -42,6 +42,7 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
  System.out.println("all size "+all_the_teams.size());
         Button button_imp  = (Button) findViewById(R.id.button_import);
 
+        //na svisw
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
         blistAdapter = new BowlingListAdapter(this, this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

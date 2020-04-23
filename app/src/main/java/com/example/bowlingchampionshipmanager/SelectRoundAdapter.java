@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
         if (mNotes != null) {
             Round note = mNotes.get(position);
             this.position=position;
-            holder.setData("t1:"+note.getTeam1ID()+" VS ","t2:"+note.getTeam2ID(), position);
+            holder.setData("TEAM:"+note.getTeam1ID()+" VS ","TEAM:"+note.getTeam2ID(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -102,7 +103,8 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                     intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
                     intent.putExtra("selTeam",team);
                     intent.putExtra("champ", ch);
-                    mContext.startActivity(intent);
+                    //mContext.startActivity(intent);
+                    ((Activity)mContext).startActivityForResult(intent, RoundActivity.UPDATE_SCORE_REQUEST_CODE);
                 }
             });
         }

@@ -64,10 +64,9 @@ public class Championship_detail {
         this.active_flag = active_flag;
     }
 
-    public Championship_detail(String sys_champID, String sys_teamID, int active_flag) {
+    public Championship_detail(String sys_champID, String sys_teamID) {
         this.sys_teamID = sys_teamID;
         this.sys_champID = sys_champID;
-        this.active_flag=active_flag;
     }
 
 }

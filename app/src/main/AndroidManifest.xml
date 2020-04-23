@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RoundEditScoreActivity"></activity>
+        <activity android:name=".PinsRoundActivity"></activity>
+        <activity android:name=".RoundEditScoreActivity" />
         <activity android:name=".SelectTeamActivity" />
         <activity android:name=".EditTeamActivity" />
         <activity android:name=".EditChampActivity" />
