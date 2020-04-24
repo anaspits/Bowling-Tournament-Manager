@@ -417,7 +417,7 @@ team1.setText("Team "+t.getTeamName() );
         super.onActivityResult(requestCode, resultCode, resultData);
 
         System.out.println("GOT from editrounscore: ");
-       // if (requestCode == UPDATE_SCORE_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == UPDATE_SCORE_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle bundleObject = resultData.getExtras();
             if (bundleObject != null) {
                 t = (Team) bundleObject.getSerializable("selTeam");
@@ -442,7 +442,7 @@ team1.setText("Team "+t.getTeamName() );
                         }
                     });
                 }
-          //  }
+            }
         }
     }
 
