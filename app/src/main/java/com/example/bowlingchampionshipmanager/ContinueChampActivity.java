@@ -42,8 +42,8 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
         eViewModel= ViewModelProviders.of(this).get(EditViewModel.class);
 
 
-        bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
-       // bowlingViewModel.getActiveChamp3().observe(this, new Observer<List<Championship>>() {
+       // bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+       bowlingViewModel.getActiveChamp3().observe(this, new Observer<List<Championship>>() {
             @Override
             public void onChanged(List<Championship> c) {
                 clistAdapter.setChamp(c);

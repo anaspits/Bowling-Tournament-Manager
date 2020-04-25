@@ -48,10 +48,10 @@ public interface ChampDao { //gia ta Team
 
     /////////////////////////////
 
-    @Query("SELECT MIN(fchampID) FROM championship WHERE (status='created' || status='started')") //vash 2 //malon axristo
+    @Query("SELECT MIN(fchampID) FROM championship WHERE (status='created' OR status='started')") //vash 2 //malon axristo
     LiveData<List<Integer>> getActiveChamp();
 
-    @Query("SELECT * FROM championship WHERE (status='created' || status like 'started')") //vash 3
+    @Query("SELECT * FROM championship WHERE (status='created' OR status='started')") //vash 3
     LiveData<List<Championship>> getActiveChamp3();
 
 }

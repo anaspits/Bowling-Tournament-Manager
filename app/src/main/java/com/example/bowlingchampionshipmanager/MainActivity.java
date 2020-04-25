@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this,ContinueChampActivity.class);
             startActivity(i);
         }  else if (button_text.equals("Exit")){
-            finish();
+            finish(); //todo na kleinei olh thn efarmogh, oxi mono to activity
         }
 
     }

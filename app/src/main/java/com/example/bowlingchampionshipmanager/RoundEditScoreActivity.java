@@ -31,6 +31,7 @@ public class RoundEditScoreActivity extends AppCompatActivity {
     private RoundScoreListAdapterTeam2 blistAdapter2;
     public String champuuid;
     public Championship championship;
+    public int calc_pressed=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,8 @@ public class RoundEditScoreActivity extends AppCompatActivity {
         sum3rd2=findViewById(R.id.sum3rd2);
         txtscore1=findViewById(R.id.score1);
         txtscore2=findViewById(R.id.score2);
-
+        calc_pressed=0;
+        System.out.println("arxh edit calc_pressed="+calc_pressed);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -257,40 +259,50 @@ team2=te;
         txtscore2.setText("Score: "+pontoi2); //todo na valw koumpi sunolo (tou sum)
         r.setScore1(score1); //todo na rwtisw
         r.setScore2(score2);
-        //bowlingViewModel.update(r); //fixme?
+        //bowlingViewModel.update(r); //todo svisto
+        calc_pressed=1;
     }
     public void openNewActivity(View View) {
         //String button_text;
         // button_text =((Button)View).getText().toString();
+        System.out.println("calc_pressed=" + calc_pressed);
+        if (calc_pressed == 1) {
+            System.out.println("team1 score " + team1.getScore() + " sid " + team1.getSys_teamID());//todo na rwthsw
+            System.out.println("team2 score " + team2.getScore() + " sid " + team2.getSys_teamID());
+            bowlingViewModel.update(team1);//todo na kanw update sthn RoundActivity->openNewActivity k exit
+            bowlingViewModel.update(team2);
+            //todo na mhn mporei na patithei an den pathsw prwta calculate
+            for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+                System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+                System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-        System.out.println("team1 score "+team1.getScore()+" sid "+team1.getSys_teamID());//todo na rwthsw
-        System.out.println("team2 score "+team2.getScore()+" sid "+team2.getSys_teamID());
-        bowlingViewModel.update(team1);
-        bowlingViewModel.update(team2);
-        //todo na mhn mporei na patithei an den pathsw prwta calculate
-        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
-            System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
-            System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+                bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+                System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
 
-            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
-            bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
-            System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
+                bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
+                bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
+            }
 
-            bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
-            bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
-        }
-
-        //test
-        if(team2!=null){ System.out.println(" sto edit, tema2 " + team2.getFTeamID());}
+            //test
+            if (team2 != null) {
+                System.out.println(" sto edit, tema2 " + team2.getFTeamID());
+            }
 
             Intent resultIntent = new Intent();
             resultIntent.putExtra("selTeam", (Serializable) team1); //todo na kanw update edw to round me ta nea scores
-        resultIntent.putExtra("team2", (Serializable) team2);
-        resultIntent.putExtra("round2", (Serializable) r);
-        setResult(RESULT_OK, resultIntent);
+            resultIntent.putExtra("team2", (Serializable) team2);
+            resultIntent.putExtra("round2", (Serializable) r);
+            setResult(RESULT_OK, resultIntent);
             finish();
 
+        }else{
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to calculate the score first",
+                    Toast.LENGTH_LONG).show();
         }
+    }
 
     public void exitActivity(View View) {
 finish();

@@ -816,11 +816,11 @@
                     android:layout_marginTop="16dp"
                     android:background="#4CAF50 "
                     android:onClick="openNewActivity"
-                    android:text="@string/next"
+                    android:text="@string/next_round"
                     android:textColor="#F9F9F9"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    tools:text="Next"/>
+                    tools:text="Next Round"/>
 
                 <Button
                     android:id="@+id/exitRound_btn"
@@ -834,9 +834,10 @@
                     android:layout_marginLeft="20dp"
                     android:background="#4CAF50 "
                     android:onClick="exitActivity"
-                    android:text="@string/exit"
+                    android:text="Save and Exit"
                     android:textColor="#F9F9F9"
-                    tools:text="Exit" />
+                    tools:text="Save and Exit"
+                    android:layout_marginStart="20dp" />
 
                 <Button
                     android:id="@+id/cancelRound_btn"
@@ -850,8 +851,9 @@
                     android:background="#4CAF50 "
                     android:onClick="cancel"
                     android:textColor="#F9F9F9"
-                    android:text="Cancel"
-                    tools:text="Cancel" />
+                    android:text="@string/cancel"
+                    tools:text="Cancel"
+                    android:layout_marginStart="20dp" />
 
             </RelativeLayout>
         </LinearLayout>

@@ -32,7 +32,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="696dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,25 @@
                 app:layout_constraintVertical_bias="1.0"
                 tools:listitem="@layout/list2" />
 
+
+            <Button
+                android:id="@+id/exitRound_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="#4CAF50 "
+                android:onClick="exitActivity"
+                android:text="Save and Exit"
+                android:textColor="#F9F9F9"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                tools:text="Save and Exit" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </ScrollView>
 

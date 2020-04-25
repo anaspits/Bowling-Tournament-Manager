@@ -21,17 +21,18 @@ import java.util.List;
 
 //TODO /DONE!/ NA KANW EDITROUND H' mporw na xrhshmpoihsw to round pou pernaw apo to select, meta na parw th lista apo getRoundsofTeam, na to psa3w ekei mesa kai na vrw to epomeno round kai na to perasw sto epomeno Round
 //TODO NA FTIAXW TA KOUMPIA EXPPORT KAI EXIT
-public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener{
+public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener {
     public static final int UPDATE_SCORE_REQUEST_CODE = 10;
+    public static int save_pressed = 0;
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     public static ArrayList<ArrayList> vs;//list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
-   // public static ArrayList<Team> temp3; //lista me omades opou paizoun antipales oi omades se seiriakes theseis, dld 0-1, 2-3 klp
+    // public static ArrayList<Team> temp3; //lista me omades opou paizoun antipales oi omades se seiriakes theseis, dld 0-1, 2-3 klp
     private static TextView textTitle;
     private static Button nextRound_btn, exitRound_btn;
-    private static EditText txvHDCP,txv1,txv2,txv3;
-    private static TextView player_view, hdcp_view, sumHDCP,sum1st,sum2nd,sum3rd,sumHDCP2,sum1st2,sum2nd2,sum3rd2;
+    private static EditText txvHDCP, txv1, txv2, txv3;
+    private static TextView player_view, hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd, sumHDCP2, sum1st2, sum2nd2, sum3rd2;
     private static TextView first;
     private static TextView second;
     private static TextView third;
@@ -85,62 +86,66 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         second2=(TextView) findViewById(R.id.second2_view);
         third2=(TextView) findViewById(R.id.third2_view); */
 
-        textTitle= findViewById(R.id.textTitle);
-        nextRound_btn= findViewById(R.id.nextRound_btn);
-        exitRound_btn =findViewById(R.id.exitRound_btn);
+        textTitle = findViewById(R.id.textTitle);
+        nextRound_btn = findViewById(R.id.nextRound_btn);
+        exitRound_btn = findViewById(R.id.exitRound_btn);
 
         //ROUNDEDITSCORE gia participants ths kathe omadas PART 0//
-        team1=(TextView) findViewById(R.id.team1);
-        team2=(TextView) findViewById(R.id.team2);
-        sumHDCP =findViewById(R.id.sumHDCP);
-        sum1st=findViewById(R.id.sum1st);
-        sum2nd=findViewById(R.id.sum2nd);
-        sum3rd=findViewById(R.id.sum3rd);
-        sumHDCP2 =findViewById(R.id.sumHDCP2);
-        sum1st2=findViewById(R.id.sum1st2);
-        sum2nd2=findViewById(R.id.sum2nd2);
-        sum3rd2=findViewById(R.id.sum3rd2);
+        team1 = (TextView) findViewById(R.id.team1);
+        team2 = (TextView) findViewById(R.id.team2);
+        sumHDCP = findViewById(R.id.sumHDCP);
+        sum1st = findViewById(R.id.sum1st);
+        sum2nd = findViewById(R.id.sum2nd);
+        sum3rd = findViewById(R.id.sum3rd);
+        sumHDCP2 = findViewById(R.id.sumHDCP2);
+        sum1st2 = findViewById(R.id.sum1st2);
+        sum2nd2 = findViewById(R.id.sum2nd2);
+        sum3rd2 = findViewById(R.id.sum3rd2);
 //ROUNDEDITSCORE gia participants ths kathe omadas PART 0//
 
+        save_pressed = 0;
+        System.out.println("arxh  ave_pressed = "+save_pressed);
 
-        if(bundleObject!=null){
+        if (bundleObject != null) {
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers"); //axreiasto
-            hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
+            hdcp_parameters = (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
-           bowlId = bundleObject.getInt("bowlId"); //to sys tou team
-           t = (Team) bundleObject.getSerializable("b_object");
-           tuuid= t.getUuid();
-            score1=t.getScore();
-           championship = (Championship) bundleObject.getSerializable("champ");
-           System.out.println("Champ in round = "+championship.getFchampID()+" "+ championship.getUuid());
-           champuuid = championship.getUuid();
+            bowlId = bundleObject.getInt("bowlId"); //to sys tou team
+            t = (Team) bundleObject.getSerializable("b_object");
+            tuuid = t.getUuid();
+            score1 = t.getScore();
+            championship = (Championship) bundleObject.getSerializable("champ");
+            System.out.println("Champ in round = " + championship.getFchampID() + " " + championship.getUuid());
+            champuuid = championship.getUuid();
 
-t2 =(Team) bundleObject.getSerializable("team2");
-            if (t2!= null) {   System.out.println("got team from edit"+t2.getFTeamID());}
+            t2 = (Team) bundleObject.getSerializable("team2");
+            if (t2 != null) {
+                System.out.println("got team from edit" + t2.getFTeamID());
+            }
             //PAS ROUND PART 4//
             r = (Round) bundleObject.getSerializable("round");
-            if (r!= null) {
-                System.out.println("got round from sel " + r.getFroundid() + " uuid "+ r.getRounduuid()+ " stat " + r.getStatus() +  " with t1: " + r.getTeam1ID() + " and t2: " + r.getTeam2ID() + " and sysID: " + r.getRoundid());
+            if (r != null) {
+                System.out.println("got round from sel " + r.getFroundid() + " uuid " + r.getRounduuid() + " stat " + r.getStatus() + " with t1: " + r.getTeam1ID() + " and t2: " + r.getTeam2ID() + " and sysID: " + r.getRoundid());
             } else {
                 System.out.println("got round from sel ERROR");
             } //PAS ROUND PART 4//
 
             r2 = (Round) bundleObject.getSerializable("round2");
-            if (r2!= null) {
-                System.out.println("got round from edit " + r2.getFroundid() + " uuid "+ r2.getRounduuid()+ " stat " + r2.getStatus() +  " with t1: " + r2.getTeam1ID() + " and t2: " + r2.getTeam2ID() + " and sysID: " + r2.getRoundid());
+            if (r2 != null) {
+                System.out.println("got round from edit " + r2.getFroundid() + " uuid " + r2.getRounduuid() + " stat " + r2.getStatus() + " with t1: " + r2.getTeam1ID() + " and t2: " + r2.getTeam2ID() + " and sysID: " + r2.getRoundid());
             } else {
                 System.out.println("got round from edit ERROR");
             }
         }
 
-        System.out.println("Team selected: "+t.getFTeamID()+" sys "+t.getSys_teamID()+" uuid "+t.getUuid());
-team1.setText("Team "+t.getTeamName() );
+        System.out.println("Team selected: " + t.getFTeamID() + " sys " + t.getSys_teamID() + " uuid " + t.getUuid());
+        team1.setText("Team " + t.getTeamName());
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         //RecyclerView recyclerView2 = findViewById(R.id.recyclerView2);
-        rlistAdapter = new RoundListAdapter(this,this);
+        rlistAdapter = new RoundListAdapter(this, this);
 
         //ROUNDEDITSCORE gia participants ths kathe omadas PART1//
       /*  blistAdapter = new RoundScoreListAdapter2(this);
@@ -149,10 +154,10 @@ team1.setText("Team "+t.getTeamName() );
         //RoundEditScore gia participants ths kathe omadas PART1//
 
         rscorelistAdapter = new SelectRoundAdapter(this);
-         recyclerView.setAdapter(rscorelistAdapter); //
+        recyclerView.setAdapter(rscorelistAdapter); //
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       // recyclerView2.setAdapter(blistAdapter2);
-       // recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+        // recyclerView2.setAdapter(blistAdapter2);
+        // recyclerView2.setLayoutManager(new LinearLayoutManager(this));
 
 //PAS ROUND PART 5//
        /* bowlingViewModel.getRoundsofTeam(t.getUuid(),champuuid).observe(this, new Observer<List<Round>>() {
@@ -174,26 +179,26 @@ team1.setText("Team "+t.getTeamName() );
         });*/ //PAS ROUND PART 5//
 
 
-       bowlingViewModel.getNextRoundofTeamofChamp(tuuid,champuuid).observe(this, new Observer<List<Round>>() {
+        bowlingViewModel.getNextRoundofTeamofChamp(tuuid, champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> ro) {
-                if(ro.size()!=0) {
+                if (ro.size() != 0) {
                     rlistAdapter.setRounds(ro);
                     rscorelistAdapter.setSelRound(ro);//
                     rscorelistAdapter.setChamp(championship);//
                     rscorelistAdapter.setSelTeam(t);//
                     Round rou = ro.get(0);
                     rlistAdapter.returnCurrentRound(rou); //todo na svhsw
-                   // textTitle.append(" "+String.valueOf(ro.get(0).getFroundid()));
-                    System.out.println("kai to size einai "+ro.size());
-                    System.out.println("Current Round of team "+t.getFTeamID()+" stat " + rou.getStatus()+" is round "+rou.getFroundid()+" with t1: "+rou.getTeam1ID()+" and t2: "+ rou.getTeam2ID()+" and sysID: "+rou.getRoundid());
-                    curRound2=rou;
+                    // textTitle.append(" "+String.valueOf(ro.get(0).getFroundid()));
+                    System.out.println("kai to size einai " + ro.size());
+                    System.out.println("Current Round of team " + t.getFTeamID() + " stat " + rou.getStatus() + " is round " + rou.getFroundid() + " with t1: " + rou.getTeam1ID() + " and t2: " + rou.getTeam2ID() + " and sysID: " + rou.getRoundid());
+                    curRound2 = rou;
                     //curRound.setStatus("done");
                     if (tuuid.equals(rou.getTeam1UUID())) {
-                        textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + rou.getTeam2ID());
+                        textTitle.append("\n" + "Team " + t.getTeamName() + " VS Team " + rou.getTeam2ID());
 //                        team2.setText( "Team " + rou.getTeam2ID());
                     } else {
-                        textTitle.append("\n"+"Team "+t.getTeamName()+" VS Team " + rou.getTeam1ID());
+                        textTitle.append("\n" + "Team " + t.getTeamName() + " VS Team " + rou.getTeam1ID());
                         //team2.setText( "Team " + rou.getTeam1ID());
                     }
                     //r.setStatus("done");
@@ -202,15 +207,19 @@ team1.setText("Team "+t.getTeamName() );
             }
         });
 //        System.out.println("2.5 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" stat "+curRound.getStatus()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
-        System.out.println("dokimh " + rlistAdapter.mNotes.get(0).getFroundid() +" t1 " +rlistAdapter.mNotes.get(0).getTeam1ID()+" t2 "+rlistAdapter.mNotes.get(0).getTeam2ID() + " size "+rlistAdapter.mNotes.size());
+        System.out.println("dokimh " + rlistAdapter.mNotes.get(0).getFroundid() + " t1 " + rlistAdapter.mNotes.get(0).getTeam1ID() + " t2 " + rlistAdapter.mNotes.get(0).getTeam2ID() + " size " + rlistAdapter.mNotes.size());
 
 
         //pairnw to champ_detail ths omadas 1 team gia na dw to active_flag
-        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid,champuuid).observe(this, new Observer<Championship_detail>() {
+        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid, champuuid).observe(this, new Observer<Championship_detail>() {
             @Override
             public void onChanged(Championship_detail c) {
-                cd=c;
-                System.out.println("1 exei active flag="+ c.getActive_flag());
+                cd = c;
+                System.out.println("1 exei active flag=" + c.getActive_flag());
+                if(cd.getActive_flag()==1){
+                    nextRound_btn.setText("Finish");
+                    exitRound_btn.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -219,14 +228,16 @@ team1.setText("Team "+t.getTeamName() );
         bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() { //axristo-test
             @Override
             public void onChanged(List<Championship_detail> cs) {
-            cds_count=cs.size();
+                cds_count = cs.size();
+                System.out.println("cds_count=" + cds_count);
             }
         });
         //kai meta pairnw tis omades tou champ me active_flag=1, dld oses teleiwsan kai tsekarw an o arithmos tous einai isos me ton ar8mo olwn twn omadwn
         bowlingViewModel.getChamp_detailofChampofFinnishedTeams(champuuid).observe(this, new Observer<List<Championship_detail>>() { //axristo-test
             @Override
             public void onChanged(List<Championship_detail> cs) {
-                fin_cds_count=cs.size();
+                fin_cds_count = cs.size();
+                System.out.println("fin_cds_count=" + fin_cds_count);
             }
         });
 
@@ -305,17 +316,17 @@ team1.setText("Team "+t.getTeamName() );
         bowlingViewModel.getAllRound_detail().observe(this, new Observer<List<Round_detail>>() { //axristo-test
             @Override
             public void onChanged(List<Round_detail> rds) {
-                System.out.println("rds size " +rds.size());
+                System.out.println("rds size " + rds.size());
 
-                for (int i = 0; i <rds.size();i++) {
-                    System.out.println("rd " +i+" round id " +rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " h " +  rds.get(i).getHdcp()+" firste "+ rds.get(i).getFirst()+" second "+ rds.get(i).getSecond()+" third "+ rds.get(i).getThird());
+                for (int i = 0; i < rds.size(); i++) {
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
                 }
             }
         });
 
     }
 
-    public void round(){ //xwris vash
+    public void round() { //xwris vash
 
        /* gia temp3
        Team t1 = vs.get(0);
@@ -323,46 +334,45 @@ team1.setText("Team "+t.getTeamName() );
         player_view.setText("Team: "+t1.getFTeamID());
         hdcp_view.setText("Team: "+t2.getFTeamID()); */
 
-       //gia vs
-        ArrayList<Team> temp= vs.get(0);
+        //gia vs
+        ArrayList<Team> temp = vs.get(0);
         Team t1 = temp.get(0);
         Team t2 = temp.get(1);
-        team1.setText("Team: "+t1.getFTeamID());
-        team2.setText("Team: "+t2.getFTeamID());
+        team1.setText("Team: " + t1.getFTeamID());
+        team2.setText("Team: " + t2.getFTeamID());
 
-        ArrayList<Participant> teamates= t1.getTeammates();
+        ArrayList<Participant> teamates = t1.getTeammates();
         int i;
-        for (i=0;i<teamates.size();i++) {
+        for (i = 0; i < teamates.size(); i++) {
 
-            player_view.append(teamates.get(i).getFN()+"\n");
-            hdcp_view.append(teamates.get(i).bowlAvg+"\n");
+            player_view.append(teamates.get(i).getFN() + "\n");
+            hdcp_view.append(teamates.get(i).bowlAvg + "\n");
 
         }
-        teamates=t2.getTeammates();
-        for (i=0;i<teamates.size();i++) {
+        teamates = t2.getTeammates();
+        for (i = 0; i < teamates.size(); i++) {
 
-            player2_view.append(teamates.get(i).getFN()+"\n");
-            hdcp2_view.append(teamates.get(i).bowlAvg+"\n");
+            player2_view.append(teamates.get(i).getFN() + "\n");
+            hdcp2_view.append(teamates.get(i).bowlAvg + "\n");
 
         }
     }
 
 
-
-    public static void getRoundsofTeam(List<Round> r){ //ola ta rounds
+    public static void getRoundsofTeam(List<Round> r) { //ola ta rounds
         rofTeam = r;
-        System.out.println("roundactivity rofteam "+rofTeam.size());
+        System.out.println("roundactivity rofteam " + rofTeam.size());
     }
 
     public static void getRoundofTeam(Round r) { //to currentRound //todo na to svhsw kai osa kanw st sunarthsh na ta kanw  sto opennewactivity h pio panw
-        curRound=r;
-        textTitle.setText("Round "+String.valueOf(r.getFroundid()));
-        System.out.println("2 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
+        curRound = r;
+        textTitle.setText("Round " + String.valueOf(r.getFroundid()));
+        System.out.println("2 Current Round of team " + t.getFTeamID() + " is round " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
         status_flag = r.getStatus();
-        System.out.println("2 r.getstatus=flag= "+r.getStatus());
-        if (status_flag.equals("last")){
-            nextRound_btn.setText("Finnish");
-            exitRound_btn.setText("Cancel");
+        System.out.println("2 r.getstatus=flag= " + r.getStatus());
+        if (status_flag.equals("last")) {
+            nextRound_btn.setText("Finish"); //to kanw pio panw
+            exitRound_btn.setVisibility(View.GONE);
         }
         curRound.setStatus("done");
     }
@@ -431,9 +441,10 @@ team1.setText("Team "+t.getTeamName() );
                         getApplicationContext(),
                         R.string.save,
                         Toast.LENGTH_LONG).show();
-
+                save_pressed = 1;
+                System.out.println("GOT save_pressed="+save_pressed);
                 //pairnw to champ_detail ths omadas 2 team gia na dw to active_flag //todo na to valw sto onresult
-                if (t2!=null) {
+                if (t2 != null) {
                     bowlingViewModel.getChamp_detailofTeamandChamp(t2.getUuid(), champuuid).observe(this, new Observer<Championship_detail>() {
                         @Override
                         public void onChanged(Championship_detail c) {
@@ -450,7 +461,6 @@ team1.setText("Team "+t.getTeamName() );
     public void openNewActivity(View View) {
         //String button_text;
         // button_text =((Button)View).getText().toString();
-        //todo na mhn mporei na patithei an den pathsw prwta calculate
 
         //ROUNDEDITSCORE gia participants ths kathe omadas PART4//
       /*  for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
@@ -479,11 +489,13 @@ for (int i=0;i<test.size();i++){
     break;
     }
 }*///PASS ROUND PART 6//
-
-        System.out.println(" lol dokimh " + RoundListAdapter.mNotes.get(0).getFroundid() + " t1 " + RoundListAdapter.mNotes.get(0).getTeam1ID() + " t2 " + RoundListAdapter.mNotes.get(0).getTeam2ID());
+        System.out.println("save_pressed="+save_pressed);
+        if (save_pressed == 1){
+            System.out.println(" lol dokimh " + RoundListAdapter.mNotes.get(0).getFroundid() + " t1 " + RoundListAdapter.mNotes.get(0).getTeam1ID() + " t2 " + RoundListAdapter.mNotes.get(0).getTeam2ID());
         System.out.println("3 Current Round of team " + t.getFTeamID() + " is currround2 " + curRound2.getFroundid() + " with t1: " + curRound2.getTeam1ID() + " and t2: " + curRound2.getTeam2ID() + " and sysID: " + curRound2.getRoundid());
         System.out.println("4 Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is curround " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
-    if(r2!=null)    System.out.println("4.5 Current Round of team " + t.getFTeamID() + " stat " + r2.getStatus() + " is r2 " + r2.getFroundid() + " with t1: " + r2.getTeam1ID() + " and t2: " + r2.getTeam2ID() + " and sysID: " + r2.getRoundid());
+        if (r2 != null)
+            System.out.println("4.5 Current Round of team " + t.getFTeamID() + " stat " + r2.getStatus() + " is r2 " + r2.getFroundid() + " with t1: " + r2.getTeam1ID() + " and t2: " + r2.getTeam2ID() + " and sysID: " + r2.getRoundid());
         System.out.println("stat " + status_flag);
 
       /*  System.out.println("1 prin flag= "+cd.getActive_flag());
@@ -492,39 +504,51 @@ for (int i=0;i<test.size();i++){
         System.out.println("1 meta flag= "+cd.getActive_flag());
         bowlingViewModel.update(cd);//fixme mhpws na to valw sto roundeditscoreactivity? */
 
-        if (cd.getActive_flag()>0) {
-            System.out.println("1 prin flag= " + cd.getActive_flag()); //team2
-            cd.setActive_flag(cd.getActive_flag() - 1);
-            System.out.println("1 meta flag= " + cd.getActive_flag());
-            bowlingViewModel.update(cd);
-        } else if (cd.getActive_flag()==0){
-            System.out.println("1 flag= " + cd.getActive_flag());
-        } else {
-            System.out.println("1 PROBLEM me flag= " + cd.getActive_flag());
-        }
-       if (t2!=null) {
-           if (cd2.getActive_flag()>0) {
-               System.out.println("2 prin flag= " + cd2.getActive_flag()); //team2
-               cd2.setActive_flag(cd2.getActive_flag() - 1);
-               System.out.println("2 meta flag= " + cd2.getActive_flag());
-               bowlingViewModel.update(cd2);
-           } else if (cd2.getActive_flag()==0){
-               System.out.println("2 flag= " + cd2.getActive_flag());
-           } else {
-               System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag());
-           }
-       }
-        if(cds_count==fin_cds_count){
-            championship.setStatus("Finished");
-            bowlingViewModel.update(championship);
-        }
+            if (cd.getActive_flag() > 0) {
+                System.out.println("1 prin flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                cd.setActive_flag(cd.getActive_flag() - 1);
+                System.out.println("1 meta flag= " + cd.getActive_flag());
+                bowlingViewModel.update(cd);
+                System.out.println("1 meta flag:  fin_cds_count=" + fin_cds_count);
+                if( cd.getActive_flag()==0){
+                    fin_cds_count++;
+                    System.out.println("1 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
+                }
+            } else if (cd.getActive_flag() == 0) {
+                System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+            } else {
+                System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+            }
+            if (t2 != null) {
+                if (cd2.getActive_flag() > 0) {
+                    System.out.println("2 prin flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID()); //team2
+                    cd2.setActive_flag(cd2.getActive_flag() - 1);
+                    System.out.println("2 meta flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
+                    if( cd2.getActive_flag()==0){
+                        fin_cds_count++;
+                        System.out.println("2 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
+                    }
+                } else if (cd2.getActive_flag() == 0) {
+                    System.out.println("2 flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                } else {
+                    System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                }
+            }else {System.out.println("2 PROBLEM me null");} ///svisto
 
-       //META
-        if(cd.getActive_flag()>0){ //next
+            System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
+            if (cds_count == fin_cds_count) {
+                System.out.println("champ finished");
+                championship.setStatus("Finished");
+                bowlingViewModel.update(championship);
+            }
+
+        //META
+        if (cd.getActive_flag() > 0) { //next
             bowlingViewModel.update(curRound);
             System.out.println("5 Current round stat = " + curRound.getStatus());
-            bowlingViewModel.update(r2);
-            System.out.println("5.5 Current round stat = " + r2.getStatus());
+    if(r2!=null){        bowlingViewModel.update(r2);
+            System.out.println("5.5 Current round stat = " + r2.getStatus());}
 
             Intent i = new Intent(this, RoundActivity.class);
             Bundle extras = new Bundle();
@@ -538,18 +562,14 @@ for (int i=0;i<test.size();i++){
             //finish();
             System.out.println("here 2 " + curRound.getStatus());
             startActivity(i);
-        } else if (cd.getActive_flag()==0) { //finish
+        } else if (cd.getActive_flag() == 0) { //finish
             curRound.setStatus("done");
             bowlingViewModel.update(curRound);
             //textTitle.setText("This Round has already been done");
-            System.out.println("flag= "+cd.getActive_flag());
-            System.out.println("cd size= "+cds_count);
-            System.out.println("fin cd size= "+fin_cds_count);
-            if(cds_count==fin_cds_count){
-                System.out.println("finished");
-                championship.setStatus("Finnished");
-                bowlingViewModel.update(championship);
-            }
+            System.out.println("flag= " + cd.getActive_flag());
+            System.out.println("cd size= " + cds_count);
+            System.out.println("fin cd size= " + fin_cds_count);
+
             Intent i = new Intent(this, MainActivity.class);
             //axrista?
             Bundle extras = new Bundle();
@@ -632,42 +652,62 @@ for (int i=0;i<test.size();i++){
                 startActivity(i);
         } PRIN */
 
-    }
+    }else{
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to edit and save the score first",
+                    Toast.LENGTH_LONG).show();
+        }
+
+}
 
     public void exitActivity(View View) { //fixme save&exit
-        curRound.setStatus("done");
-        bowlingViewModel.update(curRound);
-        //bowlingViewModel.update(championship);
-       // t.setActive_flag(1);
-       // bowlingViewModel.update(t);
+        System.out.println("save_pressed=" + save_pressed);
+        if (save_pressed == 1) {
+            curRound.setStatus("done");
+            bowlingViewModel.update(curRound);
+            //bowlingViewModel.update(championship);
+            // t.setActive_flag(1);
+            // bowlingViewModel.update(t);
 
-        if (cd.getActive_flag()>0) {
-            System.out.println("1 prin flag= " + cd.getActive_flag()); //team2
-            cd.setActive_flag(cd.getActive_flag() - 1);
-            System.out.println("1 meta flag= " + cd.getActive_flag());
-            bowlingViewModel.update(cd);
-        } else if (cd.getActive_flag()==0){
-            System.out.println("1 flag= " + cd.getActive_flag());
-        } else {
-            System.out.println("1 PROBLEM me flag= " + cd.getActive_flag());
-        }
-        if (t2!=null) {
-            if (cd2.getActive_flag()>0) {
-                System.out.println("2 prin flag= " + cd2.getActive_flag()); //team2
-                cd2.setActive_flag(cd2.getActive_flag() - 1);
-                System.out.println("2 meta flag= " + cd2.getActive_flag());
-                bowlingViewModel.update(cd2);
-            } else if (cd2.getActive_flag()==0){
-                System.out.println("2 flag= " + cd2.getActive_flag());
+            if (cd.getActive_flag() > 0) {
+                System.out.println("1 prin flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                cd.setActive_flag(cd.getActive_flag() - 1);
+                System.out.println("1 meta flag= " + cd.getActive_flag());
+                bowlingViewModel.update(cd);
+                System.out.println("1 meta flag:  fin_cds_count=" + fin_cds_count);
+                if( cd.getActive_flag()==0){
+                    fin_cds_count++;
+                    System.out.println("1 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
+                }
+            } else if (cd.getActive_flag() == 0) {
+                System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
             } else {
-                System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag());
+                System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
             }
-        }
+            if (t2 != null) {
+                if (cd2.getActive_flag() > 0) {
+                    System.out.println("2 prin flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID()); //team2
+                    cd2.setActive_flag(cd2.getActive_flag() - 1);
+                    System.out.println("2 meta flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
+                    if( cd2.getActive_flag()==0){
+                        fin_cds_count++;
+                        System.out.println("2 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
+                    }
+                } else if (cd2.getActive_flag() == 0) {
+                    System.out.println("2 flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                } else {
+                    System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                }
+            }else {System.out.println("2 PROBLEM me null");} ///svisto
 
-        if(cds_count==fin_cds_count){
-            championship.setStatus("Finished");
-            bowlingViewModel.update(championship);
-        }
+            System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
+            if (cds_count == fin_cds_count) {
+                System.out.println("champ finished");
+                championship.setStatus("Finished");
+                bowlingViewModel.update(championship);
+            }
      /*   System.out.println("1 prin flag= "+cd.getActive_flag());
         cd.setActive_flag(cd.getActive_flag()-1);
         System.out.println("1 meta flag= "+cd.getActive_flag());
@@ -679,22 +719,27 @@ for (int i=0;i<test.size();i++){
             bowlingViewModel.update(cd2);
         }*/
 
-        Intent i = new Intent(this, MainActivity.class);
-        //axrista?
-        Bundle extras = new Bundle();
-        extras.putSerializable("bowlers", bowlers);
-        extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
-        extras.putSerializable("all_the_teams", all_the_teams);
-        extras.putSerializable("vs", vs);
-        extras.putSerializable("champ", championship);
-        extras.putSerializable("b_object", t); //selected team
-        i.putExtras(extras); //
-        startActivity(i);
+            Intent i = new Intent(this, MainActivity.class);
+            //axrista?
+            Bundle extras = new Bundle();
+            extras.putSerializable("bowlers", bowlers);
+            extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+            extras.putSerializable("all_the_teams", all_the_teams);
+            extras.putSerializable("vs", vs);
+            extras.putSerializable("champ", championship);
+            extras.putSerializable("b_object", t); //selected team
+            i.putExtras(extras); //
+            startActivity(i);
+        } else{
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to edit the score first",
+                    Toast.LENGTH_LONG).show();
+        }
     }
-
     public void cancel(View view) {
         curRound.setStatus("next");
-        bowlingViewModel.update(curRound); //todo H' apla den kanw update vasika
+       // bowlingViewModel.update(curRound); //todo H' apla den kanw update vasika
         //bowlingViewModel.update(championship);
         // t.setActive_flag(0);
         // bowlingViewModel.update(t);

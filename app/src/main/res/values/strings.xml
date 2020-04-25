@@ -42,4 +42,6 @@
     <string name="continue_championship">continue_championship</string>
     <string name="championship">Championship</string>
     <string name="round">Round</string>
+    <string name="next_round">Next Round</string>
+    <string name="cancel">Cancel</string>
 </resources>

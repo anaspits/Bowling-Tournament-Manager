@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,11 +31,16 @@ public class SelectTeamActivity extends AppCompatActivity {
     public String champuuid, teamuuid;
     public Championship championship;
     public static List<Round> rofTeam;
+    private TextView textView;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_team);
+
+        textView =  findViewById(R.id.textView);
+btn=findViewById(R.id.exitRound_btn);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -68,6 +76,10 @@ public class SelectTeamActivity extends AppCompatActivity {
             public void onChanged(List<Team> t) {
                 blistAdapter.setSelected(t);
                 blistAdapter.setChamp(championship);
+                if (t.size()==0){
+                    textView.setText("All the teams have finished their games");
+                    btn.setText("Main Menu");
+                }
             }
         });
     }
@@ -94,6 +106,20 @@ public class SelectTeamActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void exitActivity(View view) {
+        //todo H' finnish(); apla?
+        Intent i = new Intent(this, MainActivity.class);
+        //axrista?
+        Bundle extras = new Bundle();
+        extras.putSerializable("bowlers", bowlers);
+        extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+        extras.putSerializable("all_the_teams", all_the_teams);
+        extras.putSerializable("vs", vs);
+        extras.putSerializable("champ", championship);
+        i.putExtras(extras); //
+        startActivity(i);
     }
 
 

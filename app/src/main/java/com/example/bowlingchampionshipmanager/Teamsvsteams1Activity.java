@@ -259,8 +259,9 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
         String button_text;
         button_text =((Button)View).getText().toString();
 
-        System.out.println("ch status ="+championship.getStatus());
+        championship.setType(1);
         bowlingViewModel.update(championship);
+        System.out.println("ch status ="+championship.getStatus()+" type "+championship.getType());
         for(int i=0;i<cd.size();i++){
             bowlingViewModel.update(cd.get(i));
             System.out.println("cd flag="+cd.get(i).getActive_flag()+" me size "+cd.size());

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,7 @@ championship = c;
 
            if (pins.isChecked()){
                System.out.println("champion sid "+championship.getSys_champID());
-               championship.setType(0);
+               championship.setType(1);
                bowlingViewModel.update(championship);
                 Intent i = new Intent(this, Pins1Activity.class);
                 Bundle extras = new Bundle();
@@ -112,7 +113,7 @@ championship = c;
 
             } else if (teamsvsteams.isChecked()) {
                System.out.println("champion sid "+championship.getSys_champID());
-               championship.setType(1);
+               championship.setType(2);
                bowlingViewModel.update(championship);
                 Intent i = new Intent(this, Teamsvsteams1Activity.class);
                 Bundle extras = new Bundle();
@@ -123,8 +124,14 @@ championship = c;
                 extras.putSerializable("champ",championship);
                 i.putExtras(extras);
                 startActivity(i);
-            }
+            } /* todo else if(friendly){
 
+           }else{
+               Toast.makeText(
+                       getApplicationContext(),
+                       "You have to choose a type first",
+                       Toast.LENGTH_LONG).show();
+           } */
 
         }
 

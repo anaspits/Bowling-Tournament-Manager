@@ -61,7 +61,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static int allbowls=0;
     private static Test_table test= new Test_table("instance");
     public static ArrayList<Test_table> testbowlers = new ArrayList<Test_table>();
-
+    private int imp_pressed=0;
     private String TAG = this.getClass().getSimpleName();
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
@@ -83,7 +83,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
         textView = (EditText) findViewById(R.id.fileText);
        Button button_imp  = (Button) findViewById(R.id.button_import);
-
+       imp_pressed=0;
        //na svisw
        /* EntityManagerFactory emf=Persistence.createEntityManagerFactory("Participant_details");
         EntityManager em=emf.createEntityManager();
@@ -632,6 +632,7 @@ System.out.println("all size "+all_the_teams.size());
         //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();
+        imp_pressed=1;
     }
 
 
@@ -646,17 +647,23 @@ System.out.println("all size "+all_the_teams.size());
         }
         else if (button_text.equals("Next")) //todo: an den kanei import na mhn mporei na kanei next
         {
-            //Intent gonext = new Intent(this,Create2Activity.class);
-            //startActivity(gonext);
-            Intent i =  new Intent(Create1Activity.this, Create2Activity.class);
+            if(imp_pressed==1) {
+                //Intent gonext = new Intent(this,Create2Activity.class);
+                //startActivity(gonext);
+                Intent i = new Intent(Create1Activity.this, Create2Activity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("bowlers",bowlers);
-                bundle.putSerializable("all_the_teams",all_the_teams);
-                bundle.putSerializable("champ",ch);
-                bundle.putString("champuuid",champuuid); //na perasw auto h to object championship oloklhro?
+                bundle.putSerializable("bowlers", bowlers);
+                bundle.putSerializable("all_the_teams", all_the_teams);
+                bundle.putSerializable("champ", ch);
+                bundle.putString("champuuid", champuuid); //na perasw auto h to object championship oloklhro?
                 i.putExtras(bundle);
-            startActivity(i);
-
+                startActivity(i);
+            } else{
+                Toast.makeText(
+                        getApplicationContext(),
+                        "You have to import a file first",
+                        Toast.LENGTH_LONG).show();
+            }
         }
        /* else if (button_text.equals("Import"))
         {

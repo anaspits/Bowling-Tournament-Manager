@@ -13,16 +13,18 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Pins1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener{
 
     static ArrayList<Participant> bowlers;
-    public static ArrayList<Team> all_the_teams;
+    public static ArrayList<Team> all_the_teams; //xrhsimo
     static ArrayList<String> hdcp_parameters;
     public String teamuuid;
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
     public String champuuid;
+    private int round=3; //todo na rwthsw
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,34 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        //todo na kanw insert ta round k round_detail kai na rwthsw posa rounds ginontai
+        for(int d = 1; d <= round; d++) {
+            System.out.println(String.format("Round %d", d));
+            for (int i = 0; i < all_the_teams.size(); i++) {
+                System.out.println(" Team " + all_the_teams.get(i).getFTeamID());
+                String ruuid = UUID.randomUUID().toString();
+                Round r = new Round(ruuid, d, all_the_teams.get(i).getFTeamID(), 0, champuuid, all_the_teams.get(i).getUuid(), null, all_the_teams.get(i).getScore(), 0, "");
+                if (d == 1) {
+                    r.setStatus("next");
+                    System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus() + " chid " + champuuid);
+                } else if (d == round) {
+                    r.setStatus("last");
+                    System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus());
+                } else {
+                    r.setStatus("next");
+                    System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus());
+                }
+                bowlingViewModel.insert(r);
+                //gia ka8e paikth ths ka8e omadas vazw to rd
+                ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths
+                for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
+                    Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp()); //ftiaxnw to rd
+                    rd.setScore(pa.get(p).getBowlAvg());
+                    bowlingViewModel.insert(rd);
+                    System.out.println("Rd round"+r.getFroundid()+" partici "+pa.get(p).getFN()+" "+pa.get(p).getUuid());
+                }
+            }
+        }
     }
 
 
