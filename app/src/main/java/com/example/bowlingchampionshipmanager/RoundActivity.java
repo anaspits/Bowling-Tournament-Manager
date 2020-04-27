@@ -89,7 +89,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         textTitle = findViewById(R.id.textTitle);
         nextRound_btn = findViewById(R.id.nextRound_btn);
         exitRound_btn = findViewById(R.id.exitRound_btn);
-
+//todo na emfanizei ta telika score twn omadwn
         //ROUNDEDITSCORE gia participants ths kathe omadas PART 0//
         team1 = (TextView) findViewById(R.id.team1);
         team2 = (TextView) findViewById(R.id.team2);
@@ -539,7 +539,7 @@ for (int i=0;i<test.size();i++){
             System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
             if (cds_count == fin_cds_count) {
                 System.out.println("champ finished");
-                championship.setStatus("Finished");
+                championship.setStatus("Finished"); //todo id champ finished open endofchpampActivity me ta results
                 bowlingViewModel.update(championship);
             }
 
@@ -562,7 +562,7 @@ for (int i=0;i<test.size();i++){
             //finish();
             System.out.println("here 2 " + curRound.getStatus());
             startActivity(i);
-        } else if (cd.getActive_flag() == 0) { //finish
+        } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth
             curRound.setStatus("done");
             bowlingViewModel.update(curRound);
             //textTitle.setText("This Round has already been done");

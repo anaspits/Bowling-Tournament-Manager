@@ -194,16 +194,18 @@ team2=te;
         //pontoi
         int pontoi1=0;
         int pontoi2=0;
-        //player vs player
+        //player vs player/game
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
-            //todo na rwthsw an to geniko score ths omadas kratietai H 3ekinaei e ka8e champ apo to 0
-            //todo na rwthsw an upologize to ka8e first,second,third 3exwrista H' olo mazi san 1st+2nd+3rd
+            //ka8e omada 3ekinaei se ka8e champ apo to 0
+            //upologizei to ka8e first,second,third 3exwrista
             if (RoundScoreListAdapter2.rd.get(i).getFirst()>RoundScoreListAdapterTeam2.rd.get(i).getFirst()){
                 pontoi1 +=2;
             } else if (RoundScoreListAdapter2.rd.get(i).getFirst()<RoundScoreListAdapterTeam2.rd.get(i).getFirst()){
                 pontoi2+=2;
             } else {
                 //todo isopalia posoi pontoi?
+                pontoi1 +=2;
+                pontoi2+=2;
             }
             if (RoundScoreListAdapter2.rd.get(i).getSecond()>RoundScoreListAdapterTeam2.rd.get(i).getSecond()){
                 pontoi1 +=2;
@@ -211,6 +213,8 @@ team2=te;
                 pontoi2+=2;
             } else {
                 //todo isopalia posoi pontoi?
+                pontoi1 +=2;
+                pontoi2+=2;
             }
             if (RoundScoreListAdapter2.rd.get(i).getThird()>RoundScoreListAdapterTeam2.rd.get(i).getThird()){
                 pontoi1 +=2;
@@ -218,15 +222,19 @@ team2=te;
                 pontoi2+=2;
             } else {
                 //todo isopalia posoi pontoi?
+                pontoi1 +=2;
+                pontoi2+=2;
             }
         }
-        //sunolo korinwn ana paixnidi //todo na rwthsw an einai me hdcp H' xwris
+        //sunolo korinwn ana paixnidi // me hdcp
         if(first_sum1>first_sum2){
             pontoi1+=3;
         } else if(first_sum1<first_sum2){
             pontoi2+=3;
         } else {
             //todo isopalia?
+            pontoi1+=3;
+            pontoi2+=3;
         }
         if(second_sum1>second_sum2){
             pontoi1+=3;
@@ -234,6 +242,8 @@ team2=te;
             pontoi2+=3;
         } else {
             //todo isopalia?
+            pontoi1+=3;
+            pontoi2+=3;
         }
         if(third_sum1>third_sum2){
             pontoi1+=3;
@@ -241,6 +251,8 @@ team2=te;
             pontoi2+=3;
         } else {
             //todo isopalia?
+            pontoi1+=3;
+            pontoi2+=3;
         }
         //geniko sunolo korinwn
         if(first_sum1+second_sum1+third_sum1>first_sum2+second_sum2+third_sum2){
@@ -249,16 +261,18 @@ team2=te;
             pontoi2+=5;
         } else {
             //isopalia
+            pontoi1+=5;
+            pontoi2+=5;
         }
 
-        score1+=pontoi1; //todo na rwthsw
+        score1+=pontoi1; //todo kalutera na krathsw sto rd.score to score tou gyrou kai sto team.score to sunolo twn pontwn ths omadas
         score2+=pontoi2;//todo na to valw sto opennewActivity
         team1.setScore(score1);//todo na rwthsw
         team2.setScore(score2);
         txtscore1.setText("Score: "+pontoi1);
         txtscore2.setText("Score: "+pontoi2); //todo na valw koumpi sunolo (tou sum)
-        r.setScore1(score1); //todo na rwtisw
-        r.setScore2(score2);
+        r.setScore1(pontoi1);
+        r.setScore2(pontoi2);
         //bowlingViewModel.update(r); //todo svisto
         calc_pressed=1;
     }
@@ -271,12 +285,13 @@ team2=te;
             System.out.println("team2 score " + team2.getScore() + " sid " + team2.getSys_teamID());
             bowlingViewModel.update(team1);//todo na kanw update sthn RoundActivity->openNewActivity k exit
             bowlingViewModel.update(team2);
-            //todo na mhn mporei na patithei an den pathsw prwta calculate
+
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                 System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                 System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
+                //todo RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
 

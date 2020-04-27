@@ -122,21 +122,29 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //todo if type = tvst else if type=pins
-                    Intent intent= new Intent(mContext,RoundActivity.class);
+                    if (ch.getType() == 2) {
+                        Intent intent = new Intent(mContext, RoundActivity.class);
 
                         //PAS ROUND PART 3//
-                        round=rounds.get(getAdapterPosition()); //todo na dokimasw na to kanw done edw?
+                        round = rounds.get(getAdapterPosition()); //todo na dokimasw na to kanw done edw?
                         System.out.println("lol Sel Current Round of team " + mNotes.get(mPosition).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
-                    intent.putExtra("round", round);
+                        intent.putExtra("round", round);
                         //PAS ROUND PART 3//
 
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
-                    intent.putExtra("count", getItemCount());
-                    intent.putExtra("b_object", mNotes.get(mPosition));
-                    intent.putExtra("champ", ch);
-                    //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
-                    mContext.startActivity(intent);
+                        intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                        intent.putExtra("count", getItemCount());
+                        intent.putExtra("b_object", mNotes.get(mPosition));
+                        intent.putExtra("champ", ch);
+                        //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
+                        mContext.startActivity(intent);
+                    } else if ((ch.getType() == 1)){
+                        Intent intent = new Intent(mContext, PinsRoundActivity.class);
+                        intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                        intent.putExtra("count", getItemCount());
+                        intent.putExtra("b_object", mNotes.get(mPosition));
+                        intent.putExtra("champ", ch);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }

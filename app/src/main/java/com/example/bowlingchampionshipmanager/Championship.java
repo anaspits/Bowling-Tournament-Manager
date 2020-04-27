@@ -221,7 +221,7 @@ public class Championship implements Serializable {
         this.end_date = end_date;
     }
 
-    public void setType(int type) { //0:pins, 1:vs, 2:friendly
+    public void setType(int type) { //1:pins, 2:tvst, 3:friendly
         this.type = type;
     }
 

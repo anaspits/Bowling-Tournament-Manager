@@ -76,10 +76,10 @@ btn=findViewById(R.id.exitRound_btn);
             public void onChanged(List<Team> t) {
                 blistAdapter.setSelected(t);
                 blistAdapter.setChamp(championship);
-                if (t.size()==0){
+                /*if (t.size()==0){ //fixme
                     textView.setText("All the teams have finished their games");
                     btn.setText("Main Menu");
-                }
+                } */
             }
         });
     }

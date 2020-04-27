@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +26,11 @@ public class PinsRoundActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
-    private static TextView team1;
-    private static TextView hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
+    private static EditText editpins;
+    private static TextView team1,hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
     public int bowlId;
     public static Team t;
-    public static Round r;
+   // public static Round r;
     public static String tuuid, champuuid;
     public Championship championship;
     private BowlingViewModel bowlingViewModel;
@@ -49,10 +50,15 @@ public class PinsRoundActivity extends AppCompatActivity {
         nextRound_btn = findViewById(R.id.nextRound_btn);
         exitRound_btn = findViewById(R.id.exitRound_btn);
         team1 = (TextView) findViewById(R.id.team1);
+
+       //
         sumHDCP = findViewById(R.id.sumHDCP);
         sum1st = findViewById(R.id.sum1st);
         sum2nd = findViewById(R.id.sum2nd);
         sum3rd = findViewById(R.id.sum3rd);
+        //
+
+        editpins=findViewById(R.id.editpins);
         calc_pressed = 0;
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -76,7 +82,7 @@ public class PinsRoundActivity extends AppCompatActivity {
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         blistAdapter = new RoundScoreListAdapter2(this);
-        recyclerView.setAdapter(blistAdapter);
+//        recyclerView.setAdapter(blistAdapter);
 
         //todo na rwthsw posa rounds paizontai sta pins afou den einai antipales omades
         bowlingViewModel.getNextRoundofTeamofChamp(tuuid, champuuid).observe(this, new Observer<List<Round>>() {
@@ -87,13 +93,13 @@ public class PinsRoundActivity extends AppCompatActivity {
                     textTitle.append(" " + String.valueOf(ro.get(0).getFroundid()));
                     System.out.println("kai to size einai " + ro.size());
                     System.out.println("Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is round " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
-                    if (tuuid.equals(curRound.getTeam1UUID())) { //perito
+                   /* if (tuuid.equals(curRound.getTeam1UUID())) { //perito
                         textTitle.append("\n" + "Team " + t.getTeamName());
                     } else {
                         textTitle.append("\n" + "Team " + t.getTeamName());
-                    }
+                    }*/
                     status_flag = curRound.getStatus();
-                    System.out.println("2 r.getstatus=flag= " + r.getStatus());
+                    System.out.println("2 r.getstatus=flag= " + curRound.getStatus());
                     if (status_flag.equals("last")) {
                         nextRound_btn.setText("Finnish");
                         exitRound_btn.setText("Cancel");
@@ -130,11 +136,12 @@ public class PinsRoundActivity extends AppCompatActivity {
             }
         });
 
-        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
+       /* axristo?
+       bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setBowls(part);
-                blistAdapter.setRound(r);
+                blistAdapter.setRound(curRound);
                 ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                 for (int i = 0; i < part.size(); i++) {
                     Round_detail round_detail = new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0, part.get(i).getHdcp());
@@ -144,7 +151,8 @@ public class PinsRoundActivity extends AppCompatActivity {
                 blistAdapter.setRound_detail(rd);
 
             }
-        });
+        }); */
+
         bowlingViewModel.getAllRound_detail().observe(this, new Observer<List<Round_detail>>() { //axristo-test
             @Override
             public void onChanged(List<Round_detail> rds) {
@@ -157,31 +165,10 @@ public class PinsRoundActivity extends AppCompatActivity {
         });
     }
 
-    public void calculateScore(View View) {
-        //gia tin omada 1
+    public void calculateScore(View View) { //todo
         score1 = t.getScore();
-        int first_sum1 = 0;
-        int second_sum1 = 0;
-        int third_sum1 = 0;
-        int sum_hdcp1 = 0;
-        for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
-            // team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
-            System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
-            System.out.println(" emda player " + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
-            System.out.println(" rd size " + RoundScoreListAdapter2.rd.size() + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
-
-            first_sum1 += RoundScoreListAdapter2.rd.get(i).getFirst();
-            second_sum1 += RoundScoreListAdapter2.rd.get(i).getSecond();
-            third_sum1 += RoundScoreListAdapter2.rd.get(i).getThird();
-            sum_hdcp1 += RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
-        }
-        first_sum1 += sum_hdcp1;
-        second_sum1 += sum_hdcp1;
-        third_sum1 += sum_hdcp1;
-        sumHDCP.setText(String.valueOf(sum_hdcp1));
-        sum1st.setText(String.valueOf(first_sum1));
-        sum2nd.setText(String.valueOf(second_sum1));
-        sum3rd.setText(String.valueOf(third_sum1));
+t.setScore(Integer.parseInt(editpins.getText().toString())); //edw tha prsthesw tous ponotus
+        curRound.setScore1(Integer.parseInt(editpins.getText().toString())); //edw apla tha valw tous pontous
         calc_pressed = 1;
 
     }
@@ -190,10 +177,12 @@ public class PinsRoundActivity extends AppCompatActivity {
         //String button_text;
         // button_text =((Button)View).getText().toString();
 if (calc_pressed ==1) {
-    System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());//todo na rwthsw
+    System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());
+
     bowlingViewModel.update(t);
-    //todo na mhn mporei na patithei an den pathsw prwta calculate
-    for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+    //bowlingViewModel.update(curRound);
+
+   /* for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
         System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
         System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
@@ -201,7 +190,7 @@ if (calc_pressed ==1) {
         bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
         System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
 
-    }
+    }*/
 
     System.out.println("Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is curround " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
     System.out.println("stat " + status_flag);
@@ -211,7 +200,7 @@ if (calc_pressed ==1) {
         System.out.println("1 meta flag= " + cd.getActive_flag());
         bowlingViewModel.update(cd);
         System.out.println("1 meta flag:  fin_cds_count=" + fin_cds_count);
-        if (cd.getActive_flag() == 0) {
+        if( cd.getActive_flag()==0){
             fin_cds_count++;
             System.out.println("1 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
         }
@@ -220,13 +209,19 @@ if (calc_pressed ==1) {
     } else {
         System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
     }
+    System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
+    if (cds_count == fin_cds_count) {
+        System.out.println("champ finished");
+        championship.setStatus("Finished");
+        bowlingViewModel.update(championship);
+    }
 
     curRound.setStatus("done");
     if (status_flag.equals("next")) {
         // curRound.setStatus("done");
         bowlingViewModel.update(curRound);
         System.out.println("here 1 " + curRound.getStatus());
-        Intent i = new Intent(this, Pins1Activity.class);
+        Intent i = new Intent(this, PinsRoundActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable("bowlers", bowlers);
         extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
@@ -261,7 +256,7 @@ if (calc_pressed ==1) {
 } else {
     Toast.makeText(
             getApplicationContext(),
-            "You have to edit the score first",
+            "You have to calculate the score first",
             Toast.LENGTH_LONG).show();
 
 }
@@ -271,10 +266,11 @@ if (calc_pressed ==1) {
         if (calc_pressed ==1) {
             curRound.setStatus("done");
             bowlingViewModel.update(curRound);
-            System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());//todo na rwthsw
+            System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());
             bowlingViewModel.update(t);
-            //todo na mhn mporei na patithei an den pathsw prwta calculate
-            for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+
+
+           /* na svisw for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                 System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                 System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
@@ -282,7 +278,7 @@ if (calc_pressed ==1) {
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
 
-            }
+            } */
 
             System.out.println("Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is curround " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
             System.out.println("stat " + status_flag);
@@ -292,7 +288,7 @@ if (calc_pressed ==1) {
                 System.out.println("1 meta flag= " + cd.getActive_flag());
                 bowlingViewModel.update(cd);
                 System.out.println("1 meta flag:  fin_cds_count=" + fin_cds_count);
-                if (cd.getActive_flag() == 0) {
+                if( cd.getActive_flag()==0){
                     fin_cds_count++;
                     System.out.println("1 meta flag mesa if:  fin_cds_count=" + fin_cds_count);
                 }
@@ -300,6 +296,12 @@ if (calc_pressed ==1) {
                 System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
             } else {
                 System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+            }
+            System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
+            if (cds_count == fin_cds_count) {
+                System.out.println("champ finished");
+                championship.setStatus("Finished");
+                bowlingViewModel.update(championship);
             }
             Intent i = new Intent(this, MainActivity.class);
             //axrista?
@@ -314,7 +316,7 @@ if (calc_pressed ==1) {
         }else {
             Toast.makeText(
                     getApplicationContext(),
-                    "You have to edit the score first",
+                    "You have to calculate the score first",
                     Toast.LENGTH_LONG).show();
 
         }

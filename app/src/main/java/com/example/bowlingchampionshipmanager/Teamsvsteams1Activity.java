@@ -259,7 +259,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
         String button_text;
         button_text =((Button)View).getText().toString();
 
-        championship.setType(1);
+       // championship.setType(1);
         bowlingViewModel.update(championship);
         System.out.println("ch status ="+championship.getStatus()+" type "+championship.getType());
         for(int i=0;i<cd.size();i++){
@@ -291,7 +291,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
             i.putExtras(extras);
             startActivity(i);
 
-        } else if (button_text.equals("test")){
+        } else if (button_text.equals("test")){ //na svisw
             Intent i = new Intent(this, Start1Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
