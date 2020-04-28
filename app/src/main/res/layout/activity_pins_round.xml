@@ -55,7 +55,8 @@
                         android:layout_marginTop="25dp"/>
                 </RelativeLayout>
 
-                <TextView
+                <!-- VERSION 1-->
+           <!--     <TextView
                     android:id="@+id/team1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,236 +103,256 @@
                         android:textAlignment="center"
                         android:textColor="#F9F9F9"
                         tools:text="Calculate" />
-                </RelativeLayout>
+                </RelativeLayout> -->
+                <!--END VERSION 1-->
 
-             <!--   <LinearLayout
+             <!--VERSION 2-->
+                <TextView
+                    android:id="@+id/team1"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txvNote"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:text="@string/player"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tHDCP"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:text="@string/hdcp"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txv1st"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_1st"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txv2nd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_2nd"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txv3rd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_3rd"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/team_1"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Large" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     tools:listitem="@layout/roundlist" />
+                <!--END VERSION 2-->
+
+            <!--   <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="75dp"
+                   android:baselineAligned="false"
+                   android:orientation="horizontal">
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/txvNote"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:text="@string/player"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/tHDCP"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:text="@string/hdcp"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/txv1st"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_1st"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/txv2nd"
+                           android:layout_width="wrap_content"
+                           android:layout_height="25dp"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_2nd"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/txv3rd"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_3rd"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+               </LinearLayout>
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/recyclerView"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="0dp"
+                   tools:listitem="@layout/roundlist" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="75dp"
+                   android:baselineAligned="false"
+                   android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txvSum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:text="Sum"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                       <TextView
+                           android:id="@+id/txvSum"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:text="Sum"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
 
-                    </LinearLayout>
+                   </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/sumHDCP"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:text="@string/hdcp"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                       <TextView
+                           android:id="@+id/sumHDCP"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:text="@string/hdcp"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
 
-                    </LinearLayout>
+                   </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/sum1st"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_1st"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                       <TextView
+                           android:id="@+id/sum1st"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_1st"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/sum2nd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_2nd"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                       <TextView
+                           android:id="@+id/sum2nd"
+                           android:layout_width="wrap_content"
+                           android:layout_height="25dp"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_2nd"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:gravity="center_vertical"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/sum3rd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:hint="@string/_3rd"
-                            android:textAlignment="center"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>-->
+                       <TextView
+                           android:id="@+id/sum3rd"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="7dp"
+                           android:hint="@string/_3rd"
+                           android:textAlignment="center"
+                           android:textColor="#616161"
+                           android:textSize="18sp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+               </LinearLayout>-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:baselineAligned="false"
                     android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/points"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:text="Points:"
-                            android:textColor="#616161"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text="Points:"
+                        android:textColor="#616161"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
 
                         <TextView
@@ -351,7 +372,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
+<!-- Version 1
                     <Button
                         android:id="@+id/nextRound_btn"
                         android:layout_width="wrap_content"
@@ -366,7 +387,25 @@
                         android:textColor="#F9F9F9"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
+                        tools:text="Next Round"/> -->
+
+                    <!-- version 2-->
+                    <Button
+                        android:id="@+id/nextRound_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#4CAF50 "
+                        android:onClick="openNewActivity2"
+                        android:text="Next Round"
+                        android:textColor="#F9F9F9"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         tools:text="Next Round"/>
+                    <!-- -->
 
                     <Button
                         android:id="@+id/exitRound_btn"
@@ -379,7 +418,7 @@
                         android:layout_marginBottom="20dp"
                         android:layout_marginLeft="20dp"
                         android:background="#4CAF50 "
-                        android:onClick="exitActivity"
+                        android:onClick="exitActivity2"
                         android:text="Save and Exit"
                         android:textColor="#F9F9F9"
                         tools:text="Save and Exit" />

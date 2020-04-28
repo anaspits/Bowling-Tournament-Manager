@@ -44,7 +44,11 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
         if (mNotes != null) {
             Round note = mNotes.get(position);
             this.position=position;
-            holder.setData("TEAM:"+note.getTeam1ID()+" VS ","TEAM:"+note.getTeam2ID(), position);
+            if (ch.getType()==2) {
+                holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(), position);
+            } else if (ch.getType()==1){
+                holder.setData("TEAM:" + note.getTeam1ID(), "", position);
+            }
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -98,13 +102,24 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent= new Intent(mContext,RoundEditScoreActivity.class);
-                    intent.putExtra("round", mNotes.get(mPosition));
-                    intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
-                    intent.putExtra("selTeam",team);
-                    intent.putExtra("champ", ch);
-                    //mContext.startActivity(intent);
-                    ((Activity)mContext).startActivityForResult(intent, RoundActivity.UPDATE_SCORE_REQUEST_CODE);
+                    if(ch.getType()==2) {
+                        Intent intent = new Intent(mContext, RoundEditScoreActivity.class);
+                        intent.putExtra("round", mNotes.get(mPosition));
+                        intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
+                        intent.putExtra("selTeam", team);
+                        intent.putExtra("champ", ch);
+                        //mContext.startActivity(intent);
+                        ((Activity) mContext).startActivityForResult(intent, RoundActivity.UPDATE_SCORE_REQUEST_CODE);
+                    }
+                    //version 2
+                    else if (ch.getType()==1) {
+                        Intent intent = new Intent(mContext, PinsRoundEditActivity.class);
+                        intent.putExtra("round", mNotes.get(mPosition));
+                        intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
+                        intent.putExtra("selTeam", team);
+                        intent.putExtra("champ", ch);
+                        ((Activity) mContext).startActivityForResult(intent, PinsRoundActivity.UPDATE_SCORE_REQUEST_CODE);
+                    } //2
                 }
             });
         }
