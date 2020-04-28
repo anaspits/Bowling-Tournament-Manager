@@ -22,6 +22,7 @@ public class BowlingViewModel extends AndroidViewModel {
     private Championship_detailDao cdDao;
     private RoundDao rDao;
     private Round_detailDao rdDao;
+    private Pins_pointsDao ppDao;
     private BowlingRoomDatabase bDB;
 
     private LiveData<List<Participant>> mAllNotes;
@@ -30,6 +31,7 @@ public class BowlingViewModel extends AndroidViewModel {
     private LiveData<List<Championship>> allchamp;
     private LiveData<List<Round>> allrounds;
     private LiveData<List<Round_detail>> allrds;
+    private LiveData<List<Pins_points>> allpps;
     long insertResult=-1;
 
     private MutableLiveData<Long> dbId = new MutableLiveData<>();
@@ -46,11 +48,13 @@ public class BowlingViewModel extends AndroidViewModel {
         cdDao=bDB.championship_detailDao();
         rDao=bDB.roundDao();
         rdDao=bDB.rdDao();
+        ppDao=bDB.ppDao();
         mAllNotes = bowlingDao.getAllBowls();
         allteams = teamDao.getAllTeams();
         allchamp = champDao.getAllChamp();
         allrounds = rDao.getAllRound();
         allrds = rdDao.getAllRound_detail();
+        allpps= ppDao.getAllPins_points();
         //testNotes = bowlingDao.getAllPlayersofChamp(teamid);
     }
 
@@ -765,6 +769,81 @@ public  void insert (Team_detail t){
 
         @Override
         protected Void doInBackground(Round_detail... rds) {
+            mAsyncTaskDao.delete(rds[0]);
+            return null;
+        }
+    }
+
+//////////////////////////////
+    ////////////////////////Pins_points
+
+    public  void insert (Pins_points t){
+        new Pins_pointsInsertAsyncTask(ppDao).execute(t);
+    }
+
+    public void update(Pins_points t) {
+        new Pins_pointsUpdateAsyncTask(ppDao).execute(t); //tsekare pio katw
+    }
+
+    public void delete(Pins_points t) {
+        new Pins_pointsDeleteAsyncTask(ppDao).execute(t);
+    }
+
+    LiveData<List<Pins_points>> getAllPins_points() {
+        return allpps;
+    }
+
+    LiveData<List<Pins_points>> getPins_pointsofChamp(String cid){
+        return ppDao.getPins_pointsofChamp(cid);
+    }
+
+    private class Pins_pointsOperationsAsyncTask extends AsyncTask<Pins_points, Void, Void> {
+
+        Pins_pointsDao mAsyncTaskDao;
+
+        Pins_pointsOperationsAsyncTask(Pins_pointsDao dao) {
+            this.mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Pins_points... rds) {
+            return null;
+        }
+    }
+    private class Pins_pointsInsertAsyncTask extends Pins_pointsOperationsAsyncTask {
+
+        public Pins_pointsInsertAsyncTask(Pins_pointsDao bDao) {
+            super(bDao);
+        }
+        @Override
+        protected Void doInBackground(Pins_points... rds) {
+            mAsyncTaskDao.insert(rds[0]);
+
+            return null;
+        }
+    }
+
+    private class Pins_pointsUpdateAsyncTask extends Pins_pointsOperationsAsyncTask {
+
+        Pins_pointsUpdateAsyncTask(Pins_pointsDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Pins_points... rds) {
+            mAsyncTaskDao.update(rds[0]);
+            return null;
+        }
+    }
+
+    private class Pins_pointsDeleteAsyncTask extends Pins_pointsOperationsAsyncTask {
+
+        public Pins_pointsDeleteAsyncTask(Pins_pointsDao bDao) {
+            super(bDao);
+        }
+
+        @Override
+        protected Void doInBackground(Pins_points... rds) {
             mAsyncTaskDao.delete(rds[0]);
             return null;
         }

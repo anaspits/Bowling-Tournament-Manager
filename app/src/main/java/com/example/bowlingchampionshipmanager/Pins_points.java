@@ -1,21 +1,31 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.UUID;
+
 @Entity(tableName = "pins_points", foreignKeys = {
                 @ForeignKey(entity = Championship.class,
                         parentColumns = "champ_uuid",
                         childColumns = "champ_uuid")
         }, indices= {
-                @Index(name="index_champID", value="champ_uuid")
+                @Index(name="index_pp_champID", value="champ_uuid")
         }  )
-public class Pins_points {
-    @PrimaryKey(autoGenerate = true)
+public class Pins_points { //max pins = x points : px mexri kai ta 200 pins = 2 pontoi
+    @PrimaryKey
     @NonNull
     private String pins_uuid;
 
@@ -68,5 +78,51 @@ public class Pins_points {
         this.champ_uuid = champ_uuid;
         this.pins = pins;
         this.points = points;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public ArrayList<Pins_points> createPins_pointsList(BowlingViewModel bowlingViewModel, InputStream inputStream , String line, String cvsSplitBy,String ch,ArrayList<Pins_points> pp)throws IOException {
+        //try(BufferedReader br = new BufferedReader(new FileReader(csvFile))){
+        BufferedReader br =
+                new BufferedReader(new InputStreamReader(
+                        inputStream));
+
+        String [] input = null;
+        int pins = 0;
+        int points = 0;
+
+        int i = 0;
+        while ((line = br.readLine()) != null){
+            // use comma as seperator
+
+            //get input
+            input = line.split(cvsSplitBy);
+//                System.out.println(Arrays.toString(input));
+
+            //get pins
+            pins = Integer.parseInt(input[0]);
+
+            //get points
+            points = Integer.parseInt(input[1]);
+            System.out.println("id: " + i + ", pins: " +  pins + ", points: " + points );
+
+           String uuid = UUID.randomUUID().toString();
+            Long ts = System.currentTimeMillis();
+            String timestamp = ts.toString();
+
+            //Date date = (Date) Calendar.getInstance().getTime();//fixme
+            // System.out.println("time = "+date);
+            Pins_points p = new Pins_points(uuid,ch,pins, points);
+            pp.add(p);
+            bowlingViewModel.insert(p);
+            i++;
+
+        }
+
+        // } catch(IOException e){
+        //     e.printStackTrace();
+        // }
+
+        return pp;
     }
 }

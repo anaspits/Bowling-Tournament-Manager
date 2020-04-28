@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Participant.class, Team.class,Championship.class,Round.class,Team_detail.class,Championship_detail.class,Round_detail.class,HDCPparameters.class}, version = 1,exportSchema = false)
+@Database(entities = {Participant.class, Team.class,Championship.class,Round.class,Team_detail.class,Championship_detail.class,Round_detail.class,Pins_points.class,HDCPparameters.class}, version = 1,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class BowlingRoomDatabase extends RoomDatabase {
 
@@ -18,6 +18,7 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
     public  abstract Championship_detailDao championship_detailDao();
     public  abstract RoundDao roundDao();
     public  abstract Round_detailDao rdDao();
+    public  abstract Pins_pointsDao ppDao();
 
 
     private static volatile BowlingRoomDatabase BowlingRoomInstance;
@@ -34,4 +35,5 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
         }
         return BowlingRoomInstance;
     }
+
 }

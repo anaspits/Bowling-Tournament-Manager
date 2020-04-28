@@ -24,10 +24,11 @@ public class PinsRoundActivity extends AppCompatActivity {
     private static Button nextRound_btn, exitRound_btn;
     public static int calc_pressed = 0;
     static ArrayList<Participant> bowlers;
+    static List<Pins_points> pp;
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     private static EditText editpins;
-    private static TextView team1,hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
+    private static TextView team1, pointstxt, scoretxt,hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
     public int bowlId;
     public static Team t;
    // public static Round r;
@@ -50,6 +51,8 @@ public class PinsRoundActivity extends AppCompatActivity {
         nextRound_btn = findViewById(R.id.nextRound_btn);
         exitRound_btn = findViewById(R.id.exitRound_btn);
         team1 = (TextView) findViewById(R.id.team1);
+        pointstxt =  findViewById(R.id.points);
+        scoretxt = findViewById(R.id.score1);
 
        //
         sumHDCP = findViewById(R.id.sumHDCP);
@@ -136,13 +139,13 @@ public class PinsRoundActivity extends AppCompatActivity {
             }
         });
 
-       /* axristo?
+       /* axristo? //todo na rwthsw ti ginetai me to sunolo korunwn twn paiktwn ths omadas
        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setBowls(part);
                 blistAdapter.setRound(curRound);
-                ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
+                ArrayList<Round_detail> rd = new ArrayList<>();
                 for (int i = 0; i < part.size(); i++) {
                     Round_detail round_detail = new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0, part.get(i).getHdcp());
                     System.out.println(" rounddetail: rid " + r.getFroundid() + " pid " + part.get(i).getFN());
@@ -153,6 +156,19 @@ public class PinsRoundActivity extends AppCompatActivity {
             }
         }); */
 
+        bowlingViewModel.getPins_pointsofChamp(champuuid).observe(this, new Observer<List<Pins_points>>() {
+            @Override
+            public void onChanged(List<Pins_points> rds) {
+                System.out.println("pp size " + rds.size());
+                pp=rds;
+                for (int i = 0; i < rds.size(); i++) {
+                    System.out.println("pp " + i + " pins " + pp.get(i).getPins() + " pointstxt " + pp.get(i).getPoints() + " uuid " + pp.get(i).getPins_uuid() + " champ " + pp.get(i).getChamp_uuid() );
+                    System.out.println("pp " + i + " pins " + rds.get(i).getPins() + " pointstxt " + rds.get(i).getPoints() + " uuid " + rds.get(i).getPins_uuid() + " champ " + rds.get(i).getChamp_uuid() );
+                }
+            }
+        });
+
+       //test
         bowlingViewModel.getAllRound_detail().observe(this, new Observer<List<Round_detail>>() { //axristo-test
             @Override
             public void onChanged(List<Round_detail> rds) {
@@ -165,11 +181,34 @@ public class PinsRoundActivity extends AppCompatActivity {
         });
     }
 
-    public void calculateScore(View View) { //todo
-        score1 = t.getScore();
-t.setScore(Integer.parseInt(editpins.getText().toString())); //edw tha prsthesw tous ponotus
-        curRound.setScore1(Integer.parseInt(editpins.getText().toString())); //edw apla tha valw tous pontous
-        calc_pressed = 1;
+    public void calculateScore(View View) {
+        if (editpins.getText().toString().equals("") ){
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Please insert the number of pins",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            score1 = t.getScore();
+            int point=0;
+            System.out.println("2 pins " + pp.get(0).getPins() + " pointstxt " + pp.get(0).getPoints() + " uuid " + pp.get(0).getPins_uuid() + " champ " + pp.get(0).getChamp_uuid() );
+
+            for (int i = 0; i < pp.size(); i++) {
+                if (i==0 && Integer.parseInt(editpins.getText().toString()) <= pp.get(i).getPins()){
+                    point+=pp.get(i).getPoints();
+                } else if (i==(pp.size()-1) && Integer.parseInt(editpins.getText().toString()) >= pp.get(i).getPins()){
+                    point+=pp.get(i).getPoints();
+                } else if (Integer.parseInt(editpins.getText().toString()) >= pp.get(i).getPins() && Integer.parseInt(editpins.getText().toString()) < pp.get(i+1).getPins()){ //mexri kai ta x pins = n pointstxt
+                    System.out.println(editpins.getText().toString()+">= " + pp.get(i).getPins() + " && " +Integer.parseInt(editpins.getText().toString())+"<"+ pp.get(i+1).getPoints() +" pointstxt "+pp.get(i).getPoints());
+                    point+=pp.get(i).getPoints();
+                }
+            }
+            score1+=point;
+            //t.setScore(score1); //todo na to kanw sto open activity
+            curRound.setScore1(point);
+            scoretxt.setText("Score: "+score1);
+            pointstxt.setText("Points: "+point);
+            calc_pressed = 1;
+        }
 
     }
 
@@ -177,8 +216,8 @@ t.setScore(Integer.parseInt(editpins.getText().toString())); //edw tha prsthesw 
         //String button_text;
         // button_text =((Button)View).getText().toString();
 if (calc_pressed ==1) {
+    t.setScore(score1);
     System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());
-
     bowlingViewModel.update(t);
     //bowlingViewModel.update(curRound);
 
@@ -262,8 +301,9 @@ if (calc_pressed ==1) {
 }
 }
 
-    public void exitActivity(View View) { //fixme save&exit
+    public void exitActivity(View View) {
         if (calc_pressed ==1) {
+            t.setScore(score1);
             curRound.setStatus("done");
             bowlingViewModel.update(curRound);
             System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());
