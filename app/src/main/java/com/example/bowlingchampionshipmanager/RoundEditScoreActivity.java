@@ -31,6 +31,7 @@ public class RoundEditScoreActivity extends AppCompatActivity {
     private RoundScoreListAdapterTeam2 blistAdapter2;
     public String champuuid;
     public Championship championship;
+    private Championship_detail cd1, cd2;
     public int calc_pressed=0;
 
     @Override
@@ -138,12 +139,30 @@ team2=te;
                 }
             });
 
+        //pairnw to champ_detail ths omadas 1 gia na dw to score ths
+        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid1, champuuid).observe(this, new Observer<Championship_detail>() {
+            @Override
+            public void onChanged(Championship_detail c) {
+                cd1 = c;
+                System.out.println("1 exei score=" + c.getScore());
+            }
+        });
+
+        //pairnw to champ_detail ths omadas 2 gia na dw to score ths
+        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid1, champuuid).observe(this, new Observer<Championship_detail>() {
+            @Override
+            public void onChanged(Championship_detail c) {
+                cd2 = c;
+                System.out.println("2 exei score=" + c.getScore());
+            }
+        });
 
     }
 
     public void calculateScore(View View) {
         //gia tin omada 1
-        score1=team1.getScore();
+       // score1=team1.getScore(); prin
+        score1=cd1.getScore(); //meta
         int first_sum1=0;
         int second_sum1=0;
         int third_sum1=0;
@@ -168,7 +187,8 @@ team2=te;
         sum3rd.setText(String.valueOf(third_sum1 ));
 
         //gia tin omada 2
-        score2=team2.getScore();
+       // score2=team2.getScore(); prin
+        score2=cd2.getScore(); //meta
         System.out.println("score2: "+score2);
         int first_sum2=0;
         int second_sum2=0;
@@ -264,15 +284,19 @@ team2=te;
             pontoi1+=5;
             pontoi2+=5;
         }
-
+        System.out.println("Prin score1: "+score1+ "score2: "+score2 +" points1 "+pontoi1+" points2 "+pontoi2);
         score1+=pontoi1; //todo kalutera na krathsw sto rd.score to score tou gyrou kai sto team.score to sunolo twn pontwn ths omadas
         score2+=pontoi2;//todo na to valw sto opennewActivity
-        team1.setScore(score1);//todo na rwthsw
-        team2.setScore(score2);
+        System.out.println("Meta score1: "+score1+ "score2: "+score2 +" points1 "+pontoi1+" points2 "+pontoi2);
+
+        //team1.setScore(score1);//todo na rwthsw
+       // team2.setScore(score2);
         txtscore1.setText("Score: "+pontoi1);
         txtscore2.setText("Score: "+pontoi2); //todo na valw koumpi sunolo (tou sum)
-        r.setScore1(pontoi1);
-        r.setScore2(pontoi2);
+        r.setScore1(score1);
+        r.setScore2(score2);
+        r.setPoints1(pontoi1);
+        r.setPoints2(pontoi2);
         //bowlingViewModel.update(r); //todo svisto
         calc_pressed=1;
     }
@@ -281,10 +305,12 @@ team2=te;
         // button_text =((Button)View).getText().toString();
         System.out.println("calc_pressed=" + calc_pressed);
         if (calc_pressed == 1) {
+            team1.setScore(score1);
+            team2.setScore(score2);
             System.out.println("team1 score " + team1.getScore() + " sid " + team1.getSys_teamID());//todo na rwthsw
             System.out.println("team2 score " + team2.getScore() + " sid " + team2.getSys_teamID());
-            bowlingViewModel.update(team1);//todo na kanw update sthn RoundActivity->openNewActivity k exit
-            bowlingViewModel.update(team2);
+            //bowlingViewModel.update(team1);//todo na kanw update sthn RoundActivity->openNewActivity k exit
+            //bowlingViewModel.update(team2);
 
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                 System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
@@ -308,6 +334,8 @@ team2=te;
             resultIntent.putExtra("selTeam", (Serializable) team1); //todo na kanw update edw to round me ta nea scores
             resultIntent.putExtra("team2", (Serializable) team2);
             resultIntent.putExtra("round2", (Serializable) r);
+            resultIntent.putExtra("score1", score1);
+            resultIntent.putExtra("score2", score2);
             setResult(RESULT_OK, resultIntent);
             finish();
 

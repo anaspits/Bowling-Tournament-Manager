@@ -36,8 +36,8 @@ public class Team implements Serializable {
     @ColumnInfo(name="team_name")
     private String teamName;
 
-    @ColumnInfo(name = "score")
-    private int score;
+    @ColumnInfo(name = "score") //to krataw sto round, an mporei 1 omada na einai se polla champ kai apo th stigmh pou h omada se ka8e champ 3ekinaei me 0 score to axristo? na mhn to svhsw
+    private int score; //Estw oti mia omada paizei se ena champ, kai an einai e <1 tote 3anampainei sth vash (3)
 
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "start_date")

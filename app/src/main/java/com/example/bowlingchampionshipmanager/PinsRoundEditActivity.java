@@ -107,6 +107,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 
     public void calculateScore(View View) {
         score1=team1.getScore();
+        //todo r.getscore1 kai pws 8a to pairnw apo to prohgoumeno round to score ths omadas 1?
         int first_sum1=0;
         int second_sum1=0;
         int third_sum1=0;
@@ -131,7 +132,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         sum3rd.setText(String.valueOf(third_sum1 ));
 
         int totalsum =  first_sum1+second_sum1+third_sum1;
-        totalSumtxt.setText(String.valueOf(totalsum));
+        totalSumtxt.setText("Total sum: "+String.valueOf(totalsum));
 //calculate pins score from points
             int point=0;
             System.out.println("2 pins " + pp.get(0).getPins() + " pointstxt " + pp.get(0).getPoints() + " uuid " + pp.get(0).getPins_uuid() + " champ " + pp.get(0).getChamp_uuid() );
@@ -148,10 +149,9 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             }
             score1+=point;
             //t.setScore(score1); //todo na to kanw sto open activity
-            r.setScore1(point);
+            r.setPoints1(point);
             txtscore1.setText("Score: "+score1);
             pointstxt.setText("Points: "+point);
-        r.setScore1(point);
             calc_pressed = 1;
         }
     public void openNewActivity(View View) {
@@ -160,6 +160,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         System.out.println("calc_pressed=" + calc_pressed);
         if (calc_pressed == 1) {
             team1.setScore(score1);
+            r.setScore1(score1);
             System.out.println("team1 score " + team1.getScore() + " sid " + team1.getSys_teamID());
 
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {

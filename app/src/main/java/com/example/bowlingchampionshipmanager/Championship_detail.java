@@ -30,6 +30,9 @@ public class Championship_detail {
     @NonNull
     private String sys_teamID;
 
+    @ColumnInfo(name="team_score") //0:energo :teleiwse
+    private int score;
+
     @ColumnInfo(name="active_flag") //0:energo :teleiwse
     private int active_flag;
 
@@ -45,8 +48,13 @@ public class Championship_detail {
         return sys_teamID;
     }
 
+
     public int getActive_flag() {
         return active_flag;
+    }
+
+    public int getScore() {
+        return score;
     }
 /* public void setSys_champDetailID(String sys_champDetailID) {
         this.sys_champDetailID = sys_champDetailID;
@@ -62,6 +70,10 @@ public class Championship_detail {
 
     public void setActive_flag(int active_flag) {
         this.active_flag = active_flag;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Championship_detail(String sys_champID, String sys_teamID) {

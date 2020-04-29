@@ -44,4 +44,5 @@
     <string name="round">Round</string>
     <string name="next_round">Next Round</string>
     <string name="cancel">Cancel</string>
+    <string name="main_menu">Main Menu</string>
 </resources>

@@ -58,9 +58,14 @@ public class Round implements Serializable {
     @ColumnInfo(name="score1")
     private int score1;
 
-
     @ColumnInfo(name="score2")
     private int score2;
+
+    @ColumnInfo(name="points1")
+    private int points1;
+
+    @ColumnInfo(name="points2")
+    private int points2;
 
     @ColumnInfo(name="status")
     private String status; //H na to kanw int? //done, current, next
@@ -123,6 +128,14 @@ public class Round implements Serializable {
         return froundid;
     }
 
+    public int getPoints1() {
+        return points1;
+    }
+
+    public int getPoints2() {
+        return points2;
+    }
+
     public void setChampid(int champid) {
         this.champid = champid;
     }
@@ -175,8 +188,15 @@ public class Round implements Serializable {
         this.date = date;
     }
 
+    public void setPoints1(int points1) {
+        this.points1 = points1;
+    }
 
-    public Round( String rounduuid,int froundid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID, int score1, int score2, String status) {
+    public void setPoints2(int points2) {
+        this.points2 = points2;
+    }
+
+    public Round(String rounduuid, int froundid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID, int score1, int score2, String status) {
         this.rounduuid=rounduuid;
         this.froundid = froundid;
         this.team1ID = team1ID;
