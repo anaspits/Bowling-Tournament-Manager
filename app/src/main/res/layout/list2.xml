@@ -48,13 +48,13 @@
 
         </LinearLayout>
 
-        <LinearLayout
+       <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <TextView
+          <!--   <TextView
                 android:id="@+id/txtscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,12 +68,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
+                android:layout_gravity=""
                 android:text="select"
-                android:tint="#9E9E9E" />
+                android:tint="#9E9E9E" /> -->
 
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
 
+               <TextView
+                   android:id="@+id/txtscore"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text=""
+                   android:textAlignment="center"
+                   android:textColor="#616161"
+                   android:textSize="18sp"
+                   android:textStyle="bold" />
 
+               <Button
+                   android:id="@+id/ivRowSelect"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentStart="true"
+                   android:layout_alignParentLeft="true"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginStart="29dp"
+                   android:layout_marginLeft="29dp"
+                   android:layout_marginTop="16dp"
+                   android:layout_marginEnd="20dp"
+                   android:layout_marginRight="20dp"
+                   android:layout_marginBottom="20dp"
+                   android:text="@string/select" />
+           </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -81,7 +81,7 @@ public class PinsRoundActivity extends AppCompatActivity {
             bowlId = bundleObject.getInt("bowlId"); //to sys tou team
             t = (Team) bundleObject.getSerializable("b_object");
             tuuid = t.getUuid();
-            score1 = t.getScore();
+
             championship = (Championship) bundleObject.getSerializable("champ");
             System.out.println("Champ in round = " + championship.getFchampID() + " " + championship.getUuid());
             champuuid = championship.getUuid();
@@ -206,7 +206,7 @@ public class PinsRoundActivity extends AppCompatActivity {
                     "Please insert the number of pins",
                     Toast.LENGTH_LONG).show();
         } else {
-            score1 = t.getScore();
+            score1 = t.getScore(); //cd.getScore()
             int point=0;
             System.out.println("2 pins " + pp.get(0).getPins() + " pointstxt " + pp.get(0).getPoints() + " uuid " + pp.get(0).getPins_uuid() + " champ " + pp.get(0).getChamp_uuid() );
 
@@ -244,7 +244,9 @@ public class PinsRoundActivity extends AppCompatActivity {
             if (bundleObject != null) {
                 t = (Team) bundleObject.getSerializable("selTeam");
                 curRound = (Round) bundleObject.getSerializable("round2");
+                score1 = bundleObject.getInt("score1");
                 System.out.println("GOT from editrounscore: ");
+                System.out.println("SCORE1: "+score1);
                 System.out.println("ROUND " + curRound.getFroundid() + " sid " + curRound.getRounduuid() + " status " + curRound.getStatus() + " t1: " + curRound.getTeam1ID() + " score " + curRound.getScore1() + " t2: " + curRound.getTeam2ID() + " score " + curRound.getScore2() + " uuid " + curRound.getRounduuid());
                 System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid());
                 Toast.makeText(
@@ -425,6 +427,7 @@ if (calc_pressed ==1) {
                 System.out.println("stat " + status_flag);
                 System.out.println("team1 score " + t.getScore() + " sid " + t.getSys_teamID());
                 bowlingViewModel.update(t);
+                cd.setScore(score1);
 
                 if (cd.getActive_flag() > 0) {
                     System.out.println("1 prin flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
@@ -438,8 +441,10 @@ if (calc_pressed ==1) {
                     }
                 } else if (cd.getActive_flag() == 0) {
                     System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                    bowlingViewModel.update(cd);
                 } else {
                     System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                    bowlingViewModel.update(cd);
                 }
 
                 System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
@@ -497,6 +502,7 @@ if (calc_pressed ==1) {
                 curRound.setStatus("done");
                 bowlingViewModel.update(curRound);
                 bowlingViewModel.update(t);
+                cd.setScore(score1);
                 //bowlingViewModel.update(championship);
                 // t.setActive_flag(1);
                 // bowlingViewModel.update(t);
@@ -513,8 +519,10 @@ if (calc_pressed ==1) {
                     }
                 } else if (cd.getActive_flag() == 0) {
                     System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                    bowlingViewModel.update(cd);
                 } else {
                     System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                    bowlingViewModel.update(cd);
                 }
 
                 System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);

@@ -726,6 +726,10 @@ public  void insert (Team_detail t){
         return rdDao.getRound_detail(pid,rid);
     }
 
+    LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid){
+        return rdDao.getallAllRound_detailofplayer(pid);
+    }
+
     private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {
 
         Round_detailDao mAsyncTaskDao;

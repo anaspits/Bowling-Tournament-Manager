@@ -24,12 +24,13 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
     private Team team;
     private int position;
     private BowlingViewModel bowlingViewModel;
-    private int finishedflag;
+    private int finishedTeamflag;
 
     public SelectRoundAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         bowlingViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(BowlingViewModel.class);
+        finishedTeamflag=0;
     }
     @NonNull
     @Override
@@ -45,12 +46,12 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
         if (mNotes != null) {
             Round note = mNotes.get(position);
             this.position=position;
-            System.out.println("selroundadapter flag "+finishedflag);
-            if (finishedflag==1){
+            System.out.println("selroundadapter flag "+ finishedTeamflag);
+            if (finishedTeamflag ==1){
                 if(team.getUuid().equals(note.getTeam1UUID())) {
-                    holder.setData("Round:"+note.getFroundid()+" VS Team:"+note.getTeam2ID(), String.valueOf(note.getScore1()), position);
+                    holder.setData(note.getFroundid()+") VS Team:"+note.getTeam2ID(), String.valueOf(note.getPoints1()), position);
                 } else if (team.getUuid().equals(note.getTeam2UUID())) {
-                    holder.setData("Round:"+note.getFroundid()+" VS Team:"+note.getTeam1ID(), String.valueOf(note.getScore2()), position);
+                    holder.setData(note.getFroundid()+") VS Team:"+note.getTeam1ID(), String.valueOf(note.getPoints2()), position);
                 }
             }else if (ch.getType()==2) {
                 holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(), position);
@@ -86,7 +87,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
         team = team1;
     }
     public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
-        finishedflag=i;
+        finishedTeamflag =i;
     }
 
 
@@ -100,7 +101,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
-            if( finishedflag==1){
+            if( finishedTeamflag ==1){
                 btSel.setVisibility(View.GONE);
                 txtscore=itemView.findViewById(R.id.txtscore);
             }
@@ -111,7 +112,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             noteItemView.setText(note);
             teamItemView.setText(teamid);
             mPosition = position;
-            if( finishedflag==1){
+            if( finishedTeamflag ==1){
                 if(team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam1UUID())) {
                     txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore1()));
                 } else if (team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam2UUID())) {

@@ -31,6 +31,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
     public Championship championship;
     static List<Pins_points> pp;
     public int calc_pressed=0;
+    private Championship_detail cd1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +104,19 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             }
         });
 
+        //pairnw to champ_detail ths omadas gia na dw to score ths
+        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid1, champuuid).observe(this, new Observer<Championship_detail>() {
+            @Override
+            public void onChanged(Championship_detail c1) {
+                cd1 = c1;
+                System.out.println("1 exei score=" + c1.getScore());
+            }
+        });
     }
 
     public void calculateScore(View View) {
-        score1=team1.getScore();
-        //todo r.getscore1 kai pws 8a to pairnw apo to prohgoumeno round to score ths omadas 1?
+        //score1=team1.getScore(); prin
+        score1=cd1.getScore(); //meta
         int first_sum1=0;
         int second_sum1=0;
         int third_sum1=0;
@@ -132,7 +141,8 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         sum3rd.setText(String.valueOf(third_sum1 ));
 
         int totalsum =  first_sum1+second_sum1+third_sum1;
-        totalSumtxt.setText("Total sum: "+String.valueOf(totalsum));
+        totalSumtxt.setText("Total sum: "+totalsum);
+
 //calculate pins score from points
             int point=0;
             System.out.println("2 pins " + pp.get(0).getPins() + " pointstxt " + pp.get(0).getPoints() + " uuid " + pp.get(0).getPins_uuid() + " champ " + pp.get(0).getChamp_uuid() );
@@ -149,7 +159,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             }
             score1+=point;
             //t.setScore(score1); //todo na to kanw sto open activity
-            r.setPoints1(point); //TODO NA KANW OTI EKANA STO ROUNDEDIT THS TvT ME TO cd
+            r.setPoints1(point);
             txtscore1.setText("Score: "+score1);
             pointstxt.setText("Points: "+point);
             calc_pressed = 1;
@@ -177,8 +187,9 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             }
 
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("selTeam", (Serializable) team1); //todo na kanw update edw to round me ta nea scores
+            resultIntent.putExtra("selTeam", (Serializable) team1);
             resultIntent.putExtra("round2", (Serializable) r);
+            resultIntent.putExtra("score1", score1);
             setResult(RESULT_OK, resultIntent);
             finish();
 

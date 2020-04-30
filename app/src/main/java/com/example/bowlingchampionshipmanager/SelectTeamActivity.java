@@ -71,7 +71,7 @@ btn=findViewById(R.id.exitRound_btn);
         });
     } doulevei*/
         //bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
-        bowlingViewModel.getActiveTeamsofChamp(champuuid).observe(this, new Observer<List<Team>>(){
+        bowlingViewModel.getActiveTeamsofChamp(champuuid).observe(this, new Observer<List<Team>>(){ //todo na emfanize mhows oles tis omades kai an einai active h' oxi kai aftes pou teleiwsan na tis stelnei sto finnishteam
             @Override
             public void onChanged(List<Team> t) {
                 blistAdapter.setSelected(t);

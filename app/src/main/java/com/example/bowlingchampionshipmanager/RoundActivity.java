@@ -319,7 +319,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 System.out.println("rds size " + rds.size());
 
                 for (int i = 0; i < rds.size(); i++) {
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
                 }
             }
         });
@@ -448,7 +448,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 score1 = bundleObject.getInt("score1");
                 score2 = bundleObject.getInt("score2");
                 System.out.println("GOT from editrounscore: ");
-                System.out.println("SCORE1: "+score1+"SCORE2 "+score2 );
+                System.out.println("SCORE1: "+score1+" SCORE2 "+score2 );
                 System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() + " uuid " + r2.getRounduuid());
                 System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid());
                 System.out.println("AND t2 " + t2.getFTeamID() + " sid " + t2.getSys_teamID() + " score " + t2.getScore() + " uuid " + t2.getUuid());
@@ -535,8 +535,10 @@ for (int i=0;i<test.size();i++){
                 }
             } else if (cd.getActive_flag() == 0) {
                 System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                bowlingViewModel.update(cd);
             } else {
                 System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                bowlingViewModel.update(cd);
             }
             if (t2 != null) {
                 if (cd2.getActive_flag() > 0) {
@@ -550,8 +552,10 @@ for (int i=0;i<test.size();i++){
                     }
                 } else if (cd2.getActive_flag() == 0) {
                     System.out.println("2 flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
                 } else {
                     System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
                 }
             }else {System.out.println("2 PROBLEM me null");} ///svisto
 
@@ -589,21 +593,28 @@ for (int i=0;i<test.size();i++){
             System.out.println("cd size= " + cds_count);
             System.out.println("fin cd size= " + fin_cds_count);
 
-            /*todo  for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
-            System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
-            System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-           bowlingviewmodel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUUid()){
-           int avg=0;
-           for(r=0;r<rd.size();i++){
-           avg+= rd.getScore;
+            for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+            System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+            System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+                int i2 = i;
+                bowlingViewModel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()).observe(this, new Observer<List<Round_detail>>() {
+               @Override
+               public void onChanged(List<Round_detail> rd) {
+           int avg=0; //todo na to kanw float h' na rwthsw
+           for(int r=0;r<rd.size();r++){
+               System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" i2 "+i2+" rounduuid "+rd.get(i2).getRound_uuid()+" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg+" rd size "+rd.size());
+                       avg+= rd.get(r).getScore();
+               System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+
            }
-           avg=avg/rd.size();
-           RoundScoreListAdapter2.editModelArrayList.get(i).setBolAvg(avg);
-            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
-            System.out.println(" paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i).getFN() +" avg "+ avg);
+           avg=avg/(3*rd.size());
+           RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg);
+            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
+                   System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
            }
-        }*/
+           });
+        }
 
             Intent i = new Intent(this, FinnishTeamActivity.class);
             //axrista?
@@ -721,6 +732,7 @@ for (int i=0;i<test.size();i++){
                 }
             } else if (cd.getActive_flag() == 0) {
                 System.out.println("1 flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                bowlingViewModel.update(cd);
             } else {
                 System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
             }
@@ -736,8 +748,10 @@ for (int i=0;i<test.size();i++){
                     }
                 } else if (cd2.getActive_flag() == 0) {
                     System.out.println("2 flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
                 } else {
                     System.out.println("2 PROBLEM me flag= " + cd2.getActive_flag() + " t2 " + t2.getFTeamID());
+                    bowlingViewModel.update(cd2);
                 }
             }else {System.out.println("2 PROBLEM me null");} ///svisto
 

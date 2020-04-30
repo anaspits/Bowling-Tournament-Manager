@@ -1,7 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectParticipantListAdapter.BowlingViewHolder>  {
@@ -28,12 +24,13 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
     private int position;
     private static  Round round;
     private BowlingViewModel bowlingViewModel;
-    private int finishedflag;
+    private int finishedTeamflag;
 
     public SelectParticipantListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         bowlingViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(BowlingViewModel.class);
+        finishedTeamflag =0;
     }
 
     @NonNull
@@ -82,12 +79,12 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
     }
 
     public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
-        finishedflag=i;
+        finishedTeamflag =i;
     }
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView noteItemView,teamItemView;
+        private TextView noteItemView,teamItemView,txthdcp;
         private int mPosition;
         private Button btSel;
 
@@ -95,8 +92,9 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
-            if( finishedflag==1){
+            if( finishedTeamflag ==1){
                 btSel.setVisibility(View.GONE);
+                txthdcp=itemView.findViewById(R.id.txtscore);
             }
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
@@ -105,6 +103,9 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
             noteItemView.setText(note);
             teamItemView.setText(String.valueOf(teamid));
             mPosition = position;
+            if( finishedTeamflag ==1){
+                txthdcp.setText(String.valueOf(mNotes.get(getAdapterPosition()).getHdcp()));
+            }
         }
 
         public void setListeners() {
