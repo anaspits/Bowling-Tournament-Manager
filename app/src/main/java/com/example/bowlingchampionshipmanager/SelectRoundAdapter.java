@@ -24,6 +24,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
     private Team team;
     private int position;
     private BowlingViewModel bowlingViewModel;
+    private int finishedflag;
 
     public SelectRoundAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
@@ -44,7 +45,14 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
         if (mNotes != null) {
             Round note = mNotes.get(position);
             this.position=position;
-            if (ch.getType()==2) {
+            System.out.println("selroundadapter flag "+finishedflag);
+            if (finishedflag==1){
+                if(team.getUuid().equals(note.getTeam1UUID())) {
+                    holder.setData("Round:"+note.getFroundid()+" VS Team:"+note.getTeam2ID(), String.valueOf(note.getScore1()), position);
+                } else if (team.getUuid().equals(note.getTeam2UUID())) {
+                    holder.setData("Round:"+note.getFroundid()+" VS Team:"+note.getTeam1ID(), String.valueOf(note.getScore2()), position);
+                }
+            }else if (ch.getType()==2) {
                 holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(), position);
             } else if (ch.getType()==1){
                 holder.setData("TEAM:" + note.getTeam1ID(), "", position);
@@ -71,18 +79,20 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
 
     public void setChamp(Championship champ) {
         ch = champ;
-        System.out.println("champid = " + ch.getFchampID() + " " + ch.getUuid());
+        System.out.println("selroundadapter champid = " + ch.getFchampID() + " " + ch.getUuid()+" "+ch.getStatus());
     }
 
     public void setSelTeam(Team team1) {
         team = team1;
-
+    }
+    public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
+        finishedflag=i;
     }
 
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView noteItemView,teamItemView;
+        private TextView noteItemView,teamItemView,txtscore;
         private int mPosition;
         private Button btSel;
 
@@ -90,6 +100,10 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
+            if( finishedflag==1){
+                btSel.setVisibility(View.GONE);
+                txtscore=itemView.findViewById(R.id.txtscore);
+            }
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
@@ -97,6 +111,14 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             noteItemView.setText(note);
             teamItemView.setText(teamid);
             mPosition = position;
+            if( finishedflag==1){
+                if(team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam1UUID())) {
+                    txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore1()));
+                } else if (team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam2UUID())) {
+                    txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore2()));
+
+                }
+            }
         }
         public void setListeners() {
             btSel.setOnClickListener(new View.OnClickListener() {

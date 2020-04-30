@@ -46,11 +46,11 @@ public class Championship implements Serializable {
     @NonNull
     private int teamID;
 
-    @ColumnInfo(name = "round")//axristo
+    @ColumnInfo(name = "round")//axristo //todo na to kanw rounds kai na krata ton arithmo-sunolo twn rounds tou champ?
     private int round; //se poio round vrisketai
 
     @ColumnInfo(name = "status")
-    private String status; //created, active, finished //todo: int? 0: energo, 1:teleiwse
+    private String status; //created, active, finished //todo active anti gia started
 
 
    // @TypeConverters(Converters.class) // axristo

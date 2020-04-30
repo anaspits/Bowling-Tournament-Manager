@@ -19,7 +19,7 @@ import java.util.List;
 public class RoundEditScoreActivity extends AppCompatActivity {
 
     private static TextView textTitle;
-    private static TextView sumHDCP,sum1st,sum2nd,sum3rd,sumHDCP2,sum1st2,sum2nd2,sum3rd2, txtscore1, txtscore2;;
+    private static TextView sumHDCP,sum1st,sum2nd,sum3rd,sumHDCP2,sum1st2,sum2nd2,sum3rd2, txtscore1, txtscore2, totalsum1, txtpoints1,totalsum2, txtpoints2;
     private static TextView team1txt, team2txt;
     public static Team team1, team2;
     public static Round r;
@@ -52,6 +52,10 @@ public class RoundEditScoreActivity extends AppCompatActivity {
         sum3rd2=findViewById(R.id.sum3rd2);
         txtscore1=findViewById(R.id.score1);
         txtscore2=findViewById(R.id.score2);
+        txtpoints1=findViewById(R.id.points);
+        totalsum1=findViewById(R.id.txvTotalSum);
+        txtpoints2=findViewById(R.id.points2);
+        totalsum2=findViewById(R.id.txvTotalSum2);
         calc_pressed=0;
         System.out.println("arxh edit calc_pressed="+calc_pressed);
 
@@ -142,18 +146,18 @@ team2=te;
         //pairnw to champ_detail ths omadas 1 gia na dw to score ths
         bowlingViewModel.getChamp_detailofTeamandChamp(tuuid1, champuuid).observe(this, new Observer<Championship_detail>() {
             @Override
-            public void onChanged(Championship_detail c) {
-                cd1 = c;
-                System.out.println("1 exei score=" + c.getScore());
+            public void onChanged(Championship_detail c1) {
+                cd1 = c1;
+                System.out.println("1 exei score=" + c1.getScore());
             }
         });
 
         //pairnw to champ_detail ths omadas 2 gia na dw to score ths
-        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid1, champuuid).observe(this, new Observer<Championship_detail>() {
+        bowlingViewModel.getChamp_detailofTeamandChamp(tuuid2, champuuid).observe(this, new Observer<Championship_detail>() {
             @Override
-            public void onChanged(Championship_detail c) {
-                cd2 = c;
-                System.out.println("2 exei score=" + c.getScore());
+            public void onChanged(Championship_detail c2) {
+                cd2 = c2;
+                System.out.println("2 exei score=" + c2.getScore());
             }
         });
 
@@ -185,6 +189,7 @@ team2=te;
         sum1st.setText(String.valueOf(first_sum1));
         sum2nd.setText(String.valueOf(second_sum1));
         sum3rd.setText(String.valueOf(third_sum1 ));
+        totalsum1.setText("Total Sum: "+(first_sum1+second_sum1+third_sum1));
 
         //gia tin omada 2
        // score2=team2.getScore(); prin
@@ -210,6 +215,7 @@ team2=te;
         sum1st2.setText(String.valueOf(first_sum2));
         sum2nd2.setText(String.valueOf(second_sum2));
         sum3rd2.setText(String.valueOf(third_sum2 ));
+        totalsum2.setText("Total Sum: "+(first_sum2+second_sum2+third_sum2));
 
         //pontoi
         int pontoi1=0;
@@ -288,11 +294,12 @@ team2=te;
         score1+=pontoi1; //todo kalutera na krathsw sto rd.score to score tou gyrou kai sto team.score to sunolo twn pontwn ths omadas
         score2+=pontoi2;//todo na to valw sto opennewActivity
         System.out.println("Meta score1: "+score1+ "score2: "+score2 +" points1 "+pontoi1+" points2 "+pontoi2);
-
         //team1.setScore(score1);//todo na rwthsw
        // team2.setScore(score2);
-        txtscore1.setText("Score: "+pontoi1);
-        txtscore2.setText("Score: "+pontoi2); //todo na valw koumpi sunolo (tou sum)
+        txtscore1.setText("Score: "+score1);
+        txtscore2.setText("Score: "+score2); //todo na valw koumpi sunolo (tou sum)
+        txtpoints1.setText("Points: "+pontoi1);
+        txtpoints2.setText("Points: "+pontoi2);
         r.setScore1(score1);
         r.setScore2(score2);
         r.setPoints1(pontoi1);
@@ -315,15 +322,15 @@ team2=te;
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                 System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                 System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
-
+                //todo RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3?
                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
-                //todo RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
-
+//todo to idio k gia team2
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
             }
+
 
             //test
             if (team2 != null) {

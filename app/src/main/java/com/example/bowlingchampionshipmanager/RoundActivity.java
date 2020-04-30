@@ -564,7 +564,7 @@ for (int i=0;i<test.size();i++){
 
         //META
         if (cd.getActive_flag() > 0) { //next
-            bowlingViewModel.update(curRound); //todo na perasw to r2 sto curround gia na kanw update mono to r2
+            bowlingViewModel.update(curRound);
             System.out.println("5 Current round stat = " + curRound.getStatus());
   //  if(r2!=null){        bowlingViewModel.update(r2);
    //         System.out.println("5.5 Current round stat = " + r2.getStatus());}
@@ -588,6 +588,22 @@ for (int i=0;i<test.size();i++){
             System.out.println("flag= " + cd.getActive_flag());
             System.out.println("cd size= " + cds_count);
             System.out.println("fin cd size= " + fin_cds_count);
+
+            /*todo  for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+            System.out.println(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+            System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+
+           bowlingviewmodel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUUid()){
+           int avg=0;
+           for(r=0;r<rd.size();i++){
+           avg+= rd.getScore;
+           }
+           avg=avg/rd.size();
+           RoundScoreListAdapter2.editModelArrayList.get(i).setBolAvg(avg);
+            bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+            System.out.println(" paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i).getFN() +" avg "+ avg);
+           }
+        }*/
 
             Intent i = new Intent(this, FinnishTeamActivity.class);
             //axrista?
@@ -680,14 +696,14 @@ for (int i=0;i<test.size();i++){
 
 }
 
-    public void exitActivity(View View) { //fixme save&exit
+    public void exitActivity(View View) {
         System.out.println("save_pressed=" + save_pressed);
         if (save_pressed == 1) {
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
             cd.setScore(score1);
             cd2.setScore(score2);
-            curRound.setStatus("done");
+            curRound.setStatus("done");//axristo afou to kanw pio panw
             bowlingViewModel.update(curRound);
             //bowlingViewModel.update(championship);
             // t.setActive_flag(1);
@@ -761,7 +777,7 @@ for (int i=0;i<test.size();i++){
         }
     }
     public void cancel(View view) {
-        curRound.setStatus("next");
+        curRound.setStatus("next"); //axristo
        // bowlingViewModel.update(curRound); //todo H' apla den kanw update vasika
         //bowlingViewModel.update(championship);
         // t.setActive_flag(0);

@@ -149,7 +149,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             }
             score1+=point;
             //t.setScore(score1); //todo na to kanw sto open activity
-            r.setPoints1(point);
+            r.setPoints1(point); //TODO NA KANW OTI EKANA STO ROUNDEDIT THS TvT ME TO cd
             txtscore1.setText("Score: "+score1);
             pointstxt.setText("Points: "+point);
             calc_pressed = 1;

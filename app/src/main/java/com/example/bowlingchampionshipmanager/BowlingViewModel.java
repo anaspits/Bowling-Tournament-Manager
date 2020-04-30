@@ -637,6 +637,10 @@ public  void insert (Team_detail t){
         return rDao.getRoundsofTeam(teamuuid,champuuid);
     }
 
+    LiveData<List<Round>> getAllRoundsofTeam( String teamuuid,String champuuid){
+        return rDao.getAllRoundsofTeam(teamuuid,champuuid);
+    }
+
     LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid){
         return rDao.getCurrentRoundofTeam(teamuuid,champuuid);
     }
