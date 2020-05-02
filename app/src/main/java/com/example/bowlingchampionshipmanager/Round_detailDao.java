@@ -31,4 +31,7 @@ public interface Round_detailDao {
     @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid ")
     LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid);
 
+    @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name, participant.avg,participant.hdcp ,round_detail.score, round_detail.round_uuid, round.froundid FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid INNER JOIN round ON round_detail.round_uuid=round.round_uuid INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER JOIN championship_detail ON team_detail.team_uuid = championship_detail.team_uuid  WHERE championship_detail.champ_uuid=:chid AND round_detail.round_uuid=:rid AND round.froundid<=:frid ORDER BY round_detail.score")
+    LiveData<List<PlayerandGames>> getPlayerScoreGamesofPreviousRounds( String rid,String chid, int frid);
+
 }

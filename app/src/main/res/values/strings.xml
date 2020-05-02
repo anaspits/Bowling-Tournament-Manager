@@ -46,4 +46,10 @@
     <string name="cancel">Cancel</string>
     <string name="main_menu">Main Menu</string>
     <string name="select">Select</string>
+    <string name="average">Average</string>
+    <string name="statistics">Statistics</string>
+    <string name="championships">Championships</string>
+    <string name="teams">Teams</string>
+    <string name="players">Players</string>
+    <string name="rounds">Rounds</string>
 </resources>

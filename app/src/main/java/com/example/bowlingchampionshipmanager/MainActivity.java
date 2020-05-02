@@ -41,10 +41,22 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent start = new Intent(this,Create1Activity.class);
             startActivity(start);
-        }  else if (button_text.equals("Continue Championship")){
-            Intent i = new Intent(this,ContinueChampActivity.class);
+        }  else if (button_text.equals("Continue Championship")) {
+            Intent i = new Intent(this, ContinueChampActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("flag", "con");
+            i.putExtras(extras);
             startActivity(i);
-        }  else if (button_text.equals("Exit")){
+        }else if(button_text.equals("Finished Championships")){
+            Intent i = new Intent(this, ContinueChampActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("flag", "old");
+            i.putExtras(extras);
+            startActivity(i);
+        } else if(button_text.equals("Statistics")){
+            Intent i = new Intent(this, StatisticsActivity.class);
+            startActivity(i);
+        }        else if (button_text.equals("Exit")){
             finish(); //todo na kleinei olh thn efarmogh, oxi mono to activity
         }
 

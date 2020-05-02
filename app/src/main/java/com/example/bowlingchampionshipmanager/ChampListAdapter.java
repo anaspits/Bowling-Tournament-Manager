@@ -24,11 +24,13 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
     private Context mContext;
     private List<Championship> mNotes;
     private OnDeleteClickListener onDeleteClickListener;
+    public int flag_stat=0;
 
     public ChampListAdapter(Context context, OnDeleteClickListener listener) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         this.onDeleteClickListener = listener;
+        flag_stat=0;
     }
 
     @NonNull
@@ -63,6 +65,10 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
     public void setChamp(List<Championship> notes) {
         mNotes = notes;
         notifyDataSetChanged();
+    }
+
+    public void setFlagStat(int f) {
+        flag_stat = f;
 
     }
 
@@ -82,8 +88,8 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
         }
 
         public void setData(String note, int chid, int position) {
-            noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(chid));
+            noteItemView.setText(String.valueOf(chid));
+            teamItemView.setText(note);
             mPosition = position;
         }
 
@@ -109,11 +115,19 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent= new Intent(mContext,SelectTeamActivity.class);
-                    intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
-                    intent.putExtra("champ", mNotes.get(mPosition));
-                    //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
-                    mContext.startActivity(intent);
+                  //todo  if (flag_stat == 1)
+                        if (mNotes.get(mPosition).getStatus().equals("Finished")) {
+                            Intent intent = new Intent(mContext, FinishChampActivity.class);
+                            intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
+                            intent.putExtra("champ", mNotes.get(mPosition));
+                            mContext.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, SelectTeamActivity.class);
+                            intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
+                            intent.putExtra("champ", mNotes.get(mPosition));
+                            //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
+                            mContext.startActivity(intent);
+                        }
                 }
             });
         }

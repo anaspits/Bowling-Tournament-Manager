@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinnishTeamActivity extends AppCompatActivity {
+public class FinishTeamActivity extends AppCompatActivity {
 
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
@@ -31,7 +31,7 @@ public class FinnishTeamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finnish_team);
+        setContentView(R.layout.activity_finish_team);
 
         textTitle = findViewById(R.id.textTitle);
         textView1 = findViewById(R.id.textView1);
@@ -42,8 +42,8 @@ public class FinnishTeamActivity extends AppCompatActivity {
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers"); //axreiasto
             hdcp_parameters = (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
-            t = (Team) bundleObject.getSerializable("b_object");
-            textTitle.setText("Finnish Championship for Team "+t.getTeamName());
+            t = (Team) bundleObject.getSerializable("b_object"); //todo na min dexetai team, alla mono uuid
+            textTitle.setText("Finish Championship for Team "+t.getTeamName());
             textView1.setText("Results for Team: "+t.getTeamName());
             tuuid = t.getUuid();
             //score1 = t.getScore();
@@ -62,7 +62,7 @@ public class FinnishTeamActivity extends AppCompatActivity {
         recyclerView2.setAdapter(blistAdapter);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
 
-        //todo na upologisw to neo avg twn paiktwn
+
         bowlingViewModel.getAllRoundsofTeam(t.getUuid(),champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> rounds) {
@@ -77,7 +77,7 @@ public class FinnishTeamActivity extends AppCompatActivity {
         bowlingViewModel.getChamp_detailofTeamandChamp(tuuid, champuuid).observe(this, new Observer<Championship_detail>() {
             @Override
             public void onChanged(Championship_detail c) {
-                finalsc.setText("Final Score: "+c.getScore());
+                finalsc.setText("Final Score: "+c.getScore()); //fixme gia kapoio logo to cd.score einai to a8roisma twn 2 teleftaiwn
             }
         });
 
@@ -100,5 +100,9 @@ public class FinnishTeamActivity extends AppCompatActivity {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
+        finish();
+    }
+
+    public void export(View view) { //todo
     }
 }

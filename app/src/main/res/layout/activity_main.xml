@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="#4CAF50"
@@ -21,7 +21,6 @@
         android:textColor="#F9F9F9"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_start" />
 
@@ -61,6 +60,46 @@
         tools:text="Start a Championship" />
 
     <Button
+        android:id="@+id/button_old"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#4CAF50"
+        android:onClick="openNewActivity"
+        android:text="Finished Championships"
+        android:textColor="#F9F9F9"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_con"
+        app:layout_constraintVertical_bias="0.125" />
+
+    <Button
+        android:id="@+id/button_stat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#4CAF50"
+        android:onClick="openNewActivity"
+        android:text="Statistics"
+        android:textColor="#F9F9F9"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_old"
+        app:layout_constraintVertical_bias="0.263" />
+
+    <Button
         android:id="@+id/button_exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,8 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_con"
-        app:layout_constraintVertical_bias="0.407"
+        app:layout_constraintTop_toBottomOf="@+id/button_stat"
         tools:text="Exit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

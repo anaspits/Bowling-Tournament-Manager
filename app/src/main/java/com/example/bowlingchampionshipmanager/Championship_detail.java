@@ -30,7 +30,7 @@ public class Championship_detail {
     @NonNull
     private String sys_teamID;
 
-    @ColumnInfo(name="team_score") //0:energo :teleiwse
+    @ColumnInfo(name="team_score")
     private int score;
 
     @ColumnInfo(name="active_flag") //0:energo :teleiwse

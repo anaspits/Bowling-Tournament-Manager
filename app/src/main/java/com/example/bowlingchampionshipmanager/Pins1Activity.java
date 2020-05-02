@@ -34,7 +34,7 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     private static final int OPEN_REQUEST_CODE=41;
     public static ArrayList<Team> all_the_teams; //xrhsimo
     static ArrayList<String> hdcp_parameters;
-    public String teamuuid;
+    public String teamuuid; //axristo
     private BowlingViewModel bowlingViewModel;
     private BowlingListAdapter blistAdapter;
     public String champuuid;
@@ -59,7 +59,7 @@ private EditText editNorounds;
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
-            teamuuid=bundleObject.getString("teamid");
+            teamuuid=bundleObject.getString("teamid"); //axristo
             champuuid = bundleObject.getString("champuuid");
             ch= (Championship) bundleObject.getSerializable("champ");
 
@@ -303,7 +303,7 @@ private EditText editNorounds;
               Bundle extras = new Bundle();
               extras.putSerializable("bowlers", bowlers);
               extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
-              extras.putString("teamid", teamuuid);
+              extras.putString("teamid", teamuuid); //axristo
               extras.putString("champuuid", champuuid);
               extras.putSerializable("champ", ch);
               i.putExtras(extras);

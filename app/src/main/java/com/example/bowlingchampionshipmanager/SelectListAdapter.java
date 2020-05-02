@@ -29,6 +29,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
  private int position;
     private static  Round round;
     private BowlingViewModel bowlingViewModel;
+    private int finishedTeamflag;
 
     public static List<Round> rounds = new ArrayList<>(); //test
 
@@ -36,6 +37,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         bowlingViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(BowlingViewModel.class);
+        finishedTeamflag=0;
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
         if (mNotes != null) {
             Team note = mNotes.get(position);
             this.position=position;
-            holder.setData(note.getTeamName(),note.getFTeamID(), position);
+            holder.setData(note.getTeamName(),note.getFTeamID(), position); //fixme pio omorfo
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -72,6 +74,10 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
         mNotes = notes;
         notifyDataSetChanged();
 
+    }
+
+    public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
+        finishedTeamflag =i;
     }
 
     public void setChamp(Championship champ) {
@@ -143,6 +149,13 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                         intent.putExtra("count", getItemCount());
                         intent.putExtra("b_object", mNotes.get(mPosition));
                         intent.putExtra("champ", ch);
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, Create3Activity.class);
+                        intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                        intent.putExtra("b_object", mNotes.get(mPosition));
+                        intent.putExtra("champ", ch);
+                        intent.putExtra("champuuid", ch.getUuid());
                         mContext.startActivity(intent);
                     }
                 }

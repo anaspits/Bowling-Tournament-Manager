@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical">
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Finish Championship"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
+            android:textAlignment="center"
+            app:layout_constraintVertical_bias="0.178"
+            tools:text="Finish Championship" />
+
+        <!-- Teams ranking -->
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Team Ranking"
+            android:textSize="20sp"
+            android:layout_marginTop="35dp"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle"
+            app:layout_constraintVertical_bias="0.064"
+            tools:text="Team Ranking" />
+        <TextView
+            android:id="@+id/winnerTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Winning Team:"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvteamrank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Team"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvscorerank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Score"
+                    android:textColor="#616161"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewrank"
+            android:layout_width="421dp"
+            android:layout_height="220dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_hdcp_parameters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            tools:listitem="@layout/list2" />
+
+
+        <!-- Rounds -->
+        <TextView
+            android:id="@+id/txtrounds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Rounds: "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle"
+            app:layout_constraintVertical_bias="0.064" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvround"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Round"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvpoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="@string/teams"
+                    android:textAlignment="center"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvscore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Score"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewround"
+            android:layout_width="421dp"
+            android:layout_height="220dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_hdcp_parameters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            tools:listitem="@layout/doublelist" />
+
+<!--Players-->>
+
+        <TextView
+            android:id="@+id/txtplayers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Players: "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle"
+            app:layout_constraintVertical_bias="0.064"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvplayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Player"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvpscore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="@string/average"
+                    android:textAlignment="center"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvhdcp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="@string/hdcp"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewplayers"
+            android:layout_width="match_parent"
+            android:layout_height="147dp"
+            tools:listitem="@layout/list2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="openNewActivity"
+                android:text="@string/main_menu"/>
+            <Button
+                android:id="@+id/export"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="export"
+                android:text="@string/export"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+
+</LinearLayout>
+
+
+

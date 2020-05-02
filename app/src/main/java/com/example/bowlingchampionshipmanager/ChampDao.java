@@ -54,5 +54,8 @@ public interface ChampDao { //gia ta Team
     @Query("SELECT * FROM championship WHERE (status='created' OR status='started')") //vash 3
     LiveData<List<Championship>> getActiveChamp3();
 
+    @Query("SELECT * FROM championship WHERE status='Finished' ") //vash 3
+    LiveData<List<Championship>> getFinChamps();
+
 }
 

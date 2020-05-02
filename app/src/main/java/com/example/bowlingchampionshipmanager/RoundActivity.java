@@ -447,10 +447,11 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 curRound=r2;
                 score1 = bundleObject.getInt("score1");
                 score2 = bundleObject.getInt("score2");
+
                 System.out.println("GOT from editrounscore: ");
-                System.out.println("SCORE1: "+score1+" SCORE2 "+score2 );
+                System.out.println("SCORE1: "+score1+" SCORE2 "+score2 ); //fixme poio score einai poias omadas? pairniountai la8os
                 System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() + " uuid " + r2.getRounduuid());
-                System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid());
+                System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid()); //fixme
                 System.out.println("AND t2 " + t2.getFTeamID() + " sid " + t2.getSys_teamID() + " score " + t2.getScore() + " uuid " + t2.getUuid());
                 Toast.makeText(
                         getApplicationContext(),
@@ -506,10 +507,17 @@ for (int i=0;i<test.size();i++){
 }*///PASS ROUND PART 6//
         System.out.println("save_pressed="+save_pressed);
         if (save_pressed == 1){
+            if(t.getUuid().equals(curRound.getTeam1UUID())){
+                cd.setScore(score1);
+                cd2.setScore(score2);
+            } else if(t.getUuid().equals(curRound.getTeam2UUID())){
+                cd.setScore(score2);
+                cd2.setScore(score1);
+            }
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
-            cd.setScore(score1);
-            cd2.setScore(score2);
+          //  cd.setScore(score1); to kanw sto onresult
+           // cd2.setScore(score2); to kanw sto onresult
             System.out.println(" lol dokimh " + RoundListAdapter.mNotes.get(0).getFroundid() + " t1 " + RoundListAdapter.mNotes.get(0).getTeam1ID() + " t2 " + RoundListAdapter.mNotes.get(0).getTeam2ID());
         System.out.println("3 Current Round of team " + t.getFTeamID() + " is currround2 " + curRound2.getFroundid() + " with t1: " + curRound2.getTeam1ID() + " and t2: " + curRound2.getTeam2ID() + " and sysID: " + curRound2.getRoundid());
         System.out.println("4 Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is curround " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid()+" score1 "+curRound.getScore1()+" score2 "+curRound.getScore2());
@@ -615,18 +623,32 @@ for (int i=0;i<test.size();i++){
            }
            });
         }
+if(championship.getStatus().equals( "Finished")){
+    Intent i = new Intent(this, FinishChampActivity.class);
+    Bundle extras = new Bundle();
+    extras.putSerializable("champ", championship);
+    //axrista?
+    extras.putSerializable("bowlers", bowlers);
+    extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+    extras.putSerializable("all_the_teams", all_the_teams);
+    extras.putSerializable("b_object", t); //selected team
+    i.putExtras(extras);
+    startActivity(i);
+    finish();
 
-            Intent i = new Intent(this, FinnishTeamActivity.class);
-            //axrista?
-            Bundle extras = new Bundle();
-            extras.putSerializable("bowlers", bowlers);
-            extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
-            extras.putSerializable("all_the_teams", all_the_teams);
-            extras.putSerializable("vs", vs);
-            extras.putSerializable("champ", championship);
-            extras.putSerializable("b_object", t); //selected team
-            i.putExtras(extras); //
-            startActivity(i);
+            } else{
+                Intent i = new Intent(this, FinishTeamActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("bowlers", bowlers);
+                extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                extras.putSerializable("all_the_teams", all_the_teams);
+                extras.putSerializable("vs", vs);
+                extras.putSerializable("champ", championship);
+                extras.putSerializable("b_object", t); //selected team
+                i.putExtras(extras);
+                startActivity(i);
+                finish();
+            }
         }
 
 /* PRIN
@@ -710,10 +732,17 @@ for (int i=0;i<test.size();i++){
     public void exitActivity(View View) {
         System.out.println("save_pressed=" + save_pressed);
         if (save_pressed == 1) {
+            if(t.getUuid().equals(curRound.getTeam1UUID())){
+                cd.setScore(score1);
+                cd2.setScore(score2);
+            } else if(t.getUuid().equals(curRound.getTeam2UUID())){
+                cd.setScore(score2);
+                cd2.setScore(score1);
+            }
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
-            cd.setScore(score1);
-            cd2.setScore(score2);
+          //  cd.setScore(score1);to kanw sto onresult
+           // cd2.setScore(score2);to kanw sto onresult
             curRound.setStatus("done");//axristo afou to kanw pio panw
             bowlingViewModel.update(curRound);
             //bowlingViewModel.update(championship);
@@ -783,6 +812,7 @@ for (int i=0;i<test.size();i++){
             extras.putSerializable("b_object", t); //selected team
             i.putExtras(extras); //
             startActivity(i);
+            finish();
         } else{
             Toast.makeText(
                     getApplicationContext(),
@@ -807,6 +837,7 @@ for (int i=0;i<test.size();i++){
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
+        finish();
     }
 
     @Override

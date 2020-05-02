@@ -12,13 +12,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ContinueChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
+public class OldChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
 
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
@@ -27,24 +25,12 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     private BowlingViewModel bowlingViewModel;
     private EditViewModel eViewModel;
     private ChampListAdapter clistAdapter;
-    private TextView textView1,txvTeam,txvNote;
-    private String flag=""; //con, old, stat
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_continue_champ);
-
-        textView1=findViewById(R.id.textView1);
-        txvTeam= findViewById(R.id.txvTeam);
-        txvNote= findViewById(R.id.txvNote);
-
-        Bundle bundleObject = this.getIntent().getExtras();
-        if (bundleObject != null) {
-            flag =  bundleObject.getString("flag");
-        }
+        setContentView(R.layout.activity_old_champ);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -53,61 +39,23 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eViewModel= ViewModelProviders.of(this).get(EditViewModel.class);
 
-
-        if(flag.equals("con")){
-       // bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
-       bowlingViewModel.getActiveChamp3().observe(this, new Observer<List<Championship>>() {
+        bowlingViewModel.getFinChamps().observe(this, new Observer<List<Championship>>() {
             @Override
             public void onChanged(List<Championship> c) {
                 clistAdapter.setChamp(c);
-                if(c.size()==0){
-                    textView1.setText("There are no Active Championships at the moment");
-                    txvTeam.setText("");
-                    txvNote.setText("");
-                }
             }
         });
-        } else if (flag.equals("old")){
-            textView1.setText("Finished Championships");
-            bowlingViewModel.getFinChamps().observe(this, new Observer<List<Championship>>() {
-                @Override
-                public void onChanged(List<Championship> c) {
-                    clistAdapter.setChamp(c);
-                    if(c.size()==0){
-                        textView1.setText("There are no Finished Championships at the moment");
-                        txvTeam.setText("");
-                        txvNote.setText("");
-                    }
-                }
-            });
-        } else if (flag.equals("stat")){
-            textView1.setText("Select which Championship's Statistics you want to view");
-             bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
-            @Override
-                public void onChanged(List<Championship> c) {
-                    clistAdapter.setChamp(c);
-                    clistAdapter.setFlagStat(1);
-                    if(c.size()==0){
-                        textView1.setText("There are no Championships at the moment");
-                        txvTeam.setText("");
-                        txvNote.setText("");
-                    }
-                }
-            });
-        }
 
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
-
+//axrista?
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
 
-        if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
+        if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { //fixme den kanei update
             Button c= findViewById(R.id.back_btn);
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
@@ -121,7 +69,6 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
 
             }
         } else if (requestCode == UPDATE_TEAM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
-            Button c= findViewById(R.id.back_btn);
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 Team t;

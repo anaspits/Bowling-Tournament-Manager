@@ -58,7 +58,7 @@ public class Participant implements Serializable {
     @ColumnInfo(name="sex")
     String sex;
 
-    @ColumnInfo(name="avg")
+    @ColumnInfo(name="avg") //todo na kanw float
     int bowlAvg;
 
     @ColumnInfo(name="hdcp") //todo

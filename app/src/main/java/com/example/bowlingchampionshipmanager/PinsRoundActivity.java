@@ -469,7 +469,7 @@ if (calc_pressed ==1) {
                     //finish();
                     System.out.println("here 2 " + curRound.getStatus());
                     startActivity(i);
-                } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth
+                } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth //finish
                     curRound.setStatus("done");
                     bowlingViewModel.update(curRound);
                     //textTitle.setText("This Round has already been done");

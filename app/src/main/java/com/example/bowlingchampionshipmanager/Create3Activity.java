@@ -21,7 +21,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
-    public String teamuuid;
+    public String teamuuid; //axristo
     //private static TextView t;
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
@@ -52,7 +52,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             //t.setText(hdcp_parameters.get(0));
-            teamuuid=bundleObject.getString("teamid");
+            teamuuid=bundleObject.getString("teamid"); //todo na pernaw to object
             champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
         }
@@ -104,7 +104,7 @@ championship = c;
                 Bundle extras = new Bundle();
                 extras.putSerializable("bowlers",bowlers);
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
-               extras.putString("teamid",teamuuid);
+               extras.putString("teamid",teamuuid); //giati?
                extras.putString("champuuid",champuuid);
                extras.putSerializable("champ",championship);
                extras.putSerializable("all_the_teams",all_the_teams);

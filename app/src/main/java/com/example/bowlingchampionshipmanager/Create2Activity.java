@@ -330,7 +330,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
             bundle.putSerializable("all_the_teams",all_the_teams);
-            bundle.putString("teamid",teamuuid);
+            bundle.putString("teamid",teamuuid); //todo giati to pairnaw auto?
             bundle.putString("champuuid",champuuid);
             bundle.putSerializable("champ",championship);
             i.putExtras(bundle);

@@ -61,6 +61,10 @@ public interface TeamDao { //gia ta Team
     @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid AND championship_detail.active_flag>0 ORDER BY team.fteamID")
     LiveData<List<Team>> getActiveTeamsofChamp(String champid);
 
+   // @Query("SELECT team.sys_teamID,team.team_uuid,team.fteamID,team.team_name,team.score,team.start_date,team.end_date,team.vs,team.champID,team.active_flag FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid ORDER BY championship_detail.team_score DESC")
+   @Query("SELECT team.team_uuid,team.fteamID,team.team_name,championship_detail.team_score FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid ORDER BY championship_detail.team_score DESC")
+   LiveData<List<TeamandScore>> getRankedAllTeamsofChamp( String champid);
+
 
     @Transaction
     @Query("SELECT * FROM championship WHERE champ_uuid=:champuuid") //todo: na valw order

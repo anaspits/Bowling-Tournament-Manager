@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+android:layout_marginBottom="1dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvup1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Round"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txvdown1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text=""
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvup2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Team"
+                android:textAlignment="center"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txvdown2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvup3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Score"
+                android:textAlignment="center"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txvdown3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="#616161"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

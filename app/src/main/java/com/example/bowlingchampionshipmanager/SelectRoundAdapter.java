@@ -125,7 +125,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(ch.getType()==2) {
+                    if(ch.getType()==2) { //todo if flag stat
                         Intent intent = new Intent(mContext, RoundEditScoreActivity.class);
                         intent.putExtra("round", mNotes.get(mPosition));
                         intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
