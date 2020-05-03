@@ -77,6 +77,7 @@ public class RoundDoublelistAdapter  extends RecyclerView.Adapter<com.example.bo
                 down1 = itemView.findViewById(R.id.txvdown1);
                 down2= itemView.findViewById(R.id.txvdown2);
                 down3= itemView.findViewById(R.id.txvdown3);
+
             }
 
             public void setData(String u1, String u2,String d2,int u3, int d3, int position) {
@@ -84,9 +85,11 @@ public class RoundDoublelistAdapter  extends RecyclerView.Adapter<com.example.bo
                 up2.setText(u2);
                 mPosition = position;
                 up3.setText(String.valueOf(u3));
-                down2.setText(d2);
-                down3.setText(String.valueOf(d3));
+                if (ch.getType() == 2) {
+                    down2.setText(d2);
+                    down3.setText(String.valueOf(d3));
                 }
+            }
             }
 
     }

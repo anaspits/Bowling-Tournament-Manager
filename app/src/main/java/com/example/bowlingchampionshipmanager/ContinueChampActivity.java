@@ -28,7 +28,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     private EditViewModel eViewModel;
     private ChampListAdapter clistAdapter;
     private TextView textView1,txvTeam,txvNote;
-    private String flag=""; //con, old, stat
+    private String flag=""; //con, old, stat, rounds_stat
 
 
 
@@ -80,13 +80,27 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                     }
                 }
             });
-        } else if (flag.equals("stat")){
+        } else if (flag.equals("champ_stat")){
             textView1.setText("Select which Championship's Statistics you want to view");
              bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
             @Override
                 public void onChanged(List<Championship> c) {
                     clistAdapter.setChamp(c);
-                    clistAdapter.setFlagStat(1);
+                    clistAdapter.setFlagStat(flag);
+                    if(c.size()==0){
+                        textView1.setText("There are no Championships at the moment");
+                        txvTeam.setText("");
+                        txvNote.setText("");
+                    }
+                }
+            });
+        } else if (flag.equals("rounds_stat")){
+            textView1.setText("Select which Championship's Rounds Statistics you want to view");
+            bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+                @Override
+                public void onChanged(List<Championship> c) {
+                    clistAdapter.setChamp(c);
+                    clistAdapter.setFlagStat(flag);
                     if(c.size()==0){
                         textView1.setText("There are no Championships at the moment");
                         txvTeam.setText("");

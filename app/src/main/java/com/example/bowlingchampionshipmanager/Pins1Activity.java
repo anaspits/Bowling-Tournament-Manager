@@ -33,6 +33,7 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     public static ArrayList<Team> all_the_teams; //xrhsimo
+    private List<Team> all_the_teams_live;
     static ArrayList<String> hdcp_parameters;
     public String teamuuid; //axristo
     private BowlingViewModel bowlingViewModel;
@@ -65,7 +66,7 @@ private EditText editNorounds;
 
         }
 
- System.out.println("all size "+all_the_teams.size());
+
         Button button_imp  = (Button) findViewById(R.id.button_import);
         editNorounds=findViewById(R.id.editNorounds);
         textView=findViewById(R.id.textView);
@@ -128,6 +129,16 @@ private EditText editNorounds;
                 }
             }
         });*/
+
+        System.out.println("all size "+all_the_teams.size());
+        //pairnw to sunolo twn omadwn pou 8a xreiatsw parakatw
+        bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+            @Override
+            public void onChanged(List<Team> t) {
+                all_the_teams_live=t;
+            }
+        });
+
         button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai kai na emfanizei ton titlo tou arxeiou
             @Override
             public void onClick(View v) {
@@ -232,6 +243,9 @@ private EditText editNorounds;
         public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+
+            System.out.println(" all_the_teams_live size "+all_the_teams_live.size()); //todo
+            System.out.println(" all_the_teams_live  "+all_the_teams_live.get(0).getTeamName()+ " score "+all_the_teams_live.get(0).getScore() );
         System.out.println(" rounds edit "+editNorounds.getText().toString());
 
 
@@ -266,7 +280,7 @@ private EditText editNorounds;
 
                   bowlingViewModel.insert(r);
                   //gia ka8e paikth ths ka8e omadas vazw to rd
-                  ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths
+                  ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
                   for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
                       Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp()); //ftiaxnw to rd
                       rd.setScore(pa.get(p).getBowlAvg());

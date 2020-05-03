@@ -41,13 +41,12 @@ android:orientation="vertical">
             android:textAlignment="center"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintTop_toBottomOf="@+id/textTitle"
-            app:layout_constraintVertical_bias="0.064"
-            tools:text="Team Ranking" />
+            app:layout_constraintVertical_bias="0.064" />
         <TextView
             android:id="@+id/winnerTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Winning Team:"
+            android:text="Winning Team of Round:"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textSize="20sp" />
@@ -212,6 +211,28 @@ android:orientation="vertical">
             android:layout_width="match_parent"
             android:layout_height="147dp"
             tools:listitem="@layout/list3" />
+        <TextView
+            android:id="@+id/men1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Paixnidi Antrwn"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/man2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Paixnidi Antrwn Ap' Arxhs"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:textAlignment="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -46,12 +46,13 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             System.out.println("Champ in round = " + championship.getFchampID() + " " + championship.getUuid());
             r = (Round) bundleObject.getSerializable("round");
         }
-
+        System.out.println("got r "+r.getFroundid());
         bowlingViewModel.getPlayerScoreGamesofPreviousRounds(r.getRounduuid(), champuuid, r.getFroundid() ).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
             public void onChanged(List<PlayerandGames> part) {
                 blistAdapter.setPlayers(part);
                 blistAdapter.setChamp(championship); //todo na testarw
+                System.out.println("pl size "+part.size());
             }
         });
     }

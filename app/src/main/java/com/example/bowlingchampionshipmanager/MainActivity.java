@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             extras.putString("flag", "con");
             i.putExtras(extras);
             startActivity(i);
-        }else if(button_text.equals("Finished Championships")){
+        }else if(button_text.equals("Finished Championships")){ //xreiazetai?
             Intent i = new Intent(this, ContinueChampActivity.class);
             Bundle extras = new Bundle();
             extras.putString("flag", "old");

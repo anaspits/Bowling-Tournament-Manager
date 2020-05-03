@@ -15,17 +15,17 @@ android:orientation="vertical">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Finish Championship"
+            android:layout_marginTop="35dp"
+            android:text="Finished Championship"
+            android:textAlignment="center"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textStyle="bold"
-            android:layout_marginTop="35dp"
-            android:textAlignment="center"
-            app:layout_constraintVertical_bias="0.178"
-            tools:text="Finish Championship" />
+            app:layout_constraintVertical_bias="0.178" />
 
         <!-- Teams ranking -->
         <TextView
@@ -103,7 +103,6 @@ android:orientation="vertical">
             android:id="@+id/recyclerViewrank"
             android:layout_width="421dp"
             android:layout_height="220dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_hdcp_parameters"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1"

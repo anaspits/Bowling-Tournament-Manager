@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FinishChampActivity extends AppCompatActivity {
 
-    private static TextView winnerTeam;
+    private static TextView winnerTeam,textTitle;
     public Championship championship;
     private String champuuid;
     private BowlingViewModel bowlingViewModel;
@@ -31,12 +31,20 @@ public class FinishChampActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finish_champ);
 
         winnerTeam = findViewById(R.id.winnerTeam);
+        textTitle = findViewById(R.id.textTitle);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if (bundleObject != null) {
             championship = (Championship) bundleObject.getSerializable("champ");
             System.out.println("Champ= " + championship.getFchampID() + " " + championship.getUuid());
             champuuid = championship.getUuid();
+        }
+
+        if(championship.getStatus().equals("Finished")){
+            textTitle.setText("Finished Championship");
+        }else {
+            textTitle.setText("Ongoing Championship");
+            winnerTeam.setVisibility(View.GONE);
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
@@ -58,7 +66,7 @@ public class FinishChampActivity extends AppCompatActivity {
             public void onChanged(List<TeamandScore> t) {
                 tlistAdapter.setTeams(t);
             tlistAdapter.setChamp(championship); 
-            winnerTeam.setText("Winning Team: "+t.get(0).getTeam_name()+" with Score: "+t.get(0).getTeam_score());
+            winnerTeam.setText("Winning Team: "+t.get(0).getTeam_name()+"\n"+" with Score: "+t.get(0).getTeam_score());
             }
         });
 

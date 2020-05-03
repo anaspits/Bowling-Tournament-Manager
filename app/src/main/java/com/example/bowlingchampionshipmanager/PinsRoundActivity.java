@@ -470,14 +470,49 @@ if (calc_pressed ==1) {
                     System.out.println("here 2 " + curRound.getStatus());
                     startActivity(i);
                 } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth //finish
-                    curRound.setStatus("done");
+                   // curRound.setStatus("done");
                     bowlingViewModel.update(curRound);
                     //textTitle.setText("This Round has already been done");
                     System.out.println("flag= " + cd.getActive_flag());
                     System.out.println("cd size= " + cds_count);
                     System.out.println("fin cd size= " + fin_cds_count);
 
-                    Intent i = new Intent(this, MainActivity.class);
+                    for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+                        System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+                        System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+                        int i2 = i;
+                        bowlingViewModel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()).observe(this, new Observer<List<Round_detail>>() {
+                            @Override
+                            public void onChanged(List<Round_detail> rd) {
+                                int avg=0; //todo na to kanw float h' na rwthsw
+                                for(int r=0;r<rd.size();r++){
+                                    System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" i2 "+i2+" rounduuid "+rd.get(i2).getRound_uuid()+" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg+" rd size "+rd.size());
+                                    avg+= rd.get(r).getScore();
+                                    System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+
+                                }
+                                avg=avg/(3*rd.size());
+                                RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg); //todo na krataw to ka8oliko avg se allh metavliti sto participant
+                                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
+                                System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+                            }
+                        });
+                    }
+                    if(championship.getStatus().equals( "Finished")){
+                        Intent i = new Intent(this, FinishChampActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putSerializable("champ", championship);
+                        //axrista?
+                        extras.putSerializable("bowlers", bowlers);
+                        extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                        extras.putSerializable("all_the_teams", all_the_teams);
+                        extras.putSerializable("b_object", t); //selected team
+                        i.putExtras(extras);
+                        startActivity(i);
+                        finish();
+
+                    } else{
+                    Intent i = new Intent(this, FinishTeamActivity.class);
                     //axrista?
                     Bundle extras = new Bundle();
                     extras.putSerializable("bowlers", bowlers);
@@ -487,25 +522,25 @@ if (calc_pressed ==1) {
                     extras.putSerializable("b_object", t); //selected team
                     i.putExtras(extras); //
                     startActivity(i);
-                }    }else{
+                }
+             }
+            }else{
                 Toast.makeText(
                         getApplicationContext(),
                         "You have to edit and save the score first",
                         Toast.LENGTH_LONG).show();
             }
-        }
 
+        }
         //version 2
         public void exitActivity2(View View) { //fixme save&exit
             System.out.println("save_pressed=" + save_pressed);
             if (save_pressed == 1) {
-                curRound.setStatus("done");
+                System.out.println("exit curround status "+curRound.getStatus());
+              //  curRound.setStatus("done");//?
                 bowlingViewModel.update(curRound);
                 bowlingViewModel.update(t);
                 cd.setScore(score1);
-                //bowlingViewModel.update(championship);
-                // t.setActive_flag(1);
-                // bowlingViewModel.update(t);
 
                 if (cd.getActive_flag() > 0) {
                     System.out.println("1 prin flag= " + cd.getActive_flag() + " t " + t.getFTeamID());

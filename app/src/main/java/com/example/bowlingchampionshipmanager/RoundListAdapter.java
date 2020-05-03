@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+//axristo?
 public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.BowlingViewHolder>  {
 
     public interface OnDeleteClickListener { //axristo

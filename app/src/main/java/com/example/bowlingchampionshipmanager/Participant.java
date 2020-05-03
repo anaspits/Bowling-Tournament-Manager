@@ -79,6 +79,9 @@ public class Participant implements Serializable {
     @ColumnInfo(name = "end_date")
     private Date end_date;
 
+    @ColumnInfo(name="disable_flag")
+    private int disable_flag; //0:energo, 1:anenergo
+
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
 
@@ -154,6 +157,10 @@ public class Participant implements Serializable {
         return uuid;
     }
 
+    public int getDisable_flag() {
+        return disable_flag;
+    }
+
     //setter methods
     public void setParticipantID(int participantID) {
         this.participantID = participantID;
@@ -209,7 +216,11 @@ public class Participant implements Serializable {
         this.hdcp = hdcp;
     }
 
-   //constructor
+    public void setDisable_flag(int disable_flag) {
+        this.disable_flag = disable_flag;
+    }
+
+    //constructor
     public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp, String sex) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
@@ -295,6 +306,7 @@ public class Participant implements Serializable {
                 //Date date = (Date) Calendar.getInstance().getTime();//fixme
                // System.out.println("time = "+date);
                 Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, null);
+                p.setDisable_flag(0);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
    //  Long a=     bowlingViewModel.insert(p);

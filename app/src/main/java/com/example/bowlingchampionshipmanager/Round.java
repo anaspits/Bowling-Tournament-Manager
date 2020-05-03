@@ -12,17 +12,18 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Entity(tableName = "round",indices= {
-        @Index(name="index_round_uuid", value="round_uuid", unique=true)}/*,foreignKeys = {
+        @Index(name="index_round_uuid", value="round_uuid", unique=true),
+        @Index(name="index_r_champuuid", value="champ_uuid")},foreignKeys = {
         @ForeignKey(entity = Championship.class,
-                parentColumns = "champID",
-                childColumns = "champID"),
+                parentColumns = "champ_uuid",
+                childColumns = "champ_uuid")/*,
         @ForeignKey(entity = Team.class,
         parentColumns = "sys_teamID",
         childColumns = "sys_teamID")
 },indices= {
         @Index(name="index_champID", value="champID", unique=true),
         @Index(name="index_teamID", value="sys_teamID", unique=true)
-}*/)
+*/})
 public class Round implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull

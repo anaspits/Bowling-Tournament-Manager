@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+//na svisw
 public class OldChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
 
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;

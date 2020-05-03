@@ -177,10 +177,11 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                 System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-               // RoundScoreListAdapter2.editModelArrayList.get(i).setBowlAvg((RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
+                RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
+
                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
 
-                RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
+                //RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird()+RoundScoreListAdapter2.rd.get(i).getScore());
 

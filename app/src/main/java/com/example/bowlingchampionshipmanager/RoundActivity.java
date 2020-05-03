@@ -594,7 +594,7 @@ for (int i=0;i<test.size();i++){
             System.out.println("here 2 " + curRound.getStatus());
             startActivity(i);
         } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth
-            curRound.setStatus("done");
+            curRound.setStatus("done"); //giati? afou einai hdh done
             bowlingViewModel.update(curRound);
             //textTitle.setText("This Round has already been done");
             System.out.println("flag= " + cd.getActive_flag());
@@ -741,8 +741,9 @@ if(championship.getStatus().equals( "Finished")){
             }
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
-          //  cd.setScore(score1);to kanw sto onresult
-           // cd2.setScore(score2);to kanw sto onresult
+          //  cd.setScore(score1);to kanw sto onresult //?
+           // cd2.setScore(score2);to kanw sto onresult //?
+            System.out.println("exit curround status "+curRound.getStatus());
             curRound.setStatus("done");//axristo afou to kanw pio panw
             bowlingViewModel.update(curRound);
             //bowlingViewModel.update(championship);
@@ -764,6 +765,7 @@ if(championship.getStatus().equals( "Finished")){
                 bowlingViewModel.update(cd);
             } else {
                 System.out.println("1 PROBLEM me flag= " + cd.getActive_flag() + " t " + t.getFTeamID());
+                bowlingViewModel.update(cd);
             }
             if (t2 != null) {
                 if (cd2.getActive_flag() > 0) {

@@ -21,7 +21,7 @@ public class StatisticsActivity extends AppCompatActivity {
         if(button_text.equals("Championships"))
         {   Intent i = new Intent(this, ContinueChampActivity.class);
             Bundle extras = new Bundle();
-            extras.putString("flag", "stat");
+            extras.putString("flag", "champ_stat");
             i.putExtras(extras);
             startActivity(i);
         }  else if (button_text.equals("Teams")) {
@@ -29,7 +29,13 @@ public class StatisticsActivity extends AppCompatActivity {
         }else if (button_text.equals("Players")) {
 
         }else if (button_text.equals("Rounds")) {
-
+            Intent i = new Intent(this, ContinueChampActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("flag", "rounds_stat");
+            i.putExtras(extras);
+            startActivity(i);
+        }  else if (button_text.equals("Exit")){
+            finish(); 
         }
 
     }
