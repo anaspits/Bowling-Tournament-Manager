@@ -47,7 +47,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             r = (Round) bundleObject.getSerializable("round");
         }
         System.out.println("got r "+r.getFroundid());
-        bowlingViewModel.getPlayerScoreGamesofPreviousRounds(r.getRounduuid(), champuuid, r.getFroundid() ).observe(this, new Observer<List<PlayerandGames>>() {
+        bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
             public void onChanged(List<PlayerandGames> part) {
                 blistAdapter.setPlayers(part);

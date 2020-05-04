@@ -117,7 +117,7 @@ team2=te;
                     blistAdapter.setRound(r);
                     ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                     for (int i = 0; i < part.size(); i++) {
-                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp() );
+                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0);
                         System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
                         rd.add(round_detail);
                     }
@@ -134,7 +134,7 @@ team2=te;
                     blistAdapter2.setRound(r);
                     ArrayList<Round_detail> rd = new ArrayList<>();
                     for (int i = 0; i < part.size(); i++) {
-                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp() );
+                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0);
                         System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
                         rd.add(round_detail);
                     }
@@ -181,6 +181,29 @@ team2=te;
             second_sum1 +=  RoundScoreListAdapter2.rd.get(i).getSecond();
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
+
+            // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ
+            int i2 = i;
+            bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+                @Override
+                public void onChanged(List<Round_detail> allrdchamp) {
+                    float avg=0;
+                    int games = (3*allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                    System.out.println("1games a "+games+" pl "+RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid());
+                    for(int j=0;j<allrdchamp.size();j++){
+                        avg+=allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
+                    }
+                    System.out.println("1 prohgoumena score "+avg);
+                    avg+=(RoundScoreListAdapter2.rd.get(i2).getFirst()+ RoundScoreListAdapter2.rd.get(i2).getSecond()+ RoundScoreListAdapter2.rd.get(i2).getThird()); //ta score aftou tou round
+                    System.out.println("1 prohgoume+afto to score "+avg);
+                    if(games!=0) {
+                        avg = avg / games;
+                    }
+                    System.out.println("1games b "+games+ " avg "+avg);
+                    RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
+                    RoundScoreListAdapter2.rd.get(i2).setGames(games);
+                }
+            });
         }
         first_sum1 += sum_hdcp1;
         second_sum1 += sum_hdcp1;
@@ -207,6 +230,32 @@ team2=te;
             second_sum2 +=  RoundScoreListAdapterTeam2.rd.get(i).getSecond();
             third_sum2 +=  RoundScoreListAdapterTeam2.rd.get(i).getThird();
             sum_hdcp2 +=RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp();
+
+            // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
+
+              int i3 = i;
+                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+                    @Override
+                    public void onChanged(List<Round_detail> allrdchamp2) {
+                        float avg2=0;
+                        int games2 = 3*allrdchamp2.size()+3;
+                        System.out.println("2games "+games2 + " player "+RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid());
+                        for(int j=0;j<allrdchamp2.size();j++){
+                            System.out.println("2 prohgoumena score "+allrdchamp2.get(j).getScore());
+                            avg2+=allrdchamp2.get(j).getScore();
+                        }
+                        avg2+=(RoundScoreListAdapterTeam2.rd.get(i3).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i3).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i3).getThird());
+                        System.out.println(" afto to score  1st "+ RoundScoreListAdapterTeam2.rd.get(i3).getFirst()+" 2nd "+ RoundScoreListAdapterTeam2.rd.get(i3).getSecond()+" 3rd "+ RoundScoreListAdapterTeam2.rd.get(i3).getThird());
+
+                        System.out.println("2 prohgoume+afto to score "+avg2);
+                        if(games2!=0) {
+                            avg2 = avg2 / (games2);
+                        }
+                        System.out.println("2games b "+games2+ " avg "+avg2);
+                        RoundScoreListAdapterTeam2.rd.get(i3).setAvg(avg2);
+                        RoundScoreListAdapterTeam2.rd.get(i3).setGames(games2);
+                    }
+                });
         }
         first_sum2 += sum_hdcp2;
         second_sum2 += sum_hdcp2;
@@ -322,15 +371,62 @@ team2=te;
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                 System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                 System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+
+                //upologizw to score tou paikth gia auto to round
                 RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
-                System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapter2.rd.get(i).getScore()+" h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
-//todo to idio k gia team2
+                System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapter2.rd.get(i).getScore()+" avg "+RoundScoreListAdapter2.rd.get(i).getAvg()+" games "+RoundScoreListAdapter2.rd.get(i).getGames()+" h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
+
+                //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
+             /*   int i2 = i;
+                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+                    @Override
+                    public void onChanged(List<Round_detail> allrdchamp) {
+                        float avg=0;
+                        int games = (3*allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                        System.out.println("1games a "+games);
+                        for(int j=0;j<allrdchamp.size();j++){
+                            avg+=allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
+                        }
+                        avg+=(RoundScoreListAdapter2.rd.get(i2).getFirst()+ RoundScoreListAdapter2.rd.get(i2).getSecond()+ RoundScoreListAdapter2.rd.get(i2).getThird()); //ta score aftou tou round
+                        if(games!=0) {
+                            avg = avg / (3 * games);
+                        }
+                        System.out.println("1games b "+games+ " avg "+avg);
+                        RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
+                        RoundScoreListAdapter2.rd.get(i2).setGames(games);
+                        bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i2));
+                    }
+                }); */
+
+                //to idio k gia team2
                 RoundScoreListAdapterTeam2.rd.get(i).setScore( (RoundScoreListAdapterTeam2.rd.get(i).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i).getThird()));
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
-                System.out.println("2 rd: " + i + " rid " + RoundScoreListAdapterTeam2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapterTeam2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapterTeam2.rd.get(i).getScore()+" h " + RoundScoreListAdapterTeam2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapterTeam2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i).getThird());
+                System.out.println("2 rd: " + i + " rid " + RoundScoreListAdapterTeam2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapterTeam2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapterTeam2.rd.get(i).getScore()+ " avg "+RoundScoreListAdapterTeam2.rd.get(i).getAvg()+" h " + RoundScoreListAdapterTeam2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapterTeam2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i).getThird());
+
+               /* int i3 = i;
+                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+                    @Override
+                    public void onChanged(List<Round_detail> allrdchamp) {
+                        float avg=0;
+                        int games = 3*allrdchamp.size()+3;
+                        System.out.println("2games "+games);
+                        for(int j=0;j<allrdchamp.size();j++){
+                            avg+=allrdchamp.get(j).getScore();
+                        }
+                        avg+=(RoundScoreListAdapterTeam2.rd.get(i3).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i3).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i3).getThird());
+                        if(games!=0) {
+                            avg = avg / (games);
+                        }
+                        System.out.println("2games b "+games+ " avg "+avg);
+                        RoundScoreListAdapterTeam2.rd.get(i3).setAvg(avg);
+                        RoundScoreListAdapterTeam2.rd.get(i3).setGames(games);
+                        bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i3));
+                    }
+                }); */
+
             }
 
 

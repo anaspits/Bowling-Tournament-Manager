@@ -25,13 +25,16 @@ public interface Round_detailDao {
     @Query("SELECT * FROM round_detail")
     LiveData<List<Round_detail>> getAllRound_detail();
 
-    @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid AND round_uuid=:rid")
+    @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid AND round_uuid=:rid") //todo gia sugkekrimeno champ
     LiveData<Round_detail> getRound_detail(String pid, String rid);
 
-    @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid ")
+    @Query("SELECT * FROM round_detail WHERE participant_uuid=:pid AND blind=0") //ka8oliko
     LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid);
 
-    @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name, participant.avg,participant.hdcp ,round_detail.score, round_detail.round_uuid, round.froundid FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid INNER JOIN round ON round_detail.round_uuid=round.round_uuid WHERE round.champ_uuid=:chid AND round_detail.round_uuid=:rid AND round.froundid<=:frid ORDER BY round_detail.score")
-    LiveData<List<PlayerandGames>> getPlayerScoreGamesofPreviousRounds( String rid,String chid, int frid);
+    @Query("SELECT round_detail.round_uuid, round_detail.participant_uuid, round_detail.score, round_detail.avg, round_detail.hdcp, round_detail.first, round_detail.second, round_detail.third, round_detail.blind, round_detail.games FROM round_detail INNER JOIN round ON round.round_uuid=round_detail.round_uuid WHERE round_detail.participant_uuid=:pid AND round.champ_uuid=:chid AND round_detail.blind=0 AND round.status='done'")
+    LiveData<List<Round_detail>> getAllRound_detailofplayerofChamp(String pid, String chid);
+
+    @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,round_detail.round_uuid,round_detail.avg,round_detail.hdcp ,round_detail.games FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid INNER JOIN round ON round_detail.round_uuid=round.round_uuid WHERE round.champ_uuid=:chid AND round_detail.round_uuid=:rid ORDER BY round_detail.avg")
+    LiveData<List<PlayerandGames>> getPlayerScoreGamesofRound(String rid, String chid);
 
 }

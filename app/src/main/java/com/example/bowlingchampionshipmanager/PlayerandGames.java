@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 
 class PlayerandGames {
     @ColumnInfo(name="participant_uuid")
@@ -14,22 +15,25 @@ class PlayerandGames {
     @ColumnInfo(name="last_name")
     private String lastName;
 
-    @ColumnInfo(name="avg") //todo na kanw float
-    private int bowlAvg;
-
-    @ColumnInfo(name="hdcp")
-    private int hdcp;
-
-    @ColumnInfo(name="score") //tou participant
-    private int score;
-
     @ColumnInfo(name="round_uuid")
     @NonNull
     private String round_uuid;
 
-    @ColumnInfo(name="froundid")
-    @NonNull
+
+    @ColumnInfo(name="avg") //todo na kanw float
+    private float bowlAvg;
+
+    @ColumnInfo(name="hdcp")
+    private int hdcp;
+
+
+   // @ColumnInfo(name="froundid")
+    @Ignore
     private String froundid;
+
+    @ColumnInfo(name="games")
+    private int games;
+
 
     @NonNull
     public String getParticipant_uuid() {
@@ -44,16 +48,12 @@ class PlayerandGames {
         return lastName;
     }
 
-    public int getBowlAvg() {
+    public float getBowlAvg() {
         return bowlAvg;
     }
 
     public int getHdcp() {
         return hdcp;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     @NonNull
@@ -64,6 +64,10 @@ class PlayerandGames {
     @NonNull
     public String getFroundid() {
         return froundid;
+    }
+
+    public int getGames() {
+        return games;
     }
 
     public void setParticipant_uuid(@NonNull String participant_uuid) {
@@ -78,16 +82,16 @@ class PlayerandGames {
         this.lastName = lastName;
     }
 
-    public void setBowlAvg(int bowlAvg) {
+    public void setBowlAvg(float bowlAvg) {
         this.bowlAvg = bowlAvg;
+    }
+
+    public void setGames(int games) {
+        this.games = games;
     }
 
     public void setHdcp(int hdcp) {
         this.hdcp = hdcp;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public void setRound_uuid(@NonNull String round_uuid) {
@@ -98,14 +102,14 @@ class PlayerandGames {
         this.froundid = froundid;
     }
 
-    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, int bowlAvg, int hdcp, int score, @NonNull String round_uuid, @NonNull String froundid) {
+    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, float bowlAvg, int hdcp, @NonNull String round_uuid,int games) {
         this.participant_uuid = participant_uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bowlAvg = bowlAvg;
         this.hdcp = hdcp;
-        this.score = score;
         this.round_uuid = round_uuid;
-        this.froundid = froundid;
+       // this.froundid = froundid;
+        this.games=games;
     }
 }

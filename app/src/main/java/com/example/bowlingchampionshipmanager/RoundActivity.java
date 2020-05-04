@@ -207,7 +207,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
             }
         });
 //        System.out.println("2.5 Current Round of team "+t.getFTeamID()+" is round "+curRound.getFroundid()+" stat "+curRound.getStatus()+" with t1: "+curRound.getTeam1ID()+" and t2: "+ curRound.getTeam2ID()+" and sysID: "+curRound.getRoundid());
-        System.out.println("dokimh " + rlistAdapter.mNotes.get(0).getFroundid() + " t1 " + rlistAdapter.mNotes.get(0).getTeam1ID() + " t2 " + rlistAdapter.mNotes.get(0).getTeam2ID() + " size " + rlistAdapter.mNotes.size());
+//        System.out.println("dokimh " + rlistAdapter.mNotes.get(0).getFroundid() + " t1 " + rlistAdapter.mNotes.get(0).getTeam1ID() + " t2 " + rlistAdapter.mNotes.get(0).getTeam2ID() + " size " + rlistAdapter.mNotes.size());
 
 
         //pairnw to champ_detail ths omadas 1 team gia na dw to active_flag
@@ -319,7 +319,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 System.out.println("rds size " + rds.size());
 
                 for (int i = 0; i < rds.size(); i++) {
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird()+" games "+rds.get(i).getGames()+" blind "+rds.get(i).getBlind()+ " avg "+rds.get(i).getAvg());
                 }
             }
         });
@@ -574,7 +574,8 @@ for (int i=0;i<test.size();i++){
                 bowlingViewModel.update(championship);
             }
 
-        //META
+
+            //META
         if (cd.getActive_flag() > 0) { //next
             bowlingViewModel.update(curRound);
             System.out.println("5 Current round stat = " + curRound.getStatus());
@@ -601,12 +602,12 @@ for (int i=0;i<test.size();i++){
             System.out.println("cd size= " + cds_count);
             System.out.println("fin cd size= " + fin_cds_count);
 
-
+//upologizw to ka8oliko avg tou paikth meta apo afto to champ
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
             System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
             System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                 int i2 = i;
-                bowlingViewModel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()).observe(this, new Observer<List<Round_detail>>() {
+                bowlingViewModel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()).observe(this, new Observer<List<Round_detail>>() { //ka8oliko
                @Override
                public void onChanged(List<Round_detail> rd) {
            int avg=0; //todo na to kanw float h' na rwthsw
@@ -616,7 +617,9 @@ for (int i=0;i<test.size();i++){
                System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
 
            }
-           avg=avg/(3*rd.size());
+           if(rd.size()!=0) {
+               avg = avg / (3 * rd.size());
+           }
            RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg);
             bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
                    System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);

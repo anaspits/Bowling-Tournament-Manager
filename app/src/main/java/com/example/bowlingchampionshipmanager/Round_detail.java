@@ -32,8 +32,12 @@ public class Round_detail  implements Serializable {
     @NonNull
     private String participant_uuid;
 
-    @ColumnInfo(name="score") //tou participant
+    @ColumnInfo(name="score") //tou participant sto sugkekrimeno round (sunolo korinwn)
     private int score;
+
+    @ColumnInfo(name="avg") //tou participant apo thn arxh tou champ /ton ari8mo twn paixnidiwn tou champ pou den htan blind
+    private float avg;
+
     @ColumnInfo(name="hdcp") //tou participant
     private int hdcp;
     @ColumnInfo(name="first") //tou participant
@@ -42,8 +46,13 @@ public class Round_detail  implements Serializable {
     private int second;
     @ColumnInfo(name="third") //tou participant
     private int third;
+    @ColumnInfo(name="blind")
+    private int blind; //0: den htan blind, 1: htan blind sto round
 
-//todo na valw kai type?
+    @ColumnInfo(name="games") //ta paixnidia pou epai3e mexri twra se afto to champ
+    private int games;
+
+//todo na valw blind kai date
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
     } */
@@ -80,8 +89,20 @@ public class Round_detail  implements Serializable {
         return hdcp;
     }
 
+    public int getBlind() {
+        return blind;
+    }
+
+    public float getAvg() {
+        return avg;
+    }
+
     public void setRound_uuid(String round_uuid) {
         this.round_uuid = round_uuid;
+    }
+
+    public int getGames() {
+        return games;
     }
 
     public void setParticipant_uuid(String participant_uuid) {
@@ -108,14 +129,27 @@ public class Round_detail  implements Serializable {
         this.hdcp = hdcp;
     }
 
-    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp) {
+    public void setAvg(float avg) {
+        this.avg = avg;
+    }
+
+    public void setGames(int games) {
+        this.games = games;
+    }
+
+    public void setBlind(int blind) {
+        this.blind = blind;
+    }
+
+    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind) {
         this.round_uuid = round_uuid;
         this.participant_uuid = participant_uuid;
         this.first = first;
         this.second = second;
         this.third = third;
         this.hdcp=hdcp;
-        //todo: mhpws 8elei k ton champid?
+        this.blind=blind;
+        //todo: mhpws 8elei k to champid?
     }
 
 }

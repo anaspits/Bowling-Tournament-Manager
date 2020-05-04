@@ -192,7 +192,7 @@ public class PinsRoundActivity extends AppCompatActivity {
                 System.out.println("rds size " + rds.size());
 
                 for (int i = 0; i < rds.size(); i++) {
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" avg "+rds.get(i).getAvg()+" games "+rds.get(i).getGames()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
                 }
             }
         });
@@ -491,7 +491,9 @@ if (calc_pressed ==1) {
                                     System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
 
                                 }
-                                avg=avg/(3*rd.size());
+                                if(rd.size()!=0) {
+                                    avg = avg / (3 * rd.size());
+                                }
                                 RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg); //todo na krataw to ka8oliko avg se allh metavliti sto participant
                                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
                                 System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);

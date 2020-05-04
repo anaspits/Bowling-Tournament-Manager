@@ -81,7 +81,7 @@ public class FinishTeamActivity extends AppCompatActivity {
             }
         });
 
-        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() { //todo na emfanizei to avg tou paikth apo to rd
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);

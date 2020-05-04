@@ -158,7 +158,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
                     for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp() ); //ftiaxnw to rd //todo na kanw setScore to score tou paikth
+                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp(), 0); //ftiaxnw to rd //todo na kanw setScore to score tou paikth
                         bowlingViewModel.insert(rd);
                     }
                 }

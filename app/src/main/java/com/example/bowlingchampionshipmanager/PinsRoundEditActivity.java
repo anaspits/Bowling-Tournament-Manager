@@ -83,7 +83,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 blistAdapter.setRound(r);
                 ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                 for (int i = 0; i < part.size(); i++) {
-                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp() );
+                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0);
                     System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
                     rd.add(round_detail);
                 }
@@ -131,6 +131,29 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             second_sum1 +=  RoundScoreListAdapter2.rd.get(i).getSecond();
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
+
+            //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ
+            int i2 = i;
+            bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+                @Override
+                public void onChanged(List<Round_detail> allrdchamp) {
+                    float avg=0;
+                    int games = (3*allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                    System.out.println("1games a "+games+" pl "+RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid());
+                    for(int j=0;j<allrdchamp.size();j++){
+                        avg+=allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
+                    }
+                    System.out.println("1 prohgoumena score "+avg);
+                    avg+=(RoundScoreListAdapter2.rd.get(i2).getFirst()+ RoundScoreListAdapter2.rd.get(i2).getSecond()+ RoundScoreListAdapter2.rd.get(i2).getThird()); //ta score aftou tou round
+                    System.out.println("1 prohgoume+afto to score "+avg);
+                    if(games!=0) {
+                        avg = avg / games;
+                    }
+                    System.out.println("1games b "+games+ " avg "+avg);
+                    RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
+                    RoundScoreListAdapter2.rd.get(i2).setGames(games);
+                }
+            });
         }
         first_sum1 += sum_hdcp1;
         second_sum1 += sum_hdcp1;

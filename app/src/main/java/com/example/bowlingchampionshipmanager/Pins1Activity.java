@@ -4,8 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -282,7 +280,7 @@ private EditText editNorounds;
                   //gia ka8e paikth ths ka8e omadas vazw to rd
                   ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
                   for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp()); //ftiaxnw to rd
+                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0); //ftiaxnw to rd
                       rd.setScore(pa.get(p).getBowlAvg());
                       bowlingViewModel.insert(rd);
                       System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());

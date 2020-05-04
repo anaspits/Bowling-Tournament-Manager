@@ -80,7 +80,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         editModelArrayList = notes;
         r = round;
         for (int i = 0; i < editModelArrayList.size(); i++) {
-            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0, editModelArrayList.get(position).getHdcp());
+            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0, editModelArrayList.get(position).getHdcp(), 0);
             rd.add(round_detail);
             notifyDataSetChanged();
         }
@@ -92,7 +92,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
     public void setRound(Round round) {
         r=round;
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) { //todo afou to kanw ap'e3w, aw to svisw
-            Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0,editModelArrayList.get(i).getHdcp() );
+            Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0,editModelArrayList.get(i).getHdcp(), 0);
             System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ editModelArrayList.get(i).getFN());
             rd.add(round_detail);
             notifyDataSetChanged();

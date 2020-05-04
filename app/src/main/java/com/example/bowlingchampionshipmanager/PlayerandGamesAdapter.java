@@ -43,7 +43,7 @@ public class PlayerandGamesAdapter extends RecyclerView.Adapter<PlayerandGamesAd
 
         if (mNotes != null) {
             PlayerandGames note = mNotes.get(position);
-            holder.setData(note.getFirstName()+" "+note.getLastName(),note.getScore(),note.getHdcp(),mNotes.size(), position);
+            holder.setData(note.getFirstName()+" "+note.getLastName(),note.getBowlAvg(),note.getHdcp(),note.getGames(), position);
             //holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.
@@ -83,12 +83,11 @@ public class PlayerandGamesAdapter extends RecyclerView.Adapter<PlayerandGamesAd
             txv4=itemView.findViewById(R.id.txv4);
         }
 
-        public void setData(String note, float score, int hdcp, int rounds, int position) {
-            txv1.setText(note);
-            float avg = score/(3*rounds);
+        public void setData(String name, float avg, int hdcp, int games, int position) {
+            txv1.setText(name);
             txv2.setText(String.valueOf(avg));
             txv3.setText(String.valueOf(hdcp));
-            txv4.setText(String.valueOf(3*rounds));
+            txv4.setText(String.valueOf(games));
             mPosition = position;
         }
     }

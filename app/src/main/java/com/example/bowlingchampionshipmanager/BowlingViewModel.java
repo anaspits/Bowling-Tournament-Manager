@@ -746,8 +746,12 @@ public  void insert (Team_detail t){
         return rdDao.getallAllRound_detailofplayer(pid);
     }
 
-    LiveData<List<PlayerandGames>> getPlayerScoreGamesofPreviousRounds( String rid,String pid, int frid){
-        return rdDao.getPlayerScoreGamesofPreviousRounds(rid,pid,frid);
+    public LiveData<List<Round_detail>> getAllRound_detailofplayerofChamp(String pid, String chid){
+        return rdDao.getAllRound_detailofplayerofChamp(pid,chid);
+    }
+
+    LiveData<List<PlayerandGames>> getPlayerScoreGamesofRound(String rid, String chid){
+        return rdDao.getPlayerScoreGamesofRound(rid,chid);
     }
 
     private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {
