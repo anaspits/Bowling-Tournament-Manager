@@ -28,7 +28,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     private EditViewModel eViewModel;
     private ChampListAdapter clistAdapter;
     private TextView textView1,txvTeam,txvNote;
-    private String flag=""; //con, old, stat, rounds_stat
+    private String flag=""; //con, old, stat, rounds_stat, teams_stat
 
 
 
@@ -60,6 +60,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
             @Override
             public void onChanged(List<Championship> c) {
                 clistAdapter.setChamp(c);
+                clistAdapter.setFlagStat("con");
                 if(c.size()==0){
                     textView1.setText("There are no Active Championships at the moment");
                     txvTeam.setText("");
@@ -73,6 +74,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                 @Override
                 public void onChanged(List<Championship> c) {
                     clistAdapter.setChamp(c);
+                    clistAdapter.setFlagStat("old");
                     if(c.size()==0){
                         textView1.setText("There are no Finished Championships at the moment");
                         txvTeam.setText("");
@@ -95,6 +97,20 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                 }
             });
         } else if (flag.equals("rounds_stat")){
+            textView1.setText("Select which Championship's Rounds Statistics you want to view");
+            bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+                @Override
+                public void onChanged(List<Championship> c) {
+                    clistAdapter.setChamp(c);
+                    clistAdapter.setFlagStat(flag);
+                    if(c.size()==0){
+                        textView1.setText("There are no Championships at the moment");
+                        txvTeam.setText("");
+                        txvNote.setText("");
+                    }
+                }
+            });
+        }else if (flag.equals("teams_stat")){
             textView1.setText("Select which Championship's Rounds Statistics you want to view");
             bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
                 @Override

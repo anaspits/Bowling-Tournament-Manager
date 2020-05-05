@@ -264,10 +264,10 @@ private EditText editNorounds;
           //kanw ta rounds kai ta round-detail
           for (int d = 1; d <= round; d++) {
               System.out.println(String.format("Round %d", d));
-              for (int i = 0; i < all_the_teams.size(); i++) {
-                  System.out.println(" Team " + all_the_teams.get(i).getFTeamID());
+              for (int i = 0; i < all_the_teams_live.size(); i++) {
+                  System.out.println(" Team " + all_the_teams_live.get(i).getFTeamID());
                   String ruuid = UUID.randomUUID().toString();
-                  Round r = new Round(ruuid, d, all_the_teams.get(i).getFTeamID(), 0, champuuid, all_the_teams.get(i).getUuid(), null, all_the_teams.get(i).getScore(), 0, "");
+                  Round r = new Round(ruuid, d, all_the_teams_live.get(i).getFTeamID(), 0, champuuid, all_the_teams_live.get(i).getUuid(), null, all_the_teams_live.get(i).getScore(), 0, "");
                   if (d == round) {
                       r.setStatus("last");
                       System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus());
@@ -277,14 +277,29 @@ private EditText editNorounds;
                   }
 
                   bowlingViewModel.insert(r);
+
                   //gia ka8e paikth ths ka8e omadas vazw to rd
+                  /*/meta fixme
+                  bowlingViewModel.getAllPlayersofTeam3(all_the_teams_live.get(i).getUuid(), champuuid).observe(this, new Observer<List<Participant>>() {
+                      @Override
+                      public void onChanged(List<Participant> pa) {
+                          for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
+                              Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
+                              rd.setScore(pa.get(p).getBowlAvg());
+                              bowlingViewModel.insert(rd); //den mporw na kanw insert edw!!
+                              System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
+                          }
+
+                      }
+                  }); */
+                  // Prin
                   ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
                   for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0); //ftiaxnw to rd
+                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
                       rd.setScore(pa.get(p).getBowlAvg());
                       bowlingViewModel.insert(rd);
                       System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
-                  }
+                  } //
               }
           }
 

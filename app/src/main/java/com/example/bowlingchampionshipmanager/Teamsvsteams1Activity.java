@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundListAdapter.OnDeleteClickListener{
     static ArrayList<Participant> bowlers;
     static ArrayList<String> hdcp_parameters;
-    public static ArrayList<Team> all_the_teams;
+    public static ArrayList<Team> all_the_teams; //todo live
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
     private static int rounds=3; //todo : na to vazei o user? all_the_teams meta3u tous x2
@@ -158,7 +158,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
                     for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp(), 0); //ftiaxnw to rd //todo na kanw setScore to score tou paikth
+                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
                         bowlingViewModel.insert(rd);
                     }
                 }

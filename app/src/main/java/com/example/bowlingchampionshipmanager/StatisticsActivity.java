@@ -25,7 +25,11 @@ public class StatisticsActivity extends AppCompatActivity {
             i.putExtras(extras);
             startActivity(i);
         }  else if (button_text.equals("Teams")) {
-
+            Intent i = new Intent(this, ContinueChampActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("flag", "teams_stat");
+            i.putExtras(extras);
+            startActivity(i);
         }else if (button_text.equals("Players")) {
 
         }else if (button_text.equals("Rounds")) {

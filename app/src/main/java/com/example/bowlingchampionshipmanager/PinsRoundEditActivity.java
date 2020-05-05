@@ -83,7 +83,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 blistAdapter.setRound(r);
                 ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                 for (int i = 0; i < part.size(); i++) {
-                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0);
+                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0, champuuid);
                     System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
                     rd.add(round_detail);
                 }

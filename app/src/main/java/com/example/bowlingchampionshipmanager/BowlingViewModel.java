@@ -649,6 +649,10 @@ public  void insert (Team_detail t){
         return rDao.getAllRoundofChamp(champuuid);
     }
 
+    LiveData<List<Round>> getDoneRoundsofChamp(String champuuid){
+        return rDao.getDoneRoundsofChamp(champuuid);
+    }
+
     LiveData<List<Round>> getRoundsofTeam( String teamuuid, String champuuid){
         return rDao.getRoundsofTeam(teamuuid,champuuid);
     }
@@ -740,6 +744,10 @@ public  void insert (Team_detail t){
 
     LiveData<Round_detail> getRound_detail(String pid, String rid){
         return rdDao.getRound_detail(pid,rid);
+    }
+
+    LiveData<List<Round_detail>> getAllPrevRound_detailofChamp(String chid, int frid){
+        return rdDao.getAllPrevRound_detailofChamp(chid,frid);
     }
 
     LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid){

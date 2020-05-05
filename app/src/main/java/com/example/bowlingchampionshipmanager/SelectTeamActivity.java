@@ -33,6 +33,7 @@ public class SelectTeamActivity extends AppCompatActivity {
     public static List<Round> rofTeam;
     private TextView textView;
     private Button btn;
+    private String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class SelectTeamActivity extends AppCompatActivity {
 
         textView =  findViewById(R.id.textView);
 btn=findViewById(R.id.exitRound_btn);
+flag="none";
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -50,6 +52,7 @@ btn=findViewById(R.id.exitRound_btn);
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
             champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
+            flag = bundleObject.getString("flag");
             rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
         }
 
@@ -70,18 +73,39 @@ btn=findViewById(R.id.exitRound_btn);
             }
         });
     } doulevei*/
-        //bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
-        bowlingViewModel.getActiveTeamsofChamp(champuuid).observe(this, new Observer<List<Team>>(){ //todo na emfanize mhows oles tis omades kai an einai active h' oxi kai aftes pou teleiwsan na tis stelnei sto finnishteam
-            @Override
-            public void onChanged(List<Team> t) {
-                blistAdapter.setSelected(t);
-                blistAdapter.setChamp(championship);
+
+       if(flag!=null) {
+           System.out.println("flag "+flag);
+           if (flag.equals("stat")) { //fixme
+               bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+                               @Override
+                               public void onChanged(List<Team> t) {
+                                   System.out.println("t size "+t.size());
+                                   blistAdapter.setSelected(t);
+                                   blistAdapter.setChamp(championship);
+                                   blistAdapter.setFlag(flag);
+                               }
+                           });
+           }else {
+               //bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+               bowlingViewModel.getActiveTeamsofChamp(champuuid).observe(this, new Observer<List<Team>>() { //todo na emfanize mhows oles tis omades kai an einai active h' oxi kai aftes pou teleiwsan na tis stelnei sto finnishteam
+                   @Override
+                   public void onChanged(List<Team> t) {
+                       blistAdapter.setSelected(t);
+                       blistAdapter.setChamp(championship);
+                       //  if (flag != null) {
+                       blistAdapter.setFlag(flag);
+                       // }
                 /*if (t.size()==0){ //fixme
                     textView.setText("All the teams have finished their games");
                     btn.setText("Main Menu");
                 } */
-            }
-        });
+                   }
+               });
+           }
+       } else {
+           System.out.println("flag proble"); //svhsto
+       }
     }
 
 //axristo

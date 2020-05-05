@@ -125,7 +125,12 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                         intent.putExtra("flag", "stat");
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
-                    } else {
+                    } else if (flag_stat.equals("teams_stat")) {
+                        Intent intent = new Intent(mContext, SelectTeamActivity.class);
+                        intent.putExtra("flag", "stat");
+                        intent.putExtra("champ", mNotes.get(mPosition));
+                        mContext.startActivity(intent);
+                    }else {
                         if (mNotes.get(mPosition).getStatus().equals("Finished")) {
                             Intent intent = new Intent(mContext, FinishChampActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());

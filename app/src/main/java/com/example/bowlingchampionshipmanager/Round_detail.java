@@ -14,10 +14,14 @@ import java.io.Serializable;
                 childColumns = "round_uuid"),
         @ForeignKey(entity = Participant.class,
                 parentColumns = "participant_uuid",
-                childColumns = "participant_uuid")
+                childColumns = "participant_uuid")//,
+       /* @ForeignKey(entity = Championship.class,
+                parentColumns = "champ_uuid",
+                childColumns = "champ_uuid")*/
 }, indices= {
         @Index(name="index_roundID", value="round_uuid"),
-        @Index(name="index_round_participantID", value="participant_uuid")
+        @Index(name="index_round_participantID", value="participant_uuid")//,
+        //@Index(name="index_rd_champid", value="champ_uuid"),
 })
 public class Round_detail  implements Serializable {
    /* @PrimaryKey(autoGenerate = true)
@@ -31,6 +35,10 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="participant_uuid")
     @NonNull
     private String participant_uuid;
+
+    @ColumnInfo(name="champ_uuid")
+    @NonNull
+    private String champ_uuid;
 
     @ColumnInfo(name="score") //tou participant sto sugkekrimeno round (sunolo korinwn)
     private int score;
@@ -105,6 +113,11 @@ public class Round_detail  implements Serializable {
         return games;
     }
 
+    @NonNull
+    public String getChamp_uuid() {
+        return champ_uuid;
+    }
+
     public void setParticipant_uuid(String participant_uuid) {
         this.participant_uuid = participant_uuid;
     }
@@ -137,11 +150,15 @@ public class Round_detail  implements Serializable {
         this.games = games;
     }
 
+    public void setChamp_uuid(@NonNull String champ_uuid) {
+        this.champ_uuid = champ_uuid;
+    }
+
     public void setBlind(int blind) {
         this.blind = blind;
     }
 
-    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind) {
+    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid) {
         this.round_uuid = round_uuid;
         this.participant_uuid = participant_uuid;
         this.first = first;
@@ -149,7 +166,7 @@ public class Round_detail  implements Serializable {
         this.third = third;
         this.hdcp=hdcp;
         this.blind=blind;
-        //todo: mhpws 8elei k to champid?
+        this.champ_uuid=champ_uuid;
     }
 
 }

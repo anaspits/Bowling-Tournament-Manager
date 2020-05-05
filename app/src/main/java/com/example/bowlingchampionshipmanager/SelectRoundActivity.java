@@ -39,15 +39,25 @@ public class SelectRoundActivity extends AppCompatActivity {
         recyclerView.setAdapter(roundlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bowlingViewModel.getAllRoundofChamp(championship.getUuid()).observe(this, new Observer<List<Round>>() {
-            @Override
-            public void onChanged(List<Round> rounds) {
-                roundlistAdapter.setSelRound(rounds);
-                roundlistAdapter.setChamp(championship);
-                roundlistAdapter.setflag(flag);
-                //roundlistAdapter.setFinishedFlag(1);
-            }
-        });
-
+        if (flag.equals("stat")){
+            bowlingViewModel.getDoneRoundsofChamp(championship.getUuid()).observe(this, new Observer<List<Round>>() {
+                @Override
+                public void onChanged(List<Round> rounds) {
+                    roundlistAdapter.setSelRound(rounds);
+                    roundlistAdapter.setChamp(championship);
+                    roundlistAdapter.setflag(flag);
+                }
+            });
+        } else {
+            bowlingViewModel.getAllRoundofChamp(championship.getUuid()).observe(this, new Observer<List<Round>>() {
+                @Override
+                public void onChanged(List<Round> rounds) {
+                    roundlistAdapter.setSelRound(rounds);
+                    roundlistAdapter.setChamp(championship);
+                   // roundlistAdapter.setflag(flag);
+                    //roundlistAdapter.setFlag(1);
+                }
+            });
+        }
     }
 }

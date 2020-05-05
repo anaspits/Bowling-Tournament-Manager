@@ -1,6 +1,5 @@
 package com.example.bowlingchampionshipmanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -29,7 +28,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
  private int position;
     private static  Round round;
     private BowlingViewModel bowlingViewModel;
-    private int finishedTeamflag;
+    public String flag="none";
 
     public static List<Round> rounds = new ArrayList<>(); //test
 
@@ -37,7 +36,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         bowlingViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(BowlingViewModel.class);
-        finishedTeamflag=0;
+        flag ="none";
     }
 
     @NonNull
@@ -76,8 +75,8 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
 
     }
 
-    public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
-        finishedTeamflag =i;
+    public void setFlag(String i) {//gia tin omada pou teleiwse
+        flag =i;
     }
 
     public void setChamp(Championship champ) {
@@ -128,35 +127,44 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ch.getType() == 2) {
-                        Intent intent = new Intent(mContext, RoundActivity.class);
-
-                        //PAS ROUND PART 3//
-                        round = rounds.get(getAdapterPosition()); //todo na dokimasw na to kanw done edw?
-                        System.out.println("lol Sel Current Round of team " + mNotes.get(mPosition).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
-                        intent.putExtra("round", round);
-                        //PAS ROUND PART 3//
-
-                        intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
-                        intent.putExtra("count", getItemCount());
-                        intent.putExtra("b_object", mNotes.get(mPosition));
-                        intent.putExtra("champ", ch);
-                        //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
-                        mContext.startActivity(intent);
-                    } else if ((ch.getType() == 1)){
-                        Intent intent = new Intent(mContext, PinsRoundActivity.class);
-                        intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
-                        intent.putExtra("count", getItemCount());
-                        intent.putExtra("b_object", mNotes.get(mPosition));
-                        intent.putExtra("champ", ch);
-                        mContext.startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(mContext, Create3Activity.class);
+                    if (flag.equals("stat")) { //fixme test it
+                        Intent intent = new Intent(mContext, FinishTeamActivity.class);
                         intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                         intent.putExtra("b_object", mNotes.get(mPosition));
                         intent.putExtra("champ", ch);
                         intent.putExtra("champuuid", ch.getUuid());
                         mContext.startActivity(intent);
+                    } else {
+                        if (ch.getType() == 2) {
+                            Intent intent = new Intent(mContext, RoundActivity.class);
+
+                            //PAS ROUND PART 3//
+                            round = rounds.get(getAdapterPosition()); //todo na dokimasw na to kanw done edw?
+                            System.out.println("lol Sel Current Round of team " + mNotes.get(mPosition).getFTeamID() + " stat " + round.getStatus() + " is round " + round.getFroundid() + " with t1: " + round.getTeam1ID() + " and t2: " + round.getTeam2ID() + " and sysID: " + round.getRoundid());
+                            intent.putExtra("round", round);
+                            //PAS ROUND PART 3//
+
+                            intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                            intent.putExtra("count", getItemCount());
+                            intent.putExtra("b_object", mNotes.get(mPosition));
+                            intent.putExtra("champ", ch);
+                            //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
+                            mContext.startActivity(intent);
+                        } else if ((ch.getType() == 1)) {
+                            Intent intent = new Intent(mContext, PinsRoundActivity.class);
+                            intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                            intent.putExtra("count", getItemCount());
+                            intent.putExtra("b_object", mNotes.get(mPosition));
+                            intent.putExtra("champ", ch);
+                            mContext.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, Create3Activity.class);
+                            intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
+                            intent.putExtra("b_object", mNotes.get(mPosition));
+                            intent.putExtra("champ", ch);
+                            intent.putExtra("champuuid", ch.getUuid());
+                            mContext.startActivity(intent);
+                        }
                     }
                 }
             });

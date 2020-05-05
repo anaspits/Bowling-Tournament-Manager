@@ -23,7 +23,6 @@ import static com.example.bowlingchampionshipmanager.RoundActivity.status_flag;
 
 public class PinsRoundActivity extends AppCompatActivity {
 
-    private static TextView textTitle;
     private static Button nextRound_btn, exitRound_btn;
     public static int calc_pressed = 0;
     static ArrayList<Participant> bowlers;
@@ -31,7 +30,7 @@ public class PinsRoundActivity extends AppCompatActivity {
     static ArrayList<String> hdcp_parameters;
     public static ArrayList<Team> all_the_teams;
     private static EditText editpins;
-    private static TextView team1, pointstxt, scoretxt,hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
+    private static TextView textTitle, team1, pointstxt, scoretxt,hdcp_view, sumHDCP, sum1st, sum2nd, sum3rd;
     public int bowlId;
     public static Team t;
     public static Round r2;
