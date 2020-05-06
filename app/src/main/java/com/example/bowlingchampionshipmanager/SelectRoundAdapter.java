@@ -64,7 +64,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                             holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam1ID(), String.valueOf(note.getPoints2()), position);
                         }
                     } else if (ch.getType() == 1) {
-                        holder.setData( String.valueOf(note.getTeam1ID()), String.valueOf(note.getPoints1()), position);
+                        holder.setData( String.valueOf(note.getFroundid()), String.valueOf(note.getPoints1()), position);
                     }
 
                 } else if (ch.getType() == 2) { //round

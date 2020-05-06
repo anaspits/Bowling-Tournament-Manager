@@ -121,7 +121,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
                     } else if (flag_stat.equals("rounds_stat")) {
-                        Intent intent = new Intent(mContext, SelectRoundActivity.class);
+                        Intent intent = new Intent(mContext, SelectStatforRoundActivity.class);
                         intent.putExtra("flag", "stat");
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
@@ -140,6 +140,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                             Intent intent = new Intent(mContext, SelectTeamActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
                             intent.putExtra("champ", mNotes.get(mPosition));
+                            intent.putExtra("flag", "start");
                             //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                             mContext.startActivity(intent);
                         }

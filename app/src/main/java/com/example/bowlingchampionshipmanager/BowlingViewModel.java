@@ -320,6 +320,15 @@ public class BowlingViewModel extends AndroidViewModel {
         return teamDao.getRankedAllTeamsofChamp(champid);
     }
 
+    LiveData<List<TeamandRoundScore>> geAllTeamsofRoundofChamp( String champid, int frid){
+        return teamDao.geAllTeamsofRoundofChamp(champid, frid);
+    }
+
+    LiveData<List<TeamandRoundScore>> geAllTeamsofChamp( String champid){
+        return teamDao.geAllTeamsofChamp(champid);
+
+    }
+
     private class TeamOperationsAsyncTask extends AsyncTask<Team, Void, Void> {
 
         TeamDao mAsyncTaskDao;
@@ -746,6 +755,10 @@ public  void insert (Team_detail t){
         return rdDao.getRound_detail(pid,rid);
     }
 
+    LiveData<List<Round_detail>> getAllRound_detailofChamp(String chid){
+        return rdDao.getAllRound_detailofChamp(chid);
+    }
+
     LiveData<List<Round_detail>> getAllPrevRound_detailofChamp(String chid, int frid){
         return rdDao.getAllPrevRound_detailofChamp(chid,frid);
     }
@@ -760,6 +773,14 @@ public  void insert (Team_detail t){
 
     LiveData<List<PlayerandGames>> getPlayerScoreGamesofRound(String rid, String chid){
         return rdDao.getPlayerScoreGamesofRound(rid,chid);
+    }
+
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofRound(int frid, String chid){
+        return rdDao.getAllPlayerScoreGamesofRound(frid,chid);
+    }
+
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChamp(String chid){
+        return rdDao.getAllPlayerScoreGamesofChamp(chid);
     }
 
     private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {

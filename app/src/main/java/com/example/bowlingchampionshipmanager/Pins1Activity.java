@@ -285,7 +285,7 @@ private EditText editNorounds;
                       public void onChanged(List<Participant> pa) {
                           for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
                               Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
-                              rd.setScore(pa.get(p).getBowlAvg());
+                             // rd.setScore(pa.get(p).getBowlAvg());
                               bowlingViewModel.insert(rd); //den mporw na kanw insert edw!!
                               System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
                           }
@@ -295,8 +295,8 @@ private EditText editNorounds;
                   // Prin
                   ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
                   for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
-                      rd.setScore(pa.get(p).getBowlAvg());
+                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid,r.getFroundid() ); //ftiaxnw to rd
+                      //rd.setScore(pa.get(p).getBowlAvg());
                       bowlingViewModel.insert(rd);
                       System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
                   } //
@@ -332,6 +332,7 @@ private EditText editNorounds;
               extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
               extras.putString("teamid", teamuuid); //axristo
               extras.putString("champuuid", champuuid);
+              extras.putString("flag", "start");
               extras.putSerializable("champ", ch);
               i.putExtras(extras);
               startActivity(i);

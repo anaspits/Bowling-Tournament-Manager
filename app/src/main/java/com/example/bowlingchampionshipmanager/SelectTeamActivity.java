@@ -77,7 +77,7 @@ flag="none";
        if(flag!=null) {
            System.out.println("flag "+flag);
            if (flag.equals("stat")) { //fixme
-               bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+               bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() { //fixme
                                @Override
                                public void onChanged(List<Team> t) {
                                    System.out.println("t size "+t.size());

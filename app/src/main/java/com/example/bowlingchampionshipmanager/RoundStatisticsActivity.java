@@ -22,7 +22,8 @@ public class RoundStatisticsActivity extends AppCompatActivity {
     private int mangame, mangamebegining, manset, mansetbegining;
     private BowlingViewModel bowlingViewModel;
     private PlayerandGamesAdapter blistAdapter; //playergames
-    private TeamandScoreAdapter tlistAdapter; //todo
+    private TeamandRoundScoreAdapter tlistAdapter;
+    private TextView textTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_round_statistics);
 
         winnerTeam = findViewById(R.id.winnerTeam);
+        textTitle=findViewById(R.id.textTitle);
         man1= findViewById(R.id.man1);
         man2= findViewById(R.id.man2);
         man3= findViewById(R.id.man3);
@@ -40,8 +42,9 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         RecyclerView recyclerViewteam = findViewById(R.id.recyclerViewteams);
         RecyclerView recyclerViewplayers = findViewById(R.id.recyclerViewplayers);
         blistAdapter =  new PlayerandGamesAdapter(this);
-        tlistAdapter = new TeamandScoreAdapter(this);
+        tlistAdapter = new TeamandRoundScoreAdapter(this);
         recyclerViewteam.setAdapter(tlistAdapter);
+      //  recyclerViewteam.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
         recyclerViewteam.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewplayers.setAdapter(blistAdapter);
         recyclerViewplayers.setLayoutManager(new LinearLayoutManager(this));
@@ -54,9 +57,21 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             r = (Round) bundleObject.getSerializable("round");
         }
         System.out.println("got r "+r.getFroundid()+" rid "+r.getRounduuid());
-        bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
+        textTitle.setText("Round No."+r.getFroundid());
+        //teams
+        bowlingViewModel.geAllTeamsofRoundofChamp( champuuid,r.getFroundid() ).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
-            public void onChanged(List<PlayerandGames> part) {//fixme den epistrefei olous tous players
+            public void onChanged(List<TeamandRoundScore> t) {
+                tlistAdapter.setTeams(t);
+                tlistAdapter.setChamp(championship);
+            }
+        });
+
+        //players
+        bowlingViewModel.getAllPlayerScoreGamesofRound(r.getFroundid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
+        //bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() { //fixme den epistrefei olous tous players
+            @Override
+            public void onChanged(List<PlayerandGames> part) {
                 blistAdapter.setPlayers(part);
                 blistAdapter.setChamp(championship);
                 System.out.println("pl size "+part.size());
@@ -74,7 +89,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                 mansetbegining=0;
                 int pos=0, pos2=0, pos3=0, pos4=0;
                 for (int i = 0; i < rds.size(); i++) { //fixme
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
+                    System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
 
                     //if (player.getsex.equals(male) {
                     //paixnidi antra aparxhs
@@ -92,8 +107,9 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                     }
 
                     //set antrwn ap'arxhs
-                    if (mansetbegining <= rds.get(i).getScore()) {
+                    if (mansetbegining <= rds.get(i).getScore()) { //fixme
                         mansetbegining = rds.get(i).getScore();
+                        System.out.println("mansetbeg "+mansetbegining+ " i "+i);
                         pos3 = i;
                     }
 

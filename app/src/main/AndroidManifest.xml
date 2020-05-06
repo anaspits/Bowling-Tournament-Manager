@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectRoundActivity"></activity>
+        <activity android:name=".SelectStatforRoundActivity"></activity>
+        <activity android:name=".SelectRoundActivity" />
         <activity android:name=".RoundStatisticsActivity" />
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".OldChampActivity" />

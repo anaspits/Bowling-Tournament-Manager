@@ -60,6 +60,9 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="games") //ta paixnidia pou epai3e mexri twra se afto to champ
     private int games;
 
+    @ColumnInfo(name="froundid") //ta paixnidia pou epai3e mexri twra se afto to champ
+    private int froundid;
+
 //todo na valw blind kai date
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
@@ -113,6 +116,10 @@ public class Round_detail  implements Serializable {
         return games;
     }
 
+    public int getFroundid() {
+        return froundid;
+    }
+
     @NonNull
     public String getChamp_uuid() {
         return champ_uuid;
@@ -158,7 +165,11 @@ public class Round_detail  implements Serializable {
         this.blind = blind;
     }
 
-    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid) {
+    public void setFroundid(int froundid) {
+        this.froundid = froundid;
+    }
+
+    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid, int froundid) {
         this.round_uuid = round_uuid;
         this.participant_uuid = participant_uuid;
         this.first = first;
@@ -167,6 +178,7 @@ public class Round_detail  implements Serializable {
         this.hdcp=hdcp;
         this.blind=blind;
         this.champ_uuid=champ_uuid;
+        this.froundid=froundid;
     }
 
 }

@@ -19,7 +19,7 @@ android:orientation="vertical">
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Finish Championship"
+            android:text="Round"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textStyle="bold"
             android:layout_marginTop="35dp"
@@ -76,7 +76,24 @@ android:orientation="vertical">
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/txvteampoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Points"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="37dp"

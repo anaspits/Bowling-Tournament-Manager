@@ -2,7 +2,6 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Ignore;
 
 class PlayerandGames {
     @ColumnInfo(name="participant_uuid")
@@ -27,12 +26,18 @@ class PlayerandGames {
     private int hdcp;
 
 
-   // @ColumnInfo(name="froundid")
-    @Ignore
-    private String froundid;
+    @ColumnInfo(name="froundid")
+    private int froundid;
 
     @ColumnInfo(name="games")
     private int games;
+
+    @ColumnInfo(name="first") //tou participant
+    private int first;
+    @ColumnInfo(name="second") //tou participant
+    private int second;
+    @ColumnInfo(name="third") //tou participant
+    private int third;
 
 
     @NonNull
@@ -56,13 +61,25 @@ class PlayerandGames {
         return hdcp;
     }
 
+    public int getFirst() {
+        return first;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public int getThird() {
+        return third;
+    }
+
     @NonNull
     public String getRound_uuid() {
         return round_uuid;
     }
 
     @NonNull
-    public String getFroundid() {
+    public int getFroundid() {
         return froundid;
     }
 
@@ -94,22 +111,37 @@ class PlayerandGames {
         this.hdcp = hdcp;
     }
 
+    public void setFirst(int first) {
+        this.first = first;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public void setThird(int third) {
+        this.third = third;
+    }
+
     public void setRound_uuid(@NonNull String round_uuid) {
         this.round_uuid = round_uuid;
     }
 
-    public void setFroundid(@NonNull String froundid) {
+    public void setFroundid(@NonNull int froundid) {
         this.froundid = froundid;
     }
 
-    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, float bowlAvg, int hdcp, @NonNull String round_uuid,int games) {
+    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, float bowlAvg, int hdcp, @NonNull String round_uuid, int froundid, int games, int first, int second, int third) {
         this.participant_uuid = participant_uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bowlAvg = bowlAvg;
         this.hdcp = hdcp;
         this.round_uuid = round_uuid;
-       // this.froundid = froundid;
+        this.froundid = froundid;
         this.games=games;
+        this.first=first;
+        this.second=second;
+        this.third=third;
     }
 }

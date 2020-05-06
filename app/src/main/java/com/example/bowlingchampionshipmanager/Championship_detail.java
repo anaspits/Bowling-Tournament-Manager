@@ -14,7 +14,7 @@ import androidx.room.Index;
                 parentColumns = "champ_uuid",
                 childColumns = "champ_uuid")
 }, indices= {
-        @Index(name="index_cd_teamID", value="team_uuid", unique=true),
+        @Index(name="index_cd_teamID", value="team_uuid", unique=true), //todo na svhsw to unique
         @Index(name="index_champID", value="champ_uuid")
 }  )
 public class Championship_detail {
