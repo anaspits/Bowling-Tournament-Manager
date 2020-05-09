@@ -50,11 +50,13 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             this.position=position;
             System.out.println("selroundadapter flag "+ finishedTeamflag);
             if(flag.equals("stat")){ //statistika
-                if (ch.getType() == 2) {
+              /*  if (ch.getType() == 2) {
                     holder.setData(String.valueOf(note.getFroundid()),"TEAM:"+note.getTeam1ID()+" VS TEAM:"+note.getTeam2ID(), position);
                 } else if (ch.getType() == 1) {
                     holder.setData(String.valueOf(note.getFroundid()),"TEAM:" + note.getTeam1ID(), position);
-                }
+                }*/
+
+                holder.setData(String.valueOf(note.getFroundid()),"", position);
             }else {
                 if (finishedTeamflag == 1) { //finish team results
                     if (ch.getType() == 2) {

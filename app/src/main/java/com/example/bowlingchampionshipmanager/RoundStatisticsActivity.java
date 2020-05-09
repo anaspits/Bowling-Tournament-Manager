@@ -107,14 +107,14 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                     }
 
                     //set antrwn ap'arxhs
-                    if (mansetbegining <= rds.get(i).getScore()) { //fixme
+                    if (mansetbegining <= rds.get(i).getScore()) { //fixme //komple
                         mansetbegining = rds.get(i).getScore();
                         System.out.println("mansetbeg "+mansetbegining+ " i "+i);
                         pos3 = i;
                     }
 
                     //paixnidi antra aftou tou gyrou
-                    if (rds.get(i).getRound_uuid().equals(r.getRounduuid())) {
+                    if (rds.get(i).getFroundid()==r.getFroundid()) {
                         if (mangame <= rds.get(i).getFirst()) {
                             mangame = rds.get(i).getFirst();
                             pos2 = i;

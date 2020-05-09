@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -127,13 +128,15 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (flag.equals("stat")) { //fixme test it
+                    if (flag.equals("stat")) {
                         Intent intent = new Intent(mContext, FinishTeamActivity.class);
                         intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                         intent.putExtra("b_object", mNotes.get(mPosition));
                         intent.putExtra("champ", ch);
                         intent.putExtra("champuuid", ch.getUuid());
+                        intent.putExtra("flag", "stat");
                         mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
                     } else {
                         if (ch.getType() == 2) {
                             Intent intent = new Intent(mContext, RoundActivity.class);

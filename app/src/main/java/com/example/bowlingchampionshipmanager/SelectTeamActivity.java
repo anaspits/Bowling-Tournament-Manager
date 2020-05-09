@@ -50,8 +50,8 @@ flag="none";
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             vs = (ArrayList<ArrayList>) bundleObject.getSerializable("vs");
-            champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
+            champuuid = championship.getUuid();
             flag = bundleObject.getString("flag");
             rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
         }
@@ -75,9 +75,10 @@ flag="none";
     } doulevei*/
 
        if(flag!=null) {
-           System.out.println("flag "+flag);
+           System.out.println("flag "+flag+ " champuuid "+champuuid);
            if (flag.equals("stat")) { //fixme
-               bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() { //fixme
+               textView.setText("Select a Team to view its Statistics");
+               bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() { //todo mono tis omades pou exoun teleiwsei ta rounds???
                                @Override
                                public void onChanged(List<Team> t) {
                                    System.out.println("t size "+t.size());
@@ -144,6 +145,7 @@ flag="none";
         extras.putSerializable("champ", championship);
         i.putExtras(extras); //
         startActivity(i);
+        finish();
     }
 
 

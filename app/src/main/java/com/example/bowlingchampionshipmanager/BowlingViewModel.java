@@ -658,6 +658,10 @@ public  void insert (Team_detail t){
         return rDao.getAllRoundofChamp(champuuid);
     }
 
+    LiveData<Integer> getNumofRoundsofChamp(String champuuid){
+        return rDao.getNumofRoundsofChamp(champuuid);
+    }
+
     LiveData<List<Round>> getDoneRoundsofChamp(String champuuid){
         return rDao.getDoneRoundsofChamp(champuuid);
     }

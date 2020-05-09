@@ -120,22 +120,31 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                         intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
                     } else if (flag_stat.equals("rounds_stat")) {
                         Intent intent = new Intent(mContext, SelectStatforRoundActivity.class);
                         intent.putExtra("flag", "stat");
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
                     } else if (flag_stat.equals("teams_stat")) {
                         Intent intent = new Intent(mContext, SelectTeamActivity.class);
                         intent.putExtra("flag", "stat");
                         intent.putExtra("champ", mNotes.get(mPosition));
                         mContext.startActivity(intent);
-                    }else {
+                        ((Activity)mContext).finish();
+                    }/*else if (flag_stat.equals("players_stat")) {
+                        Intent intent = new Intent(mContext, SelectStatforPlayersActivity.class);
+                        intent.putExtra("flag", "stat");
+                        intent.putExtra("champ", mNotes.get(mPosition));
+                        mContext.startActivity(intent);
+                    }*/else {
                         if (mNotes.get(mPosition).getStatus().equals("Finished")) {
                             Intent intent = new Intent(mContext, FinishChampActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
                             intent.putExtra("champ", mNotes.get(mPosition));
                             mContext.startActivity(intent);
+                            ((Activity)mContext).finish();
                         } else {
                             Intent intent = new Intent(mContext, SelectTeamActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
@@ -143,6 +152,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                             intent.putExtra("flag", "start");
                             //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                             mContext.startActivity(intent);
+                            ((Activity)mContext).finish();
                         }
                     }
                 }

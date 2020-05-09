@@ -1,6 +1,8 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +21,19 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
     private final LayoutInflater layoutInflater;
     private Context mContext;
     private List<Participant> mNotes;
-    private Championship ch;
+    private Championship ch; //axrhsto
     private Team team;
     private int position;
     private static  Round round;
     private BowlingViewModel bowlingViewModel;
-    private int finishedTeamflag;
+    private int btnselflag; //0; selbtn, 1: oxi selbtn
 
+    //na to metanomasw se ParticipantsList
     public SelectParticipantListAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
         bowlingViewModel = ViewModelProviders.of((FragmentActivity) mContext).get(BowlingViewModel.class);
-        finishedTeamflag =0;
+        btnselflag =0;
     }
 
     @NonNull
@@ -78,8 +81,8 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
         team=t;
     }
 
-    public void setFinishedFlag(int i) {//gia tin omada pou teleiwse
-        finishedTeamflag =i;
+    public void setbtnSelFlag(int i) {//gia tin omada pou teleiwse
+        btnselflag =i;
     }
 
     public class BowlingViewHolder extends RecyclerView.ViewHolder {
@@ -92,18 +95,18 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
             super(itemView);
             noteItemView = itemView.findViewById(R.id.txvNote);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
-            if( finishedTeamflag ==1){
+            if( btnselflag ==1){
                 btSel.setVisibility(View.GONE);
                 txthdcp=itemView.findViewById(R.id.txtscore);
             }
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int teamid, int position) {
+        public void setData(String note, int second, int position) {
             noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(teamid));
+            teamItemView.setText(String.valueOf(second));
             mPosition = position;
-            if( finishedTeamflag ==1){
+            if( btnselflag ==1){
                 txthdcp.setText(String.valueOf(mNotes.get(getAdapterPosition()).getHdcp()));
             }
         }
@@ -112,15 +115,15 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
             btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-/*
-                        Intent intent = new Intent(mContext, RoundActivity.class);
-                        intent.putExtra("bowlId", mNotes.get(mPosition).getParticipantID());
-                        intent.putExtra("count", getItemCount());
-                        intent.putExtra("b_object", mNotes.get(mPosition));
-                        intent.putExtra("champ", ch);
+                        Intent intent = new Intent(mContext, ParticipantStatisticsActivity.class);
+                        intent.putExtra("partID", mNotes.get(mPosition).getParticipantID());
+                        intent.putExtra("participant", mNotes.get(mPosition));
+                        intent.putExtra("flag", "specific");
+                        //intent.putExtra("champ", ch);
                         //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                         mContext.startActivity(intent);
-                    */
+                    ((Activity)mContext).finish();
+
                 }
             });
         }

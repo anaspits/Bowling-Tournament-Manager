@@ -68,7 +68,7 @@ public interface TeamDao { //gia ta Team
     @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid AND round.froundid=:frid")
     LiveData<List<TeamandRoundScore>> geAllTeamsofRoundofChamp( String champid, int frid);
 
-    @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid")
+    @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid ORDER BY team.fteamID")
     LiveData<List<TeamandRoundScore>> geAllTeamsofChamp( String champid);
 
     @Transaction

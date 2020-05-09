@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+//na to metaonomasw se selectchamp
 public class ContinueChampActivity extends AppCompatActivity implements ChampListAdapter.OnDeleteClickListener{
 
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
@@ -82,6 +83,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                     }
                 }
             });
+            //todo na ta valw ola se ena bowlingviewmodel kai mesa na exw tis if
         } else if (flag.equals("champ_stat")){
             textView1.setText("Select which Championship's Statistics you want to view");
              bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
@@ -111,7 +113,7 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                 }
             });
         }else if (flag.equals("teams_stat")){
-            textView1.setText("Select which Championship's Rounds Statistics you want to view");
+            textView1.setText("Select which Championship's Teams Statistics you want to view");
             bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
                 @Override
                 public void onChanged(List<Championship> c) {
@@ -124,7 +126,21 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
                     }
                 }
             });
-        }
+        } /* else if (flag.equals("players_stat")){
+            textView1.setText("Select which Championship's Player Statistics you want to view");
+            bowlingViewModel.getAllChamp().observe(this, new Observer<List<Championship>>() {
+                @Override
+                public void onChanged(List<Championship> c) {
+                    clistAdapter.setChamp(c);
+                    clistAdapter.setFlagStat(flag);
+                    if(c.size()==0){
+                        textView1.setText("There are no Championships at the moment");
+                        txvTeam.setText("");
+                        txvNote.setText("");
+                    }
+                }
+            });
+        } */
 
     }
 

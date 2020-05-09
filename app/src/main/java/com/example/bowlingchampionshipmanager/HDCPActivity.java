@@ -93,8 +93,16 @@ public class HDCPActivity extends AppCompatActivity {
     public void exportcsv(View view){
         //generate data
         StringBuilder data = new StringBuilder();
-        data.append("Teams");
-        for(int i = 0; i < bowlers.size()/2;i++){
+        data.append("Championship:"+champ.getSys_champID()+",UUID:"+champuuid);
+        data.append("\nHDCP Parameters");
+        data.append("\n1)Basis scores:,Beginners:," +par2.getText());
+        data.append("\n,Advanced:," +par3.getText());
+        data.append("\n,Teams with less players:," +par5.getText());
+        data.append("\n2)Percentage Factor:," +par.getText());
+        data.append("\n3)Tavani:,"+par4.getText());
+
+
+        /*  for(int i = 0; i < bowlers.size()/2;i++){
             Participant p = bowlers.get(i);
             data.append("\n"+"Team " + String.valueOf(p.getTeamid())+" "+String.valueOf(p.getFN())+ " " + String.valueOf(p.getLN()) + " (Avg: " + String.valueOf(p.getBowlAvg()) + " ) & " + p.getPartner().getFN() + " " + String.valueOf(p.getPartner().getLN()) + " (Avg: " + String.valueOf(p.getPartner().getBowlAvg()) + " )");
         }
@@ -104,7 +112,7 @@ public class HDCPActivity extends AppCompatActivity {
         data.append("Advanced: "+ par3.getText()+"\n");
         data.append("Teams with less players: "+ par5.getText()+"\n");
         data.append("2) Percentage Factor: "+ par.getText()+ "\n" );
-        data.append("3) Tavani: "+ par4.getText()+ "\n" );
+        data.append("3) Tavani: "+ par4.getText()+ "\n" );*/
 
         hdcp_parameters.add(par2.getText().toString());
         hdcp_parameters.add(par3.getText().toString());
@@ -207,6 +215,7 @@ public class HDCPActivity extends AppCompatActivity {
                 hdcp_parameters.add(par4.getText().toString());
 
             }
+           /*
             Intent i =  new Intent(this, Create3Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);
@@ -216,7 +225,8 @@ public class HDCPActivity extends AppCompatActivity {
             extras.putSerializable("hdcppar_object",h); //axristo?
             extras.putSerializable("champ",champ);
             i.putExtras(extras);
-            startActivity(i);
+            startActivity(i); */
+           finish();
             Toast.makeText(
                     getApplicationContext(),
                     R.string.save,

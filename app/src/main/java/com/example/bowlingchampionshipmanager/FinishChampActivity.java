@@ -11,12 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FinishChampActivity extends AppCompatActivity {
 
-    private static TextView winnerTeam,textTitle;
+    private static TextView winnerTeam,textTitle,txtrounds;
     public Championship championship;
     private String champuuid;
     private BowlingViewModel bowlingViewModel;
@@ -32,6 +31,7 @@ public class FinishChampActivity extends AppCompatActivity {
 
         winnerTeam = findViewById(R.id.winnerTeam);
         textTitle = findViewById(R.id.textTitle);
+        txtrounds= findViewById(R.id.txtrounds);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if (bundleObject != null) {
@@ -75,6 +75,9 @@ public class FinishChampActivity extends AppCompatActivity {
             public void onChanged(List<Round> rounds) {
                 roundlistAdapter.setSelRound(rounds);
                 roundlistAdapter.setChamp(championship);
+                if(rounds.size()==0){
+                    txtrounds.setText("No rounds have been played yet");
+                }
             }
         });
 
@@ -83,7 +86,7 @@ public class FinishChampActivity extends AppCompatActivity {
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);
                 blistAdapter.setChamp(championship);
-                blistAdapter.setFinishedFlag(1);
+                blistAdapter.setbtnSelFlag(1);
             }
         });
     }

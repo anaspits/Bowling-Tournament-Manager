@@ -43,9 +43,18 @@ public class SelectRoundActivity extends AppCompatActivity {
             bowlingViewModel.getDoneRoundsofChamp(championship.getUuid()).observe(this, new Observer<List<Round>>() {
                 @Override
                 public void onChanged(List<Round> rounds) {
+                    for (int i = 0; i < rounds.size(); i++) {
+                        if (i != 0 && rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
+                            rounds.remove(i);
+                        }
+                    }
                     roundlistAdapter.setSelRound(rounds);
                     roundlistAdapter.setChamp(championship);
                     roundlistAdapter.setflag(flag);
+                    if(rounds.size()==0){
+                        textView1.setText("No Rounds have been played yet");
+                        txv2.setText("");
+                    }
                 }
             });
         } else {

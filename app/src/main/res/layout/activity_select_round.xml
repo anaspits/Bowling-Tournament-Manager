@@ -65,7 +65,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitle">
 
-        <TextView
+        <!--TextView
             android:id="@+id/txv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:text="Teams"
             android:textColor="#616161"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold" /-->
 
     </LinearLayout>
 

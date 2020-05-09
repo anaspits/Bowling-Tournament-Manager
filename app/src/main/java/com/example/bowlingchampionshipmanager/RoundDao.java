@@ -28,7 +28,10 @@ public interface RoundDao {
     @Query("SELECT * FROM round WHERE champ_uuid=:champuuid")
     LiveData<List<Round>> getAllRoundofChamp(String champuuid);
 
-    @Query("SELECT * FROM round WHERE champ_uuid=:champuuid AND status='done'")
+    @Query("SELECT DISTINCT froundid FROM round WHERE champ_uuid=:champuuid")
+    LiveData<Integer> getNumofRoundsofChamp(String champuuid);
+
+    @Query("SELECT * FROM round WHERE champ_uuid=:champuuid AND status='done'") //todo (DISTINCT froundid)
     LiveData<List<Round>> getDoneRoundsofChamp(String champuuid);
 
     @Query("SELECT round.sys_roundID,round.round_uuid, round.froundid, round.fchampID, round.champ_uuid, round.team1ID, round.team2ID,round.team1UUID, round.team2UUID, round.score1, round.score2,round.points1,round.points2,round.status, round.date FROM round INNER JOIN team ON (round.team1UUID=team.team_uuid or round.team2UUID=team.team_uuid) WHERE (team.team_uuid=:teamuuid AND (round.status='next' OR round.status='last') AND round.champ_uuid=:champuuid)")

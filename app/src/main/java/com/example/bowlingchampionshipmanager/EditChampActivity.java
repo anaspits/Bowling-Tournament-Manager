@@ -249,7 +249,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
-
+//fixme den kanei update
         if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
             Button c= findViewById(R.id.back_btn);
             Bundle bundleObject =resultData.getExtras();

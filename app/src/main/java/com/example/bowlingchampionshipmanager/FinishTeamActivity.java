@@ -26,6 +26,7 @@ public class FinishTeamActivity extends AppCompatActivity {
     private BowlingViewModel bowlingViewModel;
     private SelectRoundAdapter roundlistAdapter;
     private SelectParticipantListAdapter blistAdapter;
+    private String flag;
 
 //TODO EXPORT
     @Override
@@ -33,7 +34,7 @@ public class FinishTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_team);
 
-        textTitle = findViewById(R.id.textTitle);
+        textTitle = findViewById(R.id.textTitle); //fixme gia stat gia unfinished teams
         textView1 = findViewById(R.id.textView1);
         finalsc = findViewById(R.id.finalsc);
 
@@ -86,7 +87,7 @@ public class FinishTeamActivity extends AppCompatActivity {
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);
                 blistAdapter.setChamp(championship);
-                blistAdapter.setFinishedFlag(1);
+                blistAdapter.setbtnSelFlag(1);
             }
         });
     }
