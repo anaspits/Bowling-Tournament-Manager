@@ -187,7 +187,7 @@ public class Test_table implements Serializable {
             //Participant p = bowlers.get(i);
             Test_table p =bowlers.get(i);
             p.setTeamid(i+1);
-            //System.out.println("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            //System.out.println("Team " + p.getTeamid() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
         }
         return bowlers;

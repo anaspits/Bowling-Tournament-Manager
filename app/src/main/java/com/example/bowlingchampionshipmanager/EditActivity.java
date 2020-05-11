@@ -57,8 +57,8 @@ testid.setText(String.valueOf(bowlId));
         participant.observe(this, new Observer<Participant>() {
             @Override
             public void onChanged(Participant participant) {
-                editdb.setText(participant.getFN());
-                editlastname.setText(participant.getLN());
+                editdb.setText(participant.getFirstName());
+                editlastname.setText(participant.getLastName());
                 editavg.setText(String.valueOf(participant.getBowlAvg()));
                 editteam.setText(String.valueOf(participant.getTeamid()));
                 edithdcp.setText(String.valueOf(participant.getHdcp()));

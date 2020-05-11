@@ -49,7 +49,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (flag.equals("all")) {
-            bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() { //todo all active players
+            bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() { //todo all active players
                 @Override
                 public void onChanged(List<Participant> part) {
                     blistAdapter.setSelected(part);

@@ -23,7 +23,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static ArrayList<Team> all_the_teams; //todo live
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds=3; //todo : na to vazei o user? all_the_teams meta3u tous x2
+    private static int rounds; //todo : na to vazei o user? all_the_teams meta3u tous x2
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -85,6 +85,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
             }
         });
 
+        rounds=(all_the_teams.size()-1)*2;
         if (all_the_teams.size()!=0) {
             roundRobin(all_the_teams.size(), rounds);
 

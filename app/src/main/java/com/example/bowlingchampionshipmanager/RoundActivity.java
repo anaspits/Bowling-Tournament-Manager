@@ -47,7 +47,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
     public static Team t, t2;
     public static Round r, r2;
     public static String tuuid;
-    private int score1, score2; //todo
+    private int score1, score2;
     private BowlingViewModel bowlingViewModel;
     private RoundListAdapter rlistAdapter;
     private RoundScoreListAdapter2 blistAdapter;
@@ -254,7 +254,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                   ArrayList<Round_detail> rd = new ArrayList<>();
                 for (int i = 0; i < part.size(); i++) {
                     Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp() );
-                    System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
+                    System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                     rd.add(round_detail);
                 }
                 blistAdapter.setRound_detail(rd);
@@ -356,14 +356,14 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         int i;
         for (i = 0; i < teamates.size(); i++) {
 
-            player_view.append(teamates.get(i).getFN() + "\n");
+            player_view.append(teamates.get(i).getFirstName() + "\n");
             hdcp_view.append(teamates.get(i).bowlAvg + "\n");
 
         }
         teamates = t2.getTeammates();
         for (i = 0; i < teamates.size(); i++) {
 
-            player2_view.append(teamates.get(i).getFN() + "\n");
+            player2_view.append(teamates.get(i).getFirstName() + "\n");
             hdcp2_view.append(teamates.get(i).bowlAvg + "\n");
 
         }
@@ -445,11 +445,11 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 t2 = (Team) bundleObject.getSerializable("team2");
                 r2 = (Round) bundleObject.getSerializable("round2");
                 curRound=r2;
-                score1 = bundleObject.getInt("score1");
-                score2 = bundleObject.getInt("score2");
+                score1 = bundleObject.getInt("score1"); //ths selected team
+                score2 = bundleObject.getInt("score2"); //ths allhs
 
                 System.out.println("GOT from editrounscore: ");
-                System.out.println("SCORE1: "+score1+" SCORE2 "+score2 ); //fixme poio score einai poias omadas? pairniountai la8os
+                System.out.println("SCORE1: "+score1+" SCORE2 "+score2 );
                 System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() + " uuid " + r2.getRounduuid());
                 System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid()); //fixme
                 System.out.println("AND t2 " + t2.getFTeamID() + " sid " + t2.getSys_teamID() + " score " + t2.getScore() + " uuid " + t2.getUuid());
@@ -507,13 +507,13 @@ for (int i=0;i<test.size();i++){
 }*///PASS ROUND PART 6//
         System.out.println("save_pressed="+save_pressed);
         if (save_pressed == 1){
-            if(t.getUuid().equals(curRound.getTeam1UUID())){
+           // if(t.getUuid().equals(curRound.getTeam1UUID())){ //fixme pairniountai la8os
                 cd.setScore(score1);
                 cd2.setScore(score2);
-            } else if(t.getUuid().equals(curRound.getTeam2UUID())){
+          /*  } else if(t.getUuid().equals(curRound.getTeam2UUID())){
                 cd.setScore(score2);
                 cd2.setScore(score1);
-            }
+            } */
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
           //  cd.setScore(score1); to kanw sto onresult
@@ -594,7 +594,7 @@ for (int i=0;i<test.size();i++){
             //finish();
             System.out.println("here 2 " + curRound.getStatus());
             startActivity(i);
-        } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth
+        } else if (cd.getActive_flag() == 0) { //finish
             curRound.setStatus("done"); //giati? afou einai hdh done
             bowlingViewModel.update(curRound);
             //textTitle.setText("This Round has already been done");
@@ -602,27 +602,39 @@ for (int i=0;i<test.size();i++){
             System.out.println("cd size= " + cds_count);
             System.out.println("fin cd size= " + fin_cds_count);
 
-//upologizw to ka8oliko avg tou paikth meta apo afto to champ
+            //na svisw einai perito
+//upologizw to ka8oliko avg tou paikth meta apo afto to champ //todo na dw an efarmozetai kai stous paiktes ths teleftaias omadas pou den kanei finish, vasika giati to kanw edw?
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
             System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
             System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                 int i2 = i;
+                System.out.println("i "+i+" editmodellist.size "+RoundScoreListAdapter2.editModelArrayList.size() );
                 bowlingViewModel.getallAllRound_detailofplayer(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid()).observe(this, new Observer<List<Round_detail>>() { //ka8oliko
                @Override
                public void onChanged(List<Round_detail> rd) {
            int avg=0; //todo na to kanw float h' na rwthsw
+            System.out.println("i2 "+i2+" rd.size "+rd.size());
            for(int r=0;r<rd.size();r++){
-               System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" i2 "+i2+" rounduuid "+rd.get(i2).getRound_uuid()+" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg+" rd size "+rd.size());
+               System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" i2 "+i2);
+               System.out.println( " rounduuid "+rd.get(r).getRound_uuid());
+               System.out.println( " r.score "+rd.get(r).getScore());
+               System.out.println(" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg());
+               System.out.println( " avg "+ avg);
                        avg+= rd.get(r).getScore();
-               System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+               System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" r.score "+rd.get(r).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
 
            }
            if(rd.size()!=0) {
                avg = avg / (3 * rd.size());
            }
+                   if(championship.getHdcp_tav()!=0){ //todo test it
+                       int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
+                       RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                       System.out.println(" hdcp "+hdcp);
+                   }
            RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg);
             bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
-                   System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+                   System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
            }
            });
         }

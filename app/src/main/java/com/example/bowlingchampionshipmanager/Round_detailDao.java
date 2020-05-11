@@ -44,9 +44,10 @@ public interface Round_detailDao {
     LiveData<List<PlayerandGames>> getPlayerScoreGamesofRound(String rid, String chid);
 
     @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,round_detail.round_uuid,round_detail.avg,round_detail.hdcp ,round_detail.games, round_detail.froundid,round_detail.first, round_detail.second, round_detail.third FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid  WHERE round_detail.champ_uuid=:chid AND round_detail.froundid=:frid ORDER BY round_detail.avg")
-    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofRound(int frid, String chid); //todo test it
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofRound(int frid, String chid);
 
     @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,round_detail.round_uuid,round_detail.avg,round_detail.hdcp ,round_detail.games, round_detail.froundid,round_detail.first, round_detail.second, round_detail.third FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid  WHERE round_detail.champ_uuid=:chid ORDER BY participant.participant_uuid")
-    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChamp(String chid); //todo test it
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChamp(String chid);
+
 
 }

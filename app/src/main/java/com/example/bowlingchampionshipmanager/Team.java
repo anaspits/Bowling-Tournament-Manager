@@ -234,7 +234,7 @@ public class Team implements Serializable {
             display_teams.append("\n"+"Team " + (i+1) +": " );
             int j;
             for (j=0; j<temp.size();j++) {
-                display_teams.append(temp.get(j).getFN() +"  ");
+                display_teams.append(temp.get(j).getFirstName() +"  ");
             }
 
         }

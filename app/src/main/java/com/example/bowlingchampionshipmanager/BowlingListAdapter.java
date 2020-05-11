@@ -46,7 +46,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
 
         if (mNotes != null) {
             Participant note = mNotes.get(position);
-            holder.setData(note.getFullName(),note.getTeamid(), position);
+            holder.setData(note.getFullName(),note.getBowlAvg(), position);
             holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.

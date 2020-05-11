@@ -56,23 +56,23 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                     holder.setData(String.valueOf(note.getFroundid()),"TEAM:" + note.getTeam1ID(), position);
                 }*/
 
-                holder.setData(String.valueOf(note.getFroundid()),"", position);
+                holder.setData(String.valueOf(note.getFroundid()),"", "",position);
             }else {
                 if (finishedTeamflag == 1) { //finish team results
                     if (ch.getType() == 2) {
                         if (team.getUuid().equals(note.getTeam1UUID())) {
-                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam2ID(), String.valueOf(note.getPoints1()), position);
+                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam2ID(), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);
                         } else if (team.getUuid().equals(note.getTeam2UUID())) {
-                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam1ID(), String.valueOf(note.getPoints2()), position);
+                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam1ID(), String.valueOf(note.getPoints2()),String.valueOf(note.getScore2()), position);
                         }
                     } else if (ch.getType() == 1) {
-                        holder.setData( String.valueOf(note.getFroundid()), String.valueOf(note.getPoints1()), position);
+                        holder.setData( String.valueOf(note.getFroundid()), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);
                     }
 
                 } else if (ch.getType() == 2) { //round
-                    holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(), position);
+                    holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(),"", position);
                 } else if (ch.getType() == 1) {
-                    holder.setData("TEAM:" + note.getTeam1ID(), "", position);
+                    holder.setData("TEAM:" + note.getTeam1ID(), "","", position);
                 }
             }
             holder.setListeners();
@@ -130,17 +130,18 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, String teamid, int position) {
+        public void setData(String note, String second,String third, int position) {
             noteItemView.setText(note);
-            teamItemView.setText(teamid);
+            teamItemView.setText(second);
             mPosition = position;
             if( finishedTeamflag ==1){
-                if(team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam1UUID())) {
-                    txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore1()));
-                } else if (team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam2UUID())) {
-                    txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore2()));
+                txtscore.setText(third);
+                //if(team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam1UUID())) {
+                   // txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore1()));
+                //} else if (team.getUuid().equals(mNotes.get(getAdapterPosition()).getTeam2UUID())) {
+                   // txtscore.setText(String.valueOf(mNotes.get(getAdapterPosition()).getScore2()));
 
-                }
+               // }
             }
         }
         public void setListeners() {

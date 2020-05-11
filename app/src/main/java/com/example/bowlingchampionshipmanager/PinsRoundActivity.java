@@ -164,7 +164,7 @@ public class PinsRoundActivity extends AppCompatActivity {
                 ArrayList<Round_detail> rd = new ArrayList<>();
                 for (int i = 0; i < part.size(); i++) {
                     Round_detail round_detail = new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0, part.get(i).getHdcp());
-                    System.out.println(" rounddetail: rid " + r.getFroundid() + " pid " + part.get(i).getFN());
+                    System.out.println(" rounddetail: rid " + r.getFroundid() + " pid " + part.get(i).getFirstName());
                     rd.add(round_detail);
                 }
                 blistAdapter.setRound_detail(rd);
@@ -485,9 +485,9 @@ if (calc_pressed ==1) {
                             public void onChanged(List<Round_detail> rd) {
                                 int avg=0; //todo na to kanw float h' na rwthsw
                                 for(int r=0;r<rd.size();r++){
-                                    System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" i2 "+i2+" rounduuid "+rd.get(i2).getRound_uuid()+" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg+" rd size "+rd.size());
+                                    System.out.println("Prin paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" i2 "+i2+" rounduuid "+rd.get(i2).getRound_uuid()+" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg+" rd size "+rd.size());
                                     avg+= rd.get(r).getScore();
-                                    System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+                                    System.out.println("Mesa paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
 
                                 }
                                 if(rd.size()!=0) {
@@ -495,7 +495,7 @@ if (calc_pressed ==1) {
                                 }
                                 RoundScoreListAdapter2.editModelArrayList.get(i2).setBowlAvg(avg); //todo na krataw to ka8oliko avg se allh metavliti sto participant
                                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i2));
-                                System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFN() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
+                                System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
                             }
                         });
                     }

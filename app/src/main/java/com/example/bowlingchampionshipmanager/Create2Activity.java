@@ -127,6 +127,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
                 //addnew.setText(String.valueOf(id));
                 sum=team.get(2).getSys_teamID(); telos*/
                 tlistAdapter.setTeams(team);
+                tlistAdapter.setChamp(championship);
             }
         });
 
@@ -171,7 +172,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
 
        /*Participant p = bowlers.get(0);
-        String fnn =p.getFN();
+        String fnn =p.getFirstName();
         textView.setText(fnn); */
        /*
        //palia emfanish, xwris to teams
@@ -182,8 +183,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             //Team No. , Participant 1 , Participant 2
 
             Participant p = bowlers.get(i);
-            //System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
-            display_teams.append("Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )" + "\n");
+            //System.out.println("Team " + (i + 1) + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            display_teams.append("Team " + p.getTeamid() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )" + "\n");
         } */
 
        //nea emfanish me th xrhsh tou arraylist teams pou exei mesa tou arraylist me Participant
@@ -194,7 +195,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             display_teams.append("\n"+"Team " + (i+1) +": " );
             int j;
             for (j=0; j<temp.size();j++) {
-                display_teams.append(temp.get(j).getFN() +"  ");
+                display_teams.append(temp.get(j).getFirstName() +"  ");
             }
 
         } */
@@ -207,7 +208,7 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
             display_teams.append("\n"+"Team " + t.getFTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
-                display_teams.append(temp.get(j).getFN() +"  ");
+                display_teams.append(temp.get(j).getFirstName() +"  ");
             }
         } ws edw */
 

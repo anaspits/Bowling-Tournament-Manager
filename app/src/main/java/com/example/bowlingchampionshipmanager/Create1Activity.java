@@ -40,7 +40,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     //todo na ftiaxw to background sto recycleview h sto list
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
-    private static EditText textView;
+    private static EditText textView,editLanes;
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
@@ -56,7 +56,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static ArrayList<Team> all_the_teams = new ArrayList<>();
     public static ArrayList<Integer> teamsid = new ArrayList<>();
    // private static Participant s = new Participant(999,"instance", "instance", 999, 0);
-   private static Participant s = new Participant(999,"","instance", "instance", 999, 0,null,0, null);
+   private static Participant s = new Participant(999,"","instance", "instance", 999, 0,null,0, null, 0);
     public static int t_id=1;
     public static int allbowls=0;
     private static Test_table test= new Test_table("instance");
@@ -82,6 +82,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         setContentView(R.layout.activity_create1);
 
         textView = (EditText) findViewById(R.id.fileText);
+        editLanes =  findViewById(R.id.editLanes);
        Button button_imp  = (Button) findViewById(R.id.button_import);
        imp_pressed=0;
        //na svisw
@@ -419,8 +420,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
                 //Team No. , Participant 1 , Participant 2
 
                 Participant p = bowlers.get(i);
-                System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
-                //String fn= p.getFN();
+                System.out.println("Team " + (i + 1) + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+                //String fn= p.getFirstName();
             }
 
         //textView.setText(fn);
@@ -533,7 +534,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
 
        //create the teams
-       int playersPerTeam=2; //fixme gia perissoterous players
+       int playersPerTeam=Integer.parseInt(editLanes.getText().toString()); //fixme gia perissoterous players
         s.generateTeams(bowlers,playersPerTeam,bowlingViewModel,ch.getUuid());
 
         int i;
@@ -561,7 +562,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             //textView.append("Team " + t.getFTeamID() + ", teamid name " + t.getTeamName()+ " players: "+"\n");
           /*  int j;
             for (j=0; j<temp.size();j++) {
-               // textView.append(temp.get(j).getFN());
+               // textView.append(temp.get(j).getFirstName());
             } */
 //        } //ws edw einai h dhmiourgia omadwn sto all the teams gia th vash 1
 
@@ -577,7 +578,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             textView.append("\n"+"Team " + t.getFTeamID() +": " );
             int j;
             for (j=0; j<temp.size();j++) {
-                textView.append(temp.get(j).getFN() +"  ");
+                textView.append(temp.get(j).getFirstName() +"  ");
             }
         } ws edw einai h emfanish twn omadwn gia th vash 1 */
 System.out.println("all size "+all_the_teams.size());
@@ -605,11 +606,11 @@ System.out.println("all size "+all_the_teams.size());
             //Team No. , Participant 1 , Participant 2
 
             Participant p = bowlers.get(i);
-            System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
-            //String fn= p.getFN();
+            System.out.println("Team " + (i + 1) + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            //String fn= p.getFirstName();
         }
         Participant p = bowlers.get(1);
-        String fnn =p.getFN();
+        String fnn =p.getFirstName();
         textView.setText(fnn);
         //textView.setText("ola kala");
 
@@ -622,13 +623,13 @@ System.out.println("all size "+all_the_teams.size());
             textView.append("gia ton paikth " + temp.get(0) + "\n");
             int j;
             for (j=0; j<temp.size();j++) {
-               textView.append(temp.get(j).getFN());
+               textView.append(temp.get(j).getFirstName());
             }
 
         }
         */ //test
  // na ksesxoliasw      Participant p = bowlers.get(0);
- // na ksesxoliasw       String fnn =p.getFN();
+ // na ksesxoliasw       String fnn =p.getFirstName();
         //textView.setText(fq);
         inputStream.close();
         //return stringBuilder.toString();
@@ -674,7 +675,10 @@ System.out.println("all size "+all_the_teams.size());
 
     @Override
     public void OnDeleteClickListener(Participant myNote) {
-        bowlingViewModel.delete(myNote);
+        //bowlingViewModel.delete(myNote);
+        myNote.setDisable_flag(1);
+        System.out.println(myNote.getDisable_flag());
+        bowlingViewModel.update(myNote);
     }
 
 

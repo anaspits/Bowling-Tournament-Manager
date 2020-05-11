@@ -81,17 +81,17 @@ public class Start1Activity extends AppCompatActivity {
         //int i;
         //for (i=0;i<teamates.size();i++) {
 
-            player_11.setText(teamates.get(0).getFN());
+            player_11.setText(teamates.get(0).getFirstName());
             hdcp_11.setText(teamates.get(0).bowlAvg);
-        player_12.setText(teamates.get(1).getFN());
+        player_12.setText(teamates.get(1).getFirstName());
         hdcp_12.setText(teamates.get(1).bowlAvg);
 
         //}
         teamates=t22.getTeammates();
         //for (i=0;i<teamates.size();i++) {
-        player_21.setText(teamates.get(0).getFN());
+        player_21.setText(teamates.get(0).getFirstName());
         hdcp_21.setText(teamates.get(0).bowlAvg);
-        player_22.setText(teamates.get(1).getFN());
+        player_22.setText(teamates.get(1).getFirstName());
         hdcp_22.setText(teamates.get(1).bowlAvg);
 
 

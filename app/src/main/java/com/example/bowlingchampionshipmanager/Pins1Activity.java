@@ -98,7 +98,7 @@ private EditText editNorounds;
                     Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp()); //ftiaxnw to rd
                     rd.setScore(pa.get(p).getBowlAvg());
                     bowlingViewModel.insert(rd);
-                    System.out.println("Rd round"+r.getFroundid()+" partici "+pa.get(p).getFN()+" "+pa.get(p).getUuid());
+                    System.out.println("Rd round"+r.getFroundid()+" partici "+pa.get(p).getFirstName()+" "+pa.get(p).getUuid());
                 }
             }
         } */
@@ -287,7 +287,7 @@ private EditText editNorounds;
                               Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid ); //ftiaxnw to rd
                              // rd.setScore(pa.get(p).getBowlAvg());
                               bowlingViewModel.insert(rd); //den mporw na kanw insert edw!!
-                              System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
+                              System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
                           }
 
                       }
@@ -298,7 +298,7 @@ private EditText editNorounds;
                       Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid,r.getFroundid() ); //ftiaxnw to rd
                       //rd.setScore(pa.get(p).getBowlAvg());
                       bowlingViewModel.insert(rd);
-                      System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFN() + " " + pa.get(p).getUuid());
+                      System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
                   } //
               }
           }

@@ -93,7 +93,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
         r=round;
         for (int i = 0; i < RoundScoreListAdapterTeam2.editModelArrayList.size(); i++) {
             Round_detail round_detail= new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0,editModelArrayList.get(i).getHdcp(), 0,r.getChampuuid(),r.getFroundid()  );
-            System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ editModelArrayList.get(i).getFN());
+            System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ editModelArrayList.get(i).getFirstName());
             rd.add(round_detail);
             notifyDataSetChanged();
         }

@@ -58,7 +58,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         });
 
 
-        //pairnw oles tis omades me ta score tous
+        //pairnw oles tis omades me ta score tous 
         bowlingViewModel.geAllTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
             public void onChanged(List<TeamandRoundScore> t) {
@@ -67,13 +67,15 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         });
 
         //pairnw tous paiktes ka8e omadas
-        bowlingViewModel.getAllPlayersofTeam3("1b0f8d6f-73c7-4221-89a8-cd3fab5dc087" ).observe(this, new Observer<List<TeammatesTuple>>() {
+       /* bowlingViewModel.getAllPlayersofTeam3(teams.get(0).getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
             public void onChanged(List<TeammatesTuple> t) { //todo leitourgei alla prpei na to kanw gia sugkekrimeno champ
-                List<Participant> a = t.get(0).getT();
+                if(t.size()!=0) {
+                    List<Participant> a = t.get(0).getT();
+                }
                 System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT().size());
             }
-        });
+        }); */
     }
 
     public void exportPlayerscsv(View view) {
@@ -141,107 +143,119 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     public void exportTeamscsv(View view) { //fixme
         //generate data
         StringBuilder data = new StringBuilder();
-        data.append(" ,Team,");
+        if(rounds.size()!=0) {
+            data.append(" ,Team,");
 
-        for (int i = 0; i < rounds.size(); i++) {
-            if(i==0) {
-                data.append(rounds.get(i).getFroundid()+"H,");
-            } else if (rounds.get(i).getFroundid()!=rounds.get(i-1).getFroundid()){
-                data.append(rounds.get(i).getFroundid()+"H,");
-            } else if (rounds.get(i).getFroundid()==rounds.get(i-1).getFroundid()){
-                System.out.println("i "+i+" fr "+rounds.get(i).getFroundid());
-                //break() H continue();
-            }
-        }
-        data.append("Points");
-
-        //fixme to score sto telos
-        int counter=1;
-        for (int i = 0; i < teams.size(); i++) {
-            TeamandRoundScore t = teams.get(i);
-            if(i==0) {
-                data.append("\n" + counter+"," + String.valueOf(t.getTeam_name()));
-                bowlingViewModel.getAllPlayersofTeam3(t.getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
-                    @Override
-                    public void onChanged(List<TeammatesTuple> p) { //fixme
-                        List<Participant> a = p.get(0).getT();
-                        for (int j=0;j<a.size();j++) {
-                            data.append("," + a.get(j).getFullName());
-                            System.out.println(" name "+a.get(j).getFullName());
-                        }
-                        System.out.println("2 list obejct size "+p.size()+" list team size "+p.get(0).getT().size());
-                    }
-                });
-                counter++;
-                if(championship.getType()==1){
-                    data.append(","+t.getPoints1());
-                }else if (championship.getType()==2){
-                    if(t.getTeam_uuid().equals(t.getTeam1_uuid())){
-                        data.append(","+t.getPoints1());
-                    }else {
-                        data.append(","+t.getPoints2());
-                    }
-                }
-            }else if (i==(teams.size()-1)){
-                if(championship.getType()==1){
-                    data.append(","+t.getScore1());
-                }else if (championship.getType()==2){
-                    if(t.getTeam_uuid().equals(t.getTeam1_uuid())){
-                        data.append(","+t.getScore1());
-                    }else {
-                        data.append(","+t.getScore2());//todo na rwthsw
-                    }
-                }
-            } else  if (t.getTeam_uuid().equals(teams.get(i+1).getTeam_uuid())){ //todo test it
-                if(championship.getType()==1){
-                    data.append(","+t.getPoints1());
-                }else if (championship.getType()==2){
-                    if(t.getTeam_uuid().equals(t.getTeam1_uuid())){
-                        data.append(","+t.getPoints1());
-                    }else {
-                        data.append(","+t.getPoints2());
-                    }
-                }
-
-            }else{
-                if(championship.getType()==1){
-                    data.append(","+t.getScore1());
-                }else if (championship.getType()==2){
-                    if(t.getTeam_uuid().equals(t.getTeam1_uuid())){
-                        data.append(","+t.getScore1());
-                    }else {
-                        data.append(","+t.getScore2());
-                    }
-                }
-                data.append("\n" + counter+"," + String.valueOf(t.getTeam_name()));
-                bowlingViewModel.getAllPlayersofTeam3(t.getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
-                    @Override
-                    public void onChanged(List<TeammatesTuple> p2) {
-                        List<Participant> a = p2.get(0).getT();
-                        for (int j=0;j<a.size();j++) {
-                            data.append("," + a.get(j).getFullName());
-                        }
-                        System.out.println("3 list obejct size "+p2.size()+" list team size "+p2.get(0).getT().size());
-                    }
-                });
-                counter++;
-                if(championship.getType()==1){
-                    data.append(","+t.getPoints1());
-                }else if (championship.getType()==2){
-                    if(t.getTeam_uuid().equals(t.getTeam1_uuid())){
-                        data.append(","+t.getPoints1());
-                    }else {
-                        data.append(","+t.getPoints2());
-                    }
+            for (int i = 0; i < rounds.size(); i++) {
+                if (i == 0) {
+                    data.append(rounds.get(i).getFroundid() + "H,");
+                } else if (rounds.get(i).getFroundid() != rounds.get(i - 1).getFroundid()) {
+                    data.append(rounds.get(i).getFroundid() + "H,");
+                } else if (rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
+                    System.out.println("i " + i + " fr " + rounds.get(i).getFroundid());
+                    //break() H continue();
                 }
             }
-        }
+            data.append("Points");
+
+            //fixme to score sto telos
+            int counter = 1;
+            for (int i = 0; i < teams.size(); i++) {
+                TeamandRoundScore t = teams.get(i);
+                if (i == 0) {
+                    data.append("\n" + counter + "," + String.valueOf(t.getTeam_name()));
+                   /* bowlingViewModel.getAllPlayersofTeam3(t.getTeam_uuid()).observe(this, new Observer<List<TeammatesTuple>>() {
+                        @Override
+                        public void onChanged(List<TeammatesTuple> p) { //fixme
+                            List<Participant> a = p.get(0).getT();
+                            for (int j = 0; j < a.size(); j++) {
+                                data.append("," + a.get(j).getFullName());
+                                System.out.println(" name " + a.get(j).getFullName());
+                            }
+                            System.out.println("2 list obejct size " + p.size() + " list team size " + p.get(0).getT().size());
+                        }
+                    });*/
+                    counter++;
+                    if (championship.getType() == 1) {
+                        data.append("," + t.getPoints1());
+                    } else if (championship.getType() == 2) {
+                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                            data.append("," + t.getPoints1());
+                        } else {
+                            data.append("," + t.getPoints2());
+                        }
+                    }
+                } else if (i == (teams.size() - 1)) {
+                    if (championship.getType() == 1) {
+                        data.append("," + t.getScore1());
+                    } else if (championship.getType() == 2) {
+                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                            data.append("," + t.getScore1());
+                        } else {
+                            data.append("," + t.getScore2());//todo na rwthsw
+                        }
+                    }
+                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) { //todo an einai 1 round mono?
+                    if (championship.getType() == 1) {
+                        data.append("," + teams.get(i + 1).getPoints1());
+                    } else if (championship.getType() == 2) {
+                        if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {
+                            data.append("," + teams.get(i + 1).getPoints1());
+                        } else {
+                            data.append("," + teams.get(i + 1).getPoints2());
+                        }
+                    }
+
+                } else {
+                    if (championship.getType() == 1) {
+                        data.append("," + t.getPoints1());
+                    } else if (championship.getType() == 2) {
+                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                            data.append("," + t.getPoints1());
+                        } else {
+                            data.append("," + t.getPoints2());
+                        }
+                    }
+                    if (championship.getType() == 1) {
+                        data.append("," + t.getScore1());
+                    } else if (championship.getType() == 2) {
+                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                            data.append("," + t.getScore1());
+                        } else {
+                            data.append("," + t.getScore2());
+                        }
+                    }
+                    data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name()));
+                   /* bowlingViewModel.getAllPlayersofTeam3(teams.get(i + 1).getTeam_uuid()).observe(this, new Observer<List<TeammatesTuple>>() {
+                        @Override
+                        public void onChanged(List<TeammatesTuple> p2) {
+                            List<Participant> a = p2.get(0).getT();
+                            for (int j = 0; j < a.size(); j++) {
+                                data.append("," + a.get(j).getFullName());
+                            }
+                            System.out.println("3 list obejct size " + p2.size() + " list team size " + p2.get(0).getT().size());
+                        }
+                    });*/
+                    counter++;
+                    if (championship.getType() == 1) {
+                        data.append("," + teams.get(i + 1).getPoints1());
+                    } else if (championship.getType() == 2) {
+                        if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {
+                            data.append("," + teams.get(i + 1).getPoints1());
+                        } else {
+                            data.append("," + teams.get(i + 1).getPoints2());
+                        }
+                    }
+                }
+            }
        /*todo if(size()==0){
             data.append("No data avaliable");
         } */
 
-        //todo na grapsw k tous paiktes ka8e omadas
-
+            //todo na grapsw k tous paiktes ka8e omadas
+        } else {
+            data.append("No Rounds have been played yet");
+        }
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_teamsRound_stat.csv", Context.MODE_PRIVATE);

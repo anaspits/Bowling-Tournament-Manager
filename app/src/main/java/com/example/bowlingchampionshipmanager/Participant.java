@@ -43,10 +43,10 @@ public class Participant implements Serializable {
     int participantID; //to id pou exei o paiktis stin database
 
     @ColumnInfo(name="participant_uuid")
+    @NonNull
     String uuid;
 
     @ColumnInfo(name="fakeID") //axristo //todo: na dw pws kanw autoIncrement
-    @NonNull
     int fakeID; //to id pou exei o paiktis sto sugkekrimeno prwtathlima
 
     @ColumnInfo(name="first_name")
@@ -63,6 +63,9 @@ public class Participant implements Serializable {
 
     @ColumnInfo(name="hdcp") //todo
     int hdcp;
+
+    @ColumnInfo(name="total_games")
+    private int total_games;
 
     @ColumnInfo(name="teamID")
     int teamid; //axristo?
@@ -81,6 +84,7 @@ public class Participant implements Serializable {
 
     @ColumnInfo(name="disable_flag")
     private int disable_flag; //0:energo, 1:anenergo
+
 
     @Ignore
     ArrayList<Participant> teamates= new ArrayList<>();
@@ -102,16 +106,16 @@ public class Participant implements Serializable {
         return bowlAvg;
     }
 
-    public String getFN(){
+    public String getFirstName(){
         return firstName;
     }
 
-    public String getLN(){
+    public String getLastName(){
         return lastName;
     }
 
     public String getFullName(){
-        String fullname = getFN() + " " +getLN();
+        String fullname = getFirstName() + " " + getLastName();
         return fullname;
     }
     public int getFakeID() {
@@ -157,6 +161,10 @@ public class Participant implements Serializable {
         return uuid;
     }
 
+    public int getTotal_games() {
+        return total_games;
+    }
+
     public int getDisable_flag() {
         return disable_flag;
     }
@@ -198,6 +206,10 @@ public class Participant implements Serializable {
 //        }
     }
 
+    public void setTotal_games(int total_games) {
+        this.total_games = total_games;
+    }
+
     public void setStart_date(Date start_date) {
         this.start_date = start_date;
     }
@@ -221,7 +233,7 @@ public class Participant implements Serializable {
     }
 
     //constructor
-    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp, String sex) {
+    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp, String sex, int disable_flag) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
         this.uuid = uuid;
@@ -258,7 +270,7 @@ public class Participant implements Serializable {
     @Ignore
     @Override
     public String toString() {
-        return "[ Name: " + firstName + " " + lastName + ", Average: " + bowlAvg + ", Partner: " + partner.getFN() + " " + partner.getLN() + ", Partner Avg: " + partner.getBowlAvg() + "]";
+        return "[ Name: " + firstName + " " + lastName + ", "+sex+", Average: " + bowlAvg + ", Partner: " + partner.getFirstName() + " " + partner.getLastName() + ", Partner Avg: " + partner.getBowlAvg() + "]";
     }
 
     /**
@@ -279,6 +291,7 @@ public class Participant implements Serializable {
             String [] input = null;
             String fn = null;
             String ln = null;
+            String sex = null;
             int ba = 0;
 
             int i = 0;
@@ -295,8 +308,11 @@ public class Participant implements Serializable {
                 //get last name
                 ln = input[1];
 
+                //get last name
+                sex = input[2];
+
                 //get avg
-                ba = Integer.parseInt(input[2]);
+                ba = Integer.parseInt(input[3]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                uuid = UUID.randomUUID().toString();
@@ -305,7 +321,7 @@ public class Participant implements Serializable {
                System.out.println("uuid "+ uuid+" ts "+timestamp);
                 //Date date = (Date) Calendar.getInstance().getTime();//fixme
                // System.out.println("time = "+date);
-                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, null);
+                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, sex, 0);
                 p.setDisable_flag(0);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
@@ -338,22 +354,35 @@ Create1Activity.t_id++; //axristo
         //Logic for generating teams(pairs)
 
         //Sort by bowling average
+        if(bowlers.size()%playersPerTeam!=0){
+            do {
+                Participant p = new Participant(0, "blind", "BLIND", "", 0, 0, null, 0, "", 0);
+                bowlers.add(p);
+
+            }while (bowlers.size()%playersPerTeam!=0);
+        }
         Collections.sort(bowlers, Participant.partBowlAvg);
         //add 5 points to pair in 2D table of poissible matchings?
         //Associate Participants with friends
         //2D table of friendships -- maybe remove from attributes
         //if [][] = 2, add 2 points to pair in 2D table of poissible matchings?
+
+for (int i=0;i<bowlers.size();i++){
+    System.out.println(i+" bowl "+bowlers.get(i).getFullName()+" "+bowlers.get(i).getBowlAvg());
+}
         int i;
-        for(i = 0; i < bowlers.size()/playersPerTeam; i++){
-            Participant p1 = bowlers.get(i);
-            Participant p2 = bowlers.get(bowlers.size() - i - 1);
-            p1.setPartner(p2);
-            p2.setPartner(p1);
-            //(bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
-            //(bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
+        //an playersPerTea=2
+        if(playersPerTeam==2) {
+            for (i = 0; i < bowlers.size() / playersPerTeam; i++) {
+                Participant p1 = bowlers.get(i);
+                Participant p2 = bowlers.get(bowlers.size() - i - 1);
+                System.out.println("p1 "+p1.getFullName()+" "+p1.getBowlAvg()+" p2 "+p2.getFullName()+" "+p2.getBowlAvg());
+                p1.setPartner(p2);
+                p2.setPartner(p1);
+                //(bowlers.get(i)).setPartner(bowlers.get(bowlers.size() - i - 1));
+                //(bowlers.get(bowlers.size() - i - 1)).setPartner(bowlers.get(i));
+            }
 
-
-        }
 
         for(i = 0; i < bowlers.size()/playersPerTeam;i++){
 
@@ -374,7 +403,7 @@ Create1Activity.t_id++; //axristo
 
             // Championship c = new Championship(fchampID,i+1,0,"created"); //vash 2
             // bowlingViewModel.insert(c);
-            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
             Team_detail td = new Team_detail(t.getUuid(),p.getUuid());
             bowlingViewModel.insert(td);
@@ -390,7 +419,7 @@ Create1Activity.t_id++; //axristo
             Championship_detail cd = new Championship_detail(champID,i+1);
             bowlingViewModel.insert(cd);
 
-            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
             System.out.println("Cd: ch " + (i+1) +" tema "+  cd.getSys_teamID());
 
             Team_detail td = new Team_detail(t.sys_teamID,p.getParticipant_uuid());
@@ -401,6 +430,76 @@ Create1Activity.t_id++; //axristo
             bowlingViewModel.insert(td2);
             System.out.println("Td2 " + td2.getParticipant_uuid() +" "+  td2.getTeamID()); */
 
+        }
+        }else {
+            //an playersPerTea>2
+            ArrayList<Team> teams = new ArrayList<>();
+            int counter1=0, counter2=1;
+            for (i = 0; i < bowlers.size() / playersPerTeam; i++) { //gia oles tis omades
+                System.out.println("team No "+i);
+                ArrayList<Participant> tmates = new ArrayList<>();
+                for (int j = 0; j < playersPerTeam; j++) {//vazw osous paiktes osoi oi playersPerTeam
+                    if (j%2==0) {
+                    /*    Participant p1; //gia na vazei prwta ton teleftaio alla den leitourgei kai polu swsta
+                        if(j==0) {
+                            p1 = bowlers.get(bowlers.size() - i - 1);
+                            tmates.add(p1);
+                        }else {
+                            p1 = bowlers.get(bowlers.size() - i - j);
+                            tmates.add(p1);
+                        }*/
+                        Participant p1=bowlers.get(counter1);
+                        counter1++;
+                        tmates.add(p1);
+                        System.out.println(j+" "+p1.getFullName()+" "+p1.getBowlAvg()+" "+p1.getSex());
+                    }else {
+                       // Participant p2 = bowlers.get(i+j); gia na vazei meta, ton prwto
+                        Participant p2= bowlers.get(bowlers.size() - counter2);
+                        counter2++;
+                        tmates.add(p2);
+                        System.out.println(j+" "+p2.getFullName()+" "+p2.getBowlAvg()+" "+p2.getSex());
+                    }
+                }
+                String tuuid = UUID.randomUUID().toString();
+                System.out.println("team uuid "+tuuid);
+                Team t = new Team((i+1),tuuid,null,0);
+                t.setTeammates(tmates);
+                bowlingViewModel.insert(t);
+                teams.add(t);
+                System.out.println(" teamates "+tmates.get(0).getFullName());
+                System.out.println(" team teamates "+t.getTeammates().get(0).getFullName());
+                Create1Activity.all_the_teams.add(t);
+                Championship_detail cd = new Championship_detail(champID,t.getUuid());
+                bowlingViewModel.insert(cd);
+
+                //td
+                for (int j = 0; j < playersPerTeam; j++) {//vazw ta td gia ka8e paikth ths omadas
+                    Participant p = t.getTeammates().get(j);
+                    System.out.println("i+1: " + (i + 1) + " Team " + teams.get(i).getFTeamID() + ": " + p.getFirstName() + " " + p.getLastName() + " Avg: " + p.getBowlAvg() );
+
+                    Team_detail td = new Team_detail(t.getUuid(), p.getUuid());
+                    bowlingViewModel.insert(td);
+                    System.out.println("Td: p " + td.getParticipantID() + " team " + td.getTeamID());
+
+                }
+            }
+            //td
+     /*       for (i = 0; i < bowlers.size() / playersPerTeam; i++) { //gia oles tis omades
+                Team t = teams.get(i);
+                System.out.println("Team "+ t.getFTeamID());
+                for (int j = 0; j < playersPerTeam; j++) {//vazw ta td gia ka8e paikth ths omadas
+                    Participant p = t.getTeammates().get(j);
+                    System.out.println("i+1: " + (i + 1) + " Team " + teams.get(i).getFTeamID() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+
+                    Team_detail td = new Team_detail(t.getUuid(), p.getUuid());
+                    bowlingViewModel.insert(td);
+                    System.out.println("Td: p " + td.getParticipantID() + " team " + td.getTeamID());
+
+                    Team_detail td2 = new Team_detail(t.getUuid(), p.getPartner().getUuid());
+                    bowlingViewModel.insert(td2);
+                    System.out.println("Td2 " + td2.getParticipantID() + " " + td2.getTeamID());
+                }
+            } */
         }
         return bowlers;
     }
@@ -440,7 +539,7 @@ Create1Activity.t_id++; //axristo
             //Team No. , Participant 1 , Participant 2
 
             Participant p = bowlers.get(i);
-            System.out.println("Team " + (i + 1) + ": " + p.getFN() + " " + p.getLN() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFN() + " " + p.getPartner().getLN() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
+            System.out.println("Team " + (i + 1) + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
         }
 
 

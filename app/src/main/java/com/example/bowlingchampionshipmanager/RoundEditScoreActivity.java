@@ -118,7 +118,7 @@ team2=te;
                     ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                     for (int i = 0; i < part.size(); i++) {
                         Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid() );
-                        System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
+                        System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                         rd.add(round_detail);
                     }
                     blistAdapter.setRound_detail(rd);
@@ -135,7 +135,7 @@ team2=te;
                     ArrayList<Round_detail> rd = new ArrayList<>();
                     for (int i = 0; i < part.size(); i++) {
                         Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid()  );
-                        System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFN());
+                        System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                         rd.add(round_detail);
                     }
                     blistAdapter2.setRound_detail(rd);
@@ -199,6 +199,11 @@ team2=te;
                     if(games!=0) {
                         avg = avg / games;
                     }
+                    if(championship.getHdcp_tav()!=0){ //todo test it kai na mhn allazei an to vazei o paikths
+                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
+                        RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                        System.out.println("1 hdcp "+hdcp);
+                    }
                     System.out.println("1games b "+games+ " avg "+avg);
                     RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
                     RoundScoreListAdapter2.rd.get(i2).setGames(games);
@@ -250,6 +255,10 @@ team2=te;
                         System.out.println("2 prohgoume+afto to score "+avg2);
                         if(games2!=0) {
                             avg2 = avg2 / (games2);
+                        }
+                        if(championship.getHdcp_tav()!=0){ //todo test it
+                        int hdcp = (int) ((championship.getHdcp_tav()-avg2)*championship.getHdcp_factor());
+                            RoundScoreListAdapterTeam2.rd.get(i3).setHdcp(hdcp);
                         }
                         System.out.println("2games b "+games2+ " avg "+avg2);
                         RoundScoreListAdapterTeam2.rd.get(i3).setAvg(avg2);
@@ -349,10 +358,18 @@ team2=te;
         txtscore2.setText("Score: "+score2); //todo na valw koumpi sunolo (tou sum)
         txtpoints1.setText("Points: "+pontoi1);
         txtpoints2.setText("Points: "+pontoi2);
-        r.setScore1(score1);
-        r.setScore2(score2);
-        r.setPoints1(pontoi1);
-        r.setPoints2(pontoi2);
+        if(team1.getUuid().equals(r.getTeam1UUID())){
+            r.setScore1(score1);
+            r.setScore2(score2);
+            r.setPoints1(pontoi1);
+            r.setPoints2(pontoi2);
+        }else if (team1.getUuid().equals(r.getTeam2UUID())){
+            r.setScore1(score2);
+            r.setScore2(score1);
+            r.setPoints1(pontoi2);
+            r.setPoints2(pontoi1);
+        }
+
         //bowlingViewModel.update(r); //todo svisto
         calc_pressed=1;
     }
@@ -439,7 +456,7 @@ team2=te;
             resultIntent.putExtra("selTeam", (Serializable) team1);
             resultIntent.putExtra("team2", (Serializable) team2);
             resultIntent.putExtra("round2", (Serializable) r);
-            resultIntent.putExtra("score1", score1);
+            resultIntent.putExtra("score1", score1); //to score ths selected team
             resultIntent.putExtra("score2", score2);
             setResult(RESULT_OK, resultIntent);
             finish();

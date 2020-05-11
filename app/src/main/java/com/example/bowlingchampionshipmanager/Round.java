@@ -1,6 +1,7 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -10,6 +11,9 @@ import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity(tableName = "round",indices= {
         @Index(name="index_round_uuid", value="round_uuid", unique=true),
@@ -68,9 +72,14 @@ public class Round implements Serializable {
     @ColumnInfo(name="points2")
     private int points2;
 
+    @ColumnInfo(name="lane1")
+    private int lane1;
+
+    @ColumnInfo(name="lane2")
+    private int lane2;
+
     @ColumnInfo(name="status")
     private String status; //H na to kanw int? //done, current, next
-
 
     @TypeConverters(Converters.class)
     @ColumnInfo(name="date")
@@ -137,6 +146,14 @@ public class Round implements Serializable {
         return points2;
     }
 
+    public int getLane1() {
+        return lane1;
+    }
+
+    public int getLane2() {
+        return lane2;
+    }
+
     public void setChampid(int champid) {
         this.champid = champid;
     }
@@ -197,6 +214,14 @@ public class Round implements Serializable {
         this.points2 = points2;
     }
 
+    public void setLane1(int lane1) {
+        this.lane1 = lane1;
+    }
+
+    public void setLane2(int lane2) {
+        this.lane2 = lane2;
+    }
+
     public Round(String rounduuid, int froundid, int team1ID, int team2ID, String champuuid, String team1UUID, String team2UUID, int score1, int score2, String status) {
         this.rounduuid=rounduuid;
         this.froundid = froundid;
@@ -210,5 +235,26 @@ public class Round implements Serializable {
         this.status=status;
     }
 
+public List<Round> assignLanes(ArrayList<Round> rounds, int lanes, int r, BowlingViewModel bowlingViewModel, ArrayList<Team> all_the_teams){
+        if (((lanes%2 != 0) && (r != lanes - 1))||(lanes <= 0))
+            throw new IllegalArgumentException();
+        int[] cycle = new int[lanes];
+        int n = lanes /2;
+    for (int i = 0; i < n; i++) {
+        cycle[i] = i + 1;
+        cycle[lanes - i - 1] = cycle[i] + n;
+    }
+
+        String[] pairoflanes = new String[n];
+    for (int i = 0; i < lanes; i++) {
+        if(i!=lanes-1) {
+            pairoflanes[i] = (i + "-" + (i + 1));
+        }
+    }
+
+//8a parw gia ka8e omada ta rounds ths
+    //gia ka8e round ths omadas 8a vazw kainourio lane
+        return rounds;
+}
 
 }

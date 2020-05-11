@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FinishChampActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class FinishChampActivity extends AppCompatActivity {
     private String champuuid;
     private BowlingViewModel bowlingViewModel;
     private RoundDoublelistAdapter roundlistAdapter;
-    private SelectParticipantListAdapter blistAdapter;
+   private SelectParticipantListAdapter blistAdapter;
     private TeamandScoreAdapter tlistAdapter;
 
     //TODO EXPORT
@@ -63,7 +64,7 @@ public class FinishChampActivity extends AppCompatActivity {
 
         bowlingViewModel.getRankedAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeamandScore>>() { //todo me cd.score
             @Override
-            public void onChanged(List<TeamandScore> t) {
+            public void onChanged(List<TeamandScore> t) { //fixme emfanizei ta score opws na nai
                 tlistAdapter.setTeams(t);
             tlistAdapter.setChamp(championship); 
             winnerTeam.setText("Winning Team: "+t.get(0).getTeam_name()+"\n"+" with Score: "+t.get(0).getTeam_score());
@@ -80,8 +81,9 @@ public class FinishChampActivity extends AppCompatActivity {
                 }
             }
         });
-
+//todo na pairnw to avg apo to rd
         bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);

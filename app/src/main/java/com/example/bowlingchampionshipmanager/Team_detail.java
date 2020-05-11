@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey;
                 childColumns = "participant_uuid")
 }, indices= {
         @Index(name="index_td_teamID", value="team_uuid"),
-        @Index(name="index_participantID", value="participant_uuid", unique=true) //todo na svhsw to unique
+        @Index(name="index_participantID", value="participant_uuid")
 }  )
 public class Team_detail {
 /*    @PrimaryKey(autoGenerate = true)
