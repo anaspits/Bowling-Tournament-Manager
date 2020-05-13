@@ -125,6 +125,7 @@ android:orientation="vertical">
             app:layout_constraintTop_toBottomOf="@+id/textTitle"
             app:layout_constraintVertical_bias="0.064" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -274,6 +275,24 @@ android:orientation="vertical">
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:text="@string/hdcp"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvgames"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Games"
                     android:textColor="#616161"
                     android:textSize="18sp"
                     android:textStyle="bold" />

@@ -646,7 +646,7 @@ System.out.println("all size "+all_the_teams.size());
             //Intent goback = new Intent(this,MainActivity.class);
             //startActivity(goback);
         }
-        else if (button_text.equals("Next")) //todo: an den kanei import na mhn mporei na kanei next
+        else if (button_text.equals("Next"))
         {
             if(imp_pressed==1) {
                 //Intent gonext = new Intent(this,Create2Activity.class);

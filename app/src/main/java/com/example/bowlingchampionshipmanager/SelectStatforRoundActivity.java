@@ -58,7 +58,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         });
 
 
-        //pairnw oles tis omades me ta score tous 
+        //pairnw oles tis omades me ta score tous
         bowlingViewModel.geAllTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
             public void onChanged(List<TeamandRoundScore> t) {
@@ -195,7 +195,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                             data.append("," + t.getScore2());//todo na rwthsw
                         }
                     }
-                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) { //todo an einai 1 round mono?
+                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) {
                     if (championship.getType() == 1) {
                         data.append("," + teams.get(i + 1).getPoints1());
                     } else if (championship.getType() == 2) {

@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ public class PlayerandGamesAdapter extends RecyclerView.Adapter<PlayerandGamesAd
     public PlayerandGamesAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
-
     }
 
     @NonNull
@@ -85,7 +86,8 @@ public class PlayerandGamesAdapter extends RecyclerView.Adapter<PlayerandGamesAd
 
         public void setData(String name, float avg, int hdcp, int games, int position) {
             txv1.setText(name);
-            txv2.setText(String.valueOf(avg));
+            NumberFormat f = new DecimalFormat("###.#");
+            txv2.setText(String.valueOf(f.format(avg)));
             txv3.setText(String.valueOf(hdcp));
             txv4.setText(String.valueOf(games));
             mPosition = position;
