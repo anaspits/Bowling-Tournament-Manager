@@ -1,29 +1,39 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoundStatisticsActivity extends AppCompatActivity {
 
     public static Round r;
     public Championship championship;
-    private static TextView winnerTeam, man1,man2,man3,man4;
+    private static TextView winnerTeam, man1,man2,man3,man4,f1,f2,f3,f4;
     private String champuuid;
-    private int mangame, mangamebegining, manset, mansetbegining;
+    private int mangame, mangamebegining, manset, mansetbegining, fgame, fgamebegining, fset, fsetbegining,max,pos, pos2, pos3, pos4,fpos, fpos2, fpos3, fpos4;
     private BowlingViewModel bowlingViewModel;
     private PlayerandGamesAdapter blistAdapter; //playergames
     private TeamandRoundScoreAdapter tlistAdapter;
     private TextView textTitle;
+    private List<TeamandRoundScore> teams;
+    private List<PlayerandGames> players,rd;
+    private List<TeammatesTuple> playersandteams;
+    private TeamandRoundScore winner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,10 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         man2= findViewById(R.id.man2);
         man3= findViewById(R.id.man3);
         man4= findViewById(R.id.man4);
+        f1= findViewById(R.id.f1);
+        f2= findViewById(R.id.f2);
+        f3= findViewById(R.id.f3);
+        f4= findViewById(R.id.f4);
 
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
@@ -64,6 +78,24 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             public void onChanged(List<TeamandRoundScore> t) {
                 tlistAdapter.setTeams(t);
                 tlistAdapter.setChamp(championship);
+                teams=t;
+                int pos=0;
+                max=0;
+                for (int i=0;i<t.size();i++){
+                    if(t.get(i).getTeam_uuid().equals(t.get(i).getTeam1_uuid())){
+                        if(max<=t.get(i).getPoints1()){
+                            max=t.get(i).getPoints1();
+                            pos=i;
+                        }
+                    }else {
+                        if(max<=t.get(i).getPoints2()){
+                            max=t.get(i).getPoints2();
+                            pos=i;
+                        }
+                    }
+                }
+                winner=t.get(pos);
+                winnerTeam.setText("Winning Team of Round: "+t.get(pos).getTeam_name()+"\nWith Points: "+max);
             }
         });
 
@@ -74,25 +106,49 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             public void onChanged(List<PlayerandGames> part) {
                 blistAdapter.setPlayers(part);
                 blistAdapter.setChamp(championship);
+                players=part;
                 System.out.println("pl size "+part.size());
             }
         });
 
-        //todo me onomata k ta fulla twn players
-        bowlingViewModel.getAllPrevRound_detailofChamp(champuuid, r.getFroundid()).observe(this, new Observer<List<Round_detail>>() { //todo gia gunaika kai antra
+        //pairnw tous paiktes ka8e omadas tou champ aftou //todo na dw an pairnei ontws mono aftou tou champ
+        bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
-            public void onChanged(List<Round_detail> rds) {
+            public void onChanged(List<TeammatesTuple> p1) {
+                playersandteams = p1;
+            }
+        });
+
+        //bowlingViewModel.getAllPrevRound_detailofChamp(champuuid, r.getFroundid()).observe(this, new Observer<List<Round_detail>>() { //todo gia gunaika kai antra
+        bowlingViewModel.getAllPrevPlayerandGamesofChamp(champuuid, r.getFroundid()).observe(this, new Observer<List<PlayerandGames>>() {
+            @Override
+            public void onChanged(List<PlayerandGames> rds) {
                 System.out.println("stat rds size " + rds.size());
+                rd=rds;
                 mangame=0;
                 mangamebegining=0;
                 manset=0;
                 mansetbegining=0;
-                int pos=0, pos2=0, pos3=0, pos4=0;
-                for (int i = 0; i < rds.size(); i++) { //fixme
-                    System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
+                fgame=0;
+                fgamebegining=0;
+                fset=0;
+                fsetbegining=0;
+                 pos=0; pos2=0; pos3=0; pos4=0; fpos=0; fpos2=0; fpos3=0; fpos4=0;
+                for (int i = 0; i < rds.size(); i++) {
+                   // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
 
-                    //if (player.getsex.equals(male) {
-                    //paixnidi antra aparxhs
+                   if (rds.get(i).getSex().equals("m")) {
+                       ArrayList<Integer> scoreandpos=rds.get(i).calcSetAndGamesStat(rds,r,i,mangame,mangamebegining,manset,mansetbegining,pos, pos2, pos3, pos4);
+                       mangame=scoreandpos.get(0);
+                       mangamebegining=scoreandpos.get(1);
+                       manset=scoreandpos.get(2);
+                       mansetbegining=scoreandpos.get(3);
+                       pos=scoreandpos.get(4);
+                       pos2=scoreandpos.get(5);
+                       pos3=scoreandpos.get(6);
+                       pos4=scoreandpos.get(7);
+
+                 /*   //paixnidi antra aparxhs
                     if (mangamebegining <= rds.get(i).getFirst()) {
                         mangamebegining = rds.get(i).getFirst();
                         pos = i;
@@ -107,7 +163,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                     }
 
                     //set antrwn ap'arxhs
-                    if (mansetbegining <= rds.get(i).getScore()) { //fixme //komple
+                    if (mansetbegining <= rds.get(i).getScore()) {
                         mansetbegining = rds.get(i).getScore();
                         System.out.println("mansetbeg "+mansetbegining+ " i "+i);
                         pos3 = i;
@@ -133,15 +189,71 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                             manset = rds.get(i).getScore();
                             pos4 = i;
                         }
-                    }
-                    /*} else { //gia female
-                    //todo
-                }*/
+                    } */
+                    } else { //gia female
+                       ArrayList<Integer> scoreandpos2=rds.get(i).calcSetAndGamesStat(rds,r,i,fgame,fgamebegining,fset,fsetbegining,fpos, fpos2, fpos3, fpos4);
+                      fgame=scoreandpos2.get(0);
+                       fgamebegining=scoreandpos2.get(1);
+                       fset=scoreandpos2.get(2);
+                       fsetbegining=scoreandpos2.get(3);
+                       fpos=scoreandpos2.get(4);
+                       fpos2=scoreandpos2.get(5);
+                       fpos3=scoreandpos2.get(6);
+                       fpos4=scoreandpos2.get(7);
+                      /* //paixnidi gynaikas aparxhs
+                       if (fgamebegining <= rds.get(i).getFirst()) {
+                           fgamebegining = rds.get(i).getFirst();
+                           fpos = i;
+                       }
+                       if (fgamebegining <= rds.get(i).getSecond()) {
+                           fgamebegining = rds.get(i).getSecond();
+                           fpos = i;
+                       }
+                       if (fgamebegining <= rds.get(i).getThird()) {
+                           fgamebegining = rds.get(i).getThird();
+                           fpos = i;
+                       }
+
+                       //set antrwn ap'arxhs
+                       if (fsetbegining <= rds.get(i).getScore()) {
+                           fsetbegining = rds.get(i).getScore();
+                           System.out.println("mansetbeg "+fsetbegining+ " i "+i);
+                           fpos3 = i;
+                       }
+
+                       //paixnidi antra aftou tou gyrou
+                       if (rds.get(i).getFroundid()==r.getFroundid()) {
+                           if (fgame <= rds.get(i).getFirst()) {
+                               fgame = rds.get(i).getFirst();
+                               fpos2 = i;
+                           }
+                           if (fgame <= rds.get(i).getSecond()) {
+                               fgame = rds.get(i).getSecond();
+                               fpos2 = i;
+                           }
+                           if (fgame <= rds.get(i).getThird()) {
+                               fgame = rds.get(i).getThird();
+                               fpos2 = i;
+                           }
+
+                           //set antrwn aftou tou gyrou
+                           if (fset <= rds.get(i).getScore()) {
+                               fset = rds.get(i).getScore();
+                               fpos4 = i;
+                           }
+                       }*/
                 }
-                man1.setText("Paixnidi Antrwn \n"+rds.get(pos).getParticipant_uuid()+" "+mangame);
-                man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos2).getParticipant_uuid()+" "+mangamebegining);
-                man3.setText("Set Antrwn  \n"+rds.get(pos4).getParticipant_uuid()+" "+manset);
-                man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getParticipant_uuid()+" "+mansetbegining);
+                }
+                man1.setText("Paixnidi Antrwn \n"+rds.get(pos2).getLastName()+" "+rds.get(pos2).getFirstName()+" \n"+mangame);
+                man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos).getLastName()+" "+rds.get(pos).getFirstName()+"\n "+mangamebegining);
+                man3.setText("Set Antrwn  \n"+rds.get(pos4).getLastName()+" "+rds.get(pos4).getFirstName()+"\n "+manset);
+                man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getLastName()+" "+rds.get(pos3).getFirstName()+"\n "+mansetbegining);
+
+                f1.setText("Paixnidi Gynaikwn \n"+rds.get(fpos2).getLastName()+" "+rds.get(fpos2).getFirstName()+"\n "+fgame);
+                f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+rds.get(fpos).getLastName()+" "+rds.get(fpos).getFirstName()+"\n "+fgamebegining);
+                f3.setText("Set Gynaikwn  \n"+rds.get(fpos4).getLastName()+" "+rds.get(fpos4).getFirstName()+"\n "+fset);
+                f4.setText("Set Gynaikwn Ap' Arxhs \n"+rds.get(fpos3).getLastName()+" "+rds.get(fpos3).getFirstName()+"\n "+fsetbegining);
+
 
                 System.out.println("Paixnidi Antrwn "+mangame);
                 System.out.println("Paixnidi Antrwn Arxhs"+mangamebegining);
@@ -157,6 +269,62 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         finish();
     }
 
-    public void export(View view) { //todo
+    public void export(View view) {
+        StringBuilder data = new StringBuilder();
+        data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
+        data.append("\nRound No.,"+r.getFroundid());
+        data.append("\nWinning Team of Round,"+winner.getTeam_name()+",Points: "+max);
+        data.append("\nTeam Ranking");
+        data.append("\n,Team,Points,Score");
+        for (int i=0;i<teams.size();i++){
+            data.append("\n"+teams.get(i).getTeam_name()+",");
+            for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
+                data.append(playersandteams.get(i).getT().get(j).getLastName());
+                if(j!=(playersandteams.get(i).getT().size()-1)){
+                    data.append("-");
+                }
+            }
+            if(teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
+                data.append("," + teams.get(i).getPoints1()+","+teams.get(i).getScore1());
+            }else {
+                data.append("," + teams.get(i).getPoints2()+","+teams.get(i).getScore2());
+            }
+        }
+
+        data.append("\nPlayers");
+        data.append("\n,Player,Average,HDCP,Games");
+        for (int i=0;i<players.size();i++){
+            data.append("\n"+(i+1)+","+players.get(i).getFirstName()+players.get(i).getLastName()+","+players.get(i).getBowlAvg()+","+players.get(i).getHdcp()+","+players.get(i).getGames());
+        }
+
+        data.append("\n");
+        data.append("\n,Paixnidi Antrwn,,Ap' Arxhs");
+        data.append("\n,"+rd.get(pos2).getLastName()+" "+rd.get(pos2).getFirstName()+","+mangame+","+rd.get(pos).getLastName()+" "+rd.get(pos).getFirstName()+","+mangamebegining);
+        data.append("\n,Paixnidi Gynaikwn,,Ap' Arxhs");
+        data.append("\n,"+rd.get(fpos2).getLastName()+" "+rd.get(fpos2).getFirstName()+","+fgame+","+rd.get(fpos).getLastName()+" "+rd.get(fpos).getFirstName()+","+fgamebegining);
+        data.append("\n,Set Antrwn,,Ap' Arxhs");
+        data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(pos4).getFirstName()+","+manset+","+rd.get(pos3).getLastName()+" "+rd.get(pos3).getFirstName()+","+mansetbegining);
+        data.append("\n,Set Gynaikwn,,Ap' Arxhs");
+        data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(fpos4).getFirstName()+","+fset+","+rd.get(fpos3).getLastName()+" "+rd.get(fpos3).getFirstName()+","+fsetbegining);
+
+        try {
+            //saving the file into device
+            FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);
+            out.write((data.toString()).getBytes());
+            out.close();
+
+            //exporting
+            Context context = getApplicationContext();
+            File filelocation = new File(getFilesDir(), "bowling_championship_finishedChamp_stat.csv");
+            Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -32,6 +32,9 @@ public interface BowlingDao {
     @Query("SELECT * FROM participant WHERE participantID=:bowlId")
     LiveData<Participant> getBwol(int bowlId);
 
+    @Query("SELECT * FROM participant WHERE participant_uuid=:pid")
+    LiveData<Participant> getParticipantbyUuid(String pid);
+
     // update step 1 -> BowlingViewModel
     @Update
     void update(Participant participant);
@@ -65,7 +68,7 @@ public interface BowlingDao {
     LiveData<List<Participant>> getAllPlayersofOpositeTeam( String teamid, String chID); //svhsto den leitourgei
 
 
-    @Query("SELECT * FROM participant WHERE first_name=:fn AND  last_name=:ln")
+    @Query("SELECT * FROM participant WHERE first_name=:fn AND last_name=:ln ")
     LiveData<List<Participant>> getParticipantByName( String fn, String ln);
 
     @Query("SELECT participant.participantID, participant.participant_uuid, participant.fakeID, participant.first_name, participant.last_name, participant.sex, participant.avg,  participant.hdcp,hdcp,participant.total_games, participant.teamID,participant.champID, participant.start_date, participant.end_date, participant.disable_flag FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER JOIN championship_detail ON team_detail.team_uuid = championship_detail.team_uuid  WHERE championship_detail.champ_uuid=:chID ORDER BY participant.avg DESC")

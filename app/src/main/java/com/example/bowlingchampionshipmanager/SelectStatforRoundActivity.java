@@ -25,7 +25,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     private List<Round> rounds;
     private List<TeamandRoundScore> teams;
     private BowlingViewModel bowlingViewModel;
-    private Integer r;
+    private List<TeammatesTuple> playersandteams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +66,23 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
             }
         });
 
-        //pairnw tous paiktes ka8e omadas
-       /* bowlingViewModel.getAllPlayersofTeam3(teams.get(0).getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
+        //pairnw tous paiktes ka8e omadas tou champ aftou //todo na dw an pairnei ontws mono aftou tou champ
+        bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
-            public void onChanged(List<TeammatesTuple> t) { //todo leitourgei alla prpei na to kanw gia sugkekrimeno champ
+            public void onChanged(List<TeammatesTuple> p1) {
+                playersandteams = p1;
+                for (int i = 0; i < p1.size(); i++) {
+                    System.out.println("TEST1 team " + p1.get(i).getC().getFTeamID());
+                    for (int j = 0; j < p1.get(i).getT().size(); j++) {
+                        System.out.println("TEST1 team " + p1.get(i).getC().getFTeamID() + " pl "+p1.get(i).getT().get(j).getFullName());
+                    }
+                }
+            }
+        });
+        //pairnw tous paiktes ka8e omadas
+       /*svisto bowlingViewModel.getAllPlayersofTeam3(teams.get(0).getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
+            @Override
+            public void onChanged(List<TeammatesTuple> t) { //leitourgei alla prpei na to kanw gia sugkekrimeno champ
                 if(t.size()!=0) {
                     List<Participant> a = t.get(0).getT();
                 }
@@ -157,24 +170,19 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                 }
             }
             data.append("Points");
-
-            //fixme to score sto telos
+if(teams.size()==0){
+            //fixme to score sto telos - ola kala
             int counter = 1;
             for (int i = 0; i < teams.size(); i++) {
                 TeamandRoundScore t = teams.get(i);
                 if (i == 0) {
-                    data.append("\n" + counter + "," + String.valueOf(t.getTeam_name()));
-                   /* bowlingViewModel.getAllPlayersofTeam3(t.getTeam_uuid()).observe(this, new Observer<List<TeammatesTuple>>() {
-                        @Override
-                        public void onChanged(List<TeammatesTuple> p) { //fixme
-                            List<Participant> a = p.get(0).getT();
-                            for (int j = 0; j < a.size(); j++) {
-                                data.append("," + a.get(j).getFullName());
-                                System.out.println(" name " + a.get(j).getFullName());
-                            }
-                            System.out.println("2 list obejct size " + p.size() + " list team size " + p.get(0).getT().size());
+                    data.append("\n" + counter + "," + String.valueOf(t.getTeam_name())+")");
+                    for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
+                        data.append(playersandteams.get(i).getT().get(j).getLastName());
+                        if(j!=(playersandteams.get(i).getT().size()-1)){
+                            data.append("-");
                         }
-                    });*/
+                    }
                     counter++;
                     if (championship.getType() == 1) {
                         data.append("," + t.getPoints1());
@@ -225,17 +233,13 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                             data.append("," + t.getScore2());
                         }
                     }
-                    data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name()));
-                   /* bowlingViewModel.getAllPlayersofTeam3(teams.get(i + 1).getTeam_uuid()).observe(this, new Observer<List<TeammatesTuple>>() {
-                        @Override
-                        public void onChanged(List<TeammatesTuple> p2) {
-                            List<Participant> a = p2.get(0).getT();
-                            for (int j = 0; j < a.size(); j++) {
-                                data.append("," + a.get(j).getFullName());
-                            }
-                            System.out.println("3 list obejct size " + p2.size() + " list team size " + p2.get(0).getT().size());
+                    data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name())+")");
+                    for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
+                        data.append(playersandteams.get(i).getT().get(j).getLastName());
+                        if(j!=(playersandteams.get(i).getT().size()-1)){
+                            data.append("-");
                         }
-                    });*/
+                    }
                     counter++;
                     if (championship.getType() == 1) {
                         data.append("," + teams.get(i + 1).getPoints1());
@@ -248,11 +252,11 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                     }
                 }
             }
-       /*todo if(size()==0){
-            data.append("No data avaliable");
-        } */
+            }else {
+                data.append("No data avaliable");
+                }
 
-            //todo na grapsw k tous paiktes ka8e omadas
+
         } else {
             data.append("No Rounds have been played yet");
         }

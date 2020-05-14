@@ -44,10 +44,6 @@ class TeamandRoundScore {
         return team_name;
     }
 
-    public int getSscore1() {
-        return score1;
-    }
-
     public int getScore1() {
         return score1;
     }

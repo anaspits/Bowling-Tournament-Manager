@@ -23,17 +23,17 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
     private BowlingViewModel bowlingViewModel;
     public String champuuid;
     public Participant p;
-    private TextView textView;
+    private TextView textView,player;
     private String flag;
     private SelectParticipantListAdapter blistAdapter;
     private List<Participant> participants;
 
-    //todo
+    //todo tha mporousa na valw kai ton ari8mo twn champs pou epai3e o ka8e paikths
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_statistics);
-
+        player = findViewById(R.id.player);
         flag = "none";
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -49,7 +49,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (flag.equals("all")) {
-            bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() { //todo all active players
+            bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() {
                 @Override
                 public void onChanged(List<Participant> part) {
                     blistAdapter.setSelected(part);
@@ -59,6 +59,10 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
             });
         } else {
             //todo
+            player.setText("Name: "+p.getFullName());
+            player.append("\nHDCP: "+p.getHdcp());
+            player.append("\nAverage: "+p.getBowlAvg());
+            player.append("\nGames: "+p.getTotal_games());
         }
     }
 
@@ -66,12 +70,12 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
         StringBuilder data = new StringBuilder();
 
         if (flag.equals("all")) {
-            data.append(" ,Name,HDCP,Average");
+            data.append(" ,Name,HDCP,Average,Games");
 
 
         for (int i = 0; i < participants.size(); i++) {
             Participant p =participants.get(i);
-            data.append("\n" + (i+1)+"," + p.getFullName()+","+p.getHdcp()+","+p.getBowlAvg());
+            data.append("\n" + (i+1)+"," + p.getFullName()+","+p.getHdcp()+","+p.getBowlAvg()+","+p.getTotal_games());
         }
 
             try {
@@ -83,6 +87,29 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
                 //exporting
                 Context context = getApplicationContext();
                 File filelocation = new File(getFilesDir(), "bowling_championship_players_stat.csv");
+                Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
+                Intent fileIntent = new Intent(Intent.ACTION_SEND);
+                fileIntent.setType("text/csv");
+                fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+                fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+                startActivity(Intent.createChooser(fileIntent, "Send mail"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            data.append("Name,HDCP,Average,Games");
+            data.append("\n" + p.getFullName()+","+p.getHdcp()+","+p.getBowlAvg()+","+p.getTotal_games());
+
+            try {
+                //saving the file into device
+                FileOutputStream out = openFileOutput("bowling_championship_player_stat.csv", Context.MODE_PRIVATE);
+                out.write((data.toString()).getBytes());
+                out.close();
+
+                //exporting
+                Context context = getApplicationContext();
+                File filelocation = new File(getFilesDir(), "bowling_championship_player_stat.csv");
                 Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
                 Intent fileIntent = new Intent(Intent.ACTION_SEND);
                 fileIntent.setType("text/csv");

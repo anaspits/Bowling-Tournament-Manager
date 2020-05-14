@@ -140,6 +140,10 @@ public class BowlingViewModel extends AndroidViewModel {
         return bowlingDao.getParticipantByName(fn, ln);
     }
 
+    LiveData<Participant> getParticipantbyUuid(String pid){
+        return bowlingDao.getParticipantbyUuid(pid);
+    }
+
     LiveData<List<Participant>> getAllPlayersofChamp( String chID){
         return bowlingDao.getAllPlayersofChamp(chID);
     }
@@ -781,6 +785,11 @@ public  void insert (Team_detail t){
 
     LiveData<List<Round_detail>> getAllPrevRound_detailofChamp(String chid, int frid){
         return rdDao.getAllPrevRound_detailofChamp(chid,frid);
+    }
+
+    LiveData<List<PlayerandGames>> getAllPrevPlayerandGamesofChamp(String chid, int frid){
+        return rdDao.getAllPrevPlayerandGamesofChamp(chid,frid);
+
     }
 
     LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid){

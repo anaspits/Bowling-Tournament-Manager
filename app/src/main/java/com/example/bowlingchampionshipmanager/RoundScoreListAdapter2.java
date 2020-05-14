@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -105,10 +106,11 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
             else return 0;
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder{
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             protected EditText hdcp,first,second, third; //hdcp
             protected TextView txvNote;
+            protected CardView cardview;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -117,7 +119,9 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 first 	 = itemView.findViewById(R.id.txv1);
                 second 	 = itemView.findViewById(R.id.txv2);
                 third = itemView.findViewById(R.id.txv3);
+                cardview=itemView.findViewById(R.id.roundcardview);
 
+                cardview.setOnClickListener((View.OnClickListener) this);
 
                 hdcp.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -208,8 +212,15 @@ System.out.println("hdcp keno");
                     }
                 });
 
+            }
 
-
+            @Override
+            public void onClick(View v){
+                int pos=getAdapterPosition();
+                //clicklistener.onItemClick(pos);
+                cardview.setEnabled(false);
+                txvNote.setText("BLIND");
+                rd.get(getAdapterPosition()).setBlind(1);
             }
 
         }
