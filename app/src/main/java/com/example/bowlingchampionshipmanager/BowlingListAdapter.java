@@ -79,6 +79,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
             btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
             btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
+            btSel.setVisibility(View.GONE);
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
@@ -108,7 +109,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                     }
                 }
             });
-            btSel.setOnClickListener(new View.OnClickListener() {
+            /*btSel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent= new Intent(mContext,mContext.getClass()); //fixme
@@ -117,7 +118,7 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
                     intent.putExtra("b_object", mNotes.get(mPosition));
                     ((Activity)mContext).startActivityForResult(intent,Create1Activity.SELECT_NOTE_ACTIVITY_REQUEST_CODE);
                 }
-            });
+            }); */
         }
     }
 }

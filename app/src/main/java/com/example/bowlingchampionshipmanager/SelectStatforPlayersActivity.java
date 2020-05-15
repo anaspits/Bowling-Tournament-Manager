@@ -46,7 +46,7 @@ public class SelectStatforPlayersActivity extends AppCompatActivity {
         if (button_text.equals("All Players")) {
             Intent i = new Intent(SelectStatforPlayersActivity.this, ParticipantStatisticsActivity.class);
             Bundle bundle = new Bundle();
-           bundle.putString("flag", "all");
+           bundle.putString("flag", "all_stat");
            // bundle.putSerializable("champ", championship);
             i.putExtras(bundle);
             startActivity(i);

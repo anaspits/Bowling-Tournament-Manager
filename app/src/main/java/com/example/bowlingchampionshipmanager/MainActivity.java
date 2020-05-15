@@ -56,7 +56,13 @@ public class MainActivity extends AppCompatActivity {
         } else if(button_text.equals("Statistics")){
             Intent i = new Intent(this, StatisticsActivity.class);
             startActivity(i);
-        }        else if (button_text.equals("Exit")){
+        } else if(button_text.equals("Players")){
+            Intent i = new Intent(this, ParticipantStatisticsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("flag", "all");
+            i.putExtras(bundle);
+            startActivity(i);
+        } else if (button_text.equals("Exit")){
             finish(); //todo na kleinei olh thn efarmogh, oxi mono to activity
         }
 

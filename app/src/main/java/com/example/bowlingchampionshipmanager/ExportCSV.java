@@ -18,8 +18,8 @@ public class ExportCSV {
     public StringBuilder exportRoundEditScore(Championship championship, Round r, Team team1, Team team2, List<Participant> players1,List<Participant> players2,List<Round_detail> rd1,List<Round_detail> rd2,int first_sum1,int second_sum1,int third_sum1,int sum_hdcp1,int first_sum2,int second_sum2,int third_sum2,int sum_hdcp2){
         StringBuilder data = new StringBuilder();
 
-            data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid());
-            data.append("\nRound No.," + r.getFroundid()+",Date"); //todo na valw kai date kai lanes
+            data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid()+"\n");
+            data.append("\nRound No.," + r.getFroundid()+",Date"+"\n"); //todo na valw kai date kai lanes
             data.append("\nTeam," + team1.getTeamName()+",Lane");
             data.append("\n,Player,HDCP,1,2,3,Sum");
             exportRoundEditScoreforTeam(team1,players1,rd1,data,first_sum1, second_sum1, third_sum1, sum_hdcp1,r);

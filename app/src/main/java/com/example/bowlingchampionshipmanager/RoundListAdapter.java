@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-//axristo?
+
 public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.BowlingViewHolder>  {
 
     public interface OnDeleteClickListener { //axristo
@@ -118,7 +118,7 @@ public class RoundListAdapter extends RecyclerView.Adapter<RoundListAdapter.Bowl
                     ((Activity)mContext).startActivityForResult(intent, Create1Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE); */
                 }
             });
-            btDelete.setOnClickListener(new View.OnClickListener() {
+            btDelete.setOnClickListener(new View.OnClickListener() { //axristo
                 @Override
                 public void onClick(View v) {
                     if (onDeleteClickListener != null) {

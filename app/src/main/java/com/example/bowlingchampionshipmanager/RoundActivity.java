@@ -591,7 +591,7 @@ for (int i=0;i<test.size();i++){
             extras.putSerializable("champ", championship);
             extras.putSerializable("b_object", t); //selected team
             i.putExtras(extras);
-            //finish();
+            finish();
             System.out.println("here 2 " + curRound.getStatus());
             startActivity(i);
         } else if (cd.getActive_flag() == 0) { //finish
