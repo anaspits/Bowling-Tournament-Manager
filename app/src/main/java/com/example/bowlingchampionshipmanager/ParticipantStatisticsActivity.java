@@ -27,7 +27,8 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     private BowlingViewModel bowlingViewModel;
     public String champuuid;
     public Participant p;
-    private TextView textView,player;
+    private TextView textView,player,textTitle;
+    private  Button addnew;
     private String flag;
     private SelectParticipantListAdapter blistAdapter;
     private List<Participant> participants;
@@ -44,6 +45,8 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_statistics);
         player = findViewById(R.id.player);
+        textTitle=findViewById(R.id.textTitle);
+        addnew =findViewById(R.id.addnew);
         flag = "none";
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -61,16 +64,28 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
 
 
         if (flag.equals("all")) {
+            recyclerView.setAdapter(blistAdapter2);
+            textTitle.setText("All the Players:");
+            //addnew sto database
+            Button addnew= findViewById(R.id.addnew);
+            addnew.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ParticipantStatisticsActivity.this, AddNewActivity.class);
+                    startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
+                }
+            });
             bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() {
                 @Override
                 public void onChanged(List<Participant> part) {
-                    recyclerView.setAdapter(blistAdapter2);
+
                     blistAdapter2.setBowls(part);
                     participants=part;
                     sum =blistAdapter2.getItemCount();
                 }
             });
         }else if (flag.equals("all_stat")) {
+            addnew.setVisibility(View.GONE);
             bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() {
                 @Override
                 public void onChanged(List<Participant> part) {
@@ -82,6 +97,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         } else {
             //todo fix UI
            // recyclerView.setVisibility(View.GONE);
+            addnew.setVisibility(View.GONE);
             player.setText("Name: "+p.getFullName());
             player.append("\nHDCP: "+p.getHdcp());
             player.append("\nAverage: "+p.getBowlAvg());

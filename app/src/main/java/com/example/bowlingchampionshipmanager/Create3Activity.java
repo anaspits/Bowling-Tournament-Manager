@@ -126,12 +126,12 @@ championship = c;
                 startActivity(i);
             } /* todo else if(friendly){
 
-           }else{
+           }*/else{
                Toast.makeText(
                        getApplicationContext(),
                        "You have to choose a type first",
                        Toast.LENGTH_LONG).show();
-           } */
+           }
 
         }
 

@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -15,9 +17,10 @@ import java.util.UUID;
 public class AddNewActivity extends AppCompatActivity {
 
     public static final String NEW_ADDED = "new_added";
-    private EditText newparticipant,newavg,newteam,newchamp;
+    private EditText newfirstname,newavg,newteam,newchamp,newhdcp, newlastname;
     private Participant participant;
     private BowlingViewModel bowlingViewModel;
+    private static RadioButton male,female;
 
 
     @Override
@@ -25,10 +28,14 @@ public class AddNewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new);
 
-        newparticipant = findViewById(R.id.newadded);
+        newfirstname = findViewById(R.id.newfirstname);
+        newlastname = findViewById(R.id.newlastname);
         newavg = findViewById(R.id.newavg);
+        newhdcp= findViewById(R.id.newhdcp);
         newteam = findViewById(R.id.newteam);
         newchamp = findViewById(R.id.newchamp);
+        male= findViewById(R.id.male);
+        female= findViewById(R.id.female);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
 
@@ -38,26 +45,48 @@ public class AddNewActivity extends AppCompatActivity {
 
                 Intent resultIntent = new Intent();
 
-                if (TextUtils.isEmpty(newparticipant.getText())) {
-                    setResult(RESULT_CANCELED, resultIntent);
+                if (TextUtils.isEmpty(newfirstname.getText()) || TextUtils.isEmpty(newlastname.getText()) || TextUtils.isEmpty(newavg.getText()) || TextUtils.isEmpty(newhdcp.getText())) {
+                    //setResult(RESULT_CANCELED, resultIntent);
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Please fill all the fields",
+                            Toast.LENGTH_LONG).show();
+
                 } else {
-                    String name = newparticipant.getText().toString();
-                    String avg = newavg.getText().toString();
-                    String team = newteam.getText().toString();
-                    String champ = newchamp.getText().toString();
-                    String uuid = UUID.randomUUID().toString();
-                    Participant t = new Participant(0,uuid,name, "",Integer.parseInt(avg),Integer.parseInt(team),null,0,null, 0);
-//todo: na ftia3w to date k to hdcp
-                    /*axrista resultIntent.putExtra(NEW_ADDED, name);
+                    String fname = newfirstname.getText().toString().trim();
+                    String lname = newlastname.getText().toString().trim();
+                    String avg = newavg.getText().toString().trim();
+                    String hdcp = newhdcp.getText().toString().trim();
+                    String team = newteam.getText().toString().trim();
+                    String champ = newchamp.getText().toString().trim(); //todo ti na kanw me afta?
+                    String uuid = UUID.randomUUID().toString().trim();
+                    if (male.isChecked()){
+                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team),null,Integer.parseInt(hdcp),"m", 0);
+                        resultIntent.putExtra("b_object", (Serializable) t);
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    } else if (female.isChecked()){
+                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team),null,Integer.parseInt(hdcp),"f", 0);
+                        resultIntent.putExtra("b_object", (Serializable) t);
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    } else {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Choose male/female",
+                                Toast.LENGTH_LONG).show();
+                    }
+//todo: na ftia3w to date
+                    /*axrista resultIntent.putExtra(NEW_ADDED, fname);
                     resultIntent.putExtra("new_avg", avg);
                     resultIntent.putExtra("new_team", team);
                     resultIntent.putExtra("new_champ", champ); */
                     //resultIntent.putExtra("new_fid", sfid);
-                    resultIntent.putExtra("b_object", (Serializable) t);
-                    setResult(RESULT_OK, resultIntent);
+
+                   // resultIntent.putExtra("b_object", (Serializable) t);
+                    //setResult(RESULT_OK, resultIntent);
                 }
 
-                finish();
             }
         });
 

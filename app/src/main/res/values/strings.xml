@@ -52,4 +52,10 @@
     <string name="teams">Teams</string>
     <string name="players">Players</string>
     <string name="rounds">Rounds</string>
+    <string name="add_new_player">Add New Player</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="sex">sex</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>

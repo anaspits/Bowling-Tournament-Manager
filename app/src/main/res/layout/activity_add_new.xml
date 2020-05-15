@@ -5,26 +5,54 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_player"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/newadded"
+        android:id="@+id/newfirstname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:hint="@string/name" />
+        android:hint="@string/first_name" />
+
+    <EditText
+        android:id="@+id/newlastname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/last_name"
+        android:inputType="text" />
+
+
 
     <EditText
         android:id="@+id/newavg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="avg"
-        android:inputType="number"
-        android:autofillHints="" />
+        android:hint="@string/average"
+        android:inputType="number" />
 
 
+    <EditText
+        android:id="@+id/newhdcp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="@string/hdcp"
+        android:inputType="number" />
     <EditText
         android:id="@+id/newteam"
         android:layout_width="wrap_content"
@@ -41,6 +69,25 @@
         android:hint="championship"
         android:inputType="number"
         android:autofillHints="" />
+
+    <RadioGroup
+        android:id="@+id/typeofgame"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/male" />
+
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="@string/female" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/bAdd"
