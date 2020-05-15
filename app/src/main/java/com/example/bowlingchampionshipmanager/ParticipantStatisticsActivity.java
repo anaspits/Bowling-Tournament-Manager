@@ -28,6 +28,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
     private SelectParticipantListAdapter blistAdapter;
     private List<Participant> participants;
 
+    //fixme fix UI
     //todo tha mporousa na valw kai ton ari8mo twn champs pou epai3e o ka8e paikths
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,8 @@ public class ParticipantStatisticsActivity extends AppCompatActivity {
                 }
             });
         } else {
-            //todo
+            //todo fix UI
+           // recyclerView.setVisibility(View.GONE);
             player.setText("Name: "+p.getFullName());
             player.append("\nHDCP: "+p.getHdcp());
             player.append("\nAverage: "+p.getBowlAvg());

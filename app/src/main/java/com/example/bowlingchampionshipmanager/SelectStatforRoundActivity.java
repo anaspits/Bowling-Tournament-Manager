@@ -170,7 +170,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                 }
             }
             data.append("Points");
-if(teams.size()==0){
+if(teams.size()!=0){
             //fixme to score sto telos - ola kala
             int counter = 1;
             for (int i = 0; i < teams.size(); i++) {
@@ -253,7 +253,7 @@ if(teams.size()==0){
                 }
             }
             }else {
-                data.append("No data avaliable");
+                data.append(",No data avaliable");
                 }
 
 

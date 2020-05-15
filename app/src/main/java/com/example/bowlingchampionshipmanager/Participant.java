@@ -246,6 +246,7 @@ public class Participant implements Serializable {
         this.start_date=start_date;
         this.hdcp=hdcp;
         this.sex=sex;
+        this.disable_flag=disable_flag;
     }
     public Participant() {
         super();
@@ -356,7 +357,7 @@ Create1Activity.t_id++; //axristo
         //Sort by bowling average
         if(bowlers.size()%playersPerTeam!=0){
             do {
-                Participant p = new Participant(0, "blind", "BLIND", "", 0, 0, null, 0, "", 0);
+                Participant p = new Participant(0, "blind", "BLIND", "", 0, 0, null, 0, "", 1);
                 bowlers.add(p);
 
             }while (bowlers.size()%playersPerTeam!=0);

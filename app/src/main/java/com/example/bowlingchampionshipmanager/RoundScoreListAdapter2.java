@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -121,7 +123,8 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 third = itemView.findViewById(R.id.txv3);
                 cardview=itemView.findViewById(R.id.roundcardview);
 
-                cardview.setOnClickListener((View.OnClickListener) this);
+                //cardview.setOnClickListener((View.OnClickListener) this);
+                txvNote.setOnClickListener((View.OnClickListener) this);
 
                 hdcp.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -214,13 +217,55 @@ System.out.println("hdcp keno");
 
             }
 
-            @Override
+             @Override
             public void onClick(View v){
                 int pos=getAdapterPosition();
                 //clicklistener.onItemClick(pos);
-                cardview.setEnabled(false);
-                txvNote.setText("BLIND");
-                rd.get(getAdapterPosition()).setBlind(1);
+                if(txvNote.getText().equals("BLIND")){
+                    //cardview.setEnabled(true);
+                    cardview.setCardBackgroundColor(Color.parseColor("#F9F9F9"));
+                    //.setFocusable(true);
+                    first.setEnabled(true);
+                    first.setFocusableInTouchMode(true);
+                    second.setEnabled(true);
+                    second.setFocusableInTouchMode(true);
+                    third.setEnabled(true);
+                    third.setFocusableInTouchMode(true);
+                    hdcp.setEnabled(true);
+                    hdcp.setFocusableInTouchMode(true);
+                    txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
+                    hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
+                    if (String.valueOf(rd.get(pos).getFirst())!=null){
+                        first.setText(String.valueOf(rd.get(pos).getFirst()));}
+                    if (String.valueOf(rd.get(pos).getSecond())!=null) {
+                        second.setText(String.valueOf(rd.get(pos).getSecond()));
+                    }
+                    if (String.valueOf(rd.get(pos).getThird())!=null) {
+                        third.setText(String.valueOf(rd.get(pos).getThird()));
+                    }
+                    rd.get(getAdapterPosition()).setBlind(0);
+                    System.out.println("NOT blind: "+editModelArrayList.get(pos).getFullName());
+                }else {
+                    //cardview.setEnabled(false);
+                    //cardview.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
+                    cardview.setCardBackgroundColor(Color.LTGRAY);
+                    txvNote.setText("BLIND");
+                    first.setEnabled(false);
+                    first.setFocusable(false);
+                    //first.setCursorVisible(false);
+                    second.setEnabled(false);
+                    second.setFocusable(false);
+                    third.setEnabled(false);
+                    third.setFocusable(false);
+                    hdcp.setEnabled(false);
+                    hdcp.setFocusable(false);
+                    first.setText("0");
+                    second.setText("0");
+                    third.setText("0");
+                    hdcp.setText("0");
+                    rd.get(pos).setBlind(1);
+                    System.out.println("blind: "+editModelArrayList.get(pos).getFullName()+" "+editModelArrayList.get(pos).getUuid()+" "+ rd.get(pos).getParticipant_uuid()+" "+rd.get(pos).getBlind());
+                }
             }
 
         }

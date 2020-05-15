@@ -46,7 +46,7 @@ textView=findViewById(R.id.textView);
             //System.out.println("flag "+flag);
            // if (flag.equals("stat")) {
                 textView.setText("Select a Participant to view their Statistics");
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
+        bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);

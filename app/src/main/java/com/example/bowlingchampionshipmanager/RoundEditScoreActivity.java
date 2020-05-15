@@ -182,33 +182,45 @@ team2=te;
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
 
-            // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ
-            int i2 = i;
+            // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ (an den einai blind)
+            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
+                int i2 = i;
             bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
                 @Override
                 public void onChanged(List<Round_detail> allrdchamp) {
-                    float avg=0;
-                    int games = (3*allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
-                    System.out.println("1games a "+games+" pl "+RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid());
-                    for(int j=0;j<allrdchamp.size();j++){
-                        avg+=allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
-                    }
-                    System.out.println("1 prohgoumena score "+avg);
-                    avg+=(RoundScoreListAdapter2.rd.get(i2).getFirst()+ RoundScoreListAdapter2.rd.get(i2).getSecond()+ RoundScoreListAdapter2.rd.get(i2).getThird()); //ta score aftou tou round
-                    System.out.println("1 prohgoume+afto to score "+avg);
-                    if(games!=0) {
-                        avg = avg / games;
-                    }
-                    if(championship.getHdcp_tav()!=0){ //todo test it kai na mhn allazei an to vazei o paikths
-                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
+
+                        float avg = 0;
+                        int games = (3 * allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                        System.out.println("1games a " + games + " pl " +RoundScoreListAdapter2.editModelArrayList.get(i2).getFullName()+" "+ RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid());
+                        for (int j = 0; j < allrdchamp.size(); j++) {
+                            if (allrdchamp.get(j).getBlind() == 0) {
+                                avg += allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
+                            }
+                        }
+                        System.out.println("1 prohgoumena score " + avg);
+                        avg += (RoundScoreListAdapter2.rd.get(i2).getFirst() + RoundScoreListAdapter2.rd.get(i2).getSecond() + RoundScoreListAdapter2.rd.get(i2).getThird()); //ta score aftou tou round
+                        System.out.println("1 prohgoume+afto to score " + avg);
+                        if (games != 0) {
+                            avg = avg / games;
+                        }
+
+                        //ypologismos hdcp//todo test it kai na mhn allazei an to vazei o paikths
+                    if (RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid().equals("blind") && championship.getHdcp_less()!=0) { //an einai omada me ligoterous paiktes //todo na rwthsw
+                        int hdcp = (int) ((championship.getHdcp_less() - avg) * championship.getHdcp_factor());
                         RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
-                        System.out.println("1 hdcp "+hdcp);
+                        System.out.println("1 hdcp less" + hdcp);
+                    } else if (championship.getHdcp_tav() != 0) {
+                            int hdcp = (int) ((championship.getHdcp_tav() - avg) * championship.getHdcp_factor());
+                            RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                            System.out.println("1 hdcp tav" + hdcp);
+                        }
+                        System.out.println("1games b " + games + " avg " + avg);
+                        RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
+                        RoundScoreListAdapter2.rd.get(i2).setGames(games);
+                       RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(1+RoundScoreListAdapter2.editModelArrayList.get(i2).getTotal_games());
                     }
-                    System.out.println("1games b "+games+ " avg "+avg);
-                    RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
-                    RoundScoreListAdapter2.rd.get(i2).setGames(games);
-                }
-            });
+               });
+            }
         }
         first_sum1 += sum_hdcp1;
         second_sum1 += sum_hdcp1;
@@ -238,33 +250,44 @@ team2=te;
 
             // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
 
-              int i3 = i;
-                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
+            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
+                int i3 = i;
+                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(), champuuid).observe(this, new Observer<List<Round_detail>>() {
                     @Override
                     public void onChanged(List<Round_detail> allrdchamp2) {
-                        float avg2=0;
-                        int games2 = 3*allrdchamp2.size()+3;
-                        System.out.println("2games "+games2 + " player "+RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid());
-                        for(int j=0;j<allrdchamp2.size();j++){
-                            System.out.println("2 prohgoumena score "+allrdchamp2.get(j).getScore());
-                            avg2+=allrdchamp2.get(j).getScore();
+                        float avg2 = 0;
+                        int games2 = 3 * allrdchamp2.size() + 3;
+                        System.out.println("2games " + games2 + " player " + RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid());
+                        for (int j = 0; j < allrdchamp2.size(); j++) {
+                            System.out.println("2 prohgoumena score " + allrdchamp2.get(j).getScore());
+                            if (allrdchamp2.get(j).getBlind() == 0) {
+                                avg2 += allrdchamp2.get(j).getScore();
+                            }
                         }
-                        avg2+=(RoundScoreListAdapterTeam2.rd.get(i3).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i3).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i3).getThird());
-                        System.out.println(" afto to score  1st "+ RoundScoreListAdapterTeam2.rd.get(i3).getFirst()+" 2nd "+ RoundScoreListAdapterTeam2.rd.get(i3).getSecond()+" 3rd "+ RoundScoreListAdapterTeam2.rd.get(i3).getThird());
+                        avg2 += (RoundScoreListAdapterTeam2.rd.get(i3).getFirst() + RoundScoreListAdapterTeam2.rd.get(i3).getSecond() + RoundScoreListAdapterTeam2.rd.get(i3).getThird());
+                        System.out.println(" afto to score  1st " + RoundScoreListAdapterTeam2.rd.get(i3).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i3).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i3).getThird());
 
-                        System.out.println("2 prohgoume+afto to score "+avg2);
-                        if(games2!=0) {
+                        System.out.println("2 prohgoume+afto to score " + avg2);
+                        if (games2 != 0) {
                             avg2 = avg2 / (games2);
                         }
-                        if(championship.getHdcp_tav()!=0){ //todo test it
-                        int hdcp = (int) ((championship.getHdcp_tav()-avg2)*championship.getHdcp_factor());
+
+                        //ypologismos hdcp//todo test it kai na mhn allazei an to vazei o paikths
+                        if (RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid().equals("blind") && championship.getHdcp_less()!=0) { //an einai omada me ligoterous paiktes //todo na rwthsw
+                            int hdcp = (int) ((championship.getHdcp_less() - avg2) * championship.getHdcp_factor());
                             RoundScoreListAdapterTeam2.rd.get(i3).setHdcp(hdcp);
+                            System.out.println("1 hdcp less" + hdcp);
+                        } else if (championship.getHdcp_tav() != 0) {
+                            int hdcp = (int) ((championship.getHdcp_tav() - avg2) * championship.getHdcp_factor());
+                            RoundScoreListAdapterTeam2.rd.get(i3).setHdcp(hdcp);
+                            System.out.println("1 hdcp tav" + hdcp);
                         }
-                        System.out.println("2games b "+games2+ " avg "+avg2);
+                        System.out.println("2games b " + games2 + " avg " + avg2);
                         RoundScoreListAdapterTeam2.rd.get(i3).setAvg(avg2);
                         RoundScoreListAdapterTeam2.rd.get(i3).setGames(games2);
                     }
                 });
+            }
         }
         first_sum2 += sum_hdcp2;
         second_sum2 += sum_hdcp2;
@@ -471,6 +494,14 @@ team2=te;
 
     public void exitActivity(View View) {
 finish();
+    }
+
+    public void export(View view) {
+        StringBuilder data = new StringBuilder();
+        data.append("Championship No.," + championship.fchampID + ",UUID:," + champuuid);
+        data.append("\nRound No.," + r.getFroundid());
+        data.append("\nTeam," + team1.getTeamName());
+        data.append("\nPlayer,HDCP,");
     }
 
 }
