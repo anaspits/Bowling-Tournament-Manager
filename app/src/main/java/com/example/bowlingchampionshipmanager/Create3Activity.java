@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -110,6 +111,9 @@ championship = c;
                extras.putSerializable("all_the_teams",all_the_teams);
                 i.putExtras(extras);
                 startActivity(i);
+              /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                   finishAffinity();
+               }*/
 
             } else if (teamsvsteams.isChecked()) {
                System.out.println("champion sid "+championship.getSys_champID());
@@ -124,7 +128,10 @@ championship = c;
                 extras.putSerializable("champ",championship);
                 i.putExtras(extras);
                 startActivity(i);
-            } /* todo else if(friendly){
+             /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                   finishAffinity();
+               }*/
+           } /* todo else if(friendly){
 
            }*/else{
                Toast.makeText(

@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -85,17 +86,13 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         editLanes =  findViewById(R.id.editLanes);
        Button button_imp  = (Button) findViewById(R.id.button_import);
        imp_pressed=0;
-       //na svisw
-       /* EntityManagerFactory emf=Persistence.createEntityManagerFactory("Participant_details");
-        EntityManager em=emf.createEntityManager();
-        em.getTransaction().begin();
-        //Test_table s1 = new Test_table(0, "test");
-        //em.persist(s1);
-        //Test_table s=em.find(Test_table.class,1);
-        //s.set_name("yes");
-        em.getTransaction().commit();
-        emf.close();
-        em.close(); */
+       OnBackPressedCallback cb =new OnBackPressedCallback(true){
+           @Override
+           public void handleOnBackPressed(){
+               openDialog();
+           }
+       };
+this.getOnBackPressedDispatcher().addCallback(this,cb);
 
         ///recyclerview
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
@@ -115,12 +112,12 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             }
         });
 
-        bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
+     /*test   bowlingViewModel.getAllBowls().observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter.setBowls(participants);
             }
-        });
+        }); */
 
         /*bowlingViewModel.getAllPlayersofTeam3("d6a80964-df59-41d2-aee2-080502e2f3f6").observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
@@ -137,14 +134,14 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
             }
         });*/
 
-        bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() { //axristo
+   /*test     bowlingViewModel.getAllPlayersofChamp(0).observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> participants) {
                 blistAdapter2.setBowls(participants);
                 sum =blistAdapter2.getItemCount();
                 addnew.setText(String.valueOf(sum));
             }
-        });
+        }); */
         bowlingViewModel.getLastInsertChamp().observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship c) {
@@ -155,12 +152,18 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         });
 ////////////
 
-        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai kai na emfanizei ton titlo tou arxeiou
+        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai
             @Override
             public void onClick(View v) {
                 openFile();
             }
         });
+    }
+
+    public void openDialog() {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
     }
 
 
@@ -635,7 +638,6 @@ System.out.println("all size "+all_the_teams.size());
         //return stringBuilder.toString();
         imp_pressed=1;
     }
-
 
 
     public void openNewActivity(View View) {

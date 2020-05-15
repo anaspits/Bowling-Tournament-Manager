@@ -27,7 +27,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     private BowlingViewModel bowlingViewModel;
     public String champuuid;
     public Participant p;
-    private TextView textView,player,textTitle;
+    private TextView textView,player;
     private  Button addnew;
     private String flag;
     private SelectParticipantListAdapter blistAdapter;
@@ -45,7 +45,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_statistics);
         player = findViewById(R.id.player);
-        textTitle=findViewById(R.id.textTitle);
+        textView=findViewById(R.id.textView);
         addnew =findViewById(R.id.addnew);
         flag = "none";
 
@@ -65,7 +65,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
 
         if (flag.equals("all")) {
             recyclerView.setAdapter(blistAdapter2);
-            textTitle.setText("All the Players:");
+            textView.setText("All the Players:");
             //addnew sto database
             Button addnew= findViewById(R.id.addnew);
             addnew.setOnClickListener(new View.OnClickListener() {

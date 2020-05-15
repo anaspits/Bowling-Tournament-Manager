@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         } else if (button_text.equals("Exit")){
             finish(); //todo na kleinei olh thn efarmogh, oxi mono to activity
+            //system.exit(0);
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                   finishAffinity();
+               }*/
         }
 
     }

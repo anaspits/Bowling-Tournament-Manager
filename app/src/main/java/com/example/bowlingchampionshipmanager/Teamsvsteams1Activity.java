@@ -96,7 +96,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     void roundRobin(int teams, int round) {
       //temp2=new Team[round][teams];
         if (((teams%2 != 0) && (round != teams - 1))||(teams <= 0))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(); //todo na dw ti ginetai me to roundrobin monwn omadwn px 3 omades
         int[] cycle = new int[teams];
         int n = teams /2;
         for (int i = 0; i < n; i++) {

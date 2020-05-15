@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -50,6 +51,14 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
 
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed(){
+                openDialog();
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this,cb);
+        
         ///recyclerview
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -214,6 +223,11 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
 
     }
 
+    public void openDialog() {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode,
