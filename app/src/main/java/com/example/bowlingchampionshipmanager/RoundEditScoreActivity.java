@@ -1,17 +1,22 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,15 @@ public class RoundEditScoreActivity extends AppCompatActivity {
     public Championship championship;
     private Championship_detail cd1, cd2;
     public int calc_pressed=0;
+    private ExportCSV e= new ExportCSV();
+    int first_sum1=0;
+    int second_sum1=0;
+    int third_sum1=0;
+    int sum_hdcp1=0;
+    int first_sum2=0;
+    int second_sum2=0;
+    int third_sum2=0;
+    int sum_hdcp2=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +71,16 @@ public class RoundEditScoreActivity extends AppCompatActivity {
         txtpoints2=findViewById(R.id.points2);
         totalsum2=findViewById(R.id.txvTotalSum2);
         calc_pressed=0;
+
+        first_sum1=0;
+        second_sum1=0;
+        third_sum1=0;
+        sum_hdcp1=0;
+        first_sum2=0;
+        second_sum2=0;
+        third_sum2=0;
+        sum_hdcp2=0;
+
         System.out.println("arxh edit calc_pressed="+calc_pressed);
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -167,10 +191,10 @@ team2=te;
         //gia tin omada 1
        // score1=team1.getScore(); prin
         score1=cd1.getScore(); //meta
-        int first_sum1=0;
-        int second_sum1=0;
-        int third_sum1=0;
-        int sum_hdcp1=0;
+         first_sum1=0;
+         second_sum1=0;
+         third_sum1=0;
+         sum_hdcp1=0;
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
             // team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
             System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
@@ -235,10 +259,10 @@ team2=te;
        // score2=team2.getScore(); prin
         score2=cd2.getScore(); //meta
         System.out.println("score2: "+score2);
-        int first_sum2=0;
-        int second_sum2=0;
-        int third_sum2=0;
-        int sum_hdcp2=0;
+         first_sum2=0;
+         second_sum2=0;
+         third_sum2=0;
+         sum_hdcp2=0;
         for (int i = 0; i < RoundScoreListAdapterTeam2.editModelArrayList.size(); i++){ //todo mporw na to valw sthn panw epanalhpsh
             System.out.println(team1txt.getText() + " " + RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
             System.out.println(" emda player "  +" id "+RoundScoreListAdapterTeam2.editModelArrayList.get(i).getUuid()+" hdcp "+RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp());
@@ -250,7 +274,7 @@ team2=te;
 
             // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
 
-            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
+            if(RoundScoreListAdapterTeam2.rd.get(i).getBlind()==0) {
                 int i3 = i;
                 bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(), champuuid).observe(this, new Observer<List<Round_detail>>() {
                     @Override
@@ -497,11 +521,26 @@ finish();
     }
 
     public void export(View view) {
-        StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + champuuid);
-        data.append("\nRound No.," + r.getFroundid());
-        data.append("\nTeam," + team1.getTeamName());
-        data.append("\nPlayer,HDCP,");
+        StringBuilder data=  e.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
+        try {
+            //saving the file into device
+            FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);
+            out.write((data.toString()).getBytes());
+            out.close();
+
+            //exporting
+            Context context = getApplicationContext();
+            File filelocation = new File(getFilesDir(), "bowling_championship_finishedChamp_stat.csv");
+            Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

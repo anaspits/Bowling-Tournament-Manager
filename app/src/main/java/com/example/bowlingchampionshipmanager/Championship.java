@@ -79,7 +79,7 @@ public class Championship implements Serializable {
     private int hdcp_tav;
 
     @ColumnInfo(name = "type")
-    private int type; //1:pins, 2:tvst, 3:friendly
+    private int type; //1:pins, 2:tvst, 3:friendly, 4:single
 
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "start_date")
