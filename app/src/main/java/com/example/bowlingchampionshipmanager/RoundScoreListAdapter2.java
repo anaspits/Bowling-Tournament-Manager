@@ -54,14 +54,34 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 Participant note = editModelArrayList.get(position);
                 //holder.setData(String.valueOf(note.getFullName()),note.getHdcp(), position);
                 holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
-                holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
-                if (String.valueOf(rd.get(position).getFirst())!=null){
-                holder.first.setText(String.valueOf(rd.get(position).getFirst()));}
-                if (String.valueOf(rd.get(position).getSecond())!=null) {
-                    holder.second.setText(String.valueOf(rd.get(position).getSecond()));
-                }
-                if (String.valueOf(rd.get(position).getThird())!=null) {
-                    holder.third.setText(String.valueOf(rd.get(position).getThird()));
+                if( editModelArrayList.get(position).getUuid().equals("blind")){ //an h omada exei ligoterous paiktes=blind
+                    holder.cardview.setEnabled(false);
+                    //cardview.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
+                    holder.cardview.setCardBackgroundColor(Color.LTGRAY);
+                    holder.txvNote.setText("BLIND");
+                    holder.first.setEnabled(false);
+                    holder.first.setFocusable(false);
+                    holder.second.setEnabled(false);
+                    holder.second.setFocusable(false);
+                    holder.third.setEnabled(false);
+                    holder.third.setFocusable(false);
+                    holder.hdcp.setEnabled(false);
+                    holder.hdcp.setFocusable(false);
+                    holder.first.setText("0");
+                    holder.second.setText("0");
+                    holder.third.setText("0");
+                    holder.hdcp.setText("0");
+                } else {
+                    holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
+                    if (String.valueOf(rd.get(position).getFirst()) != null) {
+                        holder.first.setText(String.valueOf(rd.get(position).getFirst()));
+                    }
+                    if (String.valueOf(rd.get(position).getSecond()) != null) {
+                        holder.second.setText(String.valueOf(rd.get(position).getSecond()));
+                    }
+                    if (String.valueOf(rd.get(position).getThird()) != null) {
+                        holder.third.setText(String.valueOf(rd.get(position).getThird()));
+                    }
                 }
                 this.position=position;
                 Log.d("print","yes");
@@ -124,7 +144,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 cardview=itemView.findViewById(R.id.roundcardview);
 
                 //cardview.setOnClickListener((View.OnClickListener) this);
-                txvNote.setOnClickListener((View.OnClickListener) this);
+                    txvNote.setOnClickListener((View.OnClickListener) this);
 
                 hdcp.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -216,7 +236,7 @@ System.out.println("hdcp keno");
                 });
 
             }
-
+//gia blind
              @Override
             public void onClick(View v){
                 int pos=getAdapterPosition();

@@ -386,6 +386,10 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                         // Handle error here
                         e.getCause();
                         textView.setText("error");
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Failed to read file! Please upload the wright file.",
+                                Toast.LENGTH_LONG).show();
                     }
 
 
@@ -679,9 +683,15 @@ if (auto.isChecked()) {
     // na ksesxoliasw      Participant p = bowlers.get(0);
     // na ksesxoliasw       String fnn =p.getFirstName();
     //textView.setText(fq);
-    inputStream.close();
+
+   // inputStream.close();
+
     //return stringBuilder.toString();
+} else {
+  s.importReadyTeams(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers,champuuid);
+    //inputStream.close();
 }
+        inputStream.close();
             imp_pressed = 1;
 
     }
