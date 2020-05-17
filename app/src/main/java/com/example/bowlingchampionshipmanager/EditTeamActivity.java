@@ -131,7 +131,8 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
 
     @Override
     public void OnDeleteClickListener(Participant myNote) {
-        bowlingViewModel.delete(myNote);
+        //bowlingViewModel.delete(myNote);
+        //todo na kanw remove ton paikth apo thn omada
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

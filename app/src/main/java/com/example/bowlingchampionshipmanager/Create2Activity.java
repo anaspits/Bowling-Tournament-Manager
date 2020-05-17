@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Create2Activity extends AppCompatActivity implements TeamListAdapter.OnDeleteClickListener {
+public class Create2Activity extends AppCompatActivity implements TeamatesAdapter.OnDeleteClickListener {
 
     private static TextView textView;
     private static TextView display_teams;
@@ -44,6 +44,8 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
     public String teamuuid;
     public String champuuid;
     public Championship championship;
+    private List<TeammatesTuple> playersandteams;
+    private TeamatesAdapter tplistAdapter;
 
 
     @Override
@@ -64,9 +66,10 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         //blistAdapter = new BowlingListAdapter(this, this);
        // blistAdapter2 = new BowlingListAdapter(this, this);
-        tlistAdapter = new TeamListAdapter(this, this);
+        //tlistAdapter = new TeamListAdapter(this, this);
         //recyclerView.setAdapter(blistAdapter);
-        recyclerView.setAdapter(tlistAdapter);
+        tplistAdapter = new TeamatesAdapter(this,this);
+        recyclerView.setAdapter(tplistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //addnew sto database
@@ -115,8 +118,18 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
            champuuid = bundleObject.getString("champuuid");
             }
 
+        bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
+            @Override
+            public void onChanged(List<TeammatesTuple> p1) {
+                playersandteams = p1;
+                tplistAdapter.setTeams(p1);
+                tplistAdapter.setChamp(championship);
+            }
+        });
+
         //System.out.println("Team 1 = " + all_the_teams.get(0).getTeamName());
-        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() { //fixme: mono tis teleutaies omadew pou isirthan
+        ///na svisw
+        bowlingViewModel.getAllTeams().observe(this, new Observer<List<Team>>() {
             @Override
             public void onChanged(List<Team> team) {
                 //tlistAdapter.setTeams(team);
@@ -135,13 +148,14 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
                // int id = team.get(2).getSys_teamID();
                 //addnew.setText(String.valueOf(id));
                 sum=team.get(2).getSys_teamID(); telos*/
-                tlistAdapter.setTeams(team);
-                tlistAdapter.setChamp(championship);
+
+              //  tlistAdapter.setTeams(team);
+              //  tlistAdapter.setChamp(championship);
             }
         });
 
 
-        //insert td and chd
+        //insert td and chd vash 2
         bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
             @Override
             public void onChanged(List<Participant> team) {
@@ -368,14 +382,9 @@ public class Create2Activity extends AppCompatActivity implements TeamListAdapte
         }
     }
 
-/*    @Override
-    public void OnDeleteClickListener(Participant myNote) {
-        bowlingViewModel.delete(myNote);
-    }
-*/
     @Override
-    public void OnDeleteClickListener(Team myNote) {
-        bowlingViewModel.delete(myNote);
+    public void OnDeleteClickListener(TeammatesTuple myNote) {
+        myNote.getC().setActive_flag(1);
     }
 }
 

@@ -148,7 +148,7 @@ public class Team implements Serializable {
     }
 
     public void setActive_flag(int active_flag) {
-        this.active_flag = active_flag; //0 energo, 1 teleiwse // todo mhpw na to valw sto champ_detail?
+        this.active_flag = active_flag; //0 energo, 1 diagrafhke // todo mhpw na to valw sto champ_detail?
     }
 
     public void setThis_vs(int this_vs) {

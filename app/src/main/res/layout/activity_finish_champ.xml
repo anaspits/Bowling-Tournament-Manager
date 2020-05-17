@@ -101,7 +101,7 @@ android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewrank"
-            android:layout_width="421dp"
+            android:layout_width="match_parent"
             android:layout_height="220dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -193,7 +193,7 @@ android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewround"
-            android:layout_width="421dp"
+            android:layout_width="match_parent"
             android:layout_height="220dp"
             app:layout_constraintBottom_toTopOf="@+id/button_hdcp_parameters"
             app:layout_constraintEnd_toEndOf="parent"

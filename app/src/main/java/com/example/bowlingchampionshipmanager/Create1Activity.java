@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,6 +30,8 @@ import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /*import javax.persistence.*;
@@ -39,9 +42,12 @@ import javax.persistence.Persistence; */
 public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
 //TODO NA KANW OLA TA ACTIVITIES SCROLLABLE
     //todo na ftiaxw to background sto recycleview h sto list
+    //todo an o paikths diale3ei single na mhn deixnei ta radiobuttons
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
-    private static EditText textView,editLanes;
+    private static EditText textView,editLanes,plperteam;
+    private TextView plpert;
+    private RadioButton auto;
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
@@ -84,6 +90,12 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
 
         textView = (EditText) findViewById(R.id.fileText);
         editLanes =  findViewById(R.id.editLanes);
+        plpert =findViewById(R.id.plpert);
+        plperteam=findViewById(R.id.plperteam);
+        auto=findViewById(R.id.auto);
+        plpert.setVisibility(View.GONE);
+        plperteam.setVisibility(View.GONE);
+
        Button button_imp  = (Button) findViewById(R.id.button_import);
        imp_pressed=0;
        OnBackPressedCallback cb =new OnBackPressedCallback(true){
@@ -152,7 +164,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         });
 ////////////
 
-        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai
+        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai H' na kanw insert otan pati8eii to next
             @Override
             public void onClick(View v) {
                 openFile();
@@ -166,7 +178,15 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
 
     }
 
-
+    public void editplayersperteam(View v){
+        if(auto.isChecked()) {
+            plperteam.setVisibility(View.VISIBLE);
+            plpert.setVisibility(View.VISIBLE);
+        } else {
+            plperteam.setVisibility(View.GONE);
+            plpert.setVisibility(View.GONE);
+        }
+    }
 
     public void openFile(){
 
@@ -328,7 +348,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                     try {
                         //String content =readFileContent(currentUri);
                         readFileContent(currentUri);
-                        //textView.setText(ft);
+                        textView.setText(ft);
                         //textView.setText("here");
                         //textView.setText(filepath);
 
@@ -446,7 +466,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                             pfd.getFileDescriptor());
 
             String textContent =
-                    textView.getText().toString();
+                    textView.getText().toString(); //apo to editext
 
             fileOutputStream.write(textContent.getBytes());
 
@@ -481,13 +501,13 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         String cvsSplitBy = ",";
 
         champuuid = UUID.randomUUID().toString();
-        ch = new Championship(fchampID,champuuid,0,0, "created"); ////vash 3
+        ch = new Championship(fchampID, champuuid, 0, 0, "created"); ////vash 3
         bowlingViewModel.insert(ch);
-        System.out.println("chid " +ch.getSys_champID());
+        System.out.println("chid " + ch.getSys_champID());
 
 
-         //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
-       s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy,bowlers);
+        //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
+        s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers);
 
 
         //createParticipantList: (na svisw ta apo katw)
@@ -528,29 +548,34 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
 
             } */
 
-       // } catch(IOException e){
-       //     e.printStackTrace();
-       // }
+        // } catch(IOException e){
+        //     e.printStackTrace();
+        // }
 
         //return bowlers;
 
 
+        //create the teams
+        int playersPerTeam = Integer.parseInt(plperteam.getText().toString());
+        if (TextUtils.isEmpty(plperteam.getText()) || playersPerTeam == 0) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Enter a number for players per team",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            s.generateTeams(bowlers, playersPerTeam, bowlingViewModel, ch.getUuid());
 
-       //create the teams
-       int playersPerTeam=Integer.parseInt(editLanes.getText().toString()); //fixme gia perissoterous players
-        s.generateTeams(bowlers,playersPerTeam,bowlingViewModel,ch.getUuid());
-
-        int i;
+            int i;
        /* //teamates mallon axristo
         for (i=0; i<bowlers.size();i++){
             teamates.add(bowlers.get(i).getTeammates());
         } */
-        for (i=0; i<bowlers.size()/playersPerTeam;i++){
-            teams.add(bowlers.get(i).getTeamates());
-            teamsplayersid.add(bowlers.get(i).getTeamatesid());
-        }
+            for (i = 0; i < bowlers.size() / playersPerTeam; i++) {
+                teams.add(bowlers.get(i).getTeamates());
+                teamsplayersid.add(bowlers.get(i).getTeamatesid());
+            }
 
-        //to teams pou einai arraylist me participants
+            //to teams pou einai arraylist me participants
 //apo dw 547 ws 563
 /*        for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
@@ -573,7 +598,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         ch.setTeamsid(teamsid);
         bowlingViewModel.insert(ch); */
 
-        //emfanish test
+            //emfanish test
   /*apo dw      for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
@@ -584,7 +609,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                 textView.append(temp.get(j).getFirstName() +"  ");
             }
         } ws edw einai h emfanish twn omadwn gia th vash 1 */
-System.out.println("all size "+all_the_teams.size());
+            System.out.println("all size " + all_the_teams.size());
 
 
        /* //Logic for generating teams(pairs)
@@ -618,8 +643,8 @@ System.out.println("all size "+all_the_teams.size());
         //textView.setText("ola kala");
 
         //// */
-        //test
-        //emfanizei tous sympaiktes kathe paikth
+            //test
+            //emfanizei tous sympaiktes kathe paikth
         /*for (i=0; i<teamates.size();i++) {
             ArrayList<Participant> temp = teamates.get(i);
 
@@ -631,14 +656,14 @@ System.out.println("all size "+all_the_teams.size());
 
         }
         */ //test
- // na ksesxoliasw      Participant p = bowlers.get(0);
- // na ksesxoliasw       String fnn =p.getFirstName();
-        //textView.setText(fq);
-        inputStream.close();
-        //return stringBuilder.toString();
-        imp_pressed=1;
+            // na ksesxoliasw      Participant p = bowlers.get(0);
+            // na ksesxoliasw       String fnn =p.getFirstName();
+            //textView.setText(fq);
+            inputStream.close();
+            //return stringBuilder.toString();
+            imp_pressed = 1;
+        }
     }
-
 
     public void openNewActivity(View View) {
         String button_text;
@@ -661,6 +686,7 @@ System.out.println("all size "+all_the_teams.size());
                 bundle.putString("champuuid", champuuid); //na perasw auto h to object championship oloklhro?
                 i.putExtras(bundle);
                 startActivity(i);
+                finish(); 
             } else{
                 Toast.makeText(
                         getApplicationContext(),

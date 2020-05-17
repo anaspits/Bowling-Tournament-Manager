@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey;
                 childColumns = "participant_uuid")
 }, indices= {
         @Index(name="index_td_teamID", value="team_uuid"),
-        @Index(name="index_participantID", value="participant_uuid")
+        @Index(name="index_participantID", value="participant_uuid") //todo mhpws na valw kai to champ
 }  )
 public class Team_detail {
 /*    @PrimaryKey(autoGenerate = true)
