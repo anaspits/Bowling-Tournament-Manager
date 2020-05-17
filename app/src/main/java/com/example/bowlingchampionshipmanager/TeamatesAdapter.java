@@ -35,7 +35,7 @@ public class TeamatesAdapter extends RecyclerView.Adapter<TeamatesAdapter.Bowlin
     @NonNull
     @Override
     public TeamatesAdapter.BowlingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = layoutInflater.inflate(R.layout.list_item, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.teamateslist, parent, false);
         TeamatesAdapter.BowlingViewHolder viewHolder = new TeamatesAdapter.BowlingViewHolder(itemView);
         return viewHolder;
     }
@@ -75,22 +75,23 @@ public class TeamatesAdapter extends RecyclerView.Adapter<TeamatesAdapter.Bowlin
 
         private TextView noteItemView,teamItemView;
         private int mPosition;
-        private Button btDelete, btEdit,btSel;
+        private Button btEdit;
 
         public BowlingViewHolder(@NonNull View itemView) {
             super(itemView);
-            noteItemView = itemView.findViewById(R.id.txvNote);
-            btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
-            btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
-            btSel 	 = itemView.findViewById(R.id.ivRowSelect);
-            teamItemView = itemView.findViewById(R.id.txvTeam);
+            noteItemView = itemView.findViewById(R.id.txv1st);
+            teamItemView = itemView.findViewById(R.id.txv2nd);
+            btEdit = itemView.findViewById(R.id.ivRowEdit);
         }
 
         public void setData(String note, List<Participant> part, int position) {
             noteItemView.setText(note);
             teamItemView.setText("");
             for(int i=0;i<part.size();i++) {
-                teamItemView.append(String.valueOf(part.get(i).getFullName()));
+                teamItemView.append(String.valueOf(part.get(i).getLastName()));
+                if(i!=part.size()-1){
+                    teamItemView.append("-");
+                }
             }
             mPosition = position;
         }
@@ -108,24 +109,15 @@ public class TeamatesAdapter extends RecyclerView.Adapter<TeamatesAdapter.Bowlin
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }
             });
-            btDelete.setOnClickListener(new View.OnClickListener() {
+          /*  btDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onDeleteClickListener != null) {
                         onDeleteClickListener.OnDeleteClickListener(mNotes.get(mPosition));
                     }
                 }
-            });
-            btSel.setOnClickListener(new View.OnClickListener() { //na svisw
-                @Override
-                public void onClick(View v) {
-                    Intent intent= new Intent(mContext,Create2Activity.class); //fixme
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getC().getSys_teamID());
-                    intent.putExtra("count", getItemCount());
-                    intent.putExtra("b_object", mNotes.get(mPosition).getC());
-                    ((Activity)mContext).startActivityForResult(intent,Create1Activity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
-                }
-            });
+            });*/
+
         }
     }
 
