@@ -11,10 +11,15 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.mysql.cj.Constants;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,7 +81,7 @@ public class Participant implements Serializable {
 
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "start_date")
-    private Date start_date;
+    private Date start_date; //created_at
 
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "end_date")
@@ -317,11 +322,21 @@ public class Participant implements Serializable {
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                uuid = UUID.randomUUID().toString();
+               //date
                Long ts = System.currentTimeMillis();
                String timestamp = ts.toString();
                System.out.println("uuid "+ uuid+" ts "+timestamp);
-                //Date date = (Date) Calendar.getInstance().getTime();//fixme
+               // Date date =  Calendar.getInstance().getTime();//fixme
                // System.out.println("time = "+date);
+                DateFormat df =new SimpleDateFormat(Constants.MILLIS_I18N);
+                System.out.println(" df "+df.toString());
+                DateFormat df2 =new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+                System.out.println(" df "+df2.toString());
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    OffsetDateTime offsetDateTime = OffsetDateTime.now();
+                    System.out.println(" off "+String.valueOf(offsetDateTime));
+                }
+
                 Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, sex, 0);
                 p.setDisable_flag(0);
                 bowlers.add(p);

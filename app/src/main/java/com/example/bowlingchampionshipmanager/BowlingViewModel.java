@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.sql.Date;
 import java.util.List;
 
 public class BowlingViewModel extends AndroidViewModel {
@@ -814,6 +815,10 @@ public  void insert (Team_detail t){
 
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampOrdered(String chid){
         return rdDao.getAllPlayerScoreGamesofChampOrdered(chid);
+    }
+
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamOrdered(String chid, String tid){
+        return rdDao.getAllPlayerScoreGamesofTeamOrdered(chid,tid);
     }
 
     private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {

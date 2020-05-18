@@ -59,6 +59,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                     //cardview.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
                     holder.cardview.setCardBackgroundColor(Color.LTGRAY);
                     holder.txvNote.setText("BLIND");
+                    holder.txvNote.setEnabled(false);
                     holder.first.setEnabled(false);
                     holder.first.setFocusable(false);
                     holder.second.setEnabled(false);

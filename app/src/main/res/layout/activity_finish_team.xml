@@ -152,7 +152,7 @@
 
                 <TextView
                     android:id="@+id/txvplayer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:text="Player"
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
-                    android:text="Average"
+                    android:text="@string/average"
                     android:textAlignment="center"
                     android:textColor="#616161"
                     android:textSize="18sp"
@@ -200,12 +200,30 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvgames"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Games"
+                    android:textColor="#616161"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
         </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"
         android:layout_width="match_parent"
-        android:layout_height="147dp"
-        tools:listitem="@layout/list2" />
+        android:layout_height="147dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

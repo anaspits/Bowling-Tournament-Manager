@@ -144,7 +144,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
         //fetch step 3
        /* champ = editViewModel.getChamp(bowlId);
         champ*/
-       editViewModel.getChamp(bowlId).observe(this, new Observer<Championship>() {
+       editViewModel.getChamp(bowlId).observe(this, new Observer<Championship>() { //den xreiaetai to viewmodel
             @Override
             public void onChanged(Championship champ) {
                 /*for (int i = 0; i < c.size(); i++) {
@@ -196,31 +196,37 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             hdcp_parameters.add(null);
         } else {
             hdcp_parameters.add(Integer.parseInt(upar1));
+           c.setHdcp_beginners(Integer.parseInt(upar1));
         }
         if (upar2.matches("")){
             hdcp_parameters.add(null);
         } else {
             hdcp_parameters.add(Integer.parseInt(upar2));
+            c.setHdcp_adv(Integer.parseInt(upar2));
         }
         if (upar3.matches("")){
             hdcp_parameters.add(null);
         } else {
             hdcp_parameters.add(Integer.parseInt(upar3));
+            c.setHdcp_less(Integer.parseInt(upar3));
         }
         if (upar4.matches("")){
             hdcp_parameters.add(null);
         } else {
             hdcp_parameters.add(Integer.parseInt(upar4));
+            c.setHdcp_factor(Integer.parseInt(upar4));
         }
         if (upar5.matches("")){
             hdcp_parameters.add(null);
         } else {
             hdcp_parameters.add(Integer.parseInt(upar5));
+            c.setHdcp_tav(Integer.parseInt(upar5));
         }
 
         c.setStatus(updatedst);
         c.setRound(Integer.parseInt(updatedr));
-        c.setHdcp_parameters(hdcp_parameters);
+        c.setHdcp_parameters(hdcp_parameters); //axristo
+
 
         Intent resultIntent = new Intent();
         // resultIntent.putExtra("bowlId", bowlId);
@@ -249,7 +255,6 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
-//fixme den kanei update
         if (requestCode == UPDATE_CHAMP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) { ////////gia edit kai update
             Button c= findViewById(R.id.back_btn);
             Bundle bundleObject =resultData.getExtras();

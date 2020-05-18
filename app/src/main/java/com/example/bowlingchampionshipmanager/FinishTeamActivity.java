@@ -25,7 +25,9 @@ public class FinishTeamActivity extends AppCompatActivity {
     private String tuuid, champuuid;
     private BowlingViewModel bowlingViewModel;
     private SelectRoundAdapter roundlistAdapter;
-    private SelectParticipantListAdapter blistAdapter;
+    private SelectParticipantListAdapter blistAdapter; //gia to ka8oliko avg tou paikth
+    private PlayerandGamesAdapter plistAdapter; //git to sugkekrimeno avg tu champ
+    private List<PlayerandGames> players;
     private String flag;
 
 //TODO EXPORT
@@ -53,14 +55,22 @@ public class FinishTeamActivity extends AppCompatActivity {
             champuuid = championship.getUuid();
         }
 
+        if(championship.getStatus().equals("Finished")){
+            textTitle.setText("Finished Championship");
+        }else {
+            textTitle.setText("Ongoing Championship");
+        }
+
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerView recyclerView2 = findViewById(R.id.recyclerView2);
         roundlistAdapter = new SelectRoundAdapter(this);
         blistAdapter =  new SelectParticipantListAdapter(this);
+        plistAdapter =  new PlayerandGamesAdapter(this);
         recyclerView.setAdapter(roundlistAdapter); //
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView2.setAdapter(blistAdapter);
+        //recyclerView2.setAdapter(blistAdapter);
+        recyclerView2.setAdapter(plistAdapter);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -82,12 +92,34 @@ public class FinishTeamActivity extends AppCompatActivity {
             }
         });
 
-        bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() { //todo na emfanizei to avg tou paikth apo to rd
+     /*   bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() { //todo na emfanizei to avg tou paikth apo to rd
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);
                 blistAdapter.setChamp(championship);
                 blistAdapter.setbtnSelFlag(1);
+            }
+        }); */
+
+        //
+        bowlingViewModel.getAllPlayerScoreGamesofTeamOrdered(champuuid,tuuid).observe(this, new Observer<List<PlayerandGames>>() {
+            @Override
+            public void onChanged(List<PlayerandGames> part) {
+                ArrayList<PlayerandGames> p= new ArrayList<>();
+                for(int i=0;i<part.size();i++){
+                    if (i==part.size()-1){
+                        break;
+                    }
+                    else if (part.get(i).getFroundid()==part.get(i+1).getFroundid()){
+                        p.add(part.get(i));
+                    }  else {
+                        p.add(part.get(i));
+                        break;
+                    }
+                }
+                plistAdapter.setPlayers(p);
+                plistAdapter.setChamp(championship);
+                players=p;
             }
         });
     }
