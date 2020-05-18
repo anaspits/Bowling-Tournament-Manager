@@ -38,7 +38,7 @@ public class RoundEditScoreActivity extends AppCompatActivity {
     public Championship championship;
     private Championship_detail cd1, cd2;
     public int calc_pressed=0;
-    private ExportCSV e= new ExportCSV();
+    private ExportCSV exp = new ExportCSV();
     int first_sum1=0;
     int second_sum1=0;
     int third_sum1=0;
@@ -521,7 +521,7 @@ finish();
     }
 
     public void export(View view) {
-        StringBuilder data=  e.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
+        StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);

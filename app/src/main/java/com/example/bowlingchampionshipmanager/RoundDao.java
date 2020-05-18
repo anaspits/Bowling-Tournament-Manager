@@ -40,6 +40,9 @@ public interface RoundDao {
     @Query("SELECT round.sys_roundID,round.round_uuid, round.froundid, round.fchampID, round.champ_uuid, round.team1ID, round.team2ID,round.team1UUID, round.team2UUID, round.score1, round.score2,round.points1,round.points2,round.lane1,round.lane2,round.status, round.date FROM round INNER JOIN team ON (round.team1UUID=team.team_uuid or round.team2UUID=team.team_uuid) WHERE team.team_uuid=:teamuuid AND round.champ_uuid=:champuuid ORDER BY round.froundid")
     LiveData<List<Round>> getAllRoundsofTeam( String teamuuid,String champuuid);
 
+    @Query("SELECT round.sys_roundID,round.round_uuid, round.froundid, round.fchampID, round.champ_uuid, round.team1ID, round.team2ID,round.team1UUID, round.team2UUID, round.score1, round.score2,round.points1,round.points2,round.lane1,round.lane2,round.status, round.date FROM round INNER JOIN team ON (round.team1UUID=team.team_uuid or round.team2UUID=team.team_uuid) WHERE team.team_uuid=:teamuuid AND round.champ_uuid=:champuuid AND round.status='done' ORDER BY round.froundid")
+    LiveData<List<Round>> getDoneRoundsofTeam( String teamuuid,String champuuid);
+
     @Query("SELECT * FROM  round WHERE (team1UUID=:teamuuid or team2UUID=:teamuuid) and champ_uuid=:champuuid and status='current'")
     LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid); //na svisw
 

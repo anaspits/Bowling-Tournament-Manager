@@ -695,6 +695,10 @@ public  void insert (Team_detail t){
         return rDao.getAllRoundsofTeam(teamuuid,champuuid);
     }
 
+    LiveData<List<Round>> getDoneRoundsofTeam( String teamuuid,String champuuid){
+        return rDao.getDoneRoundsofTeam(teamuuid,champuuid);
+    }
+
     LiveData<Round> getCurrentRoundofTeam(String teamuuid, String champuuid){
         return rDao.getCurrentRoundofTeam(teamuuid,champuuid);
     }
@@ -819,6 +823,10 @@ public  void insert (Team_detail t){
 
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamOrdered(String chid, String tid){
         return rdDao.getAllPlayerScoreGamesofTeamOrdered(chid,tid);
+    }
+
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamofDoneRoundsOrdered(String chid, String tid){
+        return rdDao.getAllPlayerScoreGamesofTeamofDoneRoundsOrdered(chid,tid);
     }
 
     private class Round_detailOperationsAsyncTask extends AsyncTask<Round_detail, Void, Void> {

@@ -156,7 +156,11 @@ public class FinishChampActivity extends AppCompatActivity {
     }
 
     public void export(View view) {
-        StringBuilder data = new StringBuilder();
+        ExportCSV ex = new ExportCSV();
+        StringBuilder data= ex.exportFinishedChamp( championship, rounds, teams, players,   playersandteams);
+
+
+/*        StringBuilder data = new StringBuilder();
         data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
 
         data.append("\nWinning Team,"+teams.get(0).getTeam_name()+",Score: "+teams.get(0).getTeam_score());
@@ -188,7 +192,7 @@ public class FinishChampActivity extends AppCompatActivity {
         for (int i=0;i<players.size();i++){
             data.append("\n"+players.get(i).getFirstName()+players.get(i).getLastName()+","+players.get(i).getBowlAvg()+","+players.get(i).getHdcp()+","+players.get(i).getGames());
         }
-
+*/
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);
