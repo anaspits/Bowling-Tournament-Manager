@@ -100,7 +100,7 @@ public class FinishTeamActivity extends AppCompatActivity {
             }
         });
 
-     /*   bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() { 
+     /*   bowlingViewModel.getAllPlayersofTeam3(tuuid, champuuid).observe(this, new Observer<List<Participant>>() {
             @Override
             public void onChanged(List<Participant> part) {
                 blistAdapter.setSelected(part);

@@ -9,7 +9,8 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
-import java.sql.Date;
+//import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 @Entity(tableName = "championship", indices= { @Index(name="index_champ_uuid", value="champ_uuid", unique=true)}/*,foreignKeys = {

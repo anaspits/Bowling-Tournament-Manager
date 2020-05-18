@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
+//import java.sql.Date;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.io.BufferedReader;
@@ -298,7 +298,7 @@ public class Participant implements Serializable {
             String fn = null;
             String ln = null;
             String sex = null;
-            int ba = 0;
+            int ba = 0, hdcp=0;
 
             int i = 0;
             while ((line = br.readLine()) != null){
@@ -320,27 +320,35 @@ public class Participant implements Serializable {
                 //get avg
                 ba = Integer.parseInt(input[3]);
 
+                //get hdcp
+                hdcp = Integer.parseInt(input[4]);
+
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                uuid = UUID.randomUUID().toString();
                //date
-               Long ts = System.currentTimeMillis();
+              /* Long ts = System.currentTimeMillis();
                String timestamp = ts.toString();
-               System.out.println("uuid "+ uuid+" ts "+timestamp);
-               // Date date =  Calendar.getInstance().getTime();//fixme
-               // System.out.println("time = "+date);
-                DateFormat df =new SimpleDateFormat(Constants.MILLIS_I18N);
+               System.out.println("uuid "+ uuid+" ts "+timestamp);*/
+                Date date =  Calendar.getInstance().getTime(); //doulevei
+                System.out.println("date = "+date);
+               /* DateFormat df =new SimpleDateFormat(Constants.MILLIS_I18N);
                 System.out.println(" df "+df.toString());
                 DateFormat df2 =new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-                System.out.println(" df "+df2.toString());
+                System.out.println(" df "+df2.toString());*/
+                //H'
+                OffsetDateTime offsetDateTime = null;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    OffsetDateTime offsetDateTime = OffsetDateTime.now();
-                    System.out.println(" off "+String.valueOf(offsetDateTime));
+                    offsetDateTime = OffsetDateTime.now();
                 }
+                System.out.println(" off "+String.valueOf(offsetDateTime));
 
-                Participant p = new Participant( i,uuid,fn, ln, ba,0,null, 0, sex, 0);
+
+                Participant p = new Participant( i,uuid,fn, ln, ba,0,date, hdcp, sex, 0);
                 p.setDisable_flag(0);
                 bowlers.add(p);
                 bowlingViewModel.insert(p);
+
+                System.out.println("particiapant date ="+p.getStart_date());
    //  Long a=     bowlingViewModel.insert(p);
    //  System.out.println(String.valueOf(a));
 //Team_detail td = new Team_detail(i+1, bowlingViewModel.insert(p));
@@ -411,6 +419,8 @@ for (int i=0;i<bowlers.size();i++){
             String tuuid = UUID.randomUUID().toString();
             System.out.println("team uuid "+tuuid);
             Team t = new Team((i+1),tuuid,null,0);
+            Date date =  Calendar.getInstance().getTime();
+            t.setStart_date(date);
             bowlingViewModel.insert(t);
             t.setTeammates(p.getTeamates());
             Create1Activity.all_the_teams.add(t);
@@ -479,6 +489,8 @@ for (int i=0;i<bowlers.size();i++){
                 String tuuid = UUID.randomUUID().toString();
                 System.out.println("team uuid "+tuuid);
                 Team t = new Team((i+1),tuuid,null,0);
+                Date date =  Calendar.getInstance().getTime();
+                t.setStart_date(date);
                 t.setTeammates(tmates);
                 bowlingViewModel.insert(t);
                 teams.add(t);
@@ -561,11 +573,6 @@ for (int i=0;i<bowlers.size();i++){
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
                 if (fn.equals("BLIND") || ln.equals("BLIND")){
                     uuid = "blind";
-                    Long ts = System.currentTimeMillis();
-                    String timestamp = ts.toString();
-                    System.out.println("uuid " + uuid + " ts " + timestamp);
-                    //Date date = (Date) Calendar.getInstance().getTime();//fixme
-                    // System.out.println("time = "+date);
                     Participant p = new Participant(0, "blind", "BLIND", "", 0, 0, null, 0, "", 1);
                     bowlers.add(p);
                     tmates.add(p);
@@ -574,9 +581,8 @@ for (int i=0;i<bowlers.size();i++){
                     Long ts = System.currentTimeMillis();
                     String timestamp = ts.toString();
                     System.out.println("uuid " + uuid + " ts " + timestamp);
-                    //Date date = (Date) Calendar.getInstance().getTime();//fixme
-                    // System.out.println("time = "+date);
-                    Participant p = new Participant(i, uuid, fn, ln, ba, 0, null, hdcp, sex, 0);
+                    Date date =  Calendar.getInstance().getTime();
+                    Participant p = new Participant(i, uuid, fn, ln, ba, 0, date, hdcp, sex, 0);
                     bowlers.add(p);
                     tmates.add(p);
                     bowlingViewModel.insert(p);
@@ -589,6 +595,8 @@ for (int i=0;i<bowlers.size();i++){
             String tuuid = UUID.randomUUID().toString();
             System.out.println("team uuid "+tuuid);
             Team t = new Team(teamcounter,tuuid,null,0);
+            Date date =  Calendar.getInstance().getTime();
+            t.setStart_date(date);
             teamcounter++;
             bowlingViewModel.insert(t);
             t.setTeammates(tmates);

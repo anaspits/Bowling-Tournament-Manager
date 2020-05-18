@@ -1,12 +1,19 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.room.TypeConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.sql.Date;
+//import java.sql.Date;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ArrayList;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class Converters {
 
 
@@ -22,7 +29,7 @@ public class Converters {
             return new Gson().fromJson(value, listType);
         }
 */
-        //gia date
+        //gia java.util.date
         @TypeConverter
         public static Date fromTimestamp(Long value) {
                 return value==null ? null : new Date(value);
@@ -31,6 +38,19 @@ public class Converters {
         public static Long dateToTimestamp (Date date) {
                 return date == null ? null : date.getTime();
         }
+
+   /* //gia offsetdatetime
+        private static DateTimeFormatter formater = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        @TypeConverter
+        public static OffsetDateTime fromTimestamp(String value) {
+            return value==null ? null : formater.parse(value, OffsetDateTime::from);
+        }
+    @TypeConverter
+    public static String offdateToTimestamp (OffsetDateTime date) {
+        return date == null ? null : date.format(formater);
+    } */
+
+
 
 /*axristo
     @TypeConverter // note this annotation

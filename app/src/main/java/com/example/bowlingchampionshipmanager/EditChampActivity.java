@@ -260,7 +260,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 Championship t;
-                t = (Championship) bundleObject.getSerializable("b_object"); //todo: prepei na ta kanei update ola ta champ me auto to champid gia vash 2
+                t = (Championship) bundleObject.getSerializable("b_object"); //gia vash 2 todo: prepei na ta kanei update ola ta champ me auto to champid
                 System.out.println("3 hdcp "+t.getHdcp_adv());
                 bowlingViewModel.update(t);
 
