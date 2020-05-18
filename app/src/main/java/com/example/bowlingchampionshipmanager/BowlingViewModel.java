@@ -821,6 +821,10 @@ public  void insert (Team_detail t){
         return rdDao.getAllPlayerScoreGamesofChampOrdered(chid);
     }
 
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampofDoneRoundsOrdered(String chid){
+        return rdDao.getAllPlayerScoreGamesofChampofDoneRoundsOrdered(chid);
+    }
+
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamOrdered(String chid, String tid){
         return rdDao.getAllPlayerScoreGamesofTeamOrdered(chid,tid);
     }

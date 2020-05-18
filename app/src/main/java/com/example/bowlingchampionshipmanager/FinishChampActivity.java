@@ -104,19 +104,28 @@ public class FinishChampActivity extends AppCompatActivity {
                 blistAdapter.setbtnSelFlag(1);
             }
         }); */
-        bowlingViewModel.getAllPlayerScoreGamesofChampOrdered(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+
+      //todo na to kanw me query me dates, etsi den leitourgei
+ bowlingViewModel.getAllPlayerScoreGamesofChampOrdered(champuuid).observe(this, new Observer<List<PlayerandGames>>() { //ola ta rounds, ara pairnei ta teleftaia scores twn teleftaiwn rounds, pou omws an den exoun paixtei einai 0
             @Override
             public void onChanged(List<PlayerandGames> part) {
                 ArrayList<PlayerandGames> p= new ArrayList<>();
-                for(int i=0;i<part.size();i++){
-                    if (i==part.size()-1){
-                        break;
-                    }
-                   else if (part.get(i).getFroundid()==part.get(i+1).getFroundid()){
+                for(int i=0;i<part.size();i++) { //thelw na paw ta teleftaia scores tou teleftaiou round pou epe3an
+                    if (part.get(i).getGames() != 0) {
+                        if (i == part.size() - 1) {
+                            if(i!=0 && part.get(i).getFroundid()==part.get(i-1).getFroundid()) { //elegxw an einai sto idio round me ton prohgoumeno paikth
+                                p.add(part.get(i)); //kai ton vazw sth lista
+                            } else {
+                                break; //an den einai teleiwsame
+                            }
+                        } else if (part.get(i).getFroundid() == part.get(i + 1).getFroundid()) {
+                            p.add(part.get(i));
+                        } else {
+                            p.add(part.get(i));
+                            break;
+                        }
+                    }else if ( part.get(i).getFroundid()==1){
                         p.add(part.get(i));
-                    }  else {
-                        p.add(part.get(i));
-                       break;
                     }
                 }
                 blistAdapter.setPlayers(p);
@@ -125,7 +134,7 @@ public class FinishChampActivity extends AppCompatActivity {
             }
         });
 
-        //pairnw tous paiktes ka8e omadas tou champ aftou //todo na dw an pairnei ontws mono aftou tou champ
+        //pairnw tous paiktes ka8e omadas tou champ aftou
           bowlingViewModel.getAllTeamatesofAllRankedTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
             public void onChanged(List<TeammatesTuple> p1) {

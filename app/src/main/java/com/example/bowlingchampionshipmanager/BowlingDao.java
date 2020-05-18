@@ -21,7 +21,7 @@ public interface BowlingDao {
     @Query("SELECT * FROM participant")
     LiveData<List<Participant>> getAllBowls();
 
-    @Query("SELECT * FROM participant WHERE disable_flag=0")
+    @Query("SELECT * FROM participant WHERE disable_flag=0 ORDER BY last_name")
     LiveData<List<Participant>> getAllActiveParticipants();
 
     //step 1 ->BowlingViewModel

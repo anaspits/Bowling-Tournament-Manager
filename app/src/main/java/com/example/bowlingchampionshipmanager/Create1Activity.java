@@ -99,8 +99,12 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         plpert.setVisibility(View.GONE);
         plperteam.setVisibility(View.GONE);
 
+        bowlers.clear();
+        all_the_teams.clear();
+
        Button button_imp  = (Button) findViewById(R.id.button_import);
        imp_pressed=0;
+
        OnBackPressedCallback cb =new OnBackPressedCallback(true){
            @Override
            public void handleOnBackPressed(){
@@ -170,30 +174,36 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai H' na kanw insert otan pati8eii to next
             @Override
             public void onClick(View v) {
-
-                if (auto.isChecked()){
-                    if( TextUtils.isEmpty(plperteam.getText())) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Enter the number of players per team",
-                                Toast.LENGTH_LONG).show();
-                    } else{
-                        playersPerTeam = Integer.parseInt(plperteam.getText().toString());
-                        if(playersPerTeam == 0 ){
+                if (imp_pressed == 0) {
+                    if (auto.isChecked()) {
+                        if (TextUtils.isEmpty(plperteam.getText())) {
                             Toast.makeText(
                                     getApplicationContext(),
-                                    "Enter a number greater than 0",
+                                    "Enter the number of players per team",
                                     Toast.LENGTH_LONG).show();
-                        }else {
-                            openFile();
+                        } else {
+                            playersPerTeam = Integer.parseInt(plperteam.getText().toString());
+                            if (playersPerTeam == 0) {
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        "Enter a number greater than 0",
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                openFile();
+                            }
                         }
+                    } else if (readyteams.isChecked()) {
+                        openFile();
+                    } else {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "You have to choose whether you want to import players or teams",
+                                Toast.LENGTH_LONG).show();
                     }
-                } else if (readyteams.isChecked()){
-                    openFile();
-                } else {
+                }else {
                     Toast.makeText(
                             getApplicationContext(),
-                            "You have to choose whether you want to import players or teams",
+                            "You have already imported a file. To cancel it, go back to the MainMenu",
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -536,7 +546,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         ch = new Championship(fchampID, champuuid, 0, 0, "created"); ////vash 3
         Date date =  Calendar.getInstance().getTime();
         ch.setStart_date(date);
-        bowlingViewModel.insert(ch);
+        //bowlingViewModel.insert(ch);
         System.out.println("chid " + ch.getSys_champID());
 
 if (auto.isChecked()) {
@@ -713,6 +723,13 @@ if (auto.isChecked()) {
             if(imp_pressed==1) {
                 //Intent gonext = new Intent(this,Create2Activity.class);
                 //startActivity(gonext);
+
+                //kanw insert ola osa eginan imported
+                System.out.println("Insert All" );
+                System.out.println("chid " + ch.getSys_champID());
+                bowlingViewModel.insert(ch);
+                s.insertAllToDatabase(bowlingViewModel,bowlers,all_the_teams,ch);
+
                 Intent i = new Intent(Create1Activity.this, Create2Activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("bowlers", bowlers);
@@ -740,6 +757,8 @@ if (auto.isChecked()) {
     public void OnDeleteClickListener(Participant myNote) {
         //bowlingViewModel.delete(myNote);
         myNote.setDisable_flag(1);
+        Date date =  Calendar.getInstance().getTime();
+        myNote.setEnd_date(date);
         System.out.println(myNote.getDisable_flag());
         bowlingViewModel.update(myNote);
     }

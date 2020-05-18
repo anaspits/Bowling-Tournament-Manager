@@ -55,6 +55,9 @@ public interface Round_detailDao {
     @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,participant.sex,round_detail.round_uuid,round_detail.score,round_detail.avg,round_detail.hdcp ,round_detail.games, round_detail.froundid,round_detail.first, round_detail.second, round_detail.third FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid  WHERE round_detail.champ_uuid=:chid ORDER BY round_detail.froundid DESC")
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampOrdered(String chid);
 
+    @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,participant.sex,round_detail.round_uuid,round_detail.score,round_detail.avg,round_detail.hdcp ,round_detail.games, round_detail.froundid,round_detail.first, round_detail.second, round_detail.third FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid INNER JOIN round ON round.round_uuid=round_detail.round_uuid WHERE round_detail.champ_uuid=:chid AND round.status='done' ORDER BY round_detail.froundid DESC")
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampofDoneRoundsOrdered(String chid); //mallon axristo
+
     @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,participant.sex,round_detail.round_uuid,round_detail.score,round_detail.avg,round_detail.hdcp ,round_detail.games, round_detail.froundid,round_detail.first, round_detail.second, round_detail.third FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid INNER JOIN team_detail ON team_detail.participant_uuid=participant.participant_uuid WHERE round_detail.champ_uuid=:chid AND team_detail.team_uuid=:tid ORDER BY round_detail.froundid DESC")
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamOrdered(String chid, String tid);
 

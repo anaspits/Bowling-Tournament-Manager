@@ -44,7 +44,7 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
                                     Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Participant p = new Participant(0, "blind", "BLIND", "", 0, 0, null, 0, "", 1);
+                                            Participant p = new Participant(0, "blind", "BLIND", "BLIND", 0, 0, null, 0, "", 1);
                                             getDatabase(context).bowlingDao().insert(p);
                                         }
                                     });
