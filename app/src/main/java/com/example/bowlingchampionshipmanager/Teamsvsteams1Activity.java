@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     public static ArrayList<Team> all_the_teams; //todo live
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details;
-    private static int rounds; //todo : na to vazei o user? all_the_teams meta3u tous x2
+    private static int rounds;
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -68,6 +69,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
                 System.out.println(" edw to ch to 8etw ws started");
                 championship=c;
                 championship.setStatus("started");
+                championship.setStart_date(Calendar.getInstance().getTime());
                 //bowlingViewModel.update(c);
                 System.out.println(" edw to ch to 8etw egine "+c.getStatus());
             }
@@ -159,7 +161,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
                 for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
                     for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp(), 0,champuuid, r.getFroundid() ); //ftiaxnw to rd
+                        Round_detail rd = new Round_detail(ruuid,pa.get(p).getUuid(), 0, 0, 0,pa.get(p).getHdcp(), 0,champuuid, r.getFroundid(), Calendar.getInstance().getTime()  ); //ftiaxnw to rd
                         bowlingViewModel.insert(rd);
                     }
                 }
@@ -262,7 +264,7 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
 
        // championship.setType(1);
         bowlingViewModel.update(championship);
-        System.out.println("ch status ="+championship.getStatus()+" type "+championship.getType());
+        System.out.println("ch status ="+championship.getStatus()+" type "+championship.getType()+" startdate "+championship.getStart_date());
         for(int i=0;i<cd.size();i++){
             bowlingViewModel.update(cd.get(i));
             System.out.println("cd flag="+cd.get(i).getActive_flag()+" me size "+cd.size());

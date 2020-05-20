@@ -545,7 +545,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         champuuid = UUID.randomUUID().toString();
         ch = new Championship(fchampID, champuuid, 0, 0, "created"); ////vash 3
         Date date =  Calendar.getInstance().getTime();
-        ch.setStart_date(date);
+        ch.setCreated_at(date);
         //bowlingViewModel.insert(ch);
         System.out.println("chid " + ch.getSys_champID());
 

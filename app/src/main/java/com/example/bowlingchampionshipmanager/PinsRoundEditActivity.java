@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 //version 2
@@ -83,7 +84,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 blistAdapter.setRound(r);
                 ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                 for (int i = 0; i < part.size(); i++) {
-                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0, champuuid,r.getFroundid() );
+                    Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0, champuuid,r.getFroundid(), Calendar.getInstance().getTime() );
                     System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                     rd.add(round_detail);
                 }
@@ -219,6 +220,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
 
                 //RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
+                RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println(" rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird()+RoundScoreListAdapter2.rd.get(i).getScore());
 

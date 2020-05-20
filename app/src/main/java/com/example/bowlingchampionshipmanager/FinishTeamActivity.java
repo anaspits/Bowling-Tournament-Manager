@@ -156,13 +156,13 @@ public class FinishTeamActivity extends AppCompatActivity {
 
         try {
             //saving the file into device
-            FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);
+            FileOutputStream out = openFileOutput("bowling_championship_finTeam_stat.csv", Context.MODE_PRIVATE);
             out.write((data.toString()).getBytes());
             out.close();
 
             //exporting
             Context context = getApplicationContext();
-            File filelocation = new File(getFilesDir(), "bowling_championship_finishedChamp_stat.csv");
+            File filelocation = new File(getFilesDir(), "bowling_championship_finTeam_stat.csv");
             Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");

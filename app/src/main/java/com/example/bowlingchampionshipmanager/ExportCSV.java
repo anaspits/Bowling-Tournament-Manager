@@ -46,7 +46,7 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedTeam(Championship championship, List<Round> rounds, Team team, List<PlayerandGames> players) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid());
+        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date()); //todo to sys_id oxi to uuid
         data.append("\nResults for Team," + team.getTeamName());
         data.append("\n,Round,Points,Score");
         for (int i = 0; i < rounds.size(); i++) {
@@ -71,7 +71,7 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedChamp(Championship championship, List<Round> rounds,List<TeamandScore> teams, List<PlayerandGames> players, List<TeammatesTuple> playersandteams) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid());
+        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date());
 
         data.append("\nWinning Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
         data.append("\nTeam Ranking");

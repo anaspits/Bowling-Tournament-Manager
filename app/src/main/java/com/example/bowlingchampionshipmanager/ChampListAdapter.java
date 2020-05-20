@@ -145,7 +145,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                             intent.putExtra("champ", mNotes.get(mPosition));
                             mContext.startActivity(intent);
                             ((Activity)mContext).finish();
-                        } else {
+                        } else { //todo if status created -> Create2Activity
                             Intent intent = new Intent(mContext, SelectTeamActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
                             intent.putExtra("champ", mNotes.get(mPosition));

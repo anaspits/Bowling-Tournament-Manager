@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 //TODO /DONE!/ NA KANW EDITROUND H' mporw na xrhshmpoihsw to round pou pernaw apo to select, meta na parw th lista apo getRoundsofTeam, na to psa3w ekei mesa kai na vrw to epomeno round kai na to perasw sto epomeno Round
@@ -319,7 +320,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 System.out.println("rds size " + rds.size());
 
                 for (int i = 0; i < rds.size(); i++) {
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird()+" games "+rds.get(i).getGames()+" blind "+rds.get(i).getBlind()+ " avg "+rds.get(i).getAvg());
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird()+" games "+rds.get(i).getGames()+" blind "+rds.get(i).getBlind()+ " avg "+rds.get(i).getAvg()+" cr_date "+rds.get(i).getCreated_at()+" update "+rds.get(i).getUpdated_at());
                 }
             }
         });
@@ -570,7 +571,8 @@ for (int i=0;i<test.size();i++){
             System.out.println("cds_count=" + cds_count + " fin_cds_count=" + fin_cds_count);
             if (cds_count == fin_cds_count) {
                 System.out.println("champ finished");
-                championship.setStatus("Finished"); //todo id champ finished open endofchpampActivity me ta results
+                championship.setStatus("Finished");
+                championship.setEnd_date(Calendar.getInstance().getTime());
                 bowlingViewModel.update(championship);
             }
 
@@ -805,6 +807,7 @@ if(championship.getStatus().equals( "Finished")){
             if (cds_count == fin_cds_count) {
                 System.out.println("champ finished");
                 championship.setStatus("Finished");
+                championship.setEnd_date(Calendar.getInstance().getTime());
                 bowlingViewModel.update(championship);
             }
      /*   System.out.println("1 prin flag= "+cd.getActive_flag());

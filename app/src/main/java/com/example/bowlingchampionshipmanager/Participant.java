@@ -11,13 +11,9 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.mysql.cj.Constants;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 //import java.sql.Date;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -424,18 +420,18 @@ for (int i=0;i<bowlers.size();i++){
             //bowlingViewModel.insert(t);
             t.setTeammates(p.getTeamates());
             Create1Activity.all_the_teams.add(t);
-            Championship_detail cd = new Championship_detail(champID,t.getUuid());
+            Championship_detail cd = new Championship_detail(champID,t.getUuid(),Calendar.getInstance().getTime() );
             //bowlingViewModel.insert(cd);
 
           //vash 2  // Championship c = new Championship(fchampID,i+1,0,"created"); //vash 2
             // bowlingViewModel.insert(c);
             System.out.println("i+1: "+ i+1 +" Team " + p.getTeamid() + ": " + p.getFirstName() + " " + p.getLastName() + " (Avg: " + p.getBowlAvg() + " ) & " + p.getPartner().getFirstName() + " " + p.getPartner().getLastName() + " (Avg: " + p.getPartner().getBowlAvg() + " )");
 
-            Team_detail td = new Team_detail(t.getUuid(),p.getUuid());
+            Team_detail td = new Team_detail(t.getUuid(),p.getUuid(),Calendar.getInstance().getTime() );
             //bowlingViewModel.insert(td);
             System.out.println("Td: p " + td.getParticipantID() +" team "+  td.getTeamID());
 
-            Team_detail td2 = new Team_detail(t.getUuid(),p.getPartner().getUuid());
+            Team_detail td2 = new Team_detail(t.getUuid(),p.getPartner().getUuid(),Calendar.getInstance().getTime() );
             //bowlingViewModel.insert(td2);
             System.out.println("Td2 " + td2.getParticipantID() +" "+  td2.getTeamID());
 
@@ -497,7 +493,7 @@ for (int i=0;i<bowlers.size();i++){
                 System.out.println(" teamates "+tmates.get(0).getFullName());
                 System.out.println(" team teamates "+t.getTeammates().get(0).getFullName());
                 Create1Activity.all_the_teams.add(t);
-                Championship_detail cd = new Championship_detail(champID,t.getUuid());
+                Championship_detail cd = new Championship_detail(champID,t.getUuid(),Calendar.getInstance().getTime() );
                 //bowlingViewModel.insert(cd);
 
                 //td
@@ -505,7 +501,7 @@ for (int i=0;i<bowlers.size();i++){
                     Participant p = t.getTeammates().get(j);
                     System.out.println("i+1: " + (i + 1) + " Team " + teams.get(i).getFTeamID() + ": " + p.getFirstName() + " " + p.getLastName() + " Avg: " + p.getBowlAvg() );
 
-                    Team_detail td = new Team_detail(t.getUuid(), p.getUuid());
+                    Team_detail td = new Team_detail(t.getUuid(), p.getUuid(),Calendar.getInstance().getTime() );
                    // bowlingViewModel.insert(td);
                     System.out.println("Td: p " + td.getParticipantID() + " team " + td.getTeamID());
 
@@ -601,7 +597,7 @@ for (int i=0;i<bowlers.size();i++){
             //bowlingViewModel.insert(t);
             t.setTeammates(tmates);
             Create1Activity.all_the_teams.add(t);
-            Championship_detail cd = new Championship_detail(champID,t.getUuid());
+            Championship_detail cd = new Championship_detail(champID,t.getUuid(), Calendar.getInstance().getTime());
            // bowlingViewModel.insert(cd);
 
             //td
@@ -611,7 +607,7 @@ for (int i=0;i<bowlers.size();i++){
                 Participant p1 = t.getTeammates().get(k);
                 System.out.println("i+1: " + (k + 1) + " Team " + t.getFTeamID() + ": " + p1.getFirstName() + " " + p1.getLastName() + " Avg: " + p1.getBowlAvg() );
 
-                Team_detail td = new Team_detail(t.getUuid(), p1.getUuid());
+                Team_detail td = new Team_detail(t.getUuid(), p1.getUuid(),Calendar.getInstance().getTime() );
                 //bowlingViewModel.insert(td);
                 System.out.println("Td: p " + td.getParticipantID() + " team " + td.getTeamID());
 
@@ -636,7 +632,7 @@ for (int i=0;i<bowlers.size();i++){
 
         for (int j=0;j<all_the_teams.size();j++) {
             bowlingViewModel.insert(all_the_teams.get(j));
-            Championship_detail cd = new Championship_detail(ch.getUuid(),all_the_teams.get(j).getUuid());
+            Championship_detail cd = new Championship_detail(ch.getUuid(),all_the_teams.get(j).getUuid(),Calendar.getInstance().getTime() );
             bowlingViewModel.insert(cd);
 
             Team t = all_the_teams.get(j);
@@ -645,7 +641,7 @@ for (int i=0;i<bowlers.size();i++){
                 Participant p1 = t.getTeammates().get(k);
                 System.out.println("i+1: " + (k + 1) + " Team " + t.getFTeamID() + ": " + p1.getFirstName() + " " + p1.getLastName() + " Avg: " + p1.getBowlAvg() );
 
-                Team_detail td = new Team_detail(t.getUuid(), p1.getUuid());
+                Team_detail td = new Team_detail(t.getUuid(), p1.getUuid(), Calendar.getInstance().getTime());
                 bowlingViewModel.insert(td);
                 System.out.println("Td: p " + td.getParticipantID() + " team " + td.getTeamID());
 

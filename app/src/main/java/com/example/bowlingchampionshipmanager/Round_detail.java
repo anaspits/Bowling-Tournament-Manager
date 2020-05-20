@@ -7,6 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity(tableName = "round_detail",primaryKeys = {"round_uuid","participant_uuid"}, foreignKeys = {
         @ForeignKey(entity = Round.class,
@@ -63,6 +64,12 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="froundid") //ta paixnidia pou epai3e mexri twra se afto to champ
     private int froundid;
 
+    @ColumnInfo(name="created_at")
+    private Date created_at;
+
+    @ColumnInfo(name="updated_at")
+    private Date updated_at;
+
 //todo na valw blind kai date
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
@@ -92,9 +99,18 @@ public class Round_detail  implements Serializable {
     public int getThird() {
         return third;
     }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public Date getUpdated_at() {
+        return updated_at;
+    }
 /* public void setSys_roundDetailID(int sys_roundDetailID) {
         this.sys_roundDetailID = sys_roundDetailID;
     } */
+
 
     public int getHdcp() {
         return hdcp;
@@ -169,7 +185,15 @@ public class Round_detail  implements Serializable {
         this.froundid = froundid;
     }
 
-    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid, int froundid) {
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid, int froundid, Date created_at) {
         this.round_uuid = round_uuid;
         this.participant_uuid = participant_uuid;
         this.first = first;
@@ -179,6 +203,7 @@ public class Round_detail  implements Serializable {
         this.blind=blind;
         this.champ_uuid=champ_uuid;
         this.froundid=froundid;
+        this.created_at=created_at;
     }
 
 }

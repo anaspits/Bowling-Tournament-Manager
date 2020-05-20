@@ -65,7 +65,7 @@ public interface TeamDao { //gia ta Team
    @Query("SELECT team.team_uuid,team.fteamID,team.team_name,championship_detail.team_score FROM team INNER JOIN championship_detail ON team.team_uuid=championship_detail.team_uuid WHERE championship_detail.champ_uuid=:champid ORDER BY championship_detail.team_score DESC")
    LiveData<List<TeamandScore>> getRankedAllTeamsofChamp( String champid);
 
-    @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid AND round.froundid=:frid")
+    @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid AND round.froundid=:frid ORDER BY team.fteamID")
     LiveData<List<TeamandRoundScore>> geAllTeamsofRoundofChamp( String champid, int frid);
 
     @Query("SELECT team.team_uuid,team.fteamID,team.team_name,round.score1, round.score2, round.points1, round.points2, round.team1UUID, round.team2UUID FROM team INNER JOIN round ON (team.team_uuid=round.team1UUID OR team.team_uuid=round.team2UUID )WHERE round.champ_uuid=:champid ORDER BY team.fteamID")

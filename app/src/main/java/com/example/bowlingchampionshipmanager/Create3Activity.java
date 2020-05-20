@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -38,6 +39,14 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create3);
+
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed(){
+                openDialog();
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this,cb);
 
        //t= (TextView) findViewById(R.id.textView22);
 
@@ -83,6 +92,11 @@ championship = c;
         });
     }
 
+    public void openDialog() {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
+    }
 
     public void openNewActivity(View View) {
         String button_text;

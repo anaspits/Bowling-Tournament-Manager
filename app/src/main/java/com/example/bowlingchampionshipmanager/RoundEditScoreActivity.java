@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RoundEditScoreActivity extends AppCompatActivity {
@@ -141,7 +142,7 @@ team2=te;
                     blistAdapter.setRound(r);
                     ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                     for (int i = 0; i < part.size(); i++) {
-                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid() );
+                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid(), Calendar.getInstance().getTime() );
                         System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                         rd.add(round_detail);
                     }
@@ -158,7 +159,7 @@ team2=te;
                     blistAdapter2.setRound(r);
                     ArrayList<Round_detail> rd = new ArrayList<>();
                     for (int i = 0; i < part.size(); i++) {
-                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid()  );
+                        Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0,champuuid,r.getFroundid(),Calendar.getInstance().getTime() );
                         System.out.println(" rounddetail: rid "+r.getFroundid()+" pid "+ part.get(i).getFirstName());
                         rd.add(round_detail);
                     }
@@ -438,6 +439,7 @@ team2=te;
 
                 //upologizw to score tou paikth gia auto to round
                 RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
+                RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                 bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
                 bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
                 System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapter2.rd.get(i).getScore()+" avg "+RoundScoreListAdapter2.rd.get(i).getAvg()+" games "+RoundScoreListAdapter2.rd.get(i).getGames()+" h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
@@ -466,6 +468,7 @@ team2=te;
 
                 //to idio k gia team2
                 RoundScoreListAdapterTeam2.rd.get(i).setScore( (RoundScoreListAdapterTeam2.rd.get(i).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i).getThird()));
+                RoundScoreListAdapterTeam2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
                 bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
                 System.out.println("2 rd: " + i + " rid " + RoundScoreListAdapterTeam2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapterTeam2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapterTeam2.rd.get(i).getScore()+ " avg "+RoundScoreListAdapterTeam2.rd.get(i).getAvg()+" h " + RoundScoreListAdapterTeam2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapterTeam2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i).getThird());

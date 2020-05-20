@@ -2,11 +2,11 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
+
+import java.util.Date;
 
 @Entity(tableName = "team_detail",primaryKeys = {"team_uuid","participant_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
@@ -32,6 +32,9 @@ public class Team_detail {
     @NonNull
     private String participantID;
 
+    @ColumnInfo(name="created_at")
+    private Date created_at;
+
  /*   public String getSys_teamDetailID() {
         return sys_teamDetailID;
     }*/
@@ -44,9 +47,13 @@ public class Team_detail {
         return participantID;
     }
 
-/*    public void setSys_teamDetailID(String sys_teamDetailID) {
-        this.sys_teamDetailID = sys_teamDetailID;
-    }*/
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    /*    public void setSys_teamDetailID(String sys_teamDetailID) {
+            this.sys_teamDetailID = sys_teamDetailID;
+        }*/
     public void setTeamID(String teamID) {
         this.teamID = teamID;
     }
@@ -55,8 +62,13 @@ public class Team_detail {
         this.participantID = participantID;
     }
 
-    public Team_detail(String teamID, String participantID) {
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public Team_detail(String teamID, String participantID, Date created_at) {
         this.teamID = teamID;
         this.participantID =  participantID;
+        this.created_at=created_at;
     }
 }

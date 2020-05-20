@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -82,7 +83,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
         editModelArrayList = notes;
         r = round;
         for (int i = 0; i < editModelArrayList.size(); i++) {
-            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0, editModelArrayList.get(position).getHdcp(), 0, r.getChampuuid(), r.getFroundid());
+            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(position).getUuid(), 0, 0, 0, editModelArrayList.get(position).getHdcp(), 0, r.getChampuuid(), r.getFroundid(), Calendar.getInstance().getTime()  );
             rd.add(round_detail);
             notifyDataSetChanged();
         }
@@ -95,7 +96,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
     public void setRound(Round round) {
         r = round;
         for (int i = 0; i < RoundScoreListAdapterTeam2.editModelArrayList.size(); i++) {
-            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0, editModelArrayList.get(i).getHdcp(), 0, r.getChampuuid(), r.getFroundid());
+            Round_detail round_detail = new Round_detail(r.getRounduuid(), editModelArrayList.get(i).getUuid(), 0, 0, 0, editModelArrayList.get(i).getHdcp(), 0, r.getChampuuid(), r.getFroundid(),Calendar.getInstance().getTime()  );
             System.out.println(" rounddetail: rid " + r.getFroundid() + " pid " + editModelArrayList.get(i).getFirstName());
             rd.add(round_detail);
             notifyDataSetChanged();

@@ -83,6 +83,10 @@ public class Championship implements Serializable {
     private int type; //1:pins, 2:tvst, 3:friendly, 4:single
 
     @TypeConverters(Converters.class)
+    @ColumnInfo(name = "created_at")
+    private Date created_at;
+
+    @TypeConverters(Converters.class)
     @ColumnInfo(name = "start_date")
     private Date start_date;
 
@@ -148,6 +152,10 @@ public class Championship implements Serializable {
 
     public Date getEnd_date() {
         return end_date;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
     }
 
     public int getType() {
@@ -226,7 +234,11 @@ public class Championship implements Serializable {
         this.type = type;
     }
 
-    public Championship( int fchampID, String uuid, int teamID, int round, String status) {
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public Championship(int fchampID, String uuid, int teamID, int round, String status) {
        // this.participantID = participantID;
         this.fchampID = fchampID;
         this.uuid=uuid;

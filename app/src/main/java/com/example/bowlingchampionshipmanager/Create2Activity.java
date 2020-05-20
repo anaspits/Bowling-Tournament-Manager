@@ -53,7 +53,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
 
-        OnBackPressedCallback cb =new OnBackPressedCallback(true){
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){ //todo den 8a xanetai to progress, na exw ena toast pou na grafei saved
             @Override
             public void handleOnBackPressed(){
                 openDialog();
@@ -117,6 +117,13 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
            championship = (Championship) bundleObject.getSerializable("champ");
            champuuid = bundleObject.getString("champuuid");
             }
+
+      /*todo if(bowlers==null){
+             bowlingViewModel.getBowlsofChamp{
+             bowlers=b;
+             }
+             to idio k gia all_the_teams
+       }*/
 
         bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.example.bowlingchampionshipmanager.RoundActivity.status_flag;
@@ -191,7 +192,7 @@ public class PinsRoundActivity extends AppCompatActivity {
                 System.out.println("rds size " + rds.size());
 
                 for (int i = 0; i < rds.size(); i++) {
-                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" avg "+rds.get(i).getAvg()+" games "+rds.get(i).getGames()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird());
+                    System.out.println("rd " + i + " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score "+rds.get(i).getScore()+" avg "+rds.get(i).getAvg()+" games "+rds.get(i).getGames()+" h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird()+" crdate "+rds.get(i).getCreated_at()+" update "+rds.get(i).getUpdated_at());
                 }
             }
         });
@@ -304,6 +305,7 @@ if (calc_pressed ==1) {
     if (cds_count == fin_cds_count) {
         System.out.println("champ finished");
         championship.setStatus("Finished");
+        championship.setEnd_date(Calendar.getInstance().getTime());
         bowlingViewModel.update(championship);
     }
 
@@ -332,6 +334,7 @@ if (calc_pressed ==1) {
         if (cds_count == fin_cds_count) {
             System.out.println("finished");
             championship.setStatus("Finished");
+            championship.setEnd_date(Calendar.getInstance().getTime());
             bowlingViewModel.update(championship);
         }
         Intent i = new Intent(this, MainActivity.class);
@@ -395,6 +398,7 @@ if (calc_pressed ==1) {
             if (cds_count == fin_cds_count) {
                 System.out.println("champ finished");
                 championship.setStatus("Finished");
+                championship.setEnd_date(Calendar.getInstance().getTime());
                 bowlingViewModel.update(championship);
             }
             Intent i = new Intent(this, MainActivity.class);
@@ -450,6 +454,7 @@ if (calc_pressed ==1) {
                 if (cds_count == fin_cds_count) {
                     System.out.println("champ finished");
                     championship.setStatus("Finished"); //todo id champ finished open endofchpampActivity me ta results
+                    championship.setEnd_date(Calendar.getInstance().getTime());
                     bowlingViewModel.update(championship);
                 }
 
@@ -565,6 +570,7 @@ if (calc_pressed ==1) {
                 if (cds_count == fin_cds_count) {
                     System.out.println("champ finished");
                     championship.setStatus("Finished");
+                    championship.setEnd_date(Calendar.getInstance().getTime());
                     bowlingViewModel.update(championship);
                 }
 

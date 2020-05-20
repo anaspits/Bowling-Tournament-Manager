@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,6 +112,7 @@ private EditText editNorounds;
                 System.out.println(" edw to ch to 8etw ws started");
                 ch=c;
                 ch.setStatus("started");
+                ch.setStart_date(Calendar.getInstance().getTime());
                 //bowlingViewModel.update(c);
                 System.out.println(" edw to ch to 8etw egine "+c.getStatus());
             }
@@ -295,7 +297,7 @@ private EditText editNorounds;
                   // Prin
                   ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
                   for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid,r.getFroundid() ); //ftiaxnw to rd
+                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid,r.getFroundid(), Calendar.getInstance().getTime() ); //ftiaxnw to rd
                       //rd.setScore(pa.get(p).getBowlAvg());
                       bowlingViewModel.insert(rd);
                       System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
@@ -304,7 +306,7 @@ private EditText editNorounds;
           }
 
           bowlingViewModel.update(ch);
-          System.out.println("ch status =" + ch.getStatus() + " type " + ch.getType());
+          System.out.println("ch status =" + ch.getStatus() + " type " + ch.getType()+" start_date "+ch.getStart_date()+" cr date"+ch.getCreated_at());
 
           //pairnaw sto flag ka8e omadas tou champ ton arithom twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0
           bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() {

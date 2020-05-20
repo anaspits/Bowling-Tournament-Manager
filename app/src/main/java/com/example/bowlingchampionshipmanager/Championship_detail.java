@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import java.util.Date;
+
 @Entity(tableName = "championship_detail",primaryKeys = {"champ_uuid","team_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
                 parentColumns = "team_uuid",
@@ -36,6 +38,9 @@ public class Championship_detail {
     @ColumnInfo(name="active_flag") //0:energo :teleiwse
     private int active_flag;
 
+    @ColumnInfo(name="created_at")
+    private Date created_at;
+
   /*  public String getSys_champDetailID() {
         return sys_champDetailID;
     } */
@@ -48,6 +53,9 @@ public class Championship_detail {
         return sys_teamID;
     }
 
+    public Date getCreated_at() {
+        return created_at;
+    }
 
     public int getActive_flag() {
         return active_flag;
@@ -59,6 +67,10 @@ public class Championship_detail {
 /* public void setSys_champDetailID(String sys_champDetailID) {
         this.sys_champDetailID = sys_champDetailID;
     }*/
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
 
     public void setSys_teamID(String sys_teamID) {
         this.sys_teamID = sys_teamID;
@@ -76,9 +88,10 @@ public class Championship_detail {
         this.score = score;
     }
 
-    public Championship_detail(String sys_champID, String sys_teamID) {
+    public Championship_detail(String sys_champID, String sys_teamID, Date created_at) {
         this.sys_teamID = sys_teamID;
         this.sys_champID = sys_champID;
+        this.created_at=created_at;
     }
 
 }

@@ -72,12 +72,15 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         }
         System.out.println("got r "+r.getFroundid()+" rid "+r.getRounduuid());
         textTitle.setText("Round No."+r.getFroundid());
-        //teams
+        //teams //todo order
         bowlingViewModel.geAllTeamsofRoundofChamp( champuuid,r.getFroundid() ).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
             public void onChanged(List<TeamandRoundScore> t) {
                 tlistAdapter.setTeams(t);
                 tlistAdapter.setChamp(championship);
+                for(int i=0;i<t.size();i++){
+                    System.out.println(" team "+t.get(i).getTeam_name()+" round ");
+                }
                 teams=t;
                 int pos=0;
                 max=0;
@@ -244,16 +247,47 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                        }*/
                 }
                 }
-                man1.setText("Paixnidi Antrwn \n"+rds.get(pos2).getLastName()+" "+rds.get(pos2).getFirstName()+" \n"+mangame);
-                man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos).getLastName()+" "+rds.get(pos).getFirstName()+"\n "+mangamebegining);
-                man3.setText("Set Antrwn  \n"+rds.get(pos4).getLastName()+" "+rds.get(pos4).getFirstName()+"\n "+manset);
-                man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getLastName()+" "+rds.get(pos3).getFirstName()+"\n "+mansetbegining);
-
-                f1.setText("Paixnidi Gynaikwn \n"+rds.get(fpos2).getLastName()+" "+rds.get(fpos2).getFirstName()+"\n "+fgame);
-                f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+rds.get(fpos).getLastName()+" "+rds.get(fpos).getFirstName()+"\n "+fgamebegining);
-                f3.setText("Set Gynaikwn  \n"+rds.get(fpos4).getLastName()+" "+rds.get(fpos4).getFirstName()+"\n "+fset);
-                f4.setText("Set Gynaikwn Ap' Arxhs \n"+rds.get(fpos3).getLastName()+" "+rds.get(fpos3).getFirstName()+"\n "+fsetbegining);
-
+                if (mangame==0)
+                {
+                    man1.setText("Paixnidi Antrwn \n"+mangame);
+                } else {
+                    man1.setText("Paixnidi Antrwn \n"+rds.get(pos2).getLastName()+" "+rds.get(pos2).getFirstName()+" \n"+mangame);
+                }
+                if (mangamebegining==0){
+                    man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+mangamebegining);
+                }else{
+                    man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos).getLastName()+" "+rds.get(pos).getFirstName()+"\n "+mangamebegining);
+                }
+                if (manset==0){
+                    man3.setText("Set Antrwn  \n"+manset);
+                }else{
+                    man3.setText("Set Antrwn  \n"+rds.get(pos4).getLastName()+" "+rds.get(pos4).getFirstName()+"\n "+manset);
+                }
+                if(mansetbegining==0){
+                    man4.setText("Set Antrwn Ap' Arxhs \n"+mansetbegining);
+                }else{
+                    man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getLastName()+" "+rds.get(pos3).getFirstName()+"\n "+mansetbegining);
+                }
+                if(fgame==0){
+                    f1.setText("Paixnidi Gynaikwn \n"+fgame);
+                }else {
+                    f1.setText("Paixnidi Gynaikwn \n"+rds.get(fpos2).getLastName()+" "+rds.get(fpos2).getFirstName()+"\n "+fgame);
+                }
+                if(fgamebegining==0){
+                    f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+fgamebegining);
+                }else {
+                    f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+rds.get(fpos).getLastName()+" "+rds.get(fpos).getFirstName()+"\n "+fgamebegining);
+                }
+                if(fset==0){
+                    f3.setText("Set Gynaikwn  \n"+fset);
+                }else {
+                    f3.setText("Set Gynaikwn  \n"+rds.get(fpos4).getLastName()+" "+rds.get(fpos4).getFirstName()+"\n "+fset);
+                }
+                if(fsetbegining==0){
+                    f4.setText("Set Gynaikwn Ap' Arxhs \n"+fsetbegining);
+                }else {
+                    f4.setText("Set Gynaikwn Ap' Arxhs \n" + rds.get(fpos3).getLastName() + " " + rds.get(fpos3).getFirstName() + "\n " + fsetbegining);
+                }
 
                 System.out.println("Paixnidi Antrwn "+mangame);
                 System.out.println("Paixnidi Antrwn Arxhs"+mangamebegining);
