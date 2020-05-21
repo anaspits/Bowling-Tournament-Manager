@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 public class ParticipantStatisticsActivity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener{
@@ -211,6 +212,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     public void OnDeleteClickListener(Participant myNote) {
         //bowlingViewModel.delete(myNote);
         myNote.setDisable_flag(1);
+        myNote.setDisabled_at_date( Calendar.getInstance().getTime());
         System.out.println(myNote.getDisable_flag());
         bowlingViewModel.update(myNote);
     }

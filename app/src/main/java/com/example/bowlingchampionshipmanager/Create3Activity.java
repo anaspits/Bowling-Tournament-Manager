@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -93,7 +91,7 @@ championship = c;
     }
 
     public void openDialog() {
-        ExampleDialog exampleDialog = new ExampleDialog();
+        WarningDialog exampleDialog = new WarningDialog();
         exampleDialog.show(getSupportFragmentManager(), "example dialog");
 
     }

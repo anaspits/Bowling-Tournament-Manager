@@ -76,12 +76,16 @@ public class Participant implements Serializable {
 
 
     @TypeConverters(Converters.class)
-    @ColumnInfo(name = "start_date")
-    private Date start_date; //created_at
+    @ColumnInfo(name = "created_at")
+    private Date created_at;
 
     @TypeConverters(Converters.class)
-    @ColumnInfo(name = "end_date")
-    private Date end_date;
+    @ColumnInfo(name = "updated_at")
+    private Date updated_at;
+
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "disabled_at_date")
+    private Date disabled_at_date;
 
     @ColumnInfo(name="disable_flag")
     private int disable_flag; //0:energo, 1:anenergo
@@ -150,12 +154,16 @@ public class Participant implements Serializable {
         return hdcp;
     }
 
-    public Date getStart_date() {
-        return start_date;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getDisabled_at_date() {
+        return disabled_at_date;
+    }
+
+    public Date getUpdated_at() {
+        return updated_at;
     }
 
     public String getUuid() {
@@ -211,12 +219,16 @@ public class Participant implements Serializable {
         this.total_games = total_games;
     }
 
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setDisabled_at_date(Date disabled_at_date) {
+        this.disabled_at_date = disabled_at_date;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
     }
 
     public void setTeamatesid(ArrayList<Integer> teamatesid) {
@@ -234,7 +246,7 @@ public class Participant implements Serializable {
     }
 
     //constructor
-    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date start_date, int hdcp, String sex, int disable_flag) {
+    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date created_at, int hdcp, String sex, int disable_flag) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
         this.uuid = uuid;
@@ -244,7 +256,7 @@ public class Participant implements Serializable {
         this.teamid = team;
         teamates.add(this);
         teamatesid.add(this.participantID);
-        this.start_date=start_date;
+        this.created_at =created_at;
         this.hdcp=hdcp;
         this.sex=sex;
         this.disable_flag=disable_flag;
@@ -344,7 +356,7 @@ public class Participant implements Serializable {
                 bowlers.add(p);
                 //bowlingViewModel.insert(p);
 
-                System.out.println("particiapant date ="+p.getStart_date());
+                System.out.println("particiapant date ="+p.getCreated_at());
    //  Long a=     bowlingViewModel.insert(p);
    //  System.out.println(String.valueOf(a));
 //Team_detail td = new Team_detail(i+1, bowlingViewModel.insert(p));
@@ -624,17 +636,20 @@ for (int i=0;i<bowlers.size();i++){
 
     public void insertAllToDatabase(BowlingViewModel bowlingViewModel, ArrayList<Participant> bowlers,  ArrayList<Team> all_the_teams, Championship ch){
 
+        //players
             for (int i = 0; i < bowlers.size(); i++) {
                 if (bowlers.get(i).getUuid().equals("blind") == false) {
                     bowlingViewModel.insert(bowlers.get(i));
                 }
             }
 
+            //teams
         for (int j=0;j<all_the_teams.size();j++) {
             bowlingViewModel.insert(all_the_teams.get(j));
+            //cd
             Championship_detail cd = new Championship_detail(ch.getUuid(),all_the_teams.get(j).getUuid(),Calendar.getInstance().getTime() );
             bowlingViewModel.insert(cd);
-
+//td
             Team t = all_the_teams.get(j);
             for (int k = 0; k < t.getTeammates().size(); k++) {//vazw ta td gia ka8e paikth ths omadas
                 System.out.println("team teamates:  Team " + t.getFTeamID()+" p "+t.getTeammates().get(k).getFullName());

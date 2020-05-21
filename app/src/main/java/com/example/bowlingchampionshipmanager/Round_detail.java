@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
+import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -64,9 +65,11 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="froundid") //ta paixnidia pou epai3e mexri twra se afto to champ
     private int froundid;
 
+    @TypeConverters(Converters.class)
     @ColumnInfo(name="created_at")
     private Date created_at;
 
+    @TypeConverters(Converters.class)
     @ColumnInfo(name="updated_at")
     private Date updated_at;
 

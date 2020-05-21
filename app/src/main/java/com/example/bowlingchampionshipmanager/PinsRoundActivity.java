@@ -244,10 +244,11 @@ public class PinsRoundActivity extends AppCompatActivity {
             if (bundleObject != null) {
                 t = (Team) bundleObject.getSerializable("selTeam");
                 curRound = (Round) bundleObject.getSerializable("round2");
+                curRound.setDate(Calendar.getInstance().getTime());
                 score1 = bundleObject.getInt("score1");
                 System.out.println("GOT from editrounscore: ");
                 System.out.println("SCORE1: "+score1);
-                System.out.println("ROUND " + curRound.getFroundid() + " sid " + curRound.getRounduuid() + " status " + curRound.getStatus() + " t1: " + curRound.getTeam1ID() + " score " + curRound.getScore1() + " t2: " + curRound.getTeam2ID() + " score " + curRound.getScore2() + " uuid " + curRound.getRounduuid());
+                System.out.println("ROUND " + curRound.getFroundid() + " sid " + curRound.getRounduuid() + " status " + curRound.getStatus() + " t1: " + curRound.getTeam1ID() + " score " + curRound.getScore1() + " t2: " + curRound.getTeam2ID() + " score " + curRound.getScore2() +" date "+curRound.getDate()+ " uuid " + curRound.getRounduuid());
                 System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid());
                 Toast.makeText(
                         getApplicationContext(),

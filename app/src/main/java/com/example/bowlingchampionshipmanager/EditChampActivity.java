@@ -246,7 +246,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
     @Override
     public void OnDeleteClickListener(Team myNote) {
-        bowlingViewModel.delete(myNote);
+        //bowlingViewModel.delete(myNote); //todo ??
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

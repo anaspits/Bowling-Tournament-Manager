@@ -445,13 +445,14 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                 t = (Team) bundleObject.getSerializable("selTeam");
                 t2 = (Team) bundleObject.getSerializable("team2");
                 r2 = (Round) bundleObject.getSerializable("round2");
+                r2.setDate(Calendar.getInstance().getTime());
                 curRound=r2;
                 score1 = bundleObject.getInt("score1"); //ths selected team
                 score2 = bundleObject.getInt("score2"); //ths allhs
 
                 System.out.println("GOT from editrounscore: ");
                 System.out.println("SCORE1: "+score1+" SCORE2 "+score2 );
-                System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() + " uuid " + r2.getRounduuid());
+                System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() +" date "+r2.getDate()+ " uuid " + r2.getRounduuid());
                 System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid()); //fixme
                 System.out.println("AND t2 " + t2.getFTeamID() + " sid " + t2.getSys_teamID() + " score " + t2.getScore() + " uuid " + t2.getUuid());
                 Toast.makeText(

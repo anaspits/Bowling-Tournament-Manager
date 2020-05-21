@@ -3,7 +3,6 @@ package com.example.bowlingchampionshipmanager;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -163,9 +162,9 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
 
 
         //insert td and chd vash 2
-        bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<List<Participant>>() { //axristo
+        bowlingViewModel.getParticipantByName("Johnnie", "Taft").observe(this, new Observer<Participant>() { //axristo
             @Override
-            public void onChanged(List<Participant> team) {
+            public void onChanged(Participant team) {
                 //System.out.println("sum = id = "+team.get(0).getParticipant_uuid()); //
             }
         });
@@ -245,7 +244,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
     }
 
     public void openDialog() {
-        ExampleDialog exampleDialog = new ExampleDialog();
+        WarningDialog exampleDialog = new WarningDialog();
         exampleDialog.show(getSupportFragmentManager(), "example dialog");
 
     }

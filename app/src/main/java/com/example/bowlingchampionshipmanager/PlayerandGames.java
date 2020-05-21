@@ -2,8 +2,10 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.TypeConverters;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 class PlayerandGames {
@@ -47,6 +49,10 @@ class PlayerandGames {
     @ColumnInfo(name = "third") //tou participant
     private int third;
 
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "round_updated_date") //tou round_detail
+    private Date round_updated_date;
+
 
     @NonNull
     public String getParticipant_uuid() {
@@ -79,6 +85,10 @@ class PlayerandGames {
 
     public int getThird() {
         return third;
+    }
+
+    public Date getRound_updated_date() {
+        return round_updated_date;
     }
 
     @NonNull
@@ -155,7 +165,11 @@ class PlayerandGames {
         this.froundid = froundid;
     }
 
-    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, String sex, int score, @NonNull String round_uuid, int froundid, int games, int first, int second, int third, int hdcp, float bowlAvg) {
+    public void setRound_updated_date(Date round_updated_date) {
+        this.round_updated_date = round_updated_date;
+    }
+
+    public PlayerandGames(@NonNull String participant_uuid, String firstName, String lastName, String sex, int score, @NonNull String round_uuid, int froundid, int games, int first, int second, int third, int hdcp, float bowlAvg, Date round_updated_date) {
         this.participant_uuid = participant_uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -169,6 +183,7 @@ class PlayerandGames {
         this.third = third;
         this.sex = sex;
         this.score = score;
+        this.round_updated_date =round_updated_date;
     }
 
     public ArrayList<Integer> calcSetAndGamesStat(List<PlayerandGames> rds, Round r, int i, int game,int gamebegining,int set,int setbegining,int pos,int pos2,int pos3,int pos4) {

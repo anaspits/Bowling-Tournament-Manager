@@ -8,6 +8,7 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 public class ExportCSV {
@@ -18,8 +19,8 @@ public class ExportCSV {
     public StringBuilder exportRoundEditScore(Championship championship, Round r, Team team1, Team team2, List<Participant> players1, List<Participant> players2, List<Round_detail> rd1, List<Round_detail> rd2, int first_sum1, int second_sum1, int third_sum1, int sum_hdcp1, int first_sum2, int second_sum2, int third_sum2, int sum_hdcp2) {
         StringBuilder data = new StringBuilder();
 
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid() + "\n");
-        data.append("\nRound No.," + r.getFroundid() + ",Date" + "\n"); //todo na valw kai date kai lanes
+        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID() + "\n");
+        data.append("\nRound No.," + r.getFroundid() + ",Date," + Calendar.getInstance().getTime()+"\n");
         data.append("\nTeam," + team1.getTeamName() + ",Lane");
         data.append("\n,Player,HDCP,1,2,3,Sum");
         exportRoundEditScoreforTeam(team1, players1, rd1, data, first_sum1, second_sum1, third_sum1, sum_hdcp1, r);
@@ -46,7 +47,12 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedTeam(Championship championship, List<Round> rounds, Team team, List<PlayerandGames> players) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date()); //todo to sys_id oxi to uuid
+        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID()+",Date:,"+championship.getStart_date());
+        if(championship.getStatus().equals("Finished")){
+            data.append(",Finish Date:,"+championship.getEnd_date());
+        }else {
+            data.append(",Ongoing");
+        }
         data.append("\nResults for Team," + team.getTeamName());
         data.append("\n,Round,Points,Score");
         for (int i = 0; i < rounds.size(); i++) {
@@ -71,9 +77,14 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedChamp(Championship championship, List<Round> rounds,List<TeamandScore> teams, List<PlayerandGames> players, List<TeammatesTuple> playersandteams) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date());
-
-        data.append("\nWinning Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
+        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID()+",Start Date:,"+championship.getStart_date());
+        if(championship.getStatus().equals("Finished")){
+            data.append(",Finish Date:,"+championship.getEnd_date());
+            data.append("\nWinner Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
+        }else {
+            data.append(",Ongoing");
+            data.append("\nWinning Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
+        }
         data.append("\nTeam Ranking");
         data.append("\n,Team,Score");
         for (int i = 0; i < teams.size(); i++) {

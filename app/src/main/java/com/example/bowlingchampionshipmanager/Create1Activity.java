@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import android.net.Uri;
@@ -99,8 +98,13 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         plpert.setVisibility(View.GONE);
         plperteam.setVisibility(View.GONE);
 
-        bowlers.clear();
-        all_the_teams.clear();
+        if(bowlers!=null){
+            bowlers.clear();
+        }
+        if(all_the_teams!=null){
+            all_the_teams.clear();
+        }
+
 
        Button button_imp  = (Button) findViewById(R.id.button_import);
        imp_pressed=0;
@@ -211,8 +215,8 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
     }
 
     public void openDialog() {
-        ExampleDialog exampleDialog = new ExampleDialog();
-        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+        WarningDialog dialog = new WarningDialog();
+        dialog.show(getSupportFragmentManager(), "example dialog");
 
     }
 
@@ -708,6 +712,25 @@ if (auto.isChecked()) {
         inputStream.close();
             imp_pressed = 1;
 
+            for(int i=0;i<bowlers.size();i++){ //an enas paikths uparxei hdh sth vash tote apla pairnw ta kainourgia hdcp k avg kai krataw ola ta upoloipa apo prin
+                Participant newp =bowlers.get(i);
+            bowlingViewModel.getParticipantByName(newp.getFirstName(),newp.getLastName()).observe(this, new Observer<Participant>() {
+                @Override
+                public void onChanged(Participant oldp) {
+                    if (oldp!=null) { //an uparxei hdh o paikths sth vash
+                       //  oldp.setHdcp(newp.getHdcp());
+                       //  oldp.setBowlAvg(newp.getBowlAvg());
+                         newp.setUuid(oldp.getUuid());
+                         newp.setTotal_games(oldp.getTotal_games());
+                         newp.setFakeID(oldp.getFakeID());
+                         newp.setParticipantID(oldp.getParticipantID());
+                         newp.setDisable_flag(0);
+                         newp.setUpdated_at( Calendar.getInstance().getTime());
+                    }
+                }
+            });
+        }
+
     }
 
     public void openNewActivity(View View) {
@@ -758,7 +781,7 @@ if (auto.isChecked()) {
         //bowlingViewModel.delete(myNote);
         myNote.setDisable_flag(1);
         Date date =  Calendar.getInstance().getTime();
-        myNote.setEnd_date(date);
+        myNote.setDisabled_at_date(date);
         System.out.println(myNote.getDisable_flag());
         bowlingViewModel.update(myNote);
     }

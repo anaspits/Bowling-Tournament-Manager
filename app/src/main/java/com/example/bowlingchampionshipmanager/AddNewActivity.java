@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.UUID;
 
 public class AddNewActivity extends AppCompatActivity {
@@ -61,12 +62,12 @@ public class AddNewActivity extends AppCompatActivity {
                     String champ = newchamp.getText().toString().trim(); //todo ti na kanw me afta?
                     String uuid = UUID.randomUUID().toString().trim();
                     if (male.isChecked()){
-                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team),null,Integer.parseInt(hdcp),"m", 0);
+                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team), Calendar.getInstance().getTime(),Integer.parseInt(hdcp),"m", 0);
                         resultIntent.putExtra("b_object", (Serializable) t);
                         setResult(RESULT_OK, resultIntent);
                         finish();
                     } else if (female.isChecked()){
-                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team),null,Integer.parseInt(hdcp),"f", 0);
+                        Participant t = new Participant(0,uuid,fname, lname,Integer.parseInt(avg),Integer.parseInt(team), Calendar.getInstance().getTime(),Integer.parseInt(hdcp),"f", 0);
                         resultIntent.putExtra("b_object", (Serializable) t);
                         setResult(RESULT_OK, resultIntent);
                         finish();
@@ -76,7 +77,6 @@ public class AddNewActivity extends AppCompatActivity {
                                 "Choose male/female",
                                 Toast.LENGTH_LONG).show();
                     }
-//todo: na ftia3w to date
                     /*axrista resultIntent.putExtra(NEW_ADDED, fname);
                     resultIntent.putExtra("new_avg", avg);
                     resultIntent.putExtra("new_team", team);

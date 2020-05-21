@@ -84,6 +84,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
             btDelete 	 = itemView.findViewById(R.id.ivRowDelete);
             btEdit 	 = itemView.findViewById(R.id.ivRowEdit);
             btSel 	 = itemView.findViewById(R.id.ivRowSelect);
+            btSel.setVisibility(View.GONE);
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
@@ -114,16 +115,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
                     }
                 }
             });
-            btSel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent= new Intent(mContext,Create2Activity.class); //fixme
-                    intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
-                    intent.putExtra("count", getItemCount());
-                    intent.putExtra("b_object", mNotes.get(mPosition));
-                    ((Activity)mContext).startActivityForResult(intent,Create1Activity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
-                }
-            });
+
         }
     }
 
