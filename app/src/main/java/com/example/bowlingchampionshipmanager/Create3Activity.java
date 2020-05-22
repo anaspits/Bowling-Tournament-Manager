@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
     public String teamuuid; //axristo
-    //private static TextView t;
+    private static TextView textTitle;
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
     private static Button start;
@@ -45,7 +46,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this,cb);
-
+        textTitle=findViewById(R.id.textTitle);
        //t= (TextView) findViewById(R.id.textView22);
 
        pins= (RadioButton) findViewById(R.id.pins);
@@ -63,6 +64,10 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             teamuuid=bundleObject.getString("teamid"); //todo na pernaw to object
             champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
+            textTitle.append(" No."+championship.getFchampID());
+            if(championship.getType()==4){
+                teamsvsteams.setVisibility(View.GONE);
+            }
         }
         System.out.println("all size 3 "+all_the_teams.size());
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
@@ -110,23 +115,37 @@ championship = c;
             //startActivity(gonext);
 
            if (pins.isChecked()){
-               System.out.println("champion sid "+championship.getSys_champID());
-               championship.setType(1);
-               bowlingViewModel.update(championship);
-                Intent i = new Intent(this, Pins1Activity.class);
-                Bundle extras = new Bundle();
-                extras.putSerializable("bowlers",bowlers);
-                extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
-               extras.putString("teamid",teamuuid); //giati?
-               extras.putString("champuuid",champuuid);
-               extras.putSerializable("champ",championship);
-               extras.putSerializable("all_the_teams",all_the_teams);
-                i.putExtras(extras);
-                startActivity(i);
+               if(championship.getType()==4){
+                   Intent i = new Intent(this, Pins1Activity.class);
+                   Bundle extras = new Bundle();
+                   extras.putSerializable("bowlers", bowlers);
+                   extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                   extras.putString("teamid", teamuuid); //giati?
+                   extras.putString("champuuid", champuuid);
+                   extras.putSerializable("champ", championship);
+                   extras.putSerializable("all_the_teams", all_the_teams);
+                   i.putExtras(extras);
+                   startActivity(i);
+                   finish();
+               }else {
+                   System.out.println("champion sid " + championship.getSys_champID());
+                   championship.setType(1);
+                   bowlingViewModel.update(championship);
+                   Intent i = new Intent(this, Pins1Activity.class);
+                   Bundle extras = new Bundle();
+                   extras.putSerializable("bowlers", bowlers);
+                   extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                   extras.putString("teamid", teamuuid); //giati?
+                   extras.putString("champuuid", champuuid);
+                   extras.putSerializable("champ", championship);
+                   extras.putSerializable("all_the_teams", all_the_teams);
+                   i.putExtras(extras);
+                   startActivity(i);
+                   finish();
               /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                    finishAffinity();
                }*/
-
+               }
             } else if (teamsvsteams.isChecked()) {
                System.out.println("champion sid "+championship.getSys_champID());
                championship.setType(2);

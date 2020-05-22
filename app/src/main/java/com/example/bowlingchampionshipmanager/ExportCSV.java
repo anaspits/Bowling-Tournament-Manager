@@ -35,13 +35,13 @@ public class ExportCSV {
 
     public void exportRoundEditScoreforTeam(Team team, List<Participant> players, List<Round_detail> rd, StringBuilder data, int first_sum, int second_sum, int third_sum, int sum_hdcp, Round r) {
         for (int i = 0; i < players.size(); i++) {
-            data.append("\n" + (i + 1) + "," + players.get(i).getFullName() + "," + rd.get(i).getHdcp() + "," + rd.get(i).getFirst() + "," + rd.get(i).getSecond() + "," + rd.get(i).getThird() + "," + rd.get(i).getScore());
+            data.append("\n" + (i + 1) + "," + players.get(i).getFullName() + "," + rd.get(i).getHdcp() + "," + rd.get(i).getFirst() + "," + rd.get(i).getSecond() + "," + rd.get(i).getThird() + "," +( rd.get(i).getFirst()+rd.get(i).getSecond()+ rd.get(i).getThird()));
         }
         data.append("\n,Sum," + sum_hdcp + "," + first_sum + "," + second_sum + "," + third_sum + "," + (first_sum + second_sum + third_sum));
         if (team.getUuid().equals(r.getTeam1UUID())) {
-            data.append("\n,,Points," + r.getPoints1());
+            data.append("\n,Points," + r.getPoints1());
         } else {
-            data.append("\n,,Points," + r.getPoints2());
+            data.append("\n,Points," + r.getPoints2());
         }
     }
 
@@ -82,7 +82,7 @@ public class ExportCSV {
             data.append(",Finish Date:,"+championship.getEnd_date());
             data.append("\nWinner Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
         }else {
-            data.append(",Ongoing");
+            data.append(",Status,Ongoing");
             data.append("\nWinning Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
         }
         data.append("\nTeam Ranking");

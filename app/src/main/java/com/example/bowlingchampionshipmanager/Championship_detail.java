@@ -8,13 +8,17 @@ import androidx.room.Index;
 
 import java.util.Date;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "championship_detail",primaryKeys = {"champ_uuid","team_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
                 parentColumns = "team_uuid",
-                childColumns = "team_uuid"),
+                childColumns = "team_uuid",
+                onDelete = CASCADE),
         @ForeignKey(entity = Championship.class,
                 parentColumns = "champ_uuid",
-                childColumns = "champ_uuid")
+                childColumns = "champ_uuid",
+        onDelete = CASCADE)
 }, indices= {
         @Index(name="index_cd_teamID", value="team_uuid"),
         @Index(name="index_champID", value="champ_uuid")

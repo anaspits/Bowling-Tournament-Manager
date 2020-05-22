@@ -25,7 +25,7 @@ public interface ChampDao { //gia ta Team
     void deleteOldChamp();
 
     //step 1 ->BowlingViewModel
-    @Query("SELECT * FROM championship")
+    @Query("SELECT * FROM championship ORDER BY date(start_date) DESC") //apo to pio prosfato sto pio palio
     LiveData<List<Championship>> getAllChamp();
 
 

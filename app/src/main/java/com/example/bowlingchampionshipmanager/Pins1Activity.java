@@ -308,7 +308,7 @@ private EditText editNorounds;
           bowlingViewModel.update(ch);
           System.out.println("ch status =" + ch.getStatus() + " type " + ch.getType()+" start_date "+ch.getStart_date()+" cr date"+ch.getCreated_at());
 
-          //pairnaw sto flag ka8e omadas tou champ ton arithom twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0
+          //pairnaw sto flag ka8e omadas tou champ ton aritho twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0
           bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() {
               @Override
               public void onChanged(List<Championship_detail> c) {

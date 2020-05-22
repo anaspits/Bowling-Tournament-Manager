@@ -35,7 +35,7 @@ public class FinishChampActivity extends AppCompatActivity {
     private List<PlayerandGames> players;
     private List<TeammatesTuple> playersandteams;
 
-    //TODO EXPORT
+    //TODO single
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

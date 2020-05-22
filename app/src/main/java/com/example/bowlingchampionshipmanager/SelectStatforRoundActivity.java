@@ -171,20 +171,21 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
             }
             data.append("Points");
 if(teams.size()!=0){
-            //fixme to score sto telos - ola kala
+            //fixme to score sto telos - ola kala - h kai oxi
             int counter = 1;
             for (int i = 0; i < teams.size(); i++) {
                 TeamandRoundScore t = teams.get(i);
                 if (i == 0) {
                     data.append("\n" + counter + "," + String.valueOf(t.getTeam_name())+")");
-                    for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
-                        data.append(playersandteams.get(i).getT().get(j).getLastName());
-                        if(j!=(playersandteams.get(i).getT().size()-1)){
+                    for (int j = 0; j < playersandteams.get(counter-1).getT().size(); j++) {
+                        System.out.println("pl size "+playersandteams.get(counter-1).getT().size());
+                        data.append(playersandteams.get(counter-1).getT().get(j).getLastName());
+                        if(j!=(playersandteams.get(counter-1).getT().size()-1)){
                             data.append("-");
                         }
                     }
                     counter++;
-                    if (championship.getType() == 1) {
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + t.getPoints1());
                     } else if (championship.getType() == 2) {
                         if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -194,7 +195,7 @@ if(teams.size()!=0){
                         }
                     }
                 } else if (i == (teams.size() - 1)) {
-                    if (championship.getType() == 1) {
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + t.getScore1());
                     } else if (championship.getType() == 2) {
                         if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -203,8 +204,8 @@ if(teams.size()!=0){
                             data.append("," + t.getScore2());//todo na rwthsw
                         }
                     }
-                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) {
-                    if (championship.getType() == 1) {
+                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) { //fixme ta points aftou tou team pairnontai 2 fores
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + teams.get(i + 1).getPoints1());
                     } else if (championship.getType() == 2) {
                         if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {
@@ -215,7 +216,7 @@ if(teams.size()!=0){
                     }
 
                 } else {
-                    if (championship.getType() == 1) {
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + t.getPoints1());
                     } else if (championship.getType() == 2) {
                         if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -224,7 +225,7 @@ if(teams.size()!=0){
                             data.append("," + t.getPoints2());
                         }
                     }
-                    if (championship.getType() == 1) {
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + t.getScore1());
                     } else if (championship.getType() == 2) {
                         if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -234,14 +235,14 @@ if(teams.size()!=0){
                         }
                     }
                     data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name())+")");
-                    for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
-                        data.append(playersandteams.get(i).getT().get(j).getLastName());
-                        if(j!=(playersandteams.get(i).getT().size()-1)){
+                    for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) { //fixme giati get(i)?
+                        data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
+                        if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
                             data.append("-");
                         }
                     }
                     counter++;
-                    if (championship.getType() == 1) {
+                    if (championship.getType() == 1 || championship.getType() == 4) {
                         data.append("," + teams.get(i + 1).getPoints1());
                     } else if (championship.getType() == 2) {
                         if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {

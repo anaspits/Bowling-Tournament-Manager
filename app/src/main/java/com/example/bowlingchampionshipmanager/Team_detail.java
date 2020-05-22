@@ -8,13 +8,17 @@ import androidx.room.Index;
 
 import java.util.Date;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "team_detail",primaryKeys = {"team_uuid","participant_uuid"}, foreignKeys = {
         @ForeignKey(entity = Team.class,
                 parentColumns = "team_uuid",
-                childColumns = "team_uuid"),
+                childColumns = "team_uuid",
+                onDelete = CASCADE),
         @ForeignKey(entity = Participant.class,
                 parentColumns = "participant_uuid",
-                childColumns = "participant_uuid")
+                childColumns = "participant_uuid",
+                onDelete = CASCADE)
 }, indices= {
         @Index(name="index_td_teamID", value="team_uuid"),
         @Index(name="index_participantID", value="participant_uuid") //todo mhpws na valw kai to champ

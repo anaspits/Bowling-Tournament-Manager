@@ -15,7 +15,7 @@ import java.util.List;
 public interface BowlingDao {
     //ola ta Queries gia tous Participants //epistrefoun Participant
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Participant t);
 
     //step 1 ->BowlingViewModel

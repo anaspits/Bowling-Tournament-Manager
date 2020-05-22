@@ -1,17 +1,22 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +38,10 @@ public class PinsRoundEditActivity extends AppCompatActivity {
     static List<Pins_points> pp;
     public int calc_pressed=0;
     private Championship_detail cd1;
+    int first_sum1=0;
+    int second_sum1=0;
+    int third_sum1=0;
+    int sum_hdcp1=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,10 +127,10 @@ public class PinsRoundEditActivity extends AppCompatActivity {
     public void calculateScore(View View) {
         //score1=team1.getScore(); prin
         score1=cd1.getScore(); //meta
-        int first_sum1=0;
-        int second_sum1=0;
-        int third_sum1=0;
-        int sum_hdcp1=0;
+         first_sum1=0;
+         second_sum1=0;
+         third_sum1=0;
+         sum_hdcp1=0;
         for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++){
             // team1.setText(team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
             System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() +System.getProperty("line.separator"));
@@ -166,6 +175,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                         System.out.println("1games b " + games + " avg " + avg);
                         RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
                         RoundScoreListAdapter2.rd.get(i2).setGames(games);
+                        RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(games);
                     }
                 });
             }
@@ -245,4 +255,34 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         finish();
     }
 
+    public void export(View view) {
+        if(calc_pressed==1){
+            ExportCSV exp= new ExportCSV();
+            StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,null,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,0,0,0,0);
+            try {
+                //saving the file into device
+                FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);
+                out.write((data.toString()).getBytes());
+                out.close();
+
+                //exporting
+                Context context = getApplicationContext();
+                File filelocation = new File(getFilesDir(), "bowling_championship_finishedChamp_stat.csv");
+                Uri path = FileProvider.getUriForFile(context, "com.example.bowlingchampionshipmanager.fileprovider", filelocation);
+                Intent fileIntent = new Intent(Intent.ACTION_SEND);
+                fileIntent.setType("text/csv");
+                fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+                fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+                startActivity(Intent.createChooser(fileIntent, "Send mail"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to calculate the score first",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 }

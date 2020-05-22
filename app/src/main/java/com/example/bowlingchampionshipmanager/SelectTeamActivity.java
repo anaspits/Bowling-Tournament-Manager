@@ -85,6 +85,9 @@ flag="none";
                                    blistAdapter.setSelected(t);
                                    blistAdapter.setChamp(championship);
                                    blistAdapter.setFlag(flag);
+                                   if(t.size()==0){
+                                       textView.setText("There are no Teams available");
+                                   }
                                }
                            });
            }else {

@@ -43,7 +43,7 @@ public class TeamandRoundScoreAdapter extends RecyclerView.Adapter<com.example.b
         if (mNotes != null) {
             TeamandRoundScore note = mNotes.get(position);
             this.position=position;
-            if (ch.getType()==1) {
+            if (ch.getType()==1 || ch.getType() == 4) {
                 holder.setData(note.getTeam_name(), note.getScore1(),note.getPoints1(), position);
             } else if(ch.getType()==2){
                 if(note.getTeam_uuid().equals(note.getTeam1_uuid())){

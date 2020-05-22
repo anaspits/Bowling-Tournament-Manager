@@ -32,6 +32,7 @@ import android.app.Activity;
 
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,8 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private static EditText textView,editLanes,plperteam;
     private TextView plpert;
-    private RadioButton auto,readyteams;
+    private RadioButton multi, single,auto,readyteams;
+    private RadioGroup typeoffile;
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     private static final int SAVE_REQUEST_CODE = 42;
@@ -58,6 +60,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     public static final int SELECT_NOTE_ACTIVITY_REQUEST_CODE = 5;
     public static ArrayList<Participant> bowlers = new ArrayList<Participant>();
+    public static ArrayList<Participant> existing_players = new ArrayList<Participant>();
     //public static ArrayList<ArrayList> teamates = new ArrayList<>();
     public static ArrayList<ArrayList> teams = new ArrayList<>();
     public static ArrayList<ArrayList> teamsplayersid = new ArrayList<>();
@@ -82,6 +85,7 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     public String teamuuid;
     public String champuuid;
     private Championship ch;
+    private boolean singleflag;
 
 
     @Override
@@ -93,10 +97,15 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         editLanes =  findViewById(R.id.editLanes);
         plpert =findViewById(R.id.plpert);
         plperteam=findViewById(R.id.plperteam);
+        single =findViewById(R.id.single);
+        multi = findViewById(R.id.teams);
         auto=findViewById(R.id.auto);
         readyteams = findViewById(R.id.readyteams);
+        typeoffile = findViewById(R.id.typeoffile);
+        typeoffile.setVisibility(View.GONE);
         plpert.setVisibility(View.GONE);
         plperteam.setVisibility(View.GONE);
+        singleflag=false;
 
         if(bowlers!=null){
             bowlers.clear();
@@ -175,33 +184,43 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         });
 ////////////
 
-        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai H' na kanw insert otan pati8eii to next
+        button_imp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (imp_pressed == 0) {
-                    if (auto.isChecked()) {
-                        if (TextUtils.isEmpty(plperteam.getText())) {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "Enter the number of players per team",
-                                    Toast.LENGTH_LONG).show();
-                        } else {
-                            playersPerTeam = Integer.parseInt(plperteam.getText().toString());
-                            if (playersPerTeam == 0) {
+                    if(multi.isChecked()) {
+                        if (auto.isChecked()) {
+                            if (TextUtils.isEmpty(plperteam.getText())) {
                                 Toast.makeText(
                                         getApplicationContext(),
-                                        "Enter a number greater than 0",
+                                        "Enter the number of players per team",
                                         Toast.LENGTH_LONG).show();
                             } else {
-                                openFile();
+                                playersPerTeam = Integer.parseInt(plperteam.getText().toString());
+                                if (playersPerTeam == 0) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            "Enter a number greater than 0",
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    openFile();
+                                }
                             }
+
+                        } else if (readyteams.isChecked()) {
+                            openFile();
+                        } else {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "You have to choose whether you want to import players or teams",
+                                    Toast.LENGTH_LONG).show();
                         }
-                    } else if (readyteams.isChecked()) {
+                    } else if(single.isChecked()){
                         openFile();
                     } else {
                         Toast.makeText(
                                 getApplicationContext(),
-                                "You have to choose whether you want to import players or teams",
+                                "You have to choose 'Single' or 'Teams' first",
                                 Toast.LENGTH_LONG).show();
                     }
                 }else {
@@ -210,6 +229,22 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                             "You have already imported a file. To cancel it, go back to the MainMenu",
                             Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        multi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+typeoffile.setVisibility(View.VISIBLE);
+singleflag=false;
+            }
+        });
+
+        single.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                typeoffile.setVisibility(View.GONE);
+                singleflag=true;
             }
         });
     }
@@ -404,7 +439,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                         textView.setText("error");
                         Toast.makeText(
                                 getApplicationContext(),
-                                "Failed to read file! Please upload the wright file.",
+                                "Failed to read file! Please upload the right file.",
                                 Toast.LENGTH_LONG).show();
                     }
 
@@ -550,10 +585,13 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         ch = new Championship(fchampID, champuuid, 0, 0, "created"); ////vash 3
         Date date =  Calendar.getInstance().getTime();
         ch.setCreated_at(date);
+        if(singleflag){
+            ch.setType(4);
+        }
         //bowlingViewModel.insert(ch);
         System.out.println("chid " + ch.getSys_champID());
 
-if (auto.isChecked()) {
+if (auto.isChecked() || single.isChecked()) {
     //test.testcreateParticipantList(bowlingViewModel,inputStream, line, cvsSplitBy,testbowlers);
     s.createParticipantList(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers);
 
@@ -604,7 +642,9 @@ if (auto.isChecked()) {
 
 
     //create the teams
-
+    if(singleflag){
+        playersPerTeam=1;
+    }
     s.generateTeams(bowlers, playersPerTeam, bowlingViewModel, ch.getUuid());
 
     int i;
@@ -705,12 +745,18 @@ if (auto.isChecked()) {
    // inputStream.close();
 
     //return stringBuilder.toString();
+
 } else {
-  s.importReadyTeams(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers,champuuid);
-    //inputStream.close();
+    if(singleflag==false) {
+        s.importReadyTeams(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers, champuuid);
+        //inputStream.close();
+    }
 }
         inputStream.close();
             imp_pressed = 1;
+            typeoffile.setEnabled(false);
+            single.setEnabled(false);
+            multi.setEnabled(false);
 
             for(int i=0;i<bowlers.size();i++){ //an enas paikths uparxei hdh sth vash tote apla pairnw ta kainourgia hdcp k avg kai krataw ola ta upoloipa apo prin
                 Participant newp =bowlers.get(i);
@@ -726,6 +772,7 @@ if (auto.isChecked()) {
                          newp.setParticipantID(oldp.getParticipantID());
                          newp.setDisable_flag(0);
                          newp.setUpdated_at( Calendar.getInstance().getTime());
+                         existing_players.add(newp);
                     }
                 }
             });
@@ -751,7 +798,7 @@ if (auto.isChecked()) {
                 System.out.println("Insert All" );
                 System.out.println("chid " + ch.getSys_champID());
                 bowlingViewModel.insert(ch);
-                s.insertAllToDatabase(bowlingViewModel,bowlers,all_the_teams,ch);
+                s.insertAllToDatabase(bowlingViewModel,bowlers,all_the_teams,ch,singleflag, existing_players);
 
                 Intent i = new Intent(Create1Activity.this, Create2Activity.class);
                 Bundle bundle = new Bundle();

@@ -10,13 +10,17 @@ import androidx.room.TypeConverters;
 import java.io.Serializable;
 import java.util.Date;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "round_detail",primaryKeys = {"round_uuid","participant_uuid"}, foreignKeys = {
         @ForeignKey(entity = Round.class,
                 parentColumns = "round_uuid",
-                childColumns = "round_uuid"),
+                childColumns = "round_uuid",
+                onDelete = CASCADE),
         @ForeignKey(entity = Participant.class,
                 parentColumns = "participant_uuid",
-                childColumns = "participant_uuid")//,
+                childColumns = "participant_uuid",
+                onDelete = CASCADE)//,
        /* @ForeignKey(entity = Championship.class,
                 parentColumns = "champ_uuid",
                 childColumns = "champ_uuid")*/
@@ -73,7 +77,6 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="updated_at")
     private Date updated_at;
 
-//todo na valw blind kai date
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
     } */

@@ -65,13 +65,13 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                         } else if (team.getUuid().equals(note.getTeam2UUID())) {
                             holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam1ID(), String.valueOf(note.getPoints2()),String.valueOf(note.getScore2()), position);
                         }
-                    } else if (ch.getType() == 1) {
+                    } else if (ch.getType() == 1 || ch.getType() == 4) {
                         holder.setData( String.valueOf(note.getFroundid()), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);
                     }
 
                 } else if (ch.getType() == 2) { //round
                     holder.setData("TEAM:" + note.getTeam1ID(), " VS TEAM:" + note.getTeam2ID(),"", position);
-                } else if (ch.getType() == 1) {
+                } else if (ch.getType() == 1 || ch.getType() == 4) {
                     holder.setData("TEAM:" + note.getTeam1ID(), "","", position);
                 }
             }
@@ -165,7 +165,7 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                         ((Activity) mContext).startActivityForResult(intent, RoundActivity.UPDATE_SCORE_REQUEST_CODE);
                     }
                     //version 2
-                    else if (ch.getType() == 1) {
+                    else if (ch.getType() == 1|| ch.getType() == 4) {
                         Intent intent = new Intent(mContext, PinsRoundEditActivity.class);
                         intent.putExtra("round", mNotes.get(mPosition));
                         intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());

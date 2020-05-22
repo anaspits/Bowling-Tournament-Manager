@@ -204,5 +204,6 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     @Override
     public void OnDeleteClickListener(Championship myNote) {
         bowlingViewModel.delete(myNote);
-    } //fixme den leitourgei
+        //todo na petaei mhnyma an 8elei na to svisei
+    }
 }

@@ -138,6 +138,7 @@ team2=te;
         bowlingViewModel.getAllPlayersofTeam3(tuuid1, champuuid).observe(this, new Observer<List<Participant>>() {
                 @Override
                 public void onChanged(List<Participant> part) {
+                    System.out.println("Proble size "+part.size());
                     blistAdapter.setBowls(part);
                     blistAdapter.setRound(r);
                     ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
@@ -242,8 +243,9 @@ team2=te;
                         System.out.println("1games b " + games + " avg " + avg);
                         RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
                         RoundScoreListAdapter2.rd.get(i2).setGames(games);
-                       RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(1+RoundScoreListAdapter2.editModelArrayList.get(i2).getTotal_games());
-                    }
+                       //RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(1+RoundScoreListAdapter2.editModelArrayList.get(i2).getTotal_games());
+                    RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(games);
+                }
                });
             }
         }
@@ -310,6 +312,7 @@ team2=te;
                         System.out.println("2games b " + games2 + " avg " + avg2);
                         RoundScoreListAdapterTeam2.rd.get(i3).setAvg(avg2);
                         RoundScoreListAdapterTeam2.rd.get(i3).setGames(games2);
+                        RoundScoreListAdapterTeam2.editModelArrayList.get(i3).setTotal_games(games2);
                     }
                 });
             }
@@ -524,6 +527,7 @@ finish();
     }
 
     public void export(View view) {
+        if(calc_pressed==1){
         StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
         try {
             //saving the file into device
@@ -543,6 +547,12 @@ finish();
             startActivity(Intent.createChooser(fileIntent, "Send mail"));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        }else{
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to calculate the score first",
+                    Toast.LENGTH_LONG).show();
         }
     }
 

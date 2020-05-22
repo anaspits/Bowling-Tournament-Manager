@@ -17,10 +17,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "pins_points", foreignKeys = {
                 @ForeignKey(entity = Championship.class,
                         parentColumns = "champ_uuid",
-                        childColumns = "champ_uuid")
+                        childColumns = "champ_uuid",
+                        onDelete = CASCADE)
         }, indices= {
                 @Index(name="index_pp_champID", value="champ_uuid")
         }  )

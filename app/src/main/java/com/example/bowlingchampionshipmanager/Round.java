@@ -16,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "round",indices= {
         @Index(name="index_round_uuid", value="round_uuid", unique=true),
         @Index(name="index_r_champuuid", value="champ_uuid")},foreignKeys = {
         @ForeignKey(entity = Championship.class,
                 parentColumns = "champ_uuid",
-                childColumns = "champ_uuid")/*,
+                childColumns = "champ_uuid",
+                onDelete = CASCADE)/*,
         @ForeignKey(entity = Team.class,
         parentColumns = "sys_teamID",
         childColumns = "sys_teamID")

@@ -22,7 +22,7 @@ import java.util.List;
 public class Create2Activity extends AppCompatActivity implements TeamatesAdapter.OnDeleteClickListener {
 
     private static TextView textView;
-    private static TextView display_teams;
+    private static TextView display_teams,textTitle;
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
     private int playersPerTeam=2;
@@ -52,6 +52,8 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create2);
 
+        textTitle=findViewById(R.id.textTitle);
+
         OnBackPressedCallback cb =new OnBackPressedCallback(true){ //todo den 8a xanetai to progress, na exw ena toast pou na grafei saved
             @Override
             public void handleOnBackPressed(){
@@ -59,7 +61,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this,cb);
-        
+
         ///recyclerview
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -114,8 +116,10 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
            championship = (Championship) bundleObject.getSerializable("champ");
+           textTitle.append(" No."+championship.getFchampID());
            champuuid = bundleObject.getString("champuuid");
             }
+System.out.println("all size "+all_the_teams.size());
 
       /*todo if(bowlers==null){
              bowlingViewModel.getBowlsofChamp{

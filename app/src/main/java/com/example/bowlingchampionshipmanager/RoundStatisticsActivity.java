@@ -34,7 +34,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
     private List<PlayerandGames> players,rd;
     private List<TeammatesTuple> playersandteams;
     private TeamandRoundScore winner;
-
+//fixme gia single
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

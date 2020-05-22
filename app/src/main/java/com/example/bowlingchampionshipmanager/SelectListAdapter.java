@@ -138,7 +138,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                         mContext.startActivity(intent);
                         ((Activity)mContext).finish();
                     } else {
-                        if (ch.getType() == 2) {
+                        if (ch.getType() == 2 ) {
                             Intent intent = new Intent(mContext, RoundActivity.class);
 
                             //PAS ROUND PART 3//
@@ -153,7 +153,7 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                             intent.putExtra("champ", ch);
                             //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                             mContext.startActivity(intent);
-                        } else if ((ch.getType() == 1)) {
+                        } else if ((ch.getType() == 1)|| ch.getType() == 4) {
                             Intent intent = new Intent(mContext, PinsRoundActivity.class);
                             intent.putExtra("bowlId", mNotes.get(mPosition).getSys_teamID());
                             intent.putExtra("count", getItemCount());
