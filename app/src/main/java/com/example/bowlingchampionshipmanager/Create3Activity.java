@@ -46,6 +46,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this,cb);
+
         textTitle=findViewById(R.id.textTitle);
        //t= (TextView) findViewById(R.id.textView22);
 

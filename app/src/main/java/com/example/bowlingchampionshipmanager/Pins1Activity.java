@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -44,14 +45,22 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     private int imp_pressed=0;
     private int round; //todo na rwthsw
 private EditText editNorounds;
-    private TextView textView;
+    private TextView textView, textTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pins1);
-
+textTitle= findViewById(R.id.textTitle);
         imp_pressed=0;
+
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed(){
+                openDialog();
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this,cb);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -62,6 +71,7 @@ private EditText editNorounds;
             teamuuid=bundleObject.getString("teamid"); //axristo
             champuuid = bundleObject.getString("champuuid");
             ch= (Championship) bundleObject.getSerializable("champ");
+            textTitle.append(" No."+ch.getFchampID());
 
         }
 
@@ -145,6 +155,12 @@ private EditText editNorounds;
                 openFile();
             }
         });
+    }
+
+    public void openDialog() {
+        WarningDialog exampleDialog = new WarningDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
     }
 
     public void openFile(){

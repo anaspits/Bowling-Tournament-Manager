@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,6 +45,13 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
         setContentView(R.layout.activity_teamsvsteams1);
         Bundle bundleObject = this.getIntent().getExtras();
 
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed(){
+                openDialog();
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this,cb);
 
         details=(TextView) findViewById(R.id.textView1);
 
@@ -197,6 +205,12 @@ System.out.println("t1 teammates " + t1.getTeammates().size());
 
             }
         });
+    }
+
+    public void openDialog() {
+        WarningDialog exampleDialog = new WarningDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
     }
 
 
