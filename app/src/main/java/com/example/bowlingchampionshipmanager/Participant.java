@@ -384,7 +384,7 @@ Create1Activity.t_id++; //axristo
 
     public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel, String champID){
         //Logic for generating teams(pairs)
-
+//TODO NA ELEGXW AN oi playersperteam me tous bowlers symvadizoun se ari8mo (px oxi playersperteam>bowlers)
         //Sort by bowling average
         if(bowlers.size()%playersPerTeam!=0){ //an einai peritos arithmos pros8eto to Blind gia na ginei zugos
             do {

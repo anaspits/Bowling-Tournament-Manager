@@ -45,7 +45,7 @@ public class SelectRoundActivity extends AppCompatActivity {
                 public void onChanged(List<Round> rounds) {
                     for (int i = 0; i < rounds.size(); i++) {
                         if (i != 0 && rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
-                            rounds.remove(i);
+                            rounds.remove(i); //fixme to 1 to phre 2 forew - na to kanw me distinct
                         }
                     }
                     roundlistAdapter.setSelRound(rounds);

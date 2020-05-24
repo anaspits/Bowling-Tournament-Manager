@@ -380,12 +380,14 @@ textTitle= findViewById(R.id.textTitle);
               }
           });
 
-          if (button_text.equals("Back")) {
+          if (button_text.equals("Back")) { //axristo - na svisw
               // Intent goback = new Intent(this,Create2Activity.class);
               // startActivity(goback);
-          } else if (button_text.equals("Start Championship")) {
+          } else if (button_text.equals("Start Championship")) { //axristh if
               //Intent gonext = new Intent(this,Create3Activity.class);
               //startActivity(gonext);
+
+              pins_points.clear();
 
               Intent i = new Intent(this, SelectTeamActivity.class);
               Bundle extras = new Bundle();
@@ -397,6 +399,7 @@ textTitle= findViewById(R.id.textTitle);
               extras.putSerializable("champ", ch);
               i.putExtras(extras);
               startActivity(i);
+              finish();
           }
       } else {
               Toast.makeText(

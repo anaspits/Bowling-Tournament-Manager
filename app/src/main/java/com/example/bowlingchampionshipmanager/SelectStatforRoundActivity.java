@@ -26,6 +26,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     private List<TeamandRoundScore> teams;
     private BowlingViewModel bowlingViewModel;
     private List<TeammatesTuple> playersandteams;
+    private ExportCSV ex= new ExportCSV();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,113 +155,9 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     }
 
     public void exportTeamscsv(View view) { //fixme
-        //generate data
         StringBuilder data = new StringBuilder();
-        if(rounds.size()!=0) {
-            data.append(" ,Team,");
+        data=ex.exportRoundTeamStat(championship,rounds,teams, playersandteams);
 
-            for (int i = 0; i < rounds.size(); i++) {
-                if (i == 0) {
-                    data.append(rounds.get(i).getFroundid() + "H,");
-                } else if (rounds.get(i).getFroundid() != rounds.get(i - 1).getFroundid()) {
-                    data.append(rounds.get(i).getFroundid() + "H,");
-                } else if (rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
-                    System.out.println("i " + i + " fr " + rounds.get(i).getFroundid());
-                    //break() H continue();
-                }
-            }
-            data.append("Points");
-if(teams.size()!=0){
-            //fixme to score sto telos - ola kala - h kai oxi
-            int counter = 1;
-            for (int i = 0; i < teams.size(); i++) {
-                TeamandRoundScore t = teams.get(i);
-                if (i == 0) {
-                    data.append("\n" + counter + "," + String.valueOf(t.getTeam_name())+")");
-                    for (int j = 0; j < playersandteams.get(counter-1).getT().size(); j++) {
-                        System.out.println("pl size "+playersandteams.get(counter-1).getT().size());
-                        data.append(playersandteams.get(counter-1).getT().get(j).getLastName());
-                        if(j!=(playersandteams.get(counter-1).getT().size()-1)){
-                            data.append("-");
-                        }
-                    }
-                    counter++;
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + t.getPoints1());
-                    } else if (championship.getType() == 2) {
-                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
-                            data.append("," + t.getPoints1());
-                        } else {
-                            data.append("," + t.getPoints2());
-                        }
-                    }
-                } else if (i == (teams.size() - 1)) {
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + t.getScore1());
-                    } else if (championship.getType() == 2) {
-                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
-                            data.append("," + t.getScore1());
-                        } else {
-                            data.append("," + t.getScore2());//todo na rwthsw
-                        }
-                    }
-                } else if (t.getTeam_uuid().equals(teams.get(i + 1).getTeam_uuid())) { //fixme ta points aftou tou team pairnontai 2 fores
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + teams.get(i + 1).getPoints1());
-                    } else if (championship.getType() == 2) {
-                        if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {
-                            data.append("," + teams.get(i + 1).getPoints1());
-                        } else {
-                            data.append("," + teams.get(i + 1).getPoints2());
-                        }
-                    }
-
-                } else {
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + t.getPoints1());
-                    } else if (championship.getType() == 2) {
-                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
-                            data.append("," + t.getPoints1());
-                        } else {
-                            data.append("," + t.getPoints2());
-                        }
-                    }
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + t.getScore1());
-                    } else if (championship.getType() == 2) {
-                        if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
-                            data.append("," + t.getScore1());
-                        } else {
-                            data.append("," + t.getScore2());
-                        }
-                    }
-                    data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name())+")");
-                    for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
-                        data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
-                        if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
-                            data.append("-");
-                        }
-                    }
-                    counter++;
-                    if (championship.getType() == 1 || championship.getType() == 4) {
-                        data.append("," + teams.get(i + 1).getPoints1());
-                    } else if (championship.getType() == 2) {
-                        if (teams.get(i + 1).getTeam_uuid().equals(teams.get(i + 1).getTeam1_uuid())) {
-                            data.append("," + teams.get(i + 1).getPoints1());
-                        } else {
-                            data.append("," + teams.get(i + 1).getPoints2());
-                        }
-                    }
-                }
-            }
-            }else {
-                data.append(",No data avaliable");
-                }
-
-
-        } else {
-            data.append("No Rounds have been played yet");
-        }
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_teamsRound_stat.csv", Context.MODE_PRIVATE);

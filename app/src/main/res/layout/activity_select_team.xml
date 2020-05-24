@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Select a Team to Start the Championship"
+                android:text="Select a Team to Play"
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:textStyle="bold"
                 app:layout_constraintHorizontal_bias="0.497"

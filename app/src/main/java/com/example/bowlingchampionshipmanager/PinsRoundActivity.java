@@ -479,7 +479,7 @@ if (calc_pressed ==1) {
                     startActivity(i);
                     finish();
                 } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth //finish
-                   // curRound.setStatus("done");
+                    curRound.setStatus("done");
                     bowlingViewModel.update(curRound);
                     //textTitle.setText("This Round has already been done");
                     System.out.println("flag= " + cd.getActive_flag());
@@ -549,7 +549,7 @@ if (calc_pressed ==1) {
             System.out.println("save_pressed=" + save_pressed);
             if (save_pressed == 1) {
                 System.out.println("exit curround status "+curRound.getStatus());
-              //  curRound.setStatus("done");//?
+                curRound.setStatus("done");
                 bowlingViewModel.update(curRound);
                 bowlingViewModel.update(t);
                 cd.setScore(score1);

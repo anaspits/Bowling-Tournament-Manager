@@ -47,7 +47,7 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedTeam(Championship championship, List<Round> rounds, Team team, List<PlayerandGames> players) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date());
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+", Start Date:,"+championship.getStart_date());
         if(championship.getStatus().equals("Finished")){
             data.append(",Finish Date:,"+championship.getEnd_date());
         }else {
@@ -57,7 +57,9 @@ public class ExportCSV {
         data.append("\n,Round,Points,Score");
         for (int i = 0; i < rounds.size(); i++) {
             data.append("\n" + rounds.get(i).getFroundid() + "," + rounds.get(i).getTeam1ID() + "," + rounds.get(i).getPoints1() + "," + rounds.get(i).getScore1());
-            data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2());
+            if (championship.getType() == 2) {
+                data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2());
+            }
         }
         data.append("\nFinal Score");
         if (rounds.get(rounds.size() - 1).getTeam1UUID().equals(team.getUuid())) {
@@ -117,4 +119,143 @@ public class ExportCSV {
         }
         return data;
     }
+
+    public StringBuilder exportRoundTeamStat(Championship championship, List<Round> rounds,List<TeamandRoundScore> teams, List<TeammatesTuple> playersandteams) {
+        StringBuilder data = new StringBuilder();
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
+        if(rounds.size()!=0) {
+            data.append(" ,Team,");
+
+            for (int i = 0; i < rounds.size(); i++) {
+                if (i == 0) {
+                    data.append(rounds.get(i).getFroundid() + "H,");
+                } else if (rounds.get(i).getFroundid() != rounds.get(i - 1).getFroundid()) {
+                    data.append(rounds.get(i).getFroundid() + "H,");
+                } else if (rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
+                    System.out.println("i " + i + " fr " + rounds.get(i).getFroundid());
+                    //break() H continue();
+                }
+            }
+            data.append("Sum Points");
+            if(teams.size()!=0){
+                int counter = 1;
+                for (int i = 0; i < teams.size(); i++) { //gia ka8e omada tou champ (me order fteamid- ara exw omada-guros1,2,3..)
+                    TeamandRoundScore t = teams.get(i);
+                    if (i == 0) { //gia thn prwth omada
+                        data.append("\n" + counter + "," + String.valueOf(t.getTeam_name())+")");
+                        for (int j = 0; j < playersandteams.get(counter-1).getT().size(); j++) { //pairnw tous paiktes ths omadas
+                            System.out.println("pl size "+playersandteams.get(counter-1).getT().size());
+                            data.append(playersandteams.get(counter-1).getT().get(j).getLastName());
+                            if(j!=(playersandteams.get(counter-1).getT().size()-1)){
+                                data.append("-");
+                            }
+                        }
+                        counter++;
+                        if (championship.getType() == 1 || championship.getType() == 4) { //pairnw ta points tou prwtou gyrou
+                            data.append("," + t.getPoints1());
+                        } else if (championship.getType() == 2) {
+                            if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                                data.append("," + t.getPoints1());
+                            } else {
+                                data.append("," + t.getPoints2());
+                            }
+                        }
+                    } else if (i == (teams.size() - 1)) { //gia to teleftaio stoixeio (teleftaia omada-teleftaios guros ths)
+                        if ( !t.getTeam_uuid().equals(teams.get(i - 1).getTeam_uuid())) { //an den einai idia omada me thn prohgoumenh (dld htan mono 1 gyros)
+                            if (championship.getType() == 1 || championship.getType() == 4) { //tote kanw oti kanw sthn else, dld pairnw ta score ths prohgoumenhs omadas
+                                data.append("," + teams.get(i - 1).getScore1());
+                            } else if (championship.getType() == 2) {
+                                if (teams.get(i - 1).getTeam_uuid().equals(teams.get(i - 1).getTeam1_uuid())) {
+                                    data.append("," + teams.get(i - 1).getScore1());
+                                } else {
+                                    data.append("," + teams.get(i - 1).getScore2());
+                                }
+                            }
+                            data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai meta pairnw to onma k tous paiktes afths ths omadas
+                            for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
+                                data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
+                                if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
+                                    data.append("-");
+                                }
+                            }
+                        }
+                            //epishw pairnw ta points afths ths omadas
+                        if (championship.getType() == 1 || championship.getType() == 4) {
+                            data.append("," + teams.get(i).getPoints1()); //giati +1|?
+                        } else if (championship.getType() == 2) {
+                            if (teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
+                                data.append("," + teams.get(i).getPoints1());
+                            } else {
+                                data.append("," + teams.get(i).getPoints2());
+                            }
+                        }
+                        //kai to score ths (afou einai 1 gyros mono ara einai kai o teleftaios ths)
+                        if (championship.getType() == 1 || championship.getType() == 4) {
+                            data.append("," + t.getScore1());
+                        } else if (championship.getType() == 2) {
+                            if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                                data.append("," + t.getScore1());
+                            } else {
+                                data.append("," + t.getScore2());//todo na rwthsw
+                            }
+                        }
+                    } else if ( t.getTeam_uuid().equals(teams.get(i - 1).getTeam_uuid())) { //an einai idia omada me thn prohgoumenh, shmainei oti phgame ston epomeno gyro (ths idias omadas)
+                        if (championship.getType() == 1 || championship.getType() == 4) { //ara pairnoume mono ta points ths gia afton ton gyro
+                            data.append("," + teams.get(i).getPoints1());
+                        } else if (championship.getType() == 2) {
+                            if (teams.get(i ).getTeam_uuid().equals(teams.get(i  ).getTeam1_uuid())) {
+                                data.append("," + teams.get(i).getPoints1());
+                            } else {
+                                data.append("," + teams.get(i ).getPoints2());
+                            }
+                        }
+
+                    } else { //an den einai h idia omada me thn prohgoumenh, shmainei oti teleiwsan oi guroi ths prohgoumenhs omadas
+                     /*   if (championship.getType() == 1 || championship.getType() == 4) {
+                            data.append("," + t.getPoints1());
+                        } else if (championship.getType() == 2) {
+                            if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
+                                data.append("," + t.getPoints1());
+                            } else {
+                                data.append("," + t.getPoints2());
+                            }
+                        }*/
+                        if (championship.getType() == 1 || championship.getType() == 4) { //opote prepei na paroume to score ths prohgoumenhs
+                            data.append("," + teams.get(i - 1).getScore1());
+                        } else if (championship.getType() == 2) {
+                            if (teams.get(i - 1).getTeam_uuid().equals(teams.get(i - 1).getTeam1_uuid())) {
+                                data.append("," + teams.get(i - 1).getScore1());
+                            } else {
+                                data.append("," + teams.get(i - 1).getScore2());
+                            }
+                        }
+                        data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai na perasoume se afthn pou eimaste twra (dld thn epomenh) kai na paroume to onoma kai tous paiktes ths
+                        for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
+                            data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
+                            if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
+                                data.append("-");
+                            }
+                        }
+                        counter++;
+                        if (championship.getType() == 1 || championship.getType() == 4) { //kai ta points ths (gia ton prwto ths gyro)
+                            data.append("," + teams.get(i).getPoints1());
+                        } else if (championship.getType() == 2) {
+                            if (teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
+                                data.append("," + teams.get(i).getPoints1());
+                            } else {
+                                data.append("," + teams.get(i ).getPoints2());
+                            }
+                        }
+                    }
+                }
+            }else {
+                data.append(",No data avaliable");
+            }
+
+
+        } else {
+            data.append("No Rounds have been played yet");
+        }
+        return data;
+        }
 }
