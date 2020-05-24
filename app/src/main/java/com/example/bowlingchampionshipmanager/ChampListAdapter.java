@@ -145,7 +145,7 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                             intent.putExtra("champ", mNotes.get(mPosition));
                             mContext.startActivity(intent);
                             ((Activity)mContext).finish();
-                        } else { //todo if status created -> Create2Activity
+                        } else if(mNotes.get(mPosition).getStatus().equals("started")){
                             Intent intent = new Intent(mContext, SelectTeamActivity.class);
                             intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
                             intent.putExtra("champ", mNotes.get(mPosition));
@@ -153,6 +153,14 @@ public class ChampListAdapter extends RecyclerView.Adapter<ChampListAdapter.Bowl
                             //((Activity)mContext).startActivityForResult(intent,SelectTeamActivity.SELECT_TEAM_ACTIVITY_REQUEST_CODE);
                             mContext.startActivity(intent);
                             ((Activity)mContext).finish();
+                        }else if(mNotes.get(mPosition).getStatus().equals("created")){
+                                Intent intent = new Intent(mContext, Create2Activity.class); //afou sto pins kanw insert otan pati8ei to start champ
+                                intent.putExtra("champuuid", mNotes.get(mPosition).getUuid());
+                                intent.putExtra("champ", mNotes.get(mPosition));
+                                intent.putExtra("flag", "start");
+                                mContext.startActivity(intent);
+                                ((Activity) mContext).finish();
+
                         }
                     }
                 }

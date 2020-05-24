@@ -6,12 +6,16 @@
     android:background="@android:color/white"
     android:baselineAligned="false"
     android:orientation="vertical"
-    android:layout_marginTop="80dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
@@ -98,3 +102,5 @@
         tools:listitem="@layout/list_item" />
 
 </LinearLayout>
+    </ScrollView>
+    </LinearLayout>

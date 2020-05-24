@@ -235,7 +235,7 @@ if(teams.size()!=0){
                         }
                     }
                     data.append("\n" + counter + "," + String.valueOf(teams.get(i + 1).getTeam_name())+")");
-                    for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) { //fixme giati get(i)?
+                    for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
                         data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
                         if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
                             data.append("-");

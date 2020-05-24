@@ -61,16 +61,16 @@
                     android:text="@string/pins" />
             </RadioGroup>
 
-    <Button
-        android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openNewActivity"
-android:layout_marginTop="70dp"
-        android:layout_gravity="center"
-        android:background="#4CAF50 "
-        android:text="@string/start_championship"
-        android:textColor="#F9F9F9" />
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:background="#4CAF50 "
+                android:onClick="openNewActivity"
+                android:text="@string/next"
+                android:textColor="#F9F9F9" />
 
 
 

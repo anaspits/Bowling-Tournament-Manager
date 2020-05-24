@@ -30,13 +30,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     public static final String BOWL_ID="bowlId";
     static final String UPDATED_NOTE = "bowl_text";
-    private EditText editstatus, editround,par1,par2,par3,par4,par5;
+    private EditText editstatus,par1,par2,par3,par4,par5;
     private Bundle bundle;
     private int bowlId;
     public String champuuid;
     private LiveData<Championship> champ;
     private Championship c;
-    private TextView cname,param;
+    private TextView cname,param,type;
     static ArrayList<Integer> hdcp_parameters=new ArrayList<>();
     private ArrayList<Integer> tid = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         setContentView(R.layout.activity_edit_champ);
 
         editstatus = findViewById(R.id.editstatus);
-        editround = findViewById(R.id.editround);
+        type = findViewById(R.id.type);
         cname = findViewById(R.id.cname);
         par1 = (EditText) findViewById(R.id.editHDCP1);
         par2 = (EditText) findViewById(R.id.editHDCP2);
@@ -76,6 +76,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
             //cname.setText(String.valueOf(bowlId));
             // c = (Test_table) bundle.getSerializable("b_object");
             c =  (Championship) bundle.getSerializable("b_object");
+            if(c.getType()==1) {
+                type.setText("Type: Pins - Multi");
+            }else if (c.getType()==2){
+                type.setText("Type: Teams VS Teams");
+            }if(c.getType()==4) {
+                type.setText("Type: Pins - Single");
+            }
             champuuid = c.getUuid();
         }
         System.out.println("1 hdcp "+ c.getHdcp_adv());
@@ -144,7 +151,8 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
         //fetch step 3
        /* champ = editViewModel.getChamp(bowlId);
         champ*/
-       editViewModel.getChamp(bowlId).observe(this, new Observer<Championship>() { //den xreiaetai to viewmodel
+       //editViewModel.getChamp(bowlId).observe(this, new Observer<Championship>() { //den xreiaetai to viewmodel
+        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship champ) {
                 /*for (int i = 0; i < c.size(); i++) {
@@ -153,7 +161,6 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                 //Championship champ = c.get(0); //vash 2
                 cname.append(" No. "+ String.valueOf(bowlId));
                 editstatus.setText(String.valueOf(champ.getStatus()));
-                editround.setText(String.valueOf(champ.getRound())); //axristo
               /*   ArrayList<Integer> h = c.getHdcp_parameters(); //prin
                par1.setText(String.valueOf(h.get(0)));
                 par2.setText(String.valueOf(h.get(1)));
@@ -170,7 +177,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                     par2.setText(String.valueOf(champ.getHdcp_adv()));
                 }
                 if (String.valueOf(champ.getHdcp_less())!= null){ //meta
-                    par3.setText(String.valueOf(champ.getHdcp_beginners()));
+                    par3.setText(String.valueOf(champ.getHdcp_less()));
                 }
                 if (String.valueOf(champ.getHdcp_factor())!= null){ //meta
                     par4.setText(String.valueOf(champ.getHdcp_factor()));
@@ -185,7 +192,6 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
     public void updateDB (View view) {
         String updatedst = editstatus.getText().toString();
-        String updatedr = editround.getText().toString();
         String upar1 = par1.getText().toString();
         String upar2 = par2.getText().toString();
         String upar3 = par3.getText().toString();
@@ -224,7 +230,6 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
         }
 
         c.setStatus(updatedst);
-        c.setRound(Integer.parseInt(updatedr));
         c.setHdcp_parameters(hdcp_parameters); //axristo
 
 
@@ -260,7 +265,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             Bundle bundleObject =resultData.getExtras();
             if(bundleObject!=null){
                 Championship t;
-                t = (Championship) bundleObject.getSerializable("b_object"); //gia vash 2 todo: prepei na ta kanei update ola ta champ me auto to champid
+                t = (Championship) bundleObject.getSerializable("b_object"); //gia vash 2: prepei na ta kanei update ola ta champ me auto to champid
                 System.out.println("3 hdcp "+t.getHdcp_adv());
                 bowlingViewModel.update(t);
 

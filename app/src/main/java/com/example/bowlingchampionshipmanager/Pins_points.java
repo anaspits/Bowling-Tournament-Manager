@@ -9,12 +9,15 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -42,6 +45,10 @@ public class Pins_points { //max pins = x points : px mexri kai ta 200 pins = 2 
     @ColumnInfo(name="points")
     private int points; //posoi va8moi
 
+    @TypeConverters(Converters.class)
+    @ColumnInfo(name = "created_at")
+    private Date created_at;
+
     @NonNull
     public String getPins_uuid() {
         return pins_uuid;
@@ -60,6 +67,10 @@ public class Pins_points { //max pins = x points : px mexri kai ta 200 pins = 2 
         return points;
     }
 
+    public Date getCreated_at() {
+        return created_at;
+    }
+
     public void setPins_uuid(@NonNull String pins_uuid) {
         this.pins_uuid = pins_uuid;
     }
@@ -74,6 +85,10 @@ public class Pins_points { //max pins = x points : px mexri kai ta 200 pins = 2 
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
     public Pins_points(@NonNull String pins_uuid, @NonNull String champ_uuid, int pins, int points) {
@@ -113,11 +128,12 @@ public class Pins_points { //max pins = x points : px mexri kai ta 200 pins = 2 
             Long ts = System.currentTimeMillis();
             String timestamp = ts.toString();
 
-            //Date date = (Date) Calendar.getInstance().getTime();//fixme
+            Date date = (Date) Calendar.getInstance().getTime();
             // System.out.println("time = "+date);
             Pins_points p = new Pins_points(uuid,ch,pins, points);
+            p.setCreated_at(date);
             pp.add(p);
-            bowlingViewModel.insert(p);
+            //bowlingViewModel.insert(p);
             i++;
 
         }

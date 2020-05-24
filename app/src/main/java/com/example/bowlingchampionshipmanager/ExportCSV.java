@@ -19,7 +19,7 @@ public class ExportCSV {
     public StringBuilder exportRoundEditScore(Championship championship, Round r, Team team1, Team team2, List<Participant> players1, List<Participant> players2, List<Round_detail> rd1, List<Round_detail> rd2, int first_sum1, int second_sum1, int third_sum1, int sum_hdcp1, int first_sum2, int second_sum2, int third_sum2, int sum_hdcp2) {
         StringBuilder data = new StringBuilder();
 
-        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID() + "\n");
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid() + "\n");
         data.append("\nRound No.," + r.getFroundid() + ",Date," + Calendar.getInstance().getTime()+"\n");
         data.append("\nTeam," + team1.getTeamName() + ",Lane");
         data.append("\n,Player,HDCP,1,2,3,Sum");
@@ -47,7 +47,7 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedTeam(Championship championship, List<Round> rounds, Team team, List<PlayerandGames> players) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID()+",Date:,"+championship.getStart_date());
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Date:,"+championship.getStart_date());
         if(championship.getStatus().equals("Finished")){
             data.append(",Finish Date:,"+championship.getEnd_date());
         }else {
@@ -77,7 +77,7 @@ public class ExportCSV {
 
     public StringBuilder exportFinishedChamp(Championship championship, List<Round> rounds,List<TeamandScore> teams, List<PlayerandGames> players, List<TeammatesTuple> playersandteams) {
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.," + championship.fchampID + ",ID:," + championship.getSys_champID()+",Start Date:,"+championship.getStart_date());
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date());
         if(championship.getStatus().equals("Finished")){
             data.append(",Finish Date:,"+championship.getEnd_date());
             data.append("\nWinner Team," + teams.get(0).getTeam_name() + ",Score: " + teams.get(0).getTeam_score());
@@ -107,11 +107,13 @@ public class ExportCSV {
             data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2());
         }
 
-        data.append("\n");
+        if(championship.getStatus().equals("Finished")) {
+            data.append("\n");
         data.append("\nPlayers");
-        data.append("\n,Player,Average,HDCP,Games");
-        for (int i = 0; i < players.size(); i++) {
-            data.append("\n" +(i+1)+","+ players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+            data.append("\n,Player,Average,HDCP,Games");
+            for (int i = 0; i < players.size(); i++) {
+                data.append("\n" + (i + 1) + "," + players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+            }
         }
         return data;
     }

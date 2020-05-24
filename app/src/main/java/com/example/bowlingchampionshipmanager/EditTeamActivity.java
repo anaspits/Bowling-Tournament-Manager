@@ -94,8 +94,9 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         editViewModel = ViewModelProviders.of(this).get(EditViewModel.class);
 
         //fetch step 3
-        team = editViewModel.getTeam(bowlId);
-        team.observe(this, new Observer<Team>() {
+       // team = editViewModel.getTeam(bowlId);
+        //team.observe(this, new Observer<Team>() {
+        bowlingViewModel.getTeamfromUUID(tuuid).observe(this, new Observer<Team>() {
             @Override
             public void onChanged(Team team) {
                 tid.append(" No. "+ String.valueOf(bowlId));

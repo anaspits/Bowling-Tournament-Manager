@@ -217,7 +217,9 @@ android:orientation="vertical">
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintTop_toBottomOf="@+id/textTitle"
             app:layout_constraintVertical_bias="0.064"/>
+
         <LinearLayout
+            android:id="@+id/playerinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -302,8 +304,7 @@ android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewplayers"
             android:layout_width="match_parent"
-            android:layout_height="147dp"
-            tools:listitem="@layout/list2" />
+            android:layout_height="147dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

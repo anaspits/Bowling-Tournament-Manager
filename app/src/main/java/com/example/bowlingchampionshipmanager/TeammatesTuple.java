@@ -6,10 +6,11 @@ import androidx.room.Junction;
 import androidx.room.Relation;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeammatesTuple { //relationship many to many
+public class TeammatesTuple implements Serializable { //relationship many to many
 
    /* @TypeConverters(Converters.class)
     @ColumnInfo(name = "teamsid")

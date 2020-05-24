@@ -42,9 +42,7 @@ import javax.persistence.Persistence; */
 //import com.opecsv.CSVReader;
 
 public class Create1Activity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
-//TODO NA KANW OLA TA ACTIVITIES SCROLLABLE
     //todo na ftiaxw to background sto recycleview h sto list
-    //todo an o paikths diale3ei single na mhn deixnei ta radiobuttons
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
     private static EditText textView,editLanes,plperteam;

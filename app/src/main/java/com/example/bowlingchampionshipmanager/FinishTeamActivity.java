@@ -36,7 +36,7 @@ public class FinishTeamActivity extends AppCompatActivity {
     private List<Round> r;
     private String flag;
 
-//TODO EXPORT
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

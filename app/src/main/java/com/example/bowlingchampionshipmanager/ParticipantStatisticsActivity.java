@@ -39,7 +39,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     private BowlingListAdapter blistAdapter2;
     private int sum;
 
-    //fixme fix UI
+    //fixme fix UI k na to metaonomasw se Particpant list h kati tetoio
     //todo tha mporousa na valw kai ton ari8mo twn champs pou epai3e o ka8e paikths
     @Override
     protected void onCreate(Bundle savedInstanceState) {

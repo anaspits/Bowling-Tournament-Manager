@@ -59,4 +59,5 @@
     <string name="female">Female</string>
     <string name="_2_import_a_file_with_the_data_of_the_players_or_the_teams">2) Import a file with the data of the players or the teams</string>
     <string name="edit">Edit</string>
+    <string name="tip">Tip!</string>
 </resources>

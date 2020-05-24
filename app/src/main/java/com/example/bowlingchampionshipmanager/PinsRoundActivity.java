@@ -113,7 +113,7 @@ public class PinsRoundActivity extends AppCompatActivity {
                     rscorelistAdapter.setChamp(championship);//
                     rscorelistAdapter.setSelTeam(t);//
                     //2
-                    textTitle.append(" " + String.valueOf(ro.get(0).getFroundid()));
+                    textTitle.setText("Round " + String.valueOf(ro.get(0).getFroundid()));
                     System.out.println("kai to size einai " + ro.size());
                     System.out.println("Current Round of team " + t.getFTeamID() + " stat " + curRound.getStatus() + " is round " + curRound.getFroundid() + " with t1: " + curRound.getTeam1ID() + " and t2: " + curRound.getTeam2ID() + " and sysID: " + curRound.getRoundid());
 
@@ -325,6 +325,7 @@ if (calc_pressed ==1) {
         i.putExtras(extras);
         System.out.println("here 2 " + curRound.getStatus());
         startActivity(i);
+        finish();
     } else if (status_flag.equals("last")) {
         curRound.setStatus("done");
         bowlingViewModel.update(curRound);
@@ -347,6 +348,7 @@ if (calc_pressed ==1) {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
+        finish();
     }
 } else {
     Toast.makeText(
@@ -412,6 +414,7 @@ if (calc_pressed ==1) {
             extras.putSerializable("b_object", t); //selected team
             i.putExtras(extras); //
             startActivity(i);
+            finish();
         }else {
             Toast.makeText(
                     getApplicationContext(),
@@ -474,6 +477,7 @@ if (calc_pressed ==1) {
                     //finish();
                     System.out.println("here 2 " + curRound.getStatus());
                     startActivity(i);
+                    finish();
                 } else if (cd.getActive_flag() == 0) { //finish //todo na upologizw to neo avg tou ka8e paikth //finish
                    // curRound.setStatus("done");
                     bowlingViewModel.update(curRound);
@@ -529,6 +533,7 @@ if (calc_pressed ==1) {
                     extras.putSerializable("b_object", t); //selected team
                     i.putExtras(extras); //
                     startActivity(i);
+                    finish();
                 }
              }
             }else{
@@ -585,6 +590,7 @@ if (calc_pressed ==1) {
                 extras.putSerializable("b_object", t); //selected team
                 i.putExtras(extras); //
                 startActivity(i);
+                finish();
             } else{
                 Toast.makeText(
                         getApplicationContext(),
@@ -605,6 +611,7 @@ if (calc_pressed ==1) {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
+        finish();
     }
 }
 

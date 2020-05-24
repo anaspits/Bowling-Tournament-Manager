@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
     private static TextView display_teams,textTitle;
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
-    private int playersPerTeam=2;
+    private int playersPerTeam;
 
     private String TAG = this.getClass().getSimpleName();
     private BowlingListAdapter blistAdapter;
@@ -116,17 +117,41 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
            all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
            championship = (Championship) bundleObject.getSerializable("champ");
-           textTitle.append(" No."+championship.getFchampID());
            champuuid = bundleObject.getString("champuuid");
             }
-System.out.println("all size "+all_the_teams.size());
 
-      /*todo if(bowlers==null){
-             bowlingViewModel.getBowlsofChamp{
-             bowlers=b;
-             }
-             to idio k gia all_the_teams
-       }*/
+        bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
+            @Override
+            public void onChanged(Championship c) {
+                championship = c;
+                textTitle.append(" No."+championship.getSys_champID());
+            }
+        });
+
+       if(all_the_teams!=null) {
+           System.out.println("all size " + all_the_teams.size());
+       }else {
+           bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+               @Override
+               public void onChanged(List<Team> te) {
+                   all_the_teams= (ArrayList<Team>) te;
+                   System.out.println("null all size " + all_the_teams.size());
+               }
+           });
+       }
+
+        if(bowlers!=null) {
+            System.out.println("bowlers size " + bowlers.size());
+        }else {
+           System.out.println(" bowlers null");
+             bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+               @Override
+               public void onChanged(List<Participant> part) {
+                  bowlers= (ArrayList<Participant>) part;
+               }
+           });
+
+       }
 
         bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
@@ -248,8 +273,13 @@ System.out.println("all size "+all_the_teams.size());
     }
 
     public void openDialog() {
-        WarningDialog exampleDialog = new WarningDialog();
-        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+       // WarningDialog exampleDialog = new WarningDialog();
+        //exampleDialog.show(getSupportFragmentManager(), "example dialog");
+        finish();
+        Toast.makeText(
+                getApplicationContext(),
+                R.string.save,
+                Toast.LENGTH_LONG).show();
 
     }
 
@@ -356,6 +386,13 @@ System.out.println("all size "+all_the_teams.size());
     public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+
+        if(all_the_teams!=null) {
+            System.out.println("next all size " + all_the_teams.size());
+        }
+        if(bowlers!=null){
+            System.out.println("next bowlers size " + bowlers.size());
+        }
         /*if(button_text.equals("Back"))
         {
             Intent goback = new Intent(this,Create1Activity.class);
@@ -369,11 +406,13 @@ System.out.println("all size "+all_the_teams.size());
             Bundle bundle = new Bundle();
             bundle.putSerializable("bowlers",bowlers);
             bundle.putSerializable("all_the_teams",all_the_teams);
+            bundle.putSerializable("teammates", (Serializable) playersandteams);
             bundle.putString("teamid",teamuuid); //todo giati to pairnaw auto?
             bundle.putString("champuuid",champuuid);
             bundle.putSerializable("champ",championship);
             i.putExtras(bundle);
             startActivity(i);
+            finish();
 
         }
         else if (button_text.equals("HDCP Parameters"))

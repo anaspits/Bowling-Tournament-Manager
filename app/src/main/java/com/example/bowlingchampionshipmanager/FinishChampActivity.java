@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -20,20 +21,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FinishChampActivity extends AppCompatActivity {
+public class FinishChampActivity extends AppCompatActivity implements TeamatesAdapter.OnDeleteClickListener {
 
     private static TextView winnerTeam,textTitle,txtrounds;
+    private LinearLayout playerinfo;
     public Championship championship;
     private String champuuid;
     private BowlingViewModel bowlingViewModel;
     private RoundDoublelistAdapter roundlistAdapter;
-   //private SelectParticipantListAdapter blistAdapter;
+   //private SelectParticipantListAdapter blistAdapter2;
     private PlayerandGamesAdapter blistAdapter;
     private TeamandScoreAdapter tlistAdapter;
     private List<TeamandScore> teams;
     private List<Round> rounds;
     private List<PlayerandGames> players;
     private List<TeammatesTuple> playersandteams;
+    private TeamatesAdapter tplistAdapter;
 
     //TODO single
     @Override
@@ -44,6 +47,7 @@ public class FinishChampActivity extends AppCompatActivity {
         winnerTeam = findViewById(R.id.winnerTeam);
         textTitle = findViewById(R.id.textTitle);
         txtrounds= findViewById(R.id.txtrounds);
+        playerinfo = findViewById(R.id.playerinfo);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if (bundleObject != null) {
@@ -52,28 +56,32 @@ public class FinishChampActivity extends AppCompatActivity {
             champuuid = championship.getUuid();
         }
 
-        if(championship.getStatus().equals("Finished")){
-            textTitle.setText("Finished Championship");
-        }else {
-            textTitle.setText("Ongoing Championship");
-            winnerTeam.setVisibility(View.GONE);
-        }
-
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
         RecyclerView recyclerViewteam = findViewById(R.id.recyclerViewrank);
         RecyclerView recyclerViewround = findViewById(R.id.recyclerViewround);
         RecyclerView recyclerViewplayers = findViewById(R.id.recyclerViewplayers);
         roundlistAdapter = new RoundDoublelistAdapter(this);
-       // blistAdapter =  new SelectParticipantListAdapter(this);
+        //blistAdapter2 =  new SelectParticipantListAdapter(this);
+        tplistAdapter = new TeamatesAdapter(this,this);
         blistAdapter =  new PlayerandGamesAdapter(this);
         tlistAdapter = new TeamandScoreAdapter(this);
         recyclerViewteam.setAdapter(tlistAdapter);
         recyclerViewteam.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewround.setAdapter(roundlistAdapter);
         recyclerViewround.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewplayers.setAdapter(blistAdapter);
-        recyclerViewplayers.setLayoutManager(new LinearLayoutManager(this));
 
+        if(championship.getStatus().equals("Finished")) {
+            playerinfo.setVisibility(View.VISIBLE);
+            textTitle.setText("Finished Championship");
+            recyclerViewplayers.setAdapter(blistAdapter);
+            recyclerViewplayers.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            playerinfo.setVisibility(View.GONE);
+            recyclerViewplayers.setAdapter(tplistAdapter);
+            recyclerViewplayers.setLayoutManager(new LinearLayoutManager(this));
+            textTitle.setText("Ongoing Championship");
+            winnerTeam.setVisibility(View.GONE);
+        }
         bowlingViewModel.getRankedAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeamandScore>>() { //todo me cd.score
             @Override
             public void onChanged(List<TeamandScore> t) { //fixme emfanizei ta score opws na nai
@@ -134,8 +142,9 @@ public class FinishChampActivity extends AppCompatActivity {
             }
         }); */
 
+
 //fixme den leitourgei....den pairnei to updated_at apo to rd kai afou ta dates einai null pairnei to pio palio round anti to pio rosfato
-        bowlingViewModel.getAllPlayerScoreGamesofChamp(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+     /*   bowlingViewModel.getAllPlayerScoreGamesofChamp(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
             public void onChanged(List<PlayerandGames> part) {
                 ArrayList<PlayerandGames> p= new ArrayList<>();
@@ -164,7 +173,46 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
                 blistAdapter.setChamp(championship);
                 players=p;
             }
-        });
+        }); */
+
+    bowlingViewModel.getAllPlayerScoreGamesofChampOrdered(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+        @Override
+        public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me seira apo rounds
+            ArrayList<PlayerandGames> p = new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato)
+            for (int i = 0; i < part.size(); i++) {
+                System.out.println(" round " + part.get(i).getFroundid() + " " + part.get(i).getFirstName());
+                if (i == part.size() - 1) { //an einai o teleftaios paikths
+                     if(i!=0 && part.get(i).getFroundid()==part.get(i-1).getFroundid()) { //elegxw an einai sto idio round me ton prohgoumeno paikth
+                    p.add(part.get(i)); //kai ton vazw sth lista
+                    } else {
+                        break; //an den einai teleiwsame
+                    }
+                } else if (part.get(i).getFroundid() == part.get(i + 1).getFroundid()) { //an o paikths aftos einai sto idio round me ton epomeno
+                    p.add(part.get(i)); //ton vazw sth lista k sunexizw
+                } else { //an o epomenos einai se allo round
+                    p.add(part.get(i)); //vazw afton sth lista k stamataw giati oi upolipoi guroi den me endiaferoun
+                    break;
+                }
+            }
+            if(championship.getStatus().equals("Finished")) {
+            blistAdapter.setPlayers(p);
+            blistAdapter.setChamp(championship);
+            }
+            players = p;
+        }
+    });
+
+    //an den exei teleiwsei to champ pairnw apla tous players
+        if (!championship.getStatus().equals("Finished")) {
+            bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
+                @Override
+                public void onChanged(List<TeammatesTuple> p1) {
+                    playersandteams = p1;
+                    tplistAdapter.setTeams(p1);
+                    tplistAdapter.setChamp(championship);
+                }
+            });
+        }
 
         //pairnw tous paiktes ka8e omadas tou champ aftou
           bowlingViewModel.getAllTeamatesofAllRankedTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
@@ -253,5 +301,9 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void OnDeleteClickListener(TeammatesTuple myNote) {
     }
 }

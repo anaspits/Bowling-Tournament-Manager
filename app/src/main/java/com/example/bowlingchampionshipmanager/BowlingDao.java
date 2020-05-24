@@ -72,7 +72,7 @@ public interface BowlingDao {
     @Query("SELECT * FROM participant WHERE first_name=:fn AND last_name=:ln ")
     LiveData<Participant> getParticipantByName( String fn, String ln);
 
-    @Query("SELECT participant.participantID, participant.participant_uuid, participant.fakeID, participant.first_name, participant.last_name, participant.sex, participant.avg,  participant.hdcp,hdcp,participant.total_games, participant.teamID,participant.champID, participant.created_at, participant.updated_at,participant.disabled_at_date, participant.disable_flag FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER JOIN championship_detail ON team_detail.team_uuid = championship_detail.team_uuid  WHERE championship_detail.champ_uuid=:chID ORDER BY participant.avg DESC")
+    @Query("SELECT participant.* FROM participant INNER JOIN team_detail ON participant.participant_uuid=team_detail.participant_uuid INNER JOIN championship_detail ON team_detail.team_uuid = championship_detail.team_uuid  WHERE championship_detail.champ_uuid=:chID ORDER BY participant.avg DESC")
     LiveData<List<Participant>> getAllPlayersofChamp( String chID); //vash 3
 
     //todo test it: (malon axristo)

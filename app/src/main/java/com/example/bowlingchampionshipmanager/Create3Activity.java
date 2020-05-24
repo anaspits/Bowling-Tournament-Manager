@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
     private static Button start;
-
+    private List<TeammatesTuple> playersandteams;
     private BowlingViewModel bowlingViewModel;
     private DetailListAdapter dlistAdapter;
     public String champuuid;
@@ -61,16 +62,48 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
+            playersandteams= (List<TeammatesTuple>) bundleObject.getSerializable("teammates");
             //t.setText(hdcp_parameters.get(0));
             teamuuid=bundleObject.getString("teamid"); //todo na pernaw to object
             champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
-            textTitle.append(" No."+championship.getFchampID());
+            textTitle.append(" No."+championship.getSys_champID());
             if(championship.getType()==4){
                 teamsvsteams.setVisibility(View.GONE);
             }
         }
-        System.out.println("all size 3 "+all_the_teams.size());
+
+        if(all_the_teams!=null) {
+            System.out.println("all size 3 " + all_the_teams.size());
+            System.out.println("tm size 3 " + playersandteams.size());
+        }else {
+            bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+                @Override
+                public void onChanged(List<Team> te) {
+                    all_the_teams= (ArrayList<Team>) te;
+                }
+            });
+
+            bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
+                @Override
+                public void onChanged(List<TeammatesTuple> p1) {
+                    playersandteams = p1;
+                }
+            });
+        }
+
+        if(bowlers!=null) {
+            System.out.println("bowlers size " + bowlers.size());
+        }else {
+            System.out.println(" bowlers null");
+            bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+                @Override
+                public void onChanged(List<Participant> part) {
+                    bowlers= (ArrayList<Participant>) part;
+                }
+            });
+
+        }
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         dlistAdapter = new DetailListAdapter(this, this);
@@ -87,6 +120,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
             }
         });
 
+        //axristo
         bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship c) {
@@ -110,7 +144,7 @@ championship = c;
            // Intent goback = new Intent(this,Create2Activity.class);
            // startActivity(goback);
         }
-        else if (button_text.equals("Start Championship"))
+        else if (button_text.equals("Next"))
         {
             //Intent gonext = new Intent(this,Create3Activity.class);
             //startActivity(gonext);
@@ -140,6 +174,7 @@ championship = c;
                    extras.putString("champuuid", champuuid);
                    extras.putSerializable("champ", championship);
                    extras.putSerializable("all_the_teams", all_the_teams);
+                   extras.putSerializable("teammates", (Serializable) playersandteams);
                    i.putExtras(extras);
                    startActivity(i);
                    finish();
@@ -156,10 +191,12 @@ championship = c;
                 extras.putSerializable("bowlers",bowlers);
                 extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
                 extras.putSerializable("all_the_teams",all_the_teams);
+               extras.putSerializable("teammates", (Serializable) playersandteams);
                 extras.putString("champuuid",champuuid);
                 extras.putSerializable("champ",championship);
                 i.putExtras(extras);
                 startActivity(i);
+                finish();
              /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                    finishAffinity();
                }*/

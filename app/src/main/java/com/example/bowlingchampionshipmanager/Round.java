@@ -1,5 +1,7 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.room.ColumnInfo;
@@ -11,6 +13,7 @@ import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 //import java.sql.Date;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,6 +242,117 @@ public class Round implements Serializable {
         this.status=status;
     }
 
+    //todo test it
+    void roundRobin(int teams, int round, BowlingViewModel bowlingViewModel, ArrayList<Team> all_the_teams, TextView details, List<TeammatesTuple> playersandteams) {
+        //temp2=new Team[round][teams];
+        if (((teams%2 != 0) && (round != teams - 1))||(teams <= 0))
+            throw new IllegalArgumentException(); //todo na dw ti ginetai me to roundrobin monwn omadwn px 3 omades
+        int[] cycle = new int[teams];
+        int n = teams /2;
+        for (int i = 0; i < n; i++) {
+            cycle[i] = i + 1;
+            cycle[teams - i - 1] = cycle[i] + n;
+
+        }
+
+        //int counter2=0; //gia thn swsth emfanisei twn antipalwn omadwn gia thn temp3
+        for(int d = 1; d <= round; d++) {
+            details.append(" Round "+ d +": \n");
+
+            //System.out.println(String.format("Round %d", d));
+            for (int i = 0; i < n; i++) {
+                ArrayList<Team> temp1 = new ArrayList<>(); //voithitiki lista gia thn vs
+                //int counter=0; //gia thn 2h omada gia ton temp2
+                for (int j=0; j<all_the_teams.size();j++){ //vriskw poia omada exetazoume
+                    if (all_the_teams.get(j).getFTeamID()== cycle[i]){
+                        Team t1 = all_the_teams.get(j);
+                        System.out.println("t1 teammates " + t1.getTeammates().size());
+                        temp1.add(t1); //kai tin pernaw sthn lista temp1
+
+                        //temp2[i][counter]=t1;
+                        //counter++;
+
+                        //temp3.add(t1);
+                    }
+                }
+                for (int j=0; j<all_the_teams.size();j++){ //vriskw tin alli omada poy tha einai antipalos
+                    if (all_the_teams.get(j).getFTeamID()== cycle[teams - i - 1]){
+                        Team t2 = all_the_teams.get(j);
+                        System.out.println("t2 teammates " + t2.getTeammates().size());
+                        temp1.add(t2); //tin pernaw kai afti sti lista gia na exw mia lista apo antipales omades
+
+                        //temp2[i][counter]=t2;
+                        //counter++;
+
+                        //temp3.add(t2);
+                    }
+                }
+
+                //vs.add(temp1); //pernaw tin lista twn 2 antipalwn omadwn stin lista vs, opou h thesi tous einai o gyros ston opoio paizoun+1
+                details.append(" Team "+temp1.get(0).getFTeamID()+ " vs Team "+temp1.get(1).getFTeamID()+"\n");
+
+                String ruuid= UUID.randomUUID().toString();
+                Round r = new Round (ruuid,d,temp1.get(0).getFTeamID(), temp1.get(1).getFTeamID() , champuuid, temp1.get(0).getUuid(),  temp1.get(1).getUuid(),temp1.get(0).getScore(),temp1.get(1).getScore(), "");
+                if (d==1){
+                    // r.setStatus("current");
+                    r.setStatus("next");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus() +" chid "+ champuuid);
+                } else if (d==round){
+                    r.setStatus("last");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                } else {
+                    r.setStatus("next");
+                    System.out.println("Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus());
+                }
+                bowlingViewModel.insert(r);
+                //gia ka8e paikth ths ka8e omadas vazw to rd
+                for(int t=0;t<temp1.size();t++) { //gia ka8e omada autou tou gurou
+                    ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
+                    if(pa!=null) { //an o user ekopse kai sunexise to create
+                        for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
+                            System.out.println("me pa.teamates");
+                            Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                            bowlingViewModel.insert(rd);
+                            System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+
+                        }
+                    }else {
+                        for (int tm = 0; tm < playersandteams.size();tm++) { //psaxnw na vrw thn omada pou meletame sto playersandteams
+                            if (playersandteams.get(tm).getC().getUuid().equals(temp1.get(t).getUuid())) { //gia na parw tous paiktes ths omadas afths
+                                List<Participant> pa2 = playersandteams.get(tm).getT();
+                                for (int p = 0; p < pa2.size(); p++) {
+                                    System.out.println("me pa2 k playersandteams");
+                                    Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                    //rd.setScore(pa.get(p).getBowlAvg());
+                                    bowlingViewModel.insert(rd);
+                                    System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                                }
+                                System.out.println("break");
+                                break;
+                            }
+                        }
+                    }
+                }
+                //emfanish me temp2
+                //details.append(" Team "+temp2[i][0].getFTeamID()+ " vs Team "+temp2[i][1].getFTeamID()+"\n");
+
+                //emfanish me temp3
+                //details.append(" Team "+temp3.get(counter2).getFTeamID()+ " vs Team "+temp3.get(counter2+1).getFTeamID()+"\n");
+                //counter2=counter2+2;
+
+                //details.append("Prepei Team "+cycle[i]+ " vs Team "+cycle[teams - i - 1]+"\n");
+                //System.out.println(String.format("teamid %d - teamid %d",cycle[i],cycle[teams - i - 1]));
+            }
+            details.append("\n");
+            int temp = cycle[1];
+            for (int i = 1; i < teams - 1; i++) {
+                int pr = cycle[i+1];
+                cycle[i+1] = temp;
+                temp = pr;
+            }
+            cycle[1] = temp;
+        }
+    }
 public List<Round> assignLanes(ArrayList<Round> rounds, int lanes, int r, BowlingViewModel bowlingViewModel, ArrayList<Team> all_the_teams){
         if (((lanes%2 != 0) && (r != lanes - 1))||(lanes <= 0))
             throw new IllegalArgumentException();

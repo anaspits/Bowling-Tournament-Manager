@@ -114,7 +114,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             }
         });
 
-        //pairnw tous paiktes ka8e omadas tou champ aftou //todo na dw an pairnei ontws mono aftou tou champ
+        //pairnw tous paiktes ka8e omadas tou champ aftou
         bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
             public void onChanged(List<TeammatesTuple> p1) {
@@ -139,7 +139,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                  pos=0; pos2=0; pos3=0; pos4=0; fpos=0; fpos2=0; fpos3=0; fpos4=0;
                 for (int i = 0; i < rds.size(); i++) {
                    // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
-
+//fixme na ginetai kai gia isopalies
                    if (rds.get(i).getSex().equals("m")) {
                        ArrayList<Integer> scoreandpos=rds.get(i).calcSetAndGamesStat(rds,r,i,mangame,mangamebegining,manset,mansetbegining,pos, pos2, pos3, pos4);
                        mangame=scoreandpos.get(0);
@@ -303,7 +303,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         finish();
     }
 
-    public void export(View view) {
+    public void export(View view) { //todo na to valw sto class
         StringBuilder data = new StringBuilder();
         data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
         data.append("\nRound No.,"+r.getFroundid());

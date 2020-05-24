@@ -33,7 +33,7 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     private static final int CREATE_REQUEST_CODE = 40;
     private static final int OPEN_REQUEST_CODE=41;
     public static ArrayList<Team> all_the_teams; //xrhsimo
-    private List<Team> all_the_teams_live;
+    private List<TeammatesTuple> playersandteams;
     static ArrayList<String> hdcp_parameters;
     public String teamuuid; //axristo
     private BowlingViewModel bowlingViewModel;
@@ -67,11 +67,12 @@ textTitle= findViewById(R.id.textTitle);
             bowlers = (ArrayList<Participant>) bundleObject.getSerializable("bowlers");
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
+            playersandteams= (List<TeammatesTuple>) bundleObject.getSerializable("teammates");
             //t.setText(hdcp_parameters.get(0));
             teamuuid=bundleObject.getString("teamid"); //axristo
             champuuid = bundleObject.getString("champuuid");
             ch= (Championship) bundleObject.getSerializable("champ");
-            textTitle.append(" No."+ch.getFchampID());
+            textTitle.append(" No."+ch.getSys_champID());
 
         }
 
@@ -141,18 +142,36 @@ textTitle= findViewById(R.id.textTitle);
         });*/
 
         System.out.println("all size "+all_the_teams.size());
-        //pairnw to sunolo twn omadwn pou 8a xreiatsw parakatw
-        bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
-            @Override
-            public void onChanged(List<Team> t) {
-                all_the_teams_live=t;
-            }
-        });
+        if(all_the_teams==null) {
+            //pairnw to sunolo twn omadwn pou 8a xreiatsw parakatw
+            bowlingViewModel.getAllTeamsofChamp3(champuuid).observe(this, new Observer<List<Team>>() {
+                @Override
+                public void onChanged(List<Team> t) {
+                    all_the_teams = (ArrayList<Team>) t;
+                }
+            });
+        }
 
-        button_imp.setOnClickListener(new View.OnClickListener() { //TODO: na kanw na mhn 3anapatietai kai na emfanizei ton titlo tou arxeiou
+        button_imp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFile();
+                if (imp_pressed == 0) {
+                    openFile();
+                }else {
+                    //todo test it
+                    System.out.println("prin "+pins_points.size());
+                    pins_points.clear();
+                    if(pins_points!=null) {
+                        System.out.println("meta" + pins_points.size());
+                    }else {
+                        System.out.println("meta null");
+                    }
+                    openFile();
+                   /* Toast.makeText(
+                            getApplicationContext(),
+                            "You have already imported a file. To cancel it, go back to the MainMenu",
+                            Toast.LENGTH_LONG).show(); */
+                }
             }
         });
     }
@@ -243,12 +262,13 @@ textTitle= findViewById(R.id.textTitle);
 
         String line = "";
         String cvsSplitBy = ",";
-        pp.createPins_pointsList(bowlingViewModel, inputStream, line, cvsSplitBy,ch.getUuid(),pins_points);
+        pins_points= pp.createPins_pointsList(bowlingViewModel, inputStream, line, cvsSplitBy,ch.getUuid(),pins_points);
         inputStream.close();
         //return stringBuilder.toString();
         textView.append("\n");
         textView.append("Pins - Points\n");
         for (int i=0;i<pins_points.size();i++) {
+            System.out.println("pp size "+pins_points.size());
             textView.append(pins_points.get(i).getPins()+" "+pins_points.get(i).getPoints()); //fixme den emfanizetai kai na ginei scrollable
             System.out.println("pins "+pins_points.get(i).getPins()+" points "+pins_points.get(i).getPoints());
         }
@@ -260,10 +280,15 @@ textTitle= findViewById(R.id.textTitle);
         String button_text;
         button_text =((Button)View).getText().toString();
 
-            System.out.println(" all_the_teams_live size "+all_the_teams_live.size()); //todo
-            System.out.println(" all_the_teams_live  "+all_the_teams_live.get(0).getTeamName()+ " score "+all_the_teams_live.get(0).getScore() );
+            System.out.println(" all_the_teams size "+all_the_teams.size());
+            System.out.println(" all_the_teams  "+all_the_teams.get(0).getTeamName()+ " score "+all_the_teams.get(0).getScore() );
         System.out.println(" rounds edit "+editNorounds.getText().toString());
+            System.out.println(" pinspoints size "+pins_points.size());
 
+        for (int i=0;i<pins_points.size();i++){
+            bowlingViewModel.insert(pins_points.get(i));
+            System.out.println("ins pp "+pins_points.get(i).getPoints());
+        }
 
       if(editNorounds.getText().toString().equals("0")){
           Toast.makeText(
@@ -282,10 +307,10 @@ textTitle= findViewById(R.id.textTitle);
           //kanw ta rounds kai ta round-detail
           for (int d = 1; d <= round; d++) {
               System.out.println(String.format("Round %d", d));
-              for (int i = 0; i < all_the_teams_live.size(); i++) {
-                  System.out.println(" Team " + all_the_teams_live.get(i).getFTeamID());
+              for (int i = 0; i < all_the_teams.size(); i++) {
+                  System.out.println(" Team " + all_the_teams.get(i).getFTeamID());
                   String ruuid = UUID.randomUUID().toString();
-                  Round r = new Round(ruuid, d, all_the_teams_live.get(i).getFTeamID(), 0, champuuid, all_the_teams_live.get(i).getUuid(), null, all_the_teams_live.get(i).getScore(), 0, "");
+                  Round r = new Round(ruuid, d, all_the_teams.get(i).getFTeamID(), 0, champuuid, all_the_teams.get(i).getUuid(), null, all_the_teams.get(i).getScore(), 0, "");
                   if (d == round) {
                       r.setStatus("last");
                       System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus());
@@ -298,7 +323,7 @@ textTitle= findViewById(R.id.textTitle);
 
                   //gia ka8e paikth ths ka8e omadas vazw to rd
                   /*/meta fixme
-                  bowlingViewModel.getAllPlayersofTeam3(all_the_teams_live.get(i).getUuid(), champuuid).observe(this, new Observer<List<Participant>>() {
+                  bowlingViewModel.getAllPlayersofTeam3(all_the_teams.get(i).getUuid(), champuuid).observe(this, new Observer<List<Participant>>() {
                       @Override
                       public void onChanged(List<Participant> pa) {
                           for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
@@ -311,13 +336,31 @@ textTitle= findViewById(R.id.textTitle);
                       }
                   }); */
                   // Prin
-                  ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths //todo na to kanw me livedata apo to view model
-                  for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                      Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0,champuuid,r.getFroundid(), Calendar.getInstance().getTime() ); //ftiaxnw to rd
-                      //rd.setScore(pa.get(p).getBowlAvg());
-                      bowlingViewModel.insert(rd);
-                      System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
-                  } //
+                  ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths
+                  if(pa!=null) {
+                      for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
+                          System.out.println("me pa.teamates");
+                          Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                          //rd.setScore(pa.get(p).getBowlAvg());
+                          bowlingViewModel.insert(rd);
+                          System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+                      } //
+                  }else {
+                      for (int tm = 0; tm < playersandteams.size();tm++) { //psaxnw na vrw thn omada pou meletame sto playersandteams
+                          if (playersandteams.get(tm).getC().getUuid().equals(all_the_teams.get(i).getUuid())) { //gia na parw tous paiktes ths omadas afths
+                              List<Participant> pa2 = playersandteams.get(tm).getT();
+                              for (int p = 0; p < pa2.size(); p++) {
+                                  System.out.println("me pa2 k playersandteams");
+                                  Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                  //rd.setScore(pa.get(p).getBowlAvg());
+                                  bowlingViewModel.insert(rd);
+                                  System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                              }
+                              System.out.println("break");
+                              break;
+                          }
+                      }
+                  }
               }
           }
 
