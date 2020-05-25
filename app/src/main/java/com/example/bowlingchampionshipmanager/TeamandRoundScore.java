@@ -32,6 +32,9 @@ class TeamandRoundScore {
     @ColumnInfo(name="team2UUID")
     String team2_uuid;
 
+    @ColumnInfo(name="status")
+    String status;
+
     public String getTeam_uuid() {
         return team_uuid;
     }
@@ -72,6 +75,10 @@ class TeamandRoundScore {
         this.team_uuid = team_uuid;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setFteamID(int fteamID) {
         this.fteamID = fteamID;
     }
@@ -104,7 +111,11 @@ class TeamandRoundScore {
         this.team2_uuid = team2_uuid;
     }
 
-    public TeamandRoundScore(String team_uuid, int fteamID, String team_name, int score1, int score2, int points1, int points2, String team1_uuid,String team2_uuid) {
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public TeamandRoundScore(String team_uuid, int fteamID, String team_name, int score1, int score2, int points1, int points2, String team1_uuid, String team2_uuid, String status) {
         this.team_uuid = team_uuid;
         this.fteamID = fteamID;
         this.team_name = team_name;
@@ -114,6 +125,7 @@ class TeamandRoundScore {
         this.points2 = points2;
         this.team1_uuid = team1_uuid;
         this.team2_uuid = team2_uuid;
+        this.status=status;
     }
 }
 

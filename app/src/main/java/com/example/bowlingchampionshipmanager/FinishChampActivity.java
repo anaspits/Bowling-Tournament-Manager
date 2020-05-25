@@ -92,7 +92,8 @@ public class FinishChampActivity extends AppCompatActivity implements TeamatesAd
             }
         });
 
-        bowlingViewModel.getAllRoundofChamp(champuuid).observe(this, new Observer<List<Round>>() {
+       // bowlingViewModel.getAllRoundofChamp(champuuid).observe(this, new Observer<List<Round>>() {
+        bowlingViewModel.getDoneRoundsofChamp(champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> r) {
                 roundlistAdapter.setSelRound(r);
@@ -174,8 +175,8 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
                 players=p;
             }
         }); */
-
-    bowlingViewModel.getAllPlayerScoreGamesofChampOrdered(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+//fixme gia odd number f teams: gia kapoio logo otan paizontai alloi gyroi px ths omadas 2, oi upoloipoi paiktes (px ths omadas 1) exoun ola 0
+   /* bowlingViewModel.getAllPlayerScoreGamesofChampOrdered(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
         @Override
         public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me seira apo rounds
             ArrayList<PlayerandGames> p = new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato)
@@ -200,7 +201,26 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
             }
             players = p;
         }
-    });
+    }); */
+   //todo bye- test it
+        bowlingViewModel.getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+            @Override
+            public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me alfavitikh seira apo last name
+                ArrayList<PlayerandGames> p= new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato) (pou den 8a einai bye - gia odd numofteams)
+                for(int i=0;i<part.size();i++){
+                    System.out.println(" round "+part.get(i).getFroundid()+" "+part.get(i).getFirstName());
+                    if (i==part.size()-1){ //an einai o teleftaios paikths
+                            p.add(part.get(i)); //kai ton vazw sth lista
+                    }
+                    else if (!part.get(i).getParticipant_uuid().equals(part.get(i+1).getParticipant_uuid())){ //an o paikths aftos den einai idios me ton epomeno ara afto einai to teleftaio round pou epai3e
+                        p.add(part.get(i)); //ton vazw sth lista k sunexizw
+                    }
+                }
+                blistAdapter.setPlayers(p);
+                blistAdapter.setChamp(championship);
+                players=p;
+            }
+        });
 
     //an den exei teleiwsei to champ pairnw apla tous players
         if (!championship.getStatus().equals("Finished")) {

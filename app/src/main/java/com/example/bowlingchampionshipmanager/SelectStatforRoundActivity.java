@@ -59,9 +59,10 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         });
 
 
-        //pairnw oles tis omades me ta score tous
-        bowlingViewModel.geAllTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
-            @Override
+        //pairnw oles tis omades me ta score tous //todo bye- na parw to cd gia score
+        //bowlingViewModel.geAllTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
+        bowlingViewModel.geAllActiveTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
+        @Override
             public void onChanged(List<TeamandRoundScore> t) {
         teams=t;
             }
@@ -95,7 +96,9 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     public void exportPlayerscsv(View view) {
         //generate data
         StringBuilder data = new StringBuilder();
-        data.append(" ,Name,"); //todo hdcp
+        data= ex.exportRoundPlayersStat(championship,rounds,rd); //todo test it
+
+       /* data.append(" ,Name,"); //todo hdcp
 
             for (int i = 0; i < rounds.size(); i++) {
                 if(i==0) {
@@ -131,7 +134,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                 counter++;
                 data.append(String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
             }
-        }
+        }*/
 
         try {
             //saving the file into device
@@ -154,9 +157,9 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         }
     }
 
-    public void exportTeamscsv(View view) { //fixme
+    public void exportTeamscsv(View view) {
         StringBuilder data = new StringBuilder();
-        data=ex.exportRoundTeamStat(championship,rounds,teams, playersandteams);
+        data=ex.exportRoundTeamStat(championship,rounds,teams, playersandteams); //todo bye- na pairnei to teleftaio score apo to cd -> round_detailDao ...inner join cd on teamuuid
 
         try {
             //saving the file into device

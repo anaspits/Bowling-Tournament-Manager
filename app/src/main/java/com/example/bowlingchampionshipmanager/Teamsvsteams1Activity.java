@@ -61,8 +61,9 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             playersandteams= (List<TeammatesTuple>) bundleObject.getSerializable("teammates");
-            champuuid = bundleObject.getString("champuuid");
+            //champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
+            champuuid=championship.getUuid();
             textTitle.append(" No."+championship.getSys_champID());
         }
 
@@ -97,8 +98,8 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
             }
         });
 
-
- //pairnaw sto flag ka8e omadas tou champ ton arithom twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0
+        rounds=(all_the_teams.size()-1)*2; //to sunolo twn rounds pou 8apai3ei mia omada sto champ (ane3arthtws an einai peritos arithmos omadwn h' oxi kai ane3arthtws to sunolo twn rounds pou exei to champ
+ //pairnaw sto flag ka8e omadas tou champ ton arithom twn rounds kai se ka8e round aftos 8a meiwnetai mexris otou na ginei 0 -> to kanw sto roundrobinnew
         bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() {
             @Override
             public void onChanged(List<Championship_detail> c) {
@@ -108,10 +109,14 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
                 }
             }
         });
+        System.out.println(" to sunolo twn rounds pou 8apai3ei mia omada sto champ "+rounds);
 
-        rounds=(all_the_teams.size()-1)*2;
         if (all_the_teams.size()!=0) {
-            roundRobin(all_the_teams.size(), rounds);
+           // roundRobin(all_the_teams.size(), rounds);
+
+Round tr = new Round("",0,0,0,champuuid,null,null,0,0,null);
+StringBuilder roundrobinresult = tr.roundrobinnew(championship.getUuid(),all_the_teams,bowlingViewModel,playersandteams);
+details.append(roundrobinresult);
 
             test();
         }

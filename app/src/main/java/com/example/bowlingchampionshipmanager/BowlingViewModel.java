@@ -347,7 +347,10 @@ public class BowlingViewModel extends AndroidViewModel {
 
     LiveData<List<TeamandRoundScore>> geAllTeamsofChamp( String champid){
         return teamDao.geAllTeamsofChamp(champid);
+    }
 
+    LiveData<List<TeamandRoundScore>> geAllActiveTeamsofChamp( String champid){
+        return teamDao.geAllActiveTeamsofChamp(champid);
     }
 
     private class TeamOperationsAsyncTask extends AsyncTask<Team, Void, Void> {
@@ -821,8 +824,8 @@ public  void insert (Team_detail t){
         return rdDao.getAllPlayerScoreGamesofChampOrdered(chid);
     }
 
-    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampofDoneRoundsOrdered(String chid){
-        return rdDao.getAllPlayerScoreGamesofChampofDoneRoundsOrdered(chid);
+    LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(String chid){
+        return rdDao.getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(chid);
     }
 
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofTeamOrdered(String chid, String tid){

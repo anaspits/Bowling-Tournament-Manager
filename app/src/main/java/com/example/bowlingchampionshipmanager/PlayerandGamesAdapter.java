@@ -44,7 +44,7 @@ public class PlayerandGamesAdapter extends RecyclerView.Adapter<PlayerandGamesAd
 
         if (mNotes != null) {
             PlayerandGames note = mNotes.get(position);
-            holder.setData(note.getFirstName()+" "+note.getLastName(),note.getBowlAvg(),note.getHdcp(),note.getGames(), position);
+            holder.setData(note.getLastName()+" "+note.getFirstName(),note.getBowlAvg(),note.getHdcp(),note.getGames(), position);
             //holder.setListeners();
         } else {
             // Covers the case of data not being ready yet.

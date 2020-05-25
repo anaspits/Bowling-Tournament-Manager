@@ -509,7 +509,7 @@ for (int i=0;i<test.size();i++){
 }*///PASS ROUND PART 6//
         System.out.println("save_pressed="+save_pressed);
         if (save_pressed == 1){
-           // if(t.getUuid().equals(curRound.getTeam1UUID())){ //fixme pairniountai la8os
+           // if(t.getUuid().equals(curRound.getTeam1UUID())){ //fixme pairniountai la8os - done!
                 cd.setScore(score1);
                 cd2.setScore(score2);
           /*  } else if(t.getUuid().equals(curRound.getTeam2UUID())){

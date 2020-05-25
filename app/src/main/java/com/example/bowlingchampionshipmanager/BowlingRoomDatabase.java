@@ -43,9 +43,13 @@ public abstract class BowlingRoomDatabase extends RoomDatabase {
                                     super.onCreate(db);
                                     Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                         @Override
-                                        public void run() {
+                                        public void run() { //prepopulate thn vash me voithitika blind kai team-bye
                                             Participant p = new Participant(0, "blind", "BLIND", "BLIND", 0, 0, null, 0, "", 1);
                                             getDatabase(context).bowlingDao().insert(p);
+
+                                            Team bye = new Team(0,"Bye","Bye",0);
+                                            bye.setActive_flag(1);
+                                            getDatabase(context).teamDao().insert(bye);
                                         }
                                     });
                                 }

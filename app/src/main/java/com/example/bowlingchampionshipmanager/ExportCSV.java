@@ -137,6 +137,7 @@ public class ExportCSV {
                 }
             }
             data.append("Sum Points");
+            System.out.println("teams size "+teams.size());
             if(teams.size()!=0){
                 int counter = 1;
                 for (int i = 0; i < teams.size(); i++) { //gia ka8e omada tou champ (me order fteamid- ara exw omada-guros1,2,3..)
@@ -179,7 +180,7 @@ public class ExportCSV {
                                 }
                             }
                         }
-                            //epishw pairnw ta points afths ths omadas
+                            //epishs pairnw ta points afths ths omadas
                         if (championship.getType() == 1 || championship.getType() == 4) {
                             data.append("," + teams.get(i).getPoints1()); //giati +1|?
                         } else if (championship.getType() == 2) {
@@ -196,7 +197,7 @@ public class ExportCSV {
                             if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
                                 data.append("," + t.getScore1());
                             } else {
-                                data.append("," + t.getScore2());//todo na rwthsw
+                                data.append("," + t.getScore2());
                             }
                         }
                     } else if ( t.getTeam_uuid().equals(teams.get(i - 1).getTeam_uuid())) { //an einai idia omada me thn prohgoumenh, shmainei oti phgame ston epomeno gyro (ths idias omadas)
@@ -230,7 +231,7 @@ public class ExportCSV {
                             }
                         }
                         data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai na perasoume se afthn pou eimaste twra (dld thn epomenh) kai na paroume to onoma kai tous paiktes ths
-                        for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
+                        for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) { //fixme
                             data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
                             if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
                                 data.append("-");
@@ -258,4 +259,49 @@ public class ExportCSV {
         }
         return data;
         }
-}
+
+        //todo test it
+    public StringBuilder exportRoundPlayersStat(Championship championship, List<Round> rounds,List<PlayerandGames> rd) {
+        StringBuilder data = new StringBuilder();
+        data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
+        data.append(" ,Name,"); //todo hdcp
+
+        for (int i = 0; i < rounds.size(); i++) {
+            if(i==0) {
+                data.append(rounds.get(i).getFroundid()+"H,");
+                data.append(rounds.get(i).getFroundid()+"H,");
+                data.append(rounds.get(i).getFroundid()+"H,");
+            } else if (rounds.get(i).getFroundid()!=rounds.get(i-1).getFroundid()){
+                data.append(rounds.get(i).getFroundid()+"H,");
+                data.append(rounds.get(i).getFroundid()+"H,");
+                data.append(rounds.get(i).getFroundid()+"H,");
+            } else if (rounds.get(i).getFroundid()==rounds.get(i-1).getFroundid()){
+                System.out.println("i "+i+" fr "+rounds.get(i).getFroundid());
+                //break() H continue();
+            }
+        }
+        data.append("Avg,Games,Score");
+
+        int counter=1;
+        for (int i = 0; i < rd.size(); i++) {
+            PlayerandGames p = rd.get(i);
+            if(i==0) { //an einai to prwto, einai o prwtos paikths
+                data.append("\n" + counter+"," + String.valueOf(p.getFirstName())+" "+p.getLastName());
+                counter++;
+                data.append(","+String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
+            }else if (p.getParticipant_uuid().equals(rd.get(i-1).getParticipant_uuid())){ //an to uuid einai idio me to prohgoumeno ara einai o idios aikths se allo gyro
+                data.append(","+String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
+                if (i==(rd.size()-1)){
+                    data.append(","+rd.get(i).getBowlAvg()+","+rd.get(i).getGames()+","+(rd.get(i).getBowlAvg()*rd.get(i).getGames())); //todo ..ti kanw edw akrivws? -  na valw kai hdcp
+                }
+            }else{
+                data.append(","+rd.get(i-1).getBowlAvg()+","+rd.get(i-1).getGames()+","+(rd.get(i-1).getBowlAvg()*rd.get(i-1).getGames()));
+                data.append("\n" + counter+"," + String.valueOf(p.getFirstName())+" "+p.getLastName()+ ",");
+                counter++;
+                data.append(String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
+            }
+        }
+        return data;
+    }
+
+    }

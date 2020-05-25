@@ -183,7 +183,7 @@ public class Team implements Serializable {
         if (teamName!=null) {
             this.teamName = teamName;
         } else {
-            this.teamName= String.valueOf(this.fTeamID); //todo: to name na apoteleitai apo champid kai fteamid
+            this.teamName= String.valueOf(this.fTeamID); //todo: to name na apoteleitai apo champid kai fteamid?
         }
         //this.teammates = teammates;
         this.score=score;

@@ -73,6 +73,19 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                     holder.third.setText("0");
                     holder.hdcp.setText("0");
                 } else {
+                    holder.cardview.setEnabled(true);
+                    holder.cardview.setCardBackgroundColor(Color.parseColor("#F9F9F9"));
+                    holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
+                    holder.txvNote.setEnabled(true);
+                    holder.first.setEnabled(true);
+                    holder.first.setFocusableInTouchMode(true);
+                    holder.second.setEnabled(true);
+                    holder.second.setFocusableInTouchMode(true);
+                    holder.third.setEnabled(true);
+                    holder.third.setFocusableInTouchMode(true);
+                    holder.hdcp.setEnabled(true);
+                    holder.hdcp.setFocusableInTouchMode(true);
+
                     holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
                     if (String.valueOf(rd.get(position).getFirst()) != null) {
                         holder.first.setText(String.valueOf(rd.get(position).getFirst()));

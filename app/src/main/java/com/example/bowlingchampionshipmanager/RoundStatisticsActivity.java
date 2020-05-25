@@ -72,7 +72,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         }
         System.out.println("got r "+r.getFroundid()+" rid "+r.getRounduuid());
         textTitle.setText("Round No."+r.getFroundid());
-        //teams //todo order
+        //teams //todo order - fixme otan o teleftaios gyros ths omadas einai bye tote deixnei score 0
         bowlingViewModel.geAllTeamsofRoundofChamp( champuuid,r.getFroundid() ).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
             public void onChanged(List<TeamandRoundScore> t) {
@@ -102,7 +102,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             }
         });
 
-        //players
+        //players //fixme bye - na mhn kanw rd gia bye rounds H' sto finishchamp otan teleiwnei ena champ, an h teleftaia gyra mias omadas htan bye, na pairnietai to teleftaio rd twn paiktwn
         bowlingViewModel.getAllPlayerScoreGamesofRound(r.getFroundid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
         //bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() { //fixme den epistrefei olous tous players
             @Override

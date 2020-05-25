@@ -113,7 +113,7 @@ public class FinishTeamActivity extends AppCompatActivity {
         //bowlingViewModel.getAllPlayerScoreGamesofTeamOrdered(champuuid,tuuid).observe(this, new Observer<List<PlayerandGames>>() {
         bowlingViewModel.getAllPlayerScoreGamesofTeamofDoneRoundsOrdered(champuuid,tuuid).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
-            public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me seira apo rounds
+            public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn ths omadas me seira apo rounds
                 ArrayList<PlayerandGames> p= new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato)
                 for(int i=0;i<part.size();i++){
                     System.out.println(" round "+part.get(i).getFroundid()+" "+part.get(i).getFirstName());

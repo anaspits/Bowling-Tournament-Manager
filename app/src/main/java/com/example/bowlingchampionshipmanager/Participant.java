@@ -59,7 +59,7 @@ public class Participant implements Serializable {
     @ColumnInfo(name="sex")
     String sex; //m,f
 
-    @ColumnInfo(name="avg") //ka8oliko (dia ola ta paixnidia pou exei pai3ei mexri twra) //todo na kanw float
+    @ColumnInfo(name="avg") //ka8oliko (dia ola ta paixnidia pou exei pai3ei mexri twra) //todo na kanw float kai na einai klasma!
     int bowlAvg;
 
     @ColumnInfo(name="hdcp") //todo
