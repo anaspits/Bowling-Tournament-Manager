@@ -82,9 +82,9 @@ public class FinishChampActivity extends AppCompatActivity implements TeamatesAd
             textTitle.setText("Ongoing Championship");
             winnerTeam.setVisibility(View.GONE);
         }
-        bowlingViewModel.getRankedAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeamandScore>>() { //todo me cd.score
+        bowlingViewModel.getRankedAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeamandScore>>() {
             @Override
-            public void onChanged(List<TeamandScore> t) { //fixme emfanizei ta score opws na nai
+            public void onChanged(List<TeamandScore> t) { //fixme emfanizei ta score opws na nai -?
                 tlistAdapter.setTeams(t);
             tlistAdapter.setChamp(championship); 
             winnerTeam.setText("Winning Team: "+t.get(0).getTeam_name()+"\n"+" with Score: "+t.get(0).getTeam_score());
@@ -202,20 +202,21 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
             players = p;
         }
     }); */
-   //todo bye- test it
+   //todo bye- test it - komple mallon
         bowlingViewModel.getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
             public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me alfavitikh seira apo last name
-                ArrayList<PlayerandGames> p= new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato) (pou den 8a einai bye - gia odd numofteams)
-                for(int i=0;i<part.size();i++){
-                    System.out.println(" round "+part.get(i).getFroundid()+" "+part.get(i).getFirstName());
-                    if (i==part.size()-1){ //an einai o teleftaios paikths
-                            p.add(part.get(i)); //kai ton vazw sth lista
-                    }
-                    else if (!part.get(i).getParticipant_uuid().equals(part.get(i+1).getParticipant_uuid())){ //an o paikths aftos den einai idios me ton epomeno ara afto einai to teleftaio round pou epai3e
+                ArrayList<PlayerandGames> p = new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato) (pou den 8a einai bye - gia odd numofteams)
+                for (int i = 0; i < part.size(); i++) {
+                    if (!part.get(i).getParticipant_uuid().equals("blind")){
+                        System.out.println(" round " + part.get(i).getFroundid() + " " + part.get(i).getFirstName());
+                    if (i == part.size() - 1) { //an einai o teleftaios paikths
+                        p.add(part.get(i)); //kai ton vazw sth lista
+                    } else if (!part.get(i).getParticipant_uuid().equals(part.get(i + 1).getParticipant_uuid())) { //an o paikths aftos den einai idios me ton epomeno ara afto einai to teleftaio round pou epai3e
                         p.add(part.get(i)); //ton vazw sth lista k sunexizw
                     }
                 }
+            }
                 blistAdapter.setPlayers(p);
                 blistAdapter.setChamp(championship);
                 players=p;

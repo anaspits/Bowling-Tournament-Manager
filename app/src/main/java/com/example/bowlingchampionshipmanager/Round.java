@@ -334,7 +334,7 @@ public class Round implements Serializable {
                     System.out.println("Round d= "+rr.getFroundid()+ " "+rr.getRounduuid()+" t1: "+rr.getTeam1ID()+" t2: " + rr.getTeam2ID()+" stat "+rr.getStatus()+" chid "+ champuuid);
                 }
                 if (numTeams%2!=0){ //mono gia perito arithmo omadwn
-                    if(temp_teams.get(firstTeam).getUuid().equals("Bye") || temp_teams.get(secondTeam).equals("Bye")){ //an h omada paizei me thn bye
+                    if(temp_teams.get(firstTeam).getUuid().equals("Bye") || temp_teams.get(secondTeam).getUuid().equals("Bye")){ //an h omada paizei me thn bye
                         rr.setStatus("ignore"); //tote o gyros aftos agnoeitai
                         System.out.println("ignore Round d= "+rr.getFroundid()+" t1: "+rr.getTeam1ID()+" t2: " + rr.getTeam2ID()+" stat "+rr.getStatus()+" chid "+ champuuid);
                     }
@@ -378,7 +378,7 @@ public class Round implements Serializable {
         assignLanes(test,8,bowlingViewModel);
         return details;
     }
-//todo bye- test it
+
     public void insertrd(Team t,List<TeammatesTuple> playersandteams , Round r, String champuuid, BowlingViewModel bowlingViewModel){
         //vazw ta rd
             ArrayList<Participant> pa =t.getTeammates(); //pairnw tous paiktes ths omadas auths
@@ -541,7 +541,7 @@ public List<Round> assignLanes(ArrayList<Round> rounds, int lanes, BowlingViewMo
                 System.out.println("counter "+counter+" offset "+offset);
             }
         }
-    }
+    } //todo update rounds
         return rounds;
 }
 }

@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -27,6 +28,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     private BowlingViewModel bowlingViewModel;
     private List<TeammatesTuple> playersandteams;
     private ExportCSV ex= new ExportCSV();
+    private List<Championship_detail> cds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<PlayerandGames> rds) {
             rd=rds;
+            for (int i=0;i<rds.size();i++){
+                //System.out.println("playerandgames rds updated_at " +rds.get(i).getRound_updated_date()+" r "+rds.get(i).getRound_uuid());
+                    System.out.println( "roundid "+rd.get(i).getFroundid()+" rounduuid "+rd.get(i).getRound_uuid()+" r.score "+rd.get(i).getScore()+" avg "+rd.get(i).getBowlAvg()+" update "+rd.get(i).getRound_updated_date());
+            }
             }
         });
 
@@ -59,7 +65,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
         });
 
 
-        //pairnw oles tis omades me ta score tous //todo bye- na parw to cd gia score
+        //pairnw oles tis omades me ta score tou ka8e gyrou tous
         //bowlingViewModel.geAllTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
         bowlingViewModel.geAllActiveTeamsofChamp( champuuid ).observe(this, new Observer<List<TeamandRoundScore>>() {
         @Override
@@ -68,7 +74,15 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
             }
         });
 
-        //pairnw tous paiktes ka8e omadas tou champ aftou //todo na dw an pairnei ontws mono aftou tou champ
+        //pairnw ta cd.score ths ka8e omadas
+        bowlingViewModel.getChamp_detailofChamp(champuuid).observe(this, new Observer<List<Championship_detail>>() { //axristo-test
+            @Override
+            public void onChanged(List<Championship_detail> cs) {
+                cds= cs;
+            }
+        });
+
+        //pairnw tous paiktes ka8e omadas tou champ aftou
         bowlingViewModel.getAllTeamatesofAllTeamsofChamp(champuuid).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
             public void onChanged(List<TeammatesTuple> p1) {
@@ -81,6 +95,8 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
                 }
             }
         });
+
+
         //pairnw tous paiktes ka8e omadas
        /*svisto bowlingViewModel.getAllPlayersofTeam3(teams.get(0).getTeam_uuid() ).observe(this, new Observer<List<TeammatesTuple>>() {
             @Override
@@ -96,7 +112,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     public void exportPlayerscsv(View view) {
         //generate data
         StringBuilder data = new StringBuilder();
-        data= ex.exportRoundPlayersStat(championship,rounds,rd); //todo test it
+        data= ex.exportRoundPlayersStat(championship,rounds,rd); //todo test it n fix it
 
        /* data.append(" ,Name,"); //todo hdcp
 
@@ -159,7 +175,8 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
 
     public void exportTeamscsv(View view) {
         StringBuilder data = new StringBuilder();
-        data=ex.exportRoundTeamStat(championship,rounds,teams, playersandteams); //todo bye- na pairnei to teleftaio score apo to cd -> round_detailDao ...inner join cd on teamuuid
+        System.out.println("edw to cd size "+cds.size());
+        data=ex.exportRoundTeamStat(championship,rounds,teams, playersandteams,cds);
 
         try {
             //saving the file into device

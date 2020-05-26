@@ -50,7 +50,7 @@ class PlayerandGames {
     private int third;
 
     @TypeConverters(Converters.class)
-    @ColumnInfo(name = "round_updated_date") //tou round_detail
+    @ColumnInfo(name = "updated_at") //tou round_detail
     private Date round_updated_date;
 
 

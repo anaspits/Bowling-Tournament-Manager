@@ -345,6 +345,10 @@ public class BowlingViewModel extends AndroidViewModel {
         return teamDao.geAllTeamsofRoundofChamp(champid, frid);
     }
 
+    LiveData<List<TeamandRoundScore>> geAllNonByeTeamsofRoundofChamp( String champid, int frid){
+        return teamDao.geAllNonByeTeamsofRoundofChamp(champid, frid);
+    }
+
     LiveData<List<TeamandRoundScore>> geAllTeamsofChamp( String champid){
         return teamDao.geAllTeamsofChamp(champid);
     }
@@ -814,6 +818,10 @@ public  void insert (Team_detail t){
 
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofRound(int frid, String chid){
         return rdDao.getAllPlayerScoreGamesofRound(frid,chid);
+    }
+
+    LiveData<List<PlayerandGames>> getNonByePlayerScoreGamesofRound(int frid, String chid){
+        return rdDao.getNonByePlayerScoreGamesofRound(frid,chid);
     }
 
     LiveData<List<PlayerandGames>> getAllPlayerScoreGamesofChamp(String chid){

@@ -21,12 +21,12 @@ public class ExportCSV {
 
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid() + "\n");
         data.append("\nRound No.," + r.getFroundid() + ",Date," + Calendar.getInstance().getTime()+"\n");
-        data.append("\nTeam," + team1.getTeamName() + ",Lane");
+        data.append("\nTeam," + team1.getTeamName() + ",Lane,"+r.getLanes());
         data.append("\n,Player,HDCP,1,2,3,Sum");
         exportRoundEditScoreforTeam(team1, players1, rd1, data, first_sum1, second_sum1, third_sum1, sum_hdcp1, r);
         if (championship.getType() == 2) { //tvt
             data.append("\nVS");
-            data.append("\nTeam," + team2.getTeamName() + ",Lane");
+            data.append("\nTeam," + team2.getTeamName() + ",Lane,"+r.getLanes());
             data.append("\n,Player,HDCP,1,2,3,Sum");
             exportRoundEditScoreforTeam(team2, players2, rd2, data, first_sum2, second_sum2, third_sum2, sum_hdcp2, r);
         }
@@ -54,11 +54,11 @@ public class ExportCSV {
             data.append(",Ongoing");
         }
         data.append("\nResults for Team," + team.getTeamName());
-        data.append("\n,Round,Points,Score");
+        data.append("\nRound,,Points,Score,Lanes");
         for (int i = 0; i < rounds.size(); i++) {
-            data.append("\n" + rounds.get(i).getFroundid() + "," + rounds.get(i).getTeam1ID() + "," + rounds.get(i).getPoints1() + "," + rounds.get(i).getScore1());
+            data.append("\n" + rounds.get(i).getFroundid() + "," + rounds.get(i).getTeam1ID() + "," + rounds.get(i).getPoints1() + "," + rounds.get(i).getScore1()+","+rounds.get(i).getLanes());
             if (championship.getType() == 2) {
-                data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2());
+                data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2()+","+rounds.get(i).getLanes());
             }
         }
         data.append("\nFinal Score");
@@ -70,8 +70,12 @@ public class ExportCSV {
         data.append("\n");
         data.append("\nPlayers");
         data.append("\n,Player,Average,HDCP,Games");
+        int counter=1;
         for (int i = 0; i < players.size(); i++) {
-            data.append("\n" +(i+1)+","+ players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+            if (!players.get(i).getParticipant_uuid().equals("blind")) {
+                data.append("\n" + counter+ "," + players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+                counter++;
+            }
         }
 
         return data;
@@ -103,24 +107,31 @@ public class ExportCSV {
 
         data.append("\n");
         data.append("\nRounds");
-        data.append("\nRound,Team,Points,Score");
+        data.append("\nRound,Team,Points,Score,Lanes");
         for (int i = 0; i < rounds.size(); i++) {
-            data.append("\n" + rounds.get(i).getFroundid() + "," + rounds.get(i).getTeam1ID() + "," + rounds.get(i).getPoints1() + "," + rounds.get(i).getScore1());
-            data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2());
+            data.append("\n" + rounds.get(i).getFroundid() + "," + rounds.get(i).getTeam1ID() + "," + rounds.get(i).getPoints1() + "," + rounds.get(i).getScore1()+","+rounds.get(i).getLanes());
+            if (championship.getType() == 2) {
+                data.append("\n" + ",VS " + rounds.get(i).getTeam2ID() + "," + rounds.get(i).getPoints2() + "," + rounds.get(i).getScore2()+","+rounds.get(i).getLanes());
+            }
         }
 
         if(championship.getStatus().equals("Finished")) {
             data.append("\n");
         data.append("\nPlayers");
             data.append("\n,Player,Average,HDCP,Games");
+            int counter=1;
             for (int i = 0; i < players.size(); i++) {
-                data.append("\n" + (i + 1) + "," + players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+                if (!players.get(i).getParticipant_uuid().equals("blind")) {
+                    data.append("\n" + counter + "," + players.get(i).getFirstName() + players.get(i).getLastName() + "," + players.get(i).getBowlAvg() + "," + players.get(i).getHdcp() + "," + players.get(i).getGames());
+                counter++;
+                }
             }
         }
         return data;
     }
 
-    public StringBuilder exportRoundTeamStat(Championship championship, List<Round> rounds,List<TeamandRoundScore> teams, List<TeammatesTuple> playersandteams) {
+
+    public StringBuilder exportRoundTeamStat(Championship championship, List<Round> rounds,List<TeamandRoundScore> teams, List<TeammatesTuple> playersandteams, List<Championship_detail> cds)  {
         StringBuilder data = new StringBuilder();
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
         if(rounds.size()!=0) {
@@ -152,7 +163,9 @@ public class ExportCSV {
                             }
                         }
                         counter++;
-                        if (championship.getType() == 1 || championship.getType() == 4) { //pairnw ta points tou prwtou gyrou
+                        if (teams.get(i).getStatus().equals("ignore")){
+                            data.append("," + "Bye");
+                        }else if (championship.getType() == 1 || championship.getType() == 4) { //pairnw ta points tou prwtou gyrou
                             data.append("," + t.getPoints1());
                         } else if (championship.getType() == 2) {
                             if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -163,16 +176,24 @@ public class ExportCSV {
                         }
                     } else if (i == (teams.size() - 1)) { //gia to teleftaio stoixeio (teleftaia omada-teleftaios guros ths)
                         if ( !t.getTeam_uuid().equals(teams.get(i - 1).getTeam_uuid())) { //an den einai idia omada me thn prohgoumenh (dld htan mono 1 gyros)
-                            if (championship.getType() == 1 || championship.getType() == 4) { //tote kanw oti kanw sthn else, dld pairnw ta score ths prohgoumenhs omadas
+                                for (int c = 0; c < cds.size(); c++) {
+                                    System.out.println("proteleftaio "+ cds.get(c).getScore());
+                                    if (teams.get(i - 1).getTeam_uuid().equals(cds.get(c).getSys_teamID())){
+                                        data.append("," + cds.get(c).getScore());
+                                        break;
+                                    }
+                                }
+
+                          /*  if (championship.getType() == 1 || championship.getType() == 4) { //tote kanw oti kanw sthn else, dld pairnw ta score ths prohgoumenhs omadas
                                 data.append("," + teams.get(i - 1).getScore1());
-                            } else if (championship.getType() == 2) {
+                              } else if (championship.getType() == 2) {
                                 if (teams.get(i - 1).getTeam_uuid().equals(teams.get(i - 1).getTeam1_uuid())) {
                                     data.append("," + teams.get(i - 1).getScore1());
                                 } else {
                                     data.append("," + teams.get(i - 1).getScore2());
                                 }
-                            }
-                            data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai meta pairnw to onma k tous paiktes afths ths omadas
+                            } */
+                            data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai meta pairnw to onoma k tous paiktes afths ths omadas
                             for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
                                 data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
                                 if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
@@ -181,8 +202,10 @@ public class ExportCSV {
                             }
                         }
                             //epishs pairnw ta points afths ths omadas
-                        if (championship.getType() == 1 || championship.getType() == 4) {
-                            data.append("," + teams.get(i).getPoints1()); //giati +1|?
+                        if (teams.get(i).getStatus().equals("ignore")){ //an den epai3e afton ton gyro vazw bye alliws..
+                            data.append("," + "Bye");
+                        }else if (championship.getType() == 1 || championship.getType() == 4) {
+                            data.append("," + teams.get(i).getPoints1());
                         } else if (championship.getType() == 2) {
                             if (teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
                                 data.append("," + teams.get(i).getPoints1());
@@ -191,7 +214,15 @@ public class ExportCSV {
                             }
                         }
                         //kai to score ths (afou einai 1 gyros mono ara einai kai o teleftaios ths)
-                        if (championship.getType() == 1 || championship.getType() == 4) {
+                            for (int c = 0; c < cds.size(); c++) {
+                                if (teams.get(i).getTeam_uuid().equals(cds.get(c).getSys_teamID())){
+                                    System.out.println("teleftaio "+cds.get(c).getScore());
+                                    data.append("," + cds.get(c).getScore());
+                                    break;
+                                }
+                            }
+
+                      /*  if (championship.getType() == 1 || championship.getType() == 4) {
                             data.append("," + t.getScore1());
                         } else if (championship.getType() == 2) {
                             if (t.getTeam_uuid().equals(t.getTeam1_uuid())) {
@@ -199,9 +230,12 @@ public class ExportCSV {
                             } else {
                                 data.append("," + t.getScore2());
                             }
-                        }
+                        } */
                     } else if ( t.getTeam_uuid().equals(teams.get(i - 1).getTeam_uuid())) { //an einai idia omada me thn prohgoumenh, shmainei oti phgame ston epomeno gyro (ths idias omadas)
-                        if (championship.getType() == 1 || championship.getType() == 4) { //ara pairnoume mono ta points ths gia afton ton gyro
+                        System.out.println(" idia me prohg + status "+t.getStatus()+ " t "+t.getTeam_name()+" r ");
+                        if (t.getStatus().equals("ignore")){
+                            data.append("," + "Bye");
+                        }else if (championship.getType() == 1 || championship.getType() == 4) { //ara pairnoume mono ta points ths gia afton ton gyro
                             data.append("," + teams.get(i).getPoints1());
                         } else if (championship.getType() == 2) {
                             if (teams.get(i ).getTeam_uuid().equals(teams.get(i  ).getTeam1_uuid())) {
@@ -221,7 +255,16 @@ public class ExportCSV {
                                 data.append("," + t.getPoints2());
                             }
                         }*/
-                        if (championship.getType() == 1 || championship.getType() == 4) { //opote prepei na paroume to score ths prohgoumenhs
+                        System.out.println(" else + status "+teams.get(i - 1).getStatus()+ " t "+teams.get(i - 1).getTeam_name()+" r ");
+                            for (int c = 0; c < cds.size(); c++) {
+                                if (teams.get(i - 1).getTeam_uuid().equals(cds.get(c).getSys_teamID())){
+                                    System.out.println("else prohg "+cds.get(c).getScore());
+                                    data.append("," + cds.get(c).getScore());
+                                    break;
+                                }
+                            }
+
+                        /*if (championship.getType() == 1 || championship.getType() == 4) { //opote prepei na paroume to score ths prohgoumenhs
                             data.append("," + teams.get(i - 1).getScore1());
                         } else if (championship.getType() == 2) {
                             if (teams.get(i - 1).getTeam_uuid().equals(teams.get(i - 1).getTeam1_uuid())) {
@@ -229,16 +272,19 @@ public class ExportCSV {
                             } else {
                                 data.append("," + teams.get(i - 1).getScore2());
                             }
-                        }
+                        } */
                         data.append("\n" + counter + "," + String.valueOf(teams.get(i).getTeam_name())+")"); //kai na perasoume se afthn pou eimaste twra (dld thn epomenh) kai na paroume to onoma kai tous paiktes ths
-                        for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) { //fixme
+                        for (int j = 0; j < playersandteams.get((counter-1)).getT().size(); j++) {
                             data.append(playersandteams.get((counter-1)).getT().get(j).getLastName());
                             if(j!=(playersandteams.get((counter-1)).getT().size()-1)){
                                 data.append("-");
                             }
                         }
                         counter++;
-                        if (championship.getType() == 1 || championship.getType() == 4) { //kai ta points ths (gia ton prwto ths gyro)
+                        System.out.println(" else afth + status "+teams.get(i - 1).getStatus()+ " t "+teams.get(i - 1).getTeam_name()+" r ");
+                        if (teams.get(i).getStatus().equals("ignore")){
+                            data.append("," + "Bye");
+                        }else if (championship.getType() == 1 || championship.getType() == 4) { //kai ta points ths (gia ton prwto ths gyro)
                             data.append("," + teams.get(i).getPoints1());
                         } else if (championship.getType() == 2) {
                             if (teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
@@ -260,7 +306,7 @@ public class ExportCSV {
         return data;
         }
 
-        //todo test it
+        //todo test it -fixme teleftaio rd an einai bye einai 0
     public StringBuilder exportRoundPlayersStat(Championship championship, List<Round> rounds,List<PlayerandGames> rd) {
         StringBuilder data = new StringBuilder();
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
@@ -283,22 +329,45 @@ public class ExportCSV {
         data.append("Avg,Games,Score");
 
         int counter=1;
-        for (int i = 0; i < rd.size(); i++) {
+        for (int i = 0; i < rd.size(); i++) { //epistrefei paiktes kai ta rd tous me order by participantsuuid
             PlayerandGames p = rd.get(i);
-            if(i==0) { //an einai to prwto, einai o prwtos paikths
-                data.append("\n" + counter+"," + String.valueOf(p.getFirstName())+" "+p.getLastName());
-                counter++;
-                data.append(","+String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
-            }else if (p.getParticipant_uuid().equals(rd.get(i-1).getParticipant_uuid())){ //an to uuid einai idio me to prohgoumeno ara einai o idios aikths se allo gyro
-                data.append(","+String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
-                if (i==(rd.size()-1)){
-                    data.append(","+rd.get(i).getBowlAvg()+","+rd.get(i).getGames()+","+(rd.get(i).getBowlAvg()*rd.get(i).getGames())); //todo ..ti kanw edw akrivws? -  na valw kai hdcp
+            if (!p.getParticipant_uuid().equals("blind")) { //an einai o dummy paikths ton agnow
+                if (i == 0) { //an einai to prwto, einai o prwtos paikths ston prwto tou gyro
+                    data.append("\n" + counter + "," + String.valueOf(p.getFirstName()) + " " + p.getLastName()); //pairnw to onma tou
+                    counter++;
+                    if(p.getRound_updated_date()!=null) { //an exei updateddate ara den einai gyros bye, ara pairnw to score tou
+                        data.append("," + String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
+                    }else {
+                        data.append(",-,-,-"); //an den exei updateddate ara einai gyros bye
+                    }
+                } else if (p.getParticipant_uuid().equals(rd.get(i - 1).getParticipant_uuid())) { //an to uuid einai idio me to prohgoumeno ara einai o idios aikths se allo gyro
+                    if(p.getRound_updated_date()!=null) {
+                        data.append("," + String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
+                    }else {
+                        data.append(",-,-,-");
+                    }
+                    if (i == (rd.size() - 1)) { //gia to teleftaio stoixeio pou 8a einai o teleftaios gyros tou teleftaiou paikth
+                        if(p.getParticipant_uuid().equals(rd.get(i-1).getParticipant_uuid()) && p.getRound_updated_date()==null) { //an o paikths einai idios me ton prohgoume (ara exei prohgoumeno gyro kai den einai paixnidi enos gyrou) kai o teleftaios aftos gyros htan bye
+                            data.append("," + rd.get(i-1).getBowlAvg() + "," + rd.get(i-1).getGames() + "," + (rd.get(i-1).getBowlAvg() * rd.get(i-1).getGames())); //tote 8a parw ta score apo ton prohgoumeno gyro pou den htan bye kai ara htan o teleftaios gyros pou epai3e o paikths
+                        }else { //alliws ta pairnw kanonika
+                            data.append("," + rd.get(i).getBowlAvg() + "," + rd.get(i).getGames() + "," + (rd.get(i).getBowlAvg() * rd.get(i).getGames()));
+                        }
+                    }
+                } else { //an eimaste sthn allagh apo ton enan paikth ston epomeno (ara einai o teleftaios gyrous tou prohgoumenou kai o prwtos gyros aftou pou meletame , dld tou epomenou)
+                    if(rd.get(i-1).getParticipant_uuid().equals(rd.get(i-2).getParticipant_uuid()) && rd.get(i-1).getRound_updated_date()==null){ //an o teleftaios gyrous tou prohgoumenou paikth htan bye kai eixe ki allon gyro prin ton prohgoumeno
+                        data.append("," + rd.get(i - 2).getBowlAvg() + "," + rd.get(i - 2).getGames() + "," + (rd.get(i - 2).getBowlAvg() * rd.get(i - 2).getGames())); //fixme tou jhonnie den doulevei deixnei 0 //pairnoume ta score tou proprohgoumenou gyrou tou paikth aftou
+                    }else {
+                        data.append("," + rd.get(i - 1).getBowlAvg() + "," + rd.get(i - 1).getGames() + "," + (rd.get(i - 1).getBowlAvg() * rd.get(i - 1).getGames())); //alliws pairnoume ta score tou prohgoumenou
+                    }
+
+                    data.append("\n" + counter + "," + String.valueOf(p.getFirstName()) + " " + p.getLastName() ); //pairnoume to onoma tou paikth
+                    counter++;
+                    if(p.getRound_updated_date()!=null) {
+                        data.append(","+String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird())); //kai ta score tou prwtou tou gyrou
+                    }else {
+                        data.append(",-,-,-");
+                    }
                 }
-            }else{
-                data.append(","+rd.get(i-1).getBowlAvg()+","+rd.get(i-1).getGames()+","+(rd.get(i-1).getBowlAvg()*rd.get(i-1).getGames()));
-                data.append("\n" + counter+"," + String.valueOf(p.getFirstName())+" "+p.getLastName()+ ",");
-                counter++;
-                data.append(String.valueOf(p.getFirst()) + "," + String.valueOf(p.getSecond()) + "," + String.valueOf(p.getThird()));
             }
         }
         return data;

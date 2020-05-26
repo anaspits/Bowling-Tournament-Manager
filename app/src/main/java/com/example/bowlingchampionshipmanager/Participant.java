@@ -4,6 +4,8 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -692,6 +694,74 @@ for (int i=0;i<bowlers.size();i++){
         }
     }
 
+    public void calculateHDCPofPlayers(List<Participant> players,Championship championship,BowlingViewModel bowlingViewModel){
+        //todo na rwthsw
+        for (int i = 0; i <players.size(); i++) {
+            System.out.println("Avg paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
+            int i2 = i;
+            bowlingViewModel.getAllRound_detailofplayerofChamp(players.get(i).getUuid(),championship.getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
+                @Override
+                public void onChanged(List<Round_detail> rd) {
+                    int avg=0; //todo na to kanw float h' na rwthsw
+                    System.out.println("i2 "+i2+" rd.size "+rd.size());
+                    for(int r=0;r<rd.size();r++){
+                        System.out.println("Prin paikths " + players.get(i2).getFirstName() +" i2 "+i2);
+                        System.out.println( " rounduuid "+rd.get(r).getRound_uuid());
+                        System.out.println( " r.score "+rd.get(r).getScore());
+                        System.out.println( " avg "+ avg);
+                        avg+= rd.get(r).getScore();
+                        System.out.println("Mesa paikths " +  players.get(i2).getFirstName() +" r.score "+rd.get(r).getScore()+" bowlavg "+" avg "+ avg);
+
+                    }
+                    if(rd.size()!=0) {
+                        avg = avg / (3 * rd.size());
+                    }
+                    if(championship.getHdcp_tav()!=0){ //todo test it
+                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
+                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                        System.out.println(" hdcp "+hdcp);
+                    }
+                    System.out.println("Meta paikths " +  players.get(i2).getFirstName() +" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
+                }
+            });
+        }
+    }
+
+    public void calculateAVGofChampofPlayers(List<Participant> players,BowlingViewModel bowlingViewModel){
+        //upologizw to avg tou paikth gia afto to champ
+        for (int i = 0; i <players.size(); i++) {
+            System.out.println("Avg paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
+            int i2 = i;
+            bowlingViewModel.getallAllRound_detailofplayer(players.get(i).getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
+                @Override
+                public void onChanged(List<Round_detail> rd) {
+                    int avg=0; //todo na to kanw float h' na rwthsw
+                    System.out.println("i2 "+i2+" rd.size "+rd.size());
+                    for(int r=0;r<rd.size();r++){
+                        System.out.println("Prin paikths " + players.get(i2).getFirstName() +" i2 "+i2);
+                        System.out.println( " rounduuid "+rd.get(r).getRound_uuid());
+                        System.out.println( " r.score "+rd.get(r).getScore());
+                        System.out.println(" bowlavg "+players.get(i2).getBowlAvg());
+                        System.out.println( " avg "+ avg);
+                        avg+= rd.get(r).getScore();
+                        System.out.println("Mesa paikths " +  players.get(i2).getFirstName() +" r.score "+rd.get(r).getScore()+" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
+
+                    }
+                    if(rd.size()!=0) {
+                        avg = avg / (3 * rd.size());
+                    }
+                   /* if(championship.getHdcp_tav()!=0){ //todo test it
+                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
+                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                        System.out.println(" hdcp "+hdcp);
+                    }*/
+                    players.get(i2).setBowlAvg(avg);
+                    bowlingViewModel.update(players.get(i2));
+                    System.out.println("Meta paikths " +  players.get(i2).getFirstName() +" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
+                }
+            });
+        }
+    }
 
     /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void main(String [] args){

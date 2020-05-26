@@ -72,8 +72,10 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         }
         System.out.println("got r "+r.getFroundid()+" rid "+r.getRounduuid());
         textTitle.setText("Round No."+r.getFroundid());
-        //teams //todo order - fixme otan o teleftaios gyros ths omadas einai bye tote deixnei score 0
-        bowlingViewModel.geAllTeamsofRoundofChamp( champuuid,r.getFroundid() ).observe(this, new Observer<List<TeamandRoundScore>>() {
+
+        //teams
+       // bowlingViewModel.geAllTeamsofRoundofChamp( champuuid,r.getFroundid() ).observe(this, new Observer<List<TeamandRoundScore>>() {  //todo order - fixme otan o teleftaios gyros ths omadas einai bye tote deixnei score 0
+        bowlingViewModel.geAllNonByeTeamsofRoundofChamp( champuuid,r.getFroundid()).observe(this, new Observer<List<TeamandRoundScore>>() {
             @Override
             public void onChanged(List<TeamandRoundScore> t) {
                 tlistAdapter.setTeams(t);
@@ -102,10 +104,11 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             }
         });
 
-        //players //fixme bye - na mhn kanw rd gia bye rounds H' sto finishchamp otan teleiwnei ena champ, an h teleftaia gyra mias omadas htan bye, na pairnietai to teleftaio rd twn paiktwn
-        bowlingViewModel.getAllPlayerScoreGamesofRound(r.getFroundid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
-        //bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() { //fixme den epistrefei olous tous players
-            @Override
+        //players
+       // bowlingViewModel.getAllPlayerScoreGamesofRound(r.getFroundid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {        //fixme bye - sto finishchamp otan teleiwnei ena champ, an h teleftaia gyra mias omadas htan bye, na pairnietai to teleftaio rd twn paiktwn
+        //oxi afto bowlingViewModel.getPlayerScoreGamesofRound(r.getRounduuid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() { //fixme den epistrefei olous tous players
+        bowlingViewModel.getNonByePlayerScoreGamesofRound(r.getFroundid(), champuuid ).observe(this, new Observer<List<PlayerandGames>>() {
+        @Override
             public void onChanged(List<PlayerandGames> part) {
                 blistAdapter.setPlayers(part);
                 blistAdapter.setChamp(championship);
@@ -306,7 +309,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
     public void export(View view) { //todo na to valw sto class
         StringBuilder data = new StringBuilder();
         data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
-        data.append("\nRound No.,"+r.getFroundid());
+        data.append("\nRound No.,"+r.getFroundid()); //todo na valw kai lanes?
         data.append("\nWinning Team of Round,"+winner.getTeam_name()+",Points: "+max);
         data.append("\nTeam Ranking");
         data.append("\n,Team,Points,Score");

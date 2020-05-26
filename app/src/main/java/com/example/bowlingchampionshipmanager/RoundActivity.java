@@ -179,7 +179,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
             }
         });*/ //PAS ROUND PART 5//
 
-
+//pairnw thn round
         bowlingViewModel.getNextRoundofTeamofChamp(tuuid, champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> ro) {
@@ -605,9 +605,17 @@ for (int i=0;i<test.size();i++){
             System.out.println("cd size= " + cds_count);
             System.out.println("fin cd size= " + fin_cds_count);
 
-            //na svisw einai perito
-//upologizw to ka8oliko avg tou paikth meta apo afto to champ //todo na dw an efarmozetai kai stous paiktes ths teleftaias omadas pou den kanei finish, vasika giati to kanw edw?
-            for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+
+//upologizw to ka8oliko avg tou ka8e paikth meta apo afto to champ //todo na dw an efarmozetai kai stous paiktes ths teleftaias omadas pou den kanei finish, vasika giati to kanw edw?
+
+            bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+                @Override
+                public void onChanged(List<Participant> participants) {
+                    Participant pa=new Participant(0,"","instance", "instance", 0, 0,null,0, null, 1);
+
+                }
+            });
+           /* for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
             System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
             System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                 int i2 = i;
@@ -640,7 +648,8 @@ for (int i=0;i<test.size();i++){
                    System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
            }
            });
-        }
+        } */
+
 if(championship.getStatus().equals( "Finished")){
     Intent i = new Intent(this, FinishChampActivity.class);
     Bundle extras = new Bundle();
