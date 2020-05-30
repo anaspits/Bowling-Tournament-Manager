@@ -68,7 +68,7 @@ public class Round implements Serializable {
     @ColumnInfo(name="team2UUID")
     private String team2UUID;
 
-    @ColumnInfo(name="score1")
+    @ColumnInfo(name="score1") //opou score to sunolo twn pontwn pou exei mazepsei h omada apo ta ola prohgoumena rounds aftou tou champ
     private int score1;
 
     @ColumnInfo(name="score2")

@@ -145,7 +145,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ
             if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
                 int i2 = i;
-                bowlingViewModel.getAllRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(), champuuid).observe(this, new Observer<List<Round_detail>>() {
+                bowlingViewModel.getAllDoneRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(), champuuid).observe(this, new Observer<List<Round_detail>>() {
                     @Override
                     public void onChanged(List<Round_detail> allrdchamp) {
                         float avg = 0;

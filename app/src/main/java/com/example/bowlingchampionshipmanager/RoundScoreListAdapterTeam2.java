@@ -53,23 +53,55 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
             Participant note = editModelArrayList.get(position);
             //holder.setData(String.valueOf(note.getFullName()),note.getHdcp(), position);
             holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
-            holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
-            if (String.valueOf(rd.get(position).getFirst()) != null) {
-                holder.first.setText(String.valueOf(rd.get(position).getFirst()));
+            if( editModelArrayList.get(position).getUuid().equals("blind")){ //an h omada exei ligoterous paiktes=blind
+                holder.cardview.setEnabled(false);
+                //cardview.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
+                holder.cardview.setCardBackgroundColor(Color.LTGRAY);
+                holder.txvNote.setText("BLIND");
+                holder.txvNote.setEnabled(false);
+                holder.first.setEnabled(false);
+                holder.first.setFocusable(false);
+                holder.second.setEnabled(false);
+                holder.second.setFocusable(false);
+                holder.third.setEnabled(false);
+                holder.third.setFocusable(false);
+                holder.hdcp.setEnabled(false);
+                holder.hdcp.setFocusable(false);
+                holder.first.setText("0");
+                holder.second.setText("0");
+                holder.third.setText("0");
+                holder.hdcp.setText("0");
+            } else {
+                holder.cardview.setEnabled(true);
+                holder.cardview.setCardBackgroundColor(Color.parseColor("#F9F9F9"));
+                holder.txvNote.setText(String.valueOf(editModelArrayList.get(position).getFullName()));
+                holder.txvNote.setEnabled(true);
+                holder.first.setEnabled(true);
+                holder.first.setFocusableInTouchMode(true);
+                holder.second.setEnabled(true);
+                holder.second.setFocusableInTouchMode(true);
+                holder.third.setEnabled(true);
+                holder.third.setFocusableInTouchMode(true);
+                holder.hdcp.setEnabled(true);
+                holder.hdcp.setFocusableInTouchMode(true);
+
+                holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
+                if (String.valueOf(rd.get(position).getFirst()) != null) {
+                    holder.first.setText(String.valueOf(rd.get(position).getFirst()));
+                }
+                if (String.valueOf(rd.get(position).getSecond()) != null) {
+                    holder.second.setText(String.valueOf(rd.get(position).getSecond()));
+                }
+                if (String.valueOf(rd.get(position).getThird()) != null) {
+                    holder.third.setText(String.valueOf(rd.get(position).getThird()));
+                }
             }
-            if (String.valueOf(rd.get(position).getSecond()) != null) {
-                holder.second.setText(String.valueOf(rd.get(position).getSecond()));
-            }
-            if (String.valueOf(rd.get(position).getThird()) != null) {
-                holder.third.setText(String.valueOf(rd.get(position).getThird()));
-            }
-            this.position = position;
-            Log.d("print", "yes");
+            this.position=position;
+            Log.d("print","yes");
         } else {
             // Covers the case of data not being ready yet.
             //holder.noteItemView.setText(R.string.exit);
         }
-
 
     }
 

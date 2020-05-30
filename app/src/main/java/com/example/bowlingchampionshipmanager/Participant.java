@@ -694,12 +694,45 @@ for (int i=0;i<bowlers.size();i++){
         }
     }
 
-    public void calculateHDCPofPlayers(List<Participant> players,Championship championship,BowlingViewModel bowlingViewModel){
+    public int calculateHDCPofPlayer(Participant player, float avg, Championship championship, BowlingViewModel bowlingViewModel){
         //todo na rwthsw
-        for (int i = 0; i <players.size(); i++) {
-            System.out.println("Avg paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
-            int i2 = i;
-            bowlingViewModel.getAllRound_detailofplayerofChamp(players.get(i).getUuid(),championship.getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
+     //   for (int i = 0; i <players.size(); i++) {
+          //  System.out.println("hdcp paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
+        System.out.println("hdcp paikths " + player.getFullName() + " id " + player.getUuid() + " hdcp " + player.getHdcp()+" avg "+avg);
+
+       /*     float avg=0;
+            int games=0;
+            for(int r=0;r<rd.size();r++){
+                System.out.println("Prin paikths " + player.getFirstName() + " rounduuid "+rd.get(r).getRound_uuid()+ " r.score "+rd.get(r).getScore());
+                System.out.println( " avg "+ avg);
+                avg+= rd.get(r).getScore();
+                games+=rd.get(r).getGames();
+                System.out.println("Mesa paikths " +  player.getFirstName() +" r.score "+rd.get(r).getScore()+" bowlavg "+" avg "+ avg);
+
+            }
+            if(games!=0) {
+                avg = avg /games;
+            } */
+       int x=0;
+        System.out.println("1 hdcp champ.tav " + championship.getHdcp_tav());
+        if (player.getUuid().equals("blind") && championship.getHdcp_less() != 0) { //an einai omada me ligoterous paiktes
+            x = championship.getHdcp_less();
+            System.out.println("1 hdcp less");
+        } else if (championship.getHdcp_tav() != 0) {
+            x=championship.getHdcp_tav();
+            System.out.println("1 hdcp tav " + championship.getHdcp_tav());
+        }
+            double hdcp =  ((x - avg) * (championship.getHdcp_factor()*0.01));
+            player.setHdcp((int)hdcp);  //edw??
+        System.out.println("1 hdcp x (" + x +" - "+avg+")*("+championship.getHdcp_factor()+"/100)= "+(x-avg)+" * "+(championship.getHdcp_factor()*0.01)+"="+hdcp+" int "+(int)hdcp);
+
+
+           // bowlingViewModel.update(player);
+            System.out.println("hdcp Meta paikths " +  player.getFirstName() +" bowlavg "+player.getBowlAvg()+" avg "+ avg+" hdcp "+ player.getHdcp());
+
+
+           /* int i2 = i;
+            bowlingViewModel.getAllDoneRound_detailofplayerofChamp(players.get(i).getUuid(),championship.getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
                 @Override
                 public void onChanged(List<Round_detail> rd) {
                     int avg=0; //todo na to kanw float h' na rwthsw
@@ -714,53 +747,61 @@ for (int i=0;i<bowlers.size();i++){
 
                     }
                     if(rd.size()!=0) {
-                        avg = avg / (3 * rd.size());
+                        avg = avg / (3 * rd.size()); //dia games
                     }
                     if(championship.getHdcp_tav()!=0){ //todo test it
                         int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
-                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                        players.get(i2).setHdcp(hdcp);
                         System.out.println(" hdcp "+hdcp);
                     }
-                    System.out.println("Meta paikths " +  players.get(i2).getFirstName() +" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
-                }
-            });
-        }
-    }
-
-    public void calculateAVGofChampofPlayers(List<Participant> players,BowlingViewModel bowlingViewModel){
-        //upologizw to avg tou paikth gia afto to champ
-        for (int i = 0; i <players.size(); i++) {
-            System.out.println("Avg paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
-            int i2 = i;
-            bowlingViewModel.getallAllRound_detailofplayer(players.get(i).getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
-                @Override
-                public void onChanged(List<Round_detail> rd) {
-                    int avg=0; //todo na to kanw float h' na rwthsw
-                    System.out.println("i2 "+i2+" rd.size "+rd.size());
-                    for(int r=0;r<rd.size();r++){
-                        System.out.println("Prin paikths " + players.get(i2).getFirstName() +" i2 "+i2);
-                        System.out.println( " rounduuid "+rd.get(r).getRound_uuid());
-                        System.out.println( " r.score "+rd.get(r).getScore());
-                        System.out.println(" bowlavg "+players.get(i2).getBowlAvg());
-                        System.out.println( " avg "+ avg);
-                        avg+= rd.get(r).getScore();
-                        System.out.println("Mesa paikths " +  players.get(i2).getFirstName() +" r.score "+rd.get(r).getScore()+" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
-
-                    }
-                    if(rd.size()!=0) {
-                        avg = avg / (3 * rd.size());
-                    }
-                   /* if(championship.getHdcp_tav()!=0){ //todo test it
-                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor());
-                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
-                        System.out.println(" hdcp "+hdcp);
-                    }*/
-                    players.get(i2).setBowlAvg(avg);
                     bowlingViewModel.update(players.get(i2));
                     System.out.println("Meta paikths " +  players.get(i2).getFirstName() +" bowlavg "+players.get(i2).getBowlAvg()+" avg "+ avg);
                 }
-            });
-        }
+            }); */
+       // }
+        return (int)hdcp;
+    }
+
+    //to ka8oliko //fixme
+    public void calculateAVGofPlayer(Participant player,List<Round_detail> rd, Championship championship, BowlingViewModel bowlingViewModel){
+
+        //for (int i = 0; i <players.size(); i++) {
+         //   System.out.println("Avg paikths " + i + " " + players.get(i).getFullName() + " id " + players.get(i).getUuid() + " hdcp " + players.get(i).getHdcp());
+         //  int i2 = i;
+
+           System.out.println("Avg paikths " + " " + player.getFullName() + " id " + player.getUuid() + " hdcp " + player.getHdcp()+" rd size "+rd.size());
+                    float avg = 0;
+                    int games = 0;
+                    for (int r = 0; r < rd.size(); r++) {
+                        if (rd.get(r).getBlind() == 0) {
+                            System.out.println("Prin paikths " + player.getFirstName());
+                            System.out.println(" rounduuid " + rd.get(r).getRound_uuid());
+                            System.out.println(" r.score " + rd.get(r).getScore());
+                            System.out.println(" bowlavg " + player.getBowlAvg());
+                            System.out.println(" avg " + avg);
+                            if(rd.get(r).getUpdated_at()!=null) {
+                                avg += rd.get(r).getScore();
+                                games += 3;
+                                System.out.println("Mesa paikths " + player.getFirstName() + " r.score " + rd.get(r).getScore() + " bowlavg " + player.getBowlAvg() + " avg " + avg);
+                            }
+                        }
+                        if (games != 0) {
+                            avg = avg / games;
+                        }
+                        player.setBowlAvg((int) avg);//todo float
+                        int hdcp=calculateHDCPofPlayer(player, avg, championship, bowlingViewModel);
+                        player.setHdcp(hdcp);
+                   /* if(championship.getHdcp_tav()!=0){ //todo test it
+                        int hdcp = (int) ((championship.getHdcp_tav()-avg)*championship.getHdcp_factor()/100);
+                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                        System.out.println(" hdcp "+hdcp);
+                    }*/
+                        player.setTotal_games(games);
+                        bowlingViewModel.update(player);
+                        System.out.println("avg Meta paikths " + player.getFirstName() + " bowlavg " + player.getBowlAvg() + " avg " + avg + " hdcp " + player.getHdcp() + " games "+games);
+                    }
+
+        // }
     }
 
     /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)

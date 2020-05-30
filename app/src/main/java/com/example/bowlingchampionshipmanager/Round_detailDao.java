@@ -41,7 +41,7 @@ public interface Round_detailDao {
     LiveData<List<Round_detail>> getallAllRound_detailofplayer(String pid);
 
     @Query("SELECT round_detail.round_uuid, round_detail.participant_uuid,round_detail.champ_uuid, round_detail.score, round_detail.avg, round_detail.hdcp, round_detail.first, round_detail.second, round_detail.third, round_detail.blind, round_detail.games, round_detail.froundid, round_detail.created_at, round_detail.updated_at FROM round_detail INNER JOIN round ON round.round_uuid=round_detail.round_uuid WHERE round_detail.participant_uuid=:pid AND round.champ_uuid=:chid AND round_detail.blind=0 AND round.status='done'")
-    LiveData<List<Round_detail>> getAllRound_detailofplayerofChamp(String pid, String chid);
+    LiveData<List<Round_detail>> getAllDoneRound_detailofplayerofChamp(String pid, String chid);
 
     @Query("SELECT participant.participant_uuid,participant.first_name, participant.last_name,participant.sex,round_detail.round_uuid,round_detail.score,round_detail.avg,round_detail.hdcp ,round_detail.games,round_detail.froundid, round_detail.first, round_detail.second, round_detail.third,round_detail.updated_at FROM participant INNER JOIN round_detail ON participant.participant_uuid=round_detail.participant_uuid WHERE round_detail.champ_uuid=:chid AND round_detail.round_uuid=:rid ORDER BY round_detail.avg")
     LiveData<List<PlayerandGames>> getPlayerScoreGamesofRound(String rid, String chid); //mallon axristo

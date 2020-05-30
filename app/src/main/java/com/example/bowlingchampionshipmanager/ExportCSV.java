@@ -306,7 +306,7 @@ public class ExportCSV {
         return data;
         }
 
-        //todo test it -fixme teleftaio rd an einai bye einai 0
+
     public StringBuilder exportRoundPlayersStat(Championship championship, List<Round> rounds,List<PlayerandGames> rd) {
         StringBuilder data = new StringBuilder();
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");

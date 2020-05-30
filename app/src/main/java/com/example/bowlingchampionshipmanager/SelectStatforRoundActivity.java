@@ -112,7 +112,7 @@ public class SelectStatforRoundActivity extends AppCompatActivity {
     public void exportPlayerscsv(View view) {
         //generate data
         StringBuilder data = new StringBuilder();
-        data= ex.exportRoundPlayersStat(championship,rounds,rd); //todo test it n fix it
+        data= ex.exportRoundPlayersStat(championship,rounds,rd);
 
        /* data.append(" ,Name,"); //todo hdcp
 

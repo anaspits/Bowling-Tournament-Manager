@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -159,6 +160,16 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // recyclerView2.setAdapter(blistAdapter2);
         // recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+
+        if(bowlers==null){
+            bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+                @Override
+                public void onChanged(List<Participant> players) {
+                bowlers= (ArrayList<Participant>) players;
+                    System.out.println("bowlers null & players size "+players.size());
+                }
+            });
+        }
 
 //PAS ROUND PART 5//
        /* bowlingViewModel.getRoundsofTeam(t.getUuid(),champuuid).observe(this, new Observer<List<Round>>() {
@@ -330,7 +341,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
             @Override
             public void onChanged(List<Round> t) {
                 for (int i = 0; i < t.size(); i++) {
-                    System.out.println("round " + i + " round id " + t.get(i).getFroundid() + " status "+t.get(i).getStatus()+" team1 " + t.get(i).getTeam1ID() + " score1 " + t.get(i).getScore1() + " team2 " + t.get(i).getTeam2ID() + " score2 " + t.get(i).getScore2());
+                    System.out.println("round " + i + " round id " + t.get(i).getFroundid() + " status "+t.get(i).getStatus()+" team1 " + t.get(i).getTeam1ID() + " score1 " + t.get(i).getScore1() + " team2 " + t.get(i).getTeam2ID() + " score2 " + t.get(i).getScore2()+" points1 "+t.get(i).getPoints1()+" points2 "+t.get(i).getPoints2());
                 }
 
             }
@@ -452,8 +463,8 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
 
                 System.out.println("GOT from editrounscore: ");
                 System.out.println("SCORE1: "+score1+" SCORE2 "+score2 );
-                System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score " + r2.getScore1() + " t2: " + r2.getTeam2ID() + " score " + r2.getScore2() +" date "+r2.getDate()+ " uuid " + r2.getRounduuid());
-                System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid()); //fixme
+                System.out.println("ROUND " + r2.getFroundid() + " sid " + r2.getRounduuid() + " status " + r2.getStatus() + " t1: " + r2.getTeam1ID() + " score1 " + r2.getScore1() + " points1 "+r2.getPoints1()+" t2: " + r2.getTeam2ID() + " score2 " + r2.getScore2() +" points2 "+r2.getPoints2()+" date "+r2.getDate()+ " uuid " + r2.getRounduuid());
+                System.out.println("AND t1 " + t.getFTeamID() + " sid " + t.getSys_teamID() + " score " + t.getScore() + " uuid " + t.getUuid());
                 System.out.println("AND t2 " + t2.getFTeamID() + " sid " + t2.getSys_teamID() + " score " + t2.getScore() + " uuid " + t2.getUuid());
                 Toast.makeText(
                         getApplicationContext(),
@@ -461,7 +472,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
                         Toast.LENGTH_LONG).show();
                 save_pressed = 1;
                 System.out.println("GOT save_pressed="+save_pressed);
-                //pairnw to champ_detail ths omadas 2 team gia na dw to active_flag //todo na to valw sto onresult
+                //pairnw to champ_detail ths omadas 2 team gia na dw to active_flag
                 if (t2 != null) {
                     bowlingViewModel.getChamp_detailofTeamandChamp(t2.getUuid(), champuuid).observe(this, new Observer<Championship_detail>() {
                         @Override
@@ -606,16 +617,21 @@ for (int i=0;i<test.size();i++){
             System.out.println("fin cd size= " + fin_cds_count);
 
 
-//upologizw to ka8oliko avg tou ka8e paikth meta apo afto to champ //todo na dw an efarmozetai kai stous paiktes ths teleftaias omadas pou den kanei finish, vasika giati to kanw edw?
+//upologizw to ka8oliko avg tou ka8e paikth meta apo afto to champ
+                    for (int i = 0; i < bowlers.size(); i++) {
+                        System.out.println("Avg paikths " + i + " " + bowlers.get(i).getFullName() + " id " + bowlers.get(i).getUuid() + " hdcp " + bowlers.get(i).getHdcp());
+                        Participant pa=bowlers.get(i);
+                        bowlingViewModel.getallAllRound_detailofplayer(pa.getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
+                            @Override
+                            public void onChanged(List<Round_detail> rd) {
+                                pa.calculateAVGofPlayer(pa,rd, championship, bowlingViewModel);
+                            }
+                        });
 
-            bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
-                @Override
-                public void onChanged(List<Participant> participants) {
-                    Participant pa=new Participant(0,"","instance", "instance", 0, 0,null,0, null, 1);
+                    }
 
-                }
-            });
-           /* for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+
+           /* for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) { //todo na dw an efarmozetai kai stous paiktes ths teleftaias omadas pou den kanei finish, vasika giati to kanw edw?
             System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
             System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                 int i2 = i;
@@ -650,7 +666,7 @@ for (int i=0;i<test.size();i++){
            });
         } */
 
-if(championship.getStatus().equals( "Finished")){
+            if(championship.getStatus().equals( "Finished")){
     Intent i = new Intent(this, FinishChampActivity.class);
     Bundle extras = new Bundle();
     extras.putSerializable("champ", championship);
@@ -759,13 +775,11 @@ if(championship.getStatus().equals( "Finished")){
     public void exitActivity(View View) {
         System.out.println("save_pressed=" + save_pressed);
         if (save_pressed == 1) {
-            if(t.getUuid().equals(curRound.getTeam1UUID())){
                 cd.setScore(score1);
                 cd2.setScore(score2);
-            } else if(t.getUuid().equals(curRound.getTeam2UUID())){
-                cd.setScore(score2);
-                cd2.setScore(score1);
-            }
+            System.out.println("cd1: team "+cd.getSys_teamID()+" score1 "+score1);
+            System.out.println("cd2: team "+cd2.getSys_teamID()+" score2 "+score2);
+
             bowlingViewModel.update(t);
             bowlingViewModel.update(t2);
           //  cd.setScore(score1);to kanw sto onresult //?

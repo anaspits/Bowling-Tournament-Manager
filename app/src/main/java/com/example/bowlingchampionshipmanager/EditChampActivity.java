@@ -56,8 +56,8 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         par1 = (EditText) findViewById(R.id.editHDCP1);
         par2 = (EditText) findViewById(R.id.editHDCP2);
         par3 = (EditText) findViewById(R.id.editHDCP3);
-        par5 = (EditText) findViewById(R.id.editHDCP4);
-        par4= (EditText) findViewById(R.id.editHDCP5);
+        par4 = (EditText) findViewById(R.id.editHDCP4);
+        par5= (EditText) findViewById(R.id.editHDCP5);
         param= (TextView)  findViewById(R.id.param);
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
