@@ -56,22 +56,15 @@
         android:id="@+id/round"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Round"
+        android:text="Current Round:"
         android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/editr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="round"
-        android:inputType="number"
-        android:autofillHints="" />
 
 
     <TextView
         android:id="@+id/pid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Players"
         android:textSize="18sp" />
 

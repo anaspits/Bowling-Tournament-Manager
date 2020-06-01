@@ -32,12 +32,12 @@
             android:text="Status"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/editstatus"
+        <TextView
+            android:id="@+id/tstatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Status"
-            android:inputType="text" />
+            android:text=""
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/type"
@@ -312,7 +312,6 @@
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 
 
 </LinearLayout>

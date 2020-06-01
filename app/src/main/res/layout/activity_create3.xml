@@ -61,6 +61,28 @@
                     android:text="@string/pins" />
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/_4_how_many_lanes"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/editLanes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:hint="@string/e_g_4"
+                android:inputType="number"
+                android:autofillHints="" />
+
             <Button
                 android:id="@+id/next_btn"
                 android:layout_width="wrap_content"

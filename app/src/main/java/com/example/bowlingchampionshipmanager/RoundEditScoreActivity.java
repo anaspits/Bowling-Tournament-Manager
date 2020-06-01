@@ -103,11 +103,11 @@ public class RoundEditScoreActivity extends AppCompatActivity {
                 System.out.println("got round from sel ERROR");
             }
             if (tuuid1.equals(r.getTeam1UUID())) {
-                textTitle.append("\n"+"Team "+team1.getTeamName()+" VS Team " + r.getTeam2ID());
+                //textTitle.append("\n"+"Team "+team1.getTeamName()+" VS Team " + r.getTeam2ID());
                 team2txt.setText( "Team " + r.getTeam2ID());
                 tuuid2=r.getTeam2UUID();
             } else {
-                textTitle.append("\n"+"Team "+team1.getTeamName()+" VS Team " + r.getTeam1ID());
+                //textTitle.append("\n"+"Team "+team1.getTeamName()+" VS Team " + r.getTeam1ID());
                 team2txt.setText( "Team " + r.getTeam1ID());
                 tuuid2=r.getTeam1UUID();
             }
@@ -116,6 +116,7 @@ public class RoundEditScoreActivity extends AppCompatActivity {
             System.out.println("Team selected: "+team1.getFTeamID()+" sys "+team1.getSys_teamID()+" uuid "+team1.getUuid());
             team1txt.setText("Team "+team1.getTeamName() );
         textTitle.setText("Round "+r.getFroundid());
+        textTitle.append("\nLanes:"+r.getLanes());
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -212,7 +213,7 @@ team2=te;
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
 
             // //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ (an den einai blind)
-            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
+            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0 && !RoundScoreListAdapter2.editModelArrayList.get(i).getUuid().equals("blind")) {
                 int i2 = i;
             bowlingViewModel.getAllDoneRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
                 @Override
@@ -549,6 +550,16 @@ finish();
 
     public void export(View view) {
         if(calc_pressed==1){
+            if(checkboxhdcp.isChecked()){
+                sum_hdcp1=0;
+                for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+                    sum_hdcp1+=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
+                }
+                sum_hdcp2=0;
+                for (int i = 0; i < RoundScoreListAdapterTeam2.editModelArrayList.size(); i++) {
+                    sum_hdcp2+=RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp();
+                }
+            }
         StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
         try {
             //saving the file into device

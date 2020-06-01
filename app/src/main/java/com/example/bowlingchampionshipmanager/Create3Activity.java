@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,8 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     private DetailListAdapter dlistAdapter;
     public String champuuid;
     public Championship championship;
+    private  EditText editLanes;
+    private int lanes;
 
 
     @Override
@@ -54,6 +58,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
        pins= (RadioButton) findViewById(R.id.pins);
        teamsvsteams= (RadioButton) findViewById(R.id.teamsvsteams);
        start= (Button) findViewById(R.id.next_btn);
+        editLanes =  findViewById(R.id.editLanes);
        //start.setEnabled(false);
 
 
@@ -139,6 +144,10 @@ championship = c;
     public void openNewActivity(View View) {
         String button_text;
         button_text =((Button)View).getText().toString();
+
+        if(!editLanes.getText().toString().matches("") || !TextUtils.isEmpty(editLanes.getText())) {
+            lanes = Integer.parseInt(editLanes.getText().toString());
+
         if(button_text.equals("Back"))
         {
            // Intent goback = new Intent(this,Create2Activity.class);
@@ -159,6 +168,7 @@ championship = c;
                    extras.putString("champuuid", champuuid);
                    extras.putSerializable("champ", championship);
                    extras.putSerializable("all_the_teams", all_the_teams);
+                   extras.putInt("lanes",lanes);
                    i.putExtras(extras);
                    startActivity(i);
                    finish();
@@ -173,6 +183,7 @@ championship = c;
                    extras.putString("teamid", teamuuid); //giati?
                    extras.putString("champuuid", champuuid);
                    extras.putSerializable("champ", championship);
+                   extras.putInt("lanes",lanes);
                    extras.putSerializable("all_the_teams", all_the_teams);
                    extras.putSerializable("teammates", (Serializable) playersandteams);
                    i.putExtras(extras);
@@ -194,13 +205,14 @@ championship = c;
                extras.putSerializable("teammates", (Serializable) playersandteams);
                 extras.putString("champuuid",champuuid);
                 extras.putSerializable("champ",championship);
+               extras.putInt("lanes",lanes);
                 i.putExtras(extras);
                 startActivity(i);
                 finish();
              /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                    finishAffinity();
                }*/
-           } /* todo else if(friendly){
+           } /*
 
            }*/else{
                Toast.makeText(
@@ -210,7 +222,12 @@ championship = c;
            }
 
         }
-
+        }else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You have to insert the lanes",
+                    Toast.LENGTH_LONG).show();
+        }
     }
     @Override
     public void OnDeleteClickListener(Team_detail myNote) {

@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 //TODO /DONE!/ NA KANW EDITROUND H' mporw na xrhshmpoihsw to round pou pernaw apo to select, meta na parw th lista apo getRoundsofTeam, na to psa3w ekei mesa kai na vrw to epomeno round kai na to perasw sto epomeno Round
-//TODO NA FTIAXW TA KOUMPIA EXPPORT KAI EXIT
+
 public class RoundActivity extends AppCompatActivity implements RoundListAdapter.OnDeleteClickListener {
     public static final int UPDATE_SCORE_REQUEST_CODE = 10;
     public static int save_pressed = 0;

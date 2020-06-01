@@ -19,7 +19,6 @@
         <activity android:name=".SelectRoundActivity" />
         <activity android:name=".RoundStatisticsActivity" />
         <activity android:name=".StatisticsActivity" />
-        <activity android:name=".OldChampActivity" />
         <activity android:name=".FinishChampActivity" />
         <activity android:name=".FinishTeamActivity" />
         <activity android:name=".PinsRoundEditActivity" />

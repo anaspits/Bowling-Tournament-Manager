@@ -56,26 +56,29 @@
 
             <Button
                 android:id="@+id/ivRowEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
+                android:layout_width="50dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:layout_margin="0dp"
-                android:text="@string/edit"
+                android:background="@android:drawable/ic_menu_edit"
                 android:tint="#9E9E9E" />
 
             <Button
                 android:id="@+id/ivRowDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:layout_margin="0dp"
                 android:background="@drawable/ic_delete"
-
                 android:src="@drawable/ic_delete"
                 android:tint="#00FFFFFF" />
             <Button
                 android:id="@+id/ivRowSelect"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_height="45dp"
                 android:layout_margin="0dp"
+
                 android:text="select"
                 android:tint="#9E9E9E" />
 

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +44,10 @@ public class Pins1Activity extends AppCompatActivity implements BowlingListAdapt
     public List<Championship_detail> cd;
     private static Pins_points pp = new Pins_points("","",0,0);
     private int imp_pressed=0;
-    private int round; //todo na rwthsw
+    private int round, lanes; //todo na rwthsw
 private EditText editNorounds;
-    private TextView textView, textTitle;
+    private TextView  textTitle;
+    private CheckedTextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ textTitle= findViewById(R.id.textTitle);
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             playersandteams= (List<TeammatesTuple>) bundleObject.getSerializable("teammates");
             //t.setText(hdcp_parameters.get(0));
+            lanes=bundleObject.getInt("lanes");
+            System.out.println("lanes "+lanes);
             teamuuid=bundleObject.getString("teamid"); //axristo
             champuuid = bundleObject.getString("champuuid");
             ch= (Championship) bundleObject.getSerializable("champ");
@@ -80,6 +84,7 @@ textTitle= findViewById(R.id.textTitle);
         Button button_imp  = (Button) findViewById(R.id.button_import);
         editNorounds=findViewById(R.id.editNorounds);
         textView=findViewById(R.id.textView);
+        textView.setVisibility(View.GONE);
 
         //na svisw
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
@@ -198,6 +203,8 @@ textTitle= findViewById(R.id.textTitle);
 
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
+        textView.setVisibility(View.VISIBLE);
+
         //Cursor returnCursor = getContentResolver().query(currentUri,null,null,null,null);
         if (resultCode == Activity.RESULT_OK) {
 
@@ -305,7 +312,9 @@ textTitle= findViewById(R.id.textTitle);
               round = Integer.parseInt(editNorounds.getText().toString());
           System.out.println("rounds " + round);
           //kanw ta rounds kai ta round-detail
-          for (int d = 1; d <= round; d++) {
+              Round tr = new Round("",0,0,0,champuuid,null,null,0,0,null);
+                tr.roundforPins(champuuid,all_the_teams,bowlingViewModel,playersandteams,lanes,round);
+             /* for (int d = 1; d <= round; d++) {
               System.out.println(String.format("Round %d", d));
               for (int i = 0; i < all_the_teams.size(); i++) {
                   System.out.println(" Team " + all_the_teams.get(i).getFTeamID());
@@ -322,7 +331,7 @@ textTitle= findViewById(R.id.textTitle);
                   bowlingViewModel.insert(r);
 
                   //gia ka8e paikth ths ka8e omadas vazw to rd
-                  /*/meta fixme
+                  /*meta fixme
                   bowlingViewModel.getAllPlayersofTeam3(all_the_teams.get(i).getUuid(), champuuid).observe(this, new Observer<List<Participant>>() {
                       @Override
                       public void onChanged(List<Participant> pa) {
@@ -334,7 +343,7 @@ textTitle= findViewById(R.id.textTitle);
                           }
 
                       }
-                  }); */
+                  }); */ /*
                   // Prin
                   ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths
                   if(pa!=null) {
@@ -362,7 +371,7 @@ textTitle= findViewById(R.id.textTitle);
                       }
                   }
               }
-          }
+          } */
 
           bowlingViewModel.update(ch);
           System.out.println("ch status =" + ch.getStatus() + " type " + ch.getType()+" start_date "+ch.getStart_date()+" cr date"+ch.getCreated_at());

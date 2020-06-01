@@ -27,21 +27,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/exportRound_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_toRightOf="@+id/textTitle"
-                android:background="#4CAF50"
-                android:drawableBottom="@drawable/ic_delete"
-                android:onClick="openNewActivity"
-                android:text="@string/export"
-                android:textColor="#F9F9F9"
-                android:textSize="14sp"
-                tools:text="@string/export"
-                android:layout_toEndOf="@+id/textTitle" />
-
             <TextView
                 android:id="@+id/textTitle"
                 android:layout_width="wrap_content"
@@ -54,6 +39,19 @@
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"
                 android:layout_marginTop="25dp"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@id/textTitle"
+                android:background="#2196F3"
+                android:onClick="export"
+                app:srcCompat="@android:drawable/stat_sys_download" />
+
         </RelativeLayout>
 
         <TextView
@@ -338,7 +336,12 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Auto-calculate HDCP" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -393,6 +396,22 @@
                     tools:text="Calculate" />
 
             </RelativeLayout>
+            <TextView
+                android:id="@+id/tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Tip: Tap on a player to go BLIND"
+                android:textAlignment="center"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/tip2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Tip: Select Auto-calculate HDCP, if you want the new HDCP of the players for the next round to be auto-calculated"
+                android:textAlignment="center"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
 

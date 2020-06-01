@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 
     private static TextView textTitle;
     private static TextView sumHDCP,sum1st,sum2nd,sum3rd,txtscore1, totalSumtxt,  pointstxt,team1txt ;
+    private CheckBox checkboxhdcp;
     public static Team team1;
     public static Round r;
     public static String tuuid1;
@@ -57,6 +59,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         totalSumtxt =findViewById(R.id.txvTotalSum);
         txtscore1=findViewById(R.id.score1);
         pointstxt =  findViewById(R.id.points);
+        checkboxhdcp= findViewById(R.id.checkBox);
         calc_pressed=0;
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -79,6 +82,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         System.out.println("Team selected: "+team1.getFTeamID()+" sys "+team1.getSys_teamID()+" uuid "+team1.getUuid());
         team1txt.setText("Team "+team1.getTeamName() );
         textTitle.setText("Round "+r.getFroundid());
+        textTitle.append("\nLanes:"+r.getLanes());
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -142,18 +146,20 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
 
-            //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ
-            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0) {
+            //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ (pou den htan blind)
+            if(RoundScoreListAdapter2.rd.get(i).getBlind()==0 && !RoundScoreListAdapter2.editModelArrayList.get(i).getUuid().equals("blind")) {
                 int i2 = i;
                 bowlingViewModel.getAllDoneRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(), champuuid).observe(this, new Observer<List<Round_detail>>() {
                     @Override
                     public void onChanged(List<Round_detail> allrdchamp) {
                         float avg = 0;
-                        int games = (3 * allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                        //int games = (3 * allrdchamp.size()) + 3;//+3 gia ta paixnidia aftou tou round, afou den epistrefetai apo to query giati den exei ginei upadate(roud), ginetai sto roundActivity
+                        int games =3; //aftou tou round
                         System.out.println("1games a " + games + " pl " + RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid());
                         for (int j = 0; j < allrdchamp.size(); j++) {
                             if (allrdchamp.get(j).getBlind() == 0) {
                                 avg += allrdchamp.get(j).getScore(); //ta score twn prohgoumenwn rounds
+                                games+=3; //ka8e round pou epai3e (dld den htan blind)
                             }
                         }
                         System.out.println("1 prohgoumena score " + avg);
@@ -162,8 +168,14 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                         if (games != 0) {
                             avg = avg / games;
                         }
-//ypologismos hdcp//todo test it kai na mhn allazei an to vazei o paikths
-                        if (RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid().equals("blind") && championship.getHdcp_less()!=0) { //an einai omada me ligoterous paiktes //todo na rwthsw
+
+//ypologismos hdcp
+                        System.out.println("1 hdcp champ.tav " + championship.getHdcp_tav());
+                        if(checkboxhdcp.isChecked()) {
+                            int hdcp = RoundScoreListAdapter2.editModelArrayList.get(i2).calculateHDCPofPlayer(RoundScoreListAdapter2.editModelArrayList.get(i2), avg, championship, bowlingViewModel);
+                            RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                            RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                       /* if (RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid().equals("blind") && championship.getHdcp_less()!=0) { //an einai omada me ligoterous paiktes //todo na rwthsw
                             int hdcp = (int) ((championship.getHdcp_less() - avg) * championship.getHdcp_factor());
                             RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
                             System.out.println("1 hdcp less" + hdcp);
@@ -171,11 +183,12 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                             int hdcp = (int) ((championship.getHdcp_tav() - avg) * championship.getHdcp_factor());
                             RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
                             System.out.println("1 hdcp tav" + hdcp);
+                        } */
                         }
                         System.out.println("1games b " + games + " avg " + avg);
                         RoundScoreListAdapter2.rd.get(i2).setAvg(avg);
                         RoundScoreListAdapter2.rd.get(i2).setGames(games);
-                        RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(games);
+                        RoundScoreListAdapter2.editModelArrayList.get(i2).setTotal_games(3+RoundScoreListAdapter2.editModelArrayList.get(i2).getTotal_games()); //ola ta prohgoumena games ever pou eixe o paikths + ta 3 aftou tou gyrou
                     }
                 });
             }
@@ -206,7 +219,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                 }
             }
             score1+=point;
-            //t.setScore(score1); //todo na to kanw sto open activity
+            //t.setScore(score1);
             r.setPoints1(point);
             txtscore1.setText("Score: "+score1);
             pointstxt.setText("Points: "+point);
@@ -227,7 +240,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 
                 RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
 
-                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //todo na kanw update kai to score tou paikth kai sto telos na upologizw to avg
+                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
 
                 //RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())/3);
                 RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
@@ -258,6 +271,12 @@ public class PinsRoundEditActivity extends AppCompatActivity {
     public void export(View view) {
         if(calc_pressed==1){
             ExportCSV exp= new ExportCSV();
+            if(checkboxhdcp.isChecked()){
+                sum_hdcp1=0;
+                for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+                    sum_hdcp1+=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
+                }
+            }
             StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,null,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,0,0,0,0);
             try {
                 //saving the file into device

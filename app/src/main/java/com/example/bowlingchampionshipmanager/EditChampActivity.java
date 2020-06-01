@@ -1,5 +1,6 @@
 package com.example.bowlingchampionshipmanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -30,13 +32,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     public static final String BOWL_ID="bowlId";
     static final String UPDATED_NOTE = "bowl_text";
-    private EditText editstatus,par1,par2,par3,par4,par5;
+    private EditText par1,par2,par3,par4,par5;
     private Bundle bundle;
     private int bowlId;
     public String champuuid;
     private LiveData<Championship> champ;
     private Championship c;
-    private TextView cname,param,type;
+    private TextView cname,param,type,status;
     static ArrayList<Integer> hdcp_parameters=new ArrayList<>();
     private ArrayList<Integer> tid = new ArrayList<>();
 
@@ -50,7 +52,7 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_champ);
 
-        editstatus = findViewById(R.id.editstatus);
+        status = findViewById(R.id.tstatus);
         type = findViewById(R.id.type);
         cname = findViewById(R.id.cname);
         par1 = (EditText) findViewById(R.id.editHDCP1);
@@ -160,7 +162,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                 } */
                 //Championship champ = c.get(0); //vash 2
                 cname.append(" No. "+ String.valueOf(bowlId));
-                editstatus.setText(String.valueOf(champ.getStatus()));
+                status.setText(String.valueOf(champ.getStatus()));
               /*   ArrayList<Integer> h = c.getHdcp_parameters(); //prin
                par1.setText(String.valueOf(h.get(0)));
                 par2.setText(String.valueOf(h.get(1)));
@@ -191,7 +193,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
 
     public void updateDB (View view) {
-        String updatedst = editstatus.getText().toString();
+       // String updatedst = editstatus.getText().toString();
         String upar1 = par1.getText().toString();
         String upar2 = par2.getText().toString();
         String upar3 = par3.getText().toString();
@@ -229,7 +231,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
             c.setHdcp_tav(Integer.parseInt(upar5));
         }
 
-        c.setStatus(updatedst);
+        //c.setStatus(updatedst);
         c.setHdcp_parameters(hdcp_parameters); //axristo
 
 
@@ -252,6 +254,22 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
     @Override
     public void OnDeleteClickListener(Team myNote) {
         //bowlingViewModel.delete(myNote); //todo ??
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete Team No."+myNote.getFTeamID());
+        alert.setMessage("Are you sure you want to delete this team?");
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bowlingViewModel.delete(myNote);
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

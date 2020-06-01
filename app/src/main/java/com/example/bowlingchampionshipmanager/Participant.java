@@ -762,7 +762,7 @@ for (int i=0;i<bowlers.size();i++){
         return (int)hdcp;
     }
 
-    //to ka8oliko //fixme
+    //to ka8oliko
     public void calculateAVGofPlayer(Participant player,List<Round_detail> rd, Championship championship, BowlingViewModel bowlingViewModel){
 
         //for (int i = 0; i <players.size(); i++) {
@@ -779,16 +779,18 @@ for (int i=0;i<bowlers.size();i++){
                             System.out.println(" r.score " + rd.get(r).getScore());
                             System.out.println(" bowlavg " + player.getBowlAvg());
                             System.out.println(" avg " + avg);
-                            if(rd.get(r).getUpdated_at()!=null) {
+                            if (rd.get(r).getUpdated_at() != null) {
                                 avg += rd.get(r).getScore();
                                 games += 3;
-                                System.out.println("Mesa paikths " + player.getFirstName() + " r.score " + rd.get(r).getScore() + " bowlavg " + player.getBowlAvg() + " avg " + avg);
+                                System.out.println("Mesa paikths " + player.getFirstName() + " r.score " + rd.get(r).getScore() + " bowlavg " + player.getBowlAvg() + " avg " + avg + " games " + games);
                             }
                         }
+                    }
                         if (games != 0) {
                             avg = avg / games;
                         }
                         player.setBowlAvg((int) avg);//todo float
+                        System.out.println(" e3w paikths "+ player.getFirstName() + " neo avg "+avg);
                         int hdcp=calculateHDCPofPlayer(player, avg, championship, bowlingViewModel);
                         player.setHdcp(hdcp);
                    /* if(championship.getHdcp_tav()!=0){ //todo test it
@@ -799,7 +801,7 @@ for (int i=0;i<bowlers.size();i++){
                         player.setTotal_games(games);
                         bowlingViewModel.update(player);
                         System.out.println("avg Meta paikths " + player.getFirstName() + " bowlavg " + player.getBowlAvg() + " avg " + avg + " hdcp " + player.getHdcp() + " games "+games);
-                    }
+
 
         // }
     }

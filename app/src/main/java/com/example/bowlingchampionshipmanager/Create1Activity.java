@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.app.Activity;
 
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -45,8 +46,9 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
     //todo na ftiaxw to background sto recycleview h sto list
 
     public static final int SELECT_TEAM_ACTIVITY_REQUEST_CODE = 6;
-    private static EditText textView,editLanes,plperteam;
-    private TextView plpert;
+    private static EditText plperteam;
+    private CheckedTextView textView;
+    private TextView plpert, tip;
     private RadioButton multi, single,auto,readyteams;
     private RadioGroup typeoffile;
     private static final int CREATE_REQUEST_CODE = 40;
@@ -91,13 +93,15 @@ public class Create1Activity extends AppCompatActivity implements BowlingListAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create1);
 
-        textView = (EditText) findViewById(R.id.fileText);
-        editLanes =  findViewById(R.id.editLanes);
+        textView =  findViewById(R.id.fileText);
+        textView.setVisibility(View.GONE);
         plpert =findViewById(R.id.plpert);
         plperteam=findViewById(R.id.plperteam);
         single =findViewById(R.id.single);
         multi = findViewById(R.id.teams);
         auto=findViewById(R.id.auto);
+        tip=findViewById(R.id.tip);
+        tip.setVisibility(View.GONE);
         readyteams = findViewById(R.id.readyteams);
         typeoffile = findViewById(R.id.typeoffile);
         typeoffile.setVisibility(View.GONE);
@@ -233,8 +237,9 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         multi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-typeoffile.setVisibility(View.VISIBLE);
-singleflag=false;
+                typeoffile.setVisibility(View.VISIBLE);
+                tip.setVisibility(View.GONE);
+                singleflag=false;
             }
         });
 
@@ -242,6 +247,7 @@ singleflag=false;
             @Override
             public void onClick(View v) {
                 typeoffile.setVisibility(View.GONE);
+                tip.setVisibility(View.VISIBLE);
                 singleflag=true;
             }
         });
@@ -391,6 +397,8 @@ singleflag=false;
             }
         }
 ///////////////////////////
+
+        textView.setVisibility(View.VISIBLE);
 
         if (resultCode == Activity.RESULT_OK) {
 

@@ -2,6 +2,7 @@ package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -101,6 +102,16 @@ public class PinsRoundActivity extends AppCompatActivity {
         recyclerView.setAdapter(rscorelistAdapter); //
         recyclerView.setLayoutManager(new LinearLayoutManager(this));//
         //2
+
+        if(bowlers==null){
+            bowlingViewModel.getAllPlayersofChamp(champuuid).observe(this, new Observer<List<Participant>>() {
+                @Override
+                public void onChanged(List<Participant> players) {
+                    bowlers= (ArrayList<Participant>) players;
+                    System.out.println("bowlers null & players size "+players.size());
+                }
+            });
+        }
 
         //todo na rwthsw posa rounds paizontai sta pins afou den einai antipales omades
         bowlingViewModel.getNextRoundofTeamofChamp(tuuid, champuuid).observe(this, new Observer<List<Round>>() {
@@ -474,7 +485,7 @@ if (calc_pressed ==1) {
                     extras.putSerializable("champ", championship);
                     extras.putSerializable("b_object", t); //selected team
                     i.putExtras(extras);
-                    //finish();
+                    finish();
                     System.out.println("here 2 " + curRound.getStatus());
                     startActivity(i);
                     finish();
@@ -486,7 +497,20 @@ if (calc_pressed ==1) {
                     System.out.println("cd size= " + cds_count);
                     System.out.println("fin cd size= " + fin_cds_count);
 
+                    //ka8oliko avg
                     for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
+                        System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+                        System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+                        Participant pa=RoundScoreListAdapter2.editModelArrayList.get(i);
+                        bowlingViewModel.getallAllRound_detailofplayer(pa.getUuid()).observe((LifecycleOwner) this, new Observer<List<Round_detail>>() {
+                            @Override
+                            public void onChanged(List<Round_detail> rd) {
+                                pa.calculateAVGofPlayer(pa,rd, championship, bowlingViewModel);
+                            }
+                        });
+
+                    }
+                   /* for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                         System.out.println("Gia to avg: team1-"+team1.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                         System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                         int i2 = i;
@@ -508,7 +532,8 @@ if (calc_pressed ==1) {
                                 System.out.println("Meta paikths " +  RoundScoreListAdapter2.editModelArrayList.get(i2).getFirstName() +" r.score "+rd.get(i2).getScore()+" bowlavg "+RoundScoreListAdapter2.editModelArrayList.get(i2).getBowlAvg()+" avg "+ avg);
                             }
                         });
-                    }
+                    }*/
+
                     if(championship.getStatus().equals( "Finished")){
                         Intent i = new Intent(this, FinishChampActivity.class);
                         Bundle extras = new Bundle();

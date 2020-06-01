@@ -27,7 +27,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
     private List<TeammatesTuple> playersandteams;
     public static ArrayList<ArrayList> vs= new ArrayList<>(); //list me tis antipalles omades opou h thesi twn omadwn sti lista = einai o gyros opou paizoun antipales+1
     private static TextView details,textTitle;
-    private static int rounds;
+    private static int rounds,lanes;
     //public static Team[][] temp2; //dokimh disdiatastatos pinakas anti gia arraylist
     //public static ArrayList<Team> temp3 = new ArrayList<>(); //lista opou exei se seira th mia meta thn allh tis omades pou paizoun antipaloi (mod2), dld h omada sth thesi 0 paizei antipalh me thn omada sth thesh 1, klp
     private BowlingViewModel bowlingViewModel;
@@ -61,6 +61,8 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
             hdcp_parameters= (ArrayList<String>) bundleObject.getStringArrayList("hdcp_parameters");
             all_the_teams = (ArrayList<Team>) bundleObject.getSerializable("all_the_teams");
             playersandteams= (List<TeammatesTuple>) bundleObject.getSerializable("teammates");
+            lanes=bundleObject.getInt("lanes");
+            System.out.println("lanes "+lanes);
             //champuuid = bundleObject.getString("champuuid");
             championship= (Championship) bundleObject.getSerializable("champ");
             champuuid=championship.getUuid();
@@ -115,7 +117,7 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
            // roundRobin(all_the_teams.size(), rounds);
 
 Round tr = new Round("",0,0,0,champuuid,null,null,0,0,null);
-StringBuilder roundrobinresult = tr.roundrobinnew(championship.getUuid(),all_the_teams,bowlingViewModel,playersandteams);
+StringBuilder roundrobinresult = tr.roundrobinnew(championship.getUuid(),all_the_teams,bowlingViewModel,playersandteams,lanes);
 details.append(roundrobinresult);
 
             test();

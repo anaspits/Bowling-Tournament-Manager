@@ -1,12 +1,14 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -203,7 +205,23 @@ public class ContinueChampActivity extends AppCompatActivity implements ChampLis
     }
     @Override
     public void OnDeleteClickListener(Championship myNote) {
-        bowlingViewModel.delete(myNote);
-        //todo na petaei mhnyma an 8elei na to svisei
+        //bowlingViewModel.delete(myNote);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete Championship No."+myNote.getSys_champID());
+        alert.setMessage("Are you sure you want to delete this Championship?");
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bowlingViewModel.delete(myNote);
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 }

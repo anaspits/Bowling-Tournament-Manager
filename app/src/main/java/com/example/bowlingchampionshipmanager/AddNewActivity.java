@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.UUID;
 
+//todo scrollable
 public class AddNewActivity extends AppCompatActivity {
 
     public static final String NEW_ADDED = "new_added";

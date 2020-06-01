@@ -26,21 +26,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/exportRound_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/textTitle"
-                    android:background="#4CAF50"
-                    android:drawableBottom="@drawable/ic_delete"
-                    android:onClick="openNewActivity"
-                    android:text="@string/export"
-                    android:textColor="#F9F9F9"
-                    android:textSize="14sp"
-                    tools:text="@string/export"
-                    android:layout_toEndOf="@+id/textTitle" />
-
                 <TextView
                     android:id="@+id/textTitle"
                     android:layout_width="wrap_content"

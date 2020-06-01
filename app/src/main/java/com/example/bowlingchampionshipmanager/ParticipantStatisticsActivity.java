@@ -1,6 +1,7 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -48,6 +50,11 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         player = findViewById(R.id.player);
         textView=findViewById(R.id.textView);
         addnew =findViewById(R.id.addnew);
+
+        //An 8elw na pros8esw enan paikth sth bash na energopoihsw to koumpi
+        addnew.setVisibility(View.GONE);
+        //pros to paron epeidh den xrhshmevei kapou to na ginei insert enos paikth mono tou sth bash, opote to koumpi to exw kryfo
+
         flag = "none";
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -211,9 +218,25 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     @Override
     public void OnDeleteClickListener(Participant myNote) {
         //bowlingViewModel.delete(myNote);
-        myNote.setDisable_flag(1);
-        myNote.setDisabled_at_date( Calendar.getInstance().getTime());
-        System.out.println(myNote.getDisable_flag());
-        bowlingViewModel.update(myNote);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete Player");
+        alert.setMessage("Are you sure you want to delete this player?");
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myNote.setDisable_flag(1);
+                myNote.setDisabled_at_date( Calendar.getInstance().getTime());
+                System.out.println(myNote.getDisable_flag());
+                bowlingViewModel.update(myNote);
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 }

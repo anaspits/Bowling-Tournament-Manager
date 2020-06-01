@@ -76,6 +76,8 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
 
         //addnew sto database
         Button addnew= findViewById(R.id.addnew);
+        //an 8elw na valw enan paikth sto database mono tou, tote na kanw to koumpi visible
+        addnew.setVisibility(View.GONE);
         addnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -25,13 +25,13 @@ import java.util.ArrayList;
 public class HDCPActivity extends AppCompatActivity {
     static ArrayList<Participant> bowlers;
     public static ArrayList<Team> all_the_teams;
-    static ArrayList<String> hdcp_parameters=new ArrayList<>();
+    static ArrayList<String> hdcp_parameters=new ArrayList<>(); //axristo?
     static ArrayList<Integer> chh=new ArrayList<>();
-    private static EditText par;
-    private static EditText par2;
-    private static EditText par3;
-    private static EditText par4;
-    private static EditText par5;
+    private static EditText begin;
+    private static EditText adv;
+    private static EditText tless;
+    private static EditText factor;
+    private static EditText tavani;
     private static int pressed=0; //an patithei to export tha ginei =1, alliws tha minei 0 gia na perastoun oi times tou hdcp me to save
     //enalaktika apla kanw 1 koumpi pou tha ta kanei kai ta 2: EXPORT-SAVE & NEXT
 
@@ -39,7 +39,7 @@ public class HDCPActivity extends AppCompatActivity {
     private LiveData<Championship> c;
     public Championship champ;
 
-    private TextView textView1;
+    private TextView textTitle;
     public String champuuid;
 
 
@@ -47,19 +47,19 @@ public class HDCPActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hdcp);
-        textView1= (TextView) findViewById(R.id.textView1);
-        par = (EditText) findViewById(R.id.editHDCPparameters);
-        par2 = (EditText) findViewById(R.id.editHDCPparameters2);
-        par3 = (EditText) findViewById(R.id.editHDCPparameters3);
-        par5 = (EditText) findViewById(R.id.editHDCPparameters5);
-        par4= (EditText) findViewById(R.id.editHDCPparameters4);
+        textTitle = (TextView) findViewById(R.id.textTitle);
+        begin = (EditText) findViewById(R.id.editHDCP1);
+        adv = (EditText) findViewById(R.id.editHDCP2);
+        tless = (EditText) findViewById(R.id.editHDCP3);
+        tavani = (EditText) findViewById(R.id.editHDCP4);
+        factor = (EditText) findViewById(R.id.editHDCP5);
 
 
-       // hdcp_parameters.add(par2.getText().toString());
-  /*      hdcp_parameters.add(String.valueOf(par3.getText()));
-        hdcp_parameters.add(String.valueOf(par5.getText()));
-        hdcp_parameters.add(String.valueOf(par.getText()));
-        hdcp_parameters.add(String.valueOf(par4.getText()));
+       // hdcp_parameters.add(adv.getText().toString());
+  /*      hdcp_parameters.add(String.valueOf(tless.getText()));
+        hdcp_parameters.add(String.valueOf(tavani.getText()));
+        hdcp_parameters.add(String.valueOf(begin.getText()));
+        hdcp_parameters.add(String.valueOf(factor.getText()));
 */
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -72,17 +72,25 @@ public class HDCPActivity extends AppCompatActivity {
         bViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class);
         //Auto mazi me th grammh 192 (bViewModel.update(champ);) kanonika douleve, twra 3afnika den douleuei alla telos pantwn. Exairetika ta nea mas!
         //twra doulevei mia xara pali! lol
-        c = bViewModel.getLastInsertChamp();
+      /*  c = bViewModel.getLastInsertChamp();
         c.observe(this, new Observer<Championship>() {
             @Override
             public void onChanged(Championship ch) {
                 champ= ch;
-               textView1.setText(String.valueOf(ch.getSys_champID()));
+               textTitle.setText(String.valueOf(ch.getSys_champID()));
 
             }
-        });
+        }); */
+      bViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
+          @Override
+          public void onChanged(Championship ch) {
+              champ= ch;
+              textTitle.append(" No."+ch.getSys_champID());
+
+          }
+      });
+
 //todo 1: getChamp(uuid) -> adapter -> HDCPActivity.champ H'
-//todo 2: update champ where uuid=champUUID H'
 // todo 3: check teamsvsteams line 60 H'
 //todo 4: check RoundListAdapter returnRounds
         System.out.println("champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " to allo u "+ champuuid);
@@ -95,11 +103,11 @@ public class HDCPActivity extends AppCompatActivity {
         StringBuilder data = new StringBuilder();
         data.append("Championship:"+champ.getSys_champID()+",UUID:"+champuuid);
         data.append("\nHDCP Parameters");
-        data.append("\n1)Basis scores:,Beginners:," +par2.getText());
-        data.append("\n,Advanced:," +par3.getText());
-        data.append("\n,Teams with less players:," +par5.getText());
-        data.append("\n2)Percentage Factor:," +par.getText());
-        data.append("\n3)Tavani:,"+par4.getText());
+        data.append("\n1)Basis scores:,Beginners:," + begin.getText());
+        data.append("\n,Advanced:," + adv.getText());
+        data.append("\n,Teams with less players:," + tless.getText());
+        data.append("\n2)Percentage Factor:," + factor.getText());
+        data.append("\n3)Tavani:,"+ tavani.getText());
 
 
         /*  for(int i = 0; i < bowlers.size()/2;i++){
@@ -108,18 +116,19 @@ public class HDCPActivity extends AppCompatActivity {
         }
         data.append("\n"+" HDCP Parameters"+ "\n");
         data.append("1) Basis scores:"+ "\n" );
-        data.append("Beginners: "+ par2.getText()+"\n");
-        data.append("Advanced: "+ par3.getText()+"\n");
-        data.append("Teams with less players: "+ par5.getText()+"\n");
-        data.append("2) Percentage Factor: "+ par.getText()+ "\n" );
-        data.append("3) Tavani: "+ par4.getText()+ "\n" );*/
+        data.append("Beginners: "+ adv.getText()+"\n");
+        data.append("Advanced: "+ tless.getText()+"\n");
+        data.append("Teams with less players: "+ tavani.getText()+"\n");
+        data.append("2) Percentage Factor: "+ begin.getText()+ "\n" );
+        data.append("3) Tavani: "+ factor.getText()+ "\n" );
 
-        hdcp_parameters.add(par2.getText().toString());
-        hdcp_parameters.add(par3.getText().toString());
-        hdcp_parameters.add(par5.getText().toString());
-        hdcp_parameters.add(par.getText().toString());
-        hdcp_parameters.add(par4.getText().toString());
-        pressed=1;
+        hdcp_parameters.add(begin.getText().toString());
+        hdcp_parameters.add(adv.getText().toString());
+        hdcp_parameters.add(tless.getText().toString());
+        hdcp_parameters.add(factor.getText().toString());
+        hdcp_parameters.add(tavani.getText().toString());
+
+        pressed=1;*/
 
 
         try{
@@ -156,21 +165,21 @@ public class HDCPActivity extends AppCompatActivity {
         {
             //Intent gonext = new Intent(this,Create2Activity.class);
             //startActivity(gonext);
+
+            /*axristo?
             HDCPparameters h = new HDCPparameters(0,0,0,0,0,0);
+            h.setBegBS(Integer.parseInt(adv.getText().toString()));
+            h.setAdvBS(Integer.parseInt(tless.getText().toString()));
+            h.setLessBS(Integer.parseInt(tavani.getText().toString()));
+            h.setFactor(Integer.parseInt(begin.getText().toString()));
+            h.setTavani(Integer.parseInt(factor.getText().toString()));
+            //na to kanw insert sth vash */
 
-            //axristo?
-            h.setBegBS(Integer.parseInt(par2.getText().toString()));
-            h.setAdvBS(Integer.parseInt(par3.getText().toString()));
-            h.setLessBS(Integer.parseInt(par5.getText().toString()));
-            h.setFactor(Integer.parseInt(par.getText().toString()));
-            h.setTavani(Integer.parseInt(par4.getText().toString()));
-            //na to kanw insert sth vash
-
-            String upar1 = par2.getText().toString();
-            String upar2 = par3.getText().toString();
-            String upar3 = par5.getText().toString();
-            String upar4 = par.getText().toString();
-            String upar5 = par4.getText().toString();
+            String upar1 = begin.getText().toString();
+            String upar2 = adv.getText().toString();
+            String upar3 = tless.getText().toString();
+            String upar4 = factor.getText().toString();
+            String upar5 = tavani.getText().toString();
 
             if (upar1.matches("")){
                 chh.add(null);
@@ -203,19 +212,19 @@ public class HDCPActivity extends AppCompatActivity {
                 champ.setHdcp_tav(Integer.parseInt(upar5));
             }
             champ.setHdcp_parameters(chh);
-            System.out.println("2 champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " par "+ champ.getHdcp_adv() );
+            System.out.println("2 champ id "+champ.getFchampID()+" uuid "+champ.getUuid()+ " begin "+ champ.getHdcp_adv() );
             bViewModel.update(champ);
 
-            if (pressed==0) {
+            /* if (pressed==0) {
 
-                hdcp_parameters.add(par2.getText().toString());
-                hdcp_parameters.add(par3.getText().toString());
-                hdcp_parameters.add(par5.getText().toString());
-                hdcp_parameters.add(par.getText().toString());
-                hdcp_parameters.add(par4.getText().toString());
+                hdcp_parameters.add(adv.getText().toString());
+                hdcp_parameters.add(tless.getText().toString());
+                hdcp_parameters.add(tavani.getText().toString());
+                hdcp_parameters.add(begin.getText().toString());
+                hdcp_parameters.add(factor.getText().toString());
 
             }
-           /*
+
             Intent i =  new Intent(this, Create3Activity.class);
             Bundle extras = new Bundle();
             extras.putSerializable("bowlers",bowlers);

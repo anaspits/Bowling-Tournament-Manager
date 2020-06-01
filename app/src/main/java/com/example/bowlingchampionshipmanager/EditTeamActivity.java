@@ -1,6 +1,7 @@
 package com.example.bowlingchampionshipmanager;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 public class EditTeamActivity extends AppCompatActivity implements BowlingListAdapter.OnDeleteClickListener {
@@ -29,12 +32,12 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
     public static final int UPDATE_CHAMP_ACTIVITY_REQUEST_CODE = 4;
     public static final String BOWL_ID="bowlId";
     static final String UPDATED_NOTE = "bowl_text";
-    private EditText editname,editscore,editround;
+    private EditText editname,editscore;
     private Bundle bundle;
     private int bowlId;
     private String tuuid;
     private LiveData<Team> team;
-    private TextView tid;
+    private TextView tid,round;
 
     //private Test_table t;
     private Team t;
@@ -51,7 +54,7 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
 
         editname = findViewById(R.id.editn);
         editscore = findViewById(R.id.editsc);
-        editround = findViewById(R.id.editr);
+        round = findViewById(R.id.round);
         tid = findViewById(R.id.teamid);
 
         bundle = getIntent().getExtras();
@@ -99,21 +102,29 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         bowlingViewModel.getTeamfromUUID(tuuid).observe(this, new Observer<Team>() {
             @Override
             public void onChanged(Team team) {
-                tid.append(" No. "+ String.valueOf(bowlId));
+                tid.append(" No. "+ team.getFTeamID());
                 editname.setText(team.getTeamName());
                 editscore.setText(String.valueOf(team.getScore()));
-                editround.setText(String.valueOf(team.getRound()));
+                //editround.setText(String.valueOf(team.getRound()));
             }
         });
+
+        bowlingViewModel.getNextRoundofTeamofChamp(tuuid, c.getUuid()).observe(this, new Observer<List<Round>>() {
+            @Override
+            public void onChanged(List<Round> ro) {
+               round.append(String.valueOf(ro.get(0).getFroundid()));
+            }
+        });
+
     }
     public void updateDB (View view) {
         String updatedsc = editscore.getText().toString().trim();
-        String updatedr = editround.getText().toString().trim();
+       // String updatedr = editround.getText().toString().trim();
         String updatedn = editname.getText().toString().trim();
 
         t.setTeamName(updatedn);
         t.setScore(Integer.parseInt(updatedsc));
-        t.setRound(Integer.parseInt(updatedr));
+        //t.setRound(Integer.parseInt(updatedr));
         Intent resultIntent = new Intent();
         // resultIntent.putExtra("bowlId", bowlId);
         resultIntent.putExtra("b_object", (Serializable) t);
@@ -134,6 +145,26 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
     public void OnDeleteClickListener(Participant myNote) {
         //bowlingViewModel.delete(myNote);
         //todo na kanw remove ton paikth apo thn omada H' na mhn to kanw ka8olou
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete Player from Database");
+        alert.setMessage("Are you sure you want to delete this player from the database?");
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { //fixme
+                myNote.setDisable_flag(1);
+                myNote.setDisabled_at_date( Calendar.getInstance().getTime());
+                System.out.println(myNote.getDisable_flag());
+                bowlingViewModel.update(myNote);
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
