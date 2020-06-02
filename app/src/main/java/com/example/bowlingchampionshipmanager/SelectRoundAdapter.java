@@ -61,9 +61,9 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                 if (finishedTeamflag == 1) { //finish team results
                     if (ch.getType() == 2) {
                         if (team.getUuid().equals(note.getTeam1UUID())) {
-                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam2ID(), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);
+                            holder.setData(note.getFroundid() + ") VS Team " + note.getTeam2ID(), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);
                         } else if (team.getUuid().equals(note.getTeam2UUID())) {
-                            holder.setData(note.getFroundid() + ") VS Team:" + note.getTeam1ID(), String.valueOf(note.getPoints2()),String.valueOf(note.getScore2()), position);
+                            holder.setData(note.getFroundid() + ") VS Team " + note.getTeam1ID(), String.valueOf(note.getPoints2()),String.valueOf(note.getScore2()), position);
                         }
                     } else if (ch.getType() == 1 || ch.getType() == 4) {
                         holder.setData( String.valueOf(note.getFroundid()), String.valueOf(note.getPoints1()),String.valueOf(note.getScore1()), position);

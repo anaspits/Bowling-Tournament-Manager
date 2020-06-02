@@ -203,7 +203,6 @@ textTitle= findViewById(R.id.textTitle);
 
         super.onActivityResult(requestCode, resultCode, resultData);
         Uri currentUri = null;
-        textView.setVisibility(View.VISIBLE);
 
         //Cursor returnCursor = getContentResolver().query(currentUri,null,null,null,null);
         if (resultCode == Activity.RESULT_OK) {
@@ -280,6 +279,7 @@ textTitle= findViewById(R.id.textTitle);
             System.out.println("pins "+pins_points.get(i).getPins()+" points "+pins_points.get(i).getPoints());
         }
         imp_pressed=1;
+        textView.setVisibility(View.VISIBLE);
     }
 
 

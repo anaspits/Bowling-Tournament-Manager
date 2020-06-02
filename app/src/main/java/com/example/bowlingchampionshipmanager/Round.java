@@ -80,13 +80,7 @@ public class Round implements Serializable {
     @ColumnInfo(name="points2")
     private int points2;
 
-    @ColumnInfo(name="lane1")
-    private int lane1;
-
-    @ColumnInfo(name="lane2")
-    private int lane2;
-
-    @Ignore
+    @ColumnInfo(name="lanes")
     private String lanes;
 
     @ColumnInfo(name="status")
@@ -157,14 +151,6 @@ public class Round implements Serializable {
         return points2;
     }
 
-    public int getLane1() {
-        return lane1;
-    }
-
-    public int getLane2() {
-        return lane2;
-    }
-
     public String getLanes() {
         return lanes;
     }
@@ -229,14 +215,6 @@ public class Round implements Serializable {
         this.points2 = points2;
     }
 
-    public void setLane1(int lane1) {
-        this.lane1 = lane1;
-    }
-
-    public void setLane2(int lane2) {
-        this.lane2 = lane2;
-    }
-
     public void setLanes(String lanes) {
         this.lanes = lanes;
     }
@@ -276,6 +254,19 @@ public class Round implements Serializable {
 
         ArrayList<Team> temp_teams = new ArrayList<Team>();
 
+       //gia lanes
+       int counter =0; //gia ta paixnidia twn omadwn se ka8e gyro
+       int offset=0;
+       ArrayList<String> l=new ArrayList<>();
+       if (lanes%2!=0){
+           lanes++;
+       }
+       for(int i=1;i<=lanes-1;i+=2){ //kanw zeugaria lanes
+           l.add(i+"-"+(i+1));
+           System.out.println("pairs: "+i+"-"+(i+1));
+       }
+       //
+
         for(int i=0;i<all_the_teams.size();i++){
             temp_teams.add(all_the_teams.get(i)); // Add teams to List teams and remove the first team, to do the cycle for the temp_teams
         }
@@ -310,8 +301,12 @@ public class Round implements Serializable {
                     System.out.println("ignore Round d= "+r.getFroundid()+" t1: "+r.getTeam1ID()+" t2: " + r.getTeam2ID()+" stat "+r.getStatus()+" chid "+ champuuid);
                 }
             }
+            r.setLanes(l.get((counter+offset)%l.size()));
+            counter++;
             bowlingViewModel.insert(r);
             all_rounds.add(r);
+            details.append("Lanes: "+r.getLanes()+"\n");
+            System.out.println("Round d= "+r.getFroundid()+" lanes "+r.getLanes());
 
             //rd
             insertrd(temp_teams.get(teamIdx),playersandteams,r,champuuid,bowlingViewModel);
@@ -339,7 +334,12 @@ public class Round implements Serializable {
                         System.out.println("ignore Round d= "+rr.getFroundid()+" t1: "+rr.getTeam1ID()+" t2: " + rr.getTeam2ID()+" stat "+rr.getStatus()+" chid "+ champuuid);
                     }
                 }
+                rr.setLanes(l.get((counter+offset)%l.size()));
+                counter++;
                 bowlingViewModel.insert(rr);
+                details.append("Lanes: "+rr.getLanes()+"\n");
+                System.out.println("Round d= "+rr.getFroundid()+" lanes "+rr.getLanes());
+
                 //rd
                 insertrd(temp_teams.get(firstTeam),playersandteams,rr,champuuid,bowlingViewModel);
                 insertrd(temp_teams.get(secondTeam),playersandteams,rr,champuuid,bowlingViewModel);
@@ -373,14 +373,29 @@ public class Round implements Serializable {
                 } */
             }
             details.append("\n");
+            counter=0;
+            offset++;
         }
         System.out.println("----------");
-        assignLanes(all_rounds,lanes,bowlingViewModel);
+        //assignLanes(all_rounds,lanes,bowlingViewModel);
         return details;
     }
 
-    public void roundforPins(String champuuid, ArrayList<Team> all_the_teams,BowlingViewModel bowlingViewModel, List<TeammatesTuple> playersandteams, int lanes, int round){
+    public  ArrayList<Round> roundforPins(String champuuid, ArrayList<Team> all_the_teams,BowlingViewModel bowlingViewModel, List<TeammatesTuple> playersandteams, int lanes, int round){
         ArrayList<Round> all_rounds = new ArrayList<>();
+
+        //gia lanes
+        int counter =0; //gia ta paixnidia twn omadwn se ka8e gyro
+        int offset=0;
+        ArrayList<String> l=new ArrayList<>();
+        if (lanes%2!=0){
+            lanes++;
+        }
+        for(int i=1;i<=lanes-1;i+=2){ //kanw zeugaria lanes
+            l.add(i+"-"+(i+1));
+            System.out.println("pairs: "+i+"-"+(i+1));
+        }
+        //
 
         for (int d = 1; d <= round; d++) {
             System.out.println(String.format("Round %d", d));
@@ -395,7 +410,11 @@ public class Round implements Serializable {
                     r.setStatus("next");
                     System.out.println("Round d= " + r.getFroundid() + " t1: " + r.getTeam1ID() + " t2: " + r.getTeam2ID() + " stat " + r.getStatus() + " chid " + champuuid);
                 }
-
+                String lan=l.get((counter+offset)%l.size());
+              //  r.setLanes(l.get((counter+offset)%l.size())); //(0+offset)%L2.length()
+                r.setLanes(lan);
+                counter++;
+                System.out.println("Round " + r.getFroundid()+" uuid "+r.getRounduuid() +" team: "+r.getTeam1ID()+" vs team: "+ r.getTeam2ID()+"  lanes "+r.getLanes());
                 bowlingViewModel.insert(r);
                 all_rounds.add(r);
 
@@ -426,8 +445,12 @@ public class Round implements Serializable {
                     }
                 }
             }
+            counter=0;
+            offset++;
+            System.out.println("counter "+counter+" offset "+offset);
         }
-        assignLanes(all_rounds,lanes,bowlingViewModel);
+       // assignLanes(all_rounds,lanes,bowlingViewModel);
+        return all_rounds;
     }
 
     public void insertrd(Team t,List<TeammatesTuple> playersandteams , Round r, String champuuid, BowlingViewModel bowlingViewModel){
@@ -572,6 +595,11 @@ public class Round implements Serializable {
     }
 public List<Round> assignLanes(ArrayList<Round> rounds, int lanes, BowlingViewModel bowlingViewModel){
     ArrayList<String> l=new ArrayList<>();
+
+    //todo test odd num of lanes
+    if (lanes%2!=0){
+        lanes++;
+    }
     for(int i=1;i<=lanes-1;i+=2){ //kanw zeugaria lanes
         l.add(i+"-"+(i+1));
         System.out.println("pairs: "+i+"-"+(i+1));

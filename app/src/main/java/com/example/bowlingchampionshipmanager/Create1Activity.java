@@ -136,8 +136,9 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         recyclerView.setAdapter(blistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //addnew sto database
+        //An 8elw na kanw add new player sto database tote na kanw visible to koumpi
         Button addnew= findViewById(R.id.addnew);
+        addnew.setVisibility(View.GONE);
         addnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -398,7 +399,6 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         }
 ///////////////////////////
 
-        textView.setVisibility(View.VISIBLE);
 
         if (resultCode == Activity.RESULT_OK) {
 
@@ -431,7 +431,7 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
                     try {
                         //String content =readFileContent(currentUri);
                         readFileContent(currentUri);
-                        textView.setText(ft);
+                        textView.setText("Imported file: "+ft);
                         //textView.setText("here");
                         //textView.setText(filepath);
 
@@ -646,11 +646,12 @@ if (auto.isChecked() || single.isChecked()) {
 
     //return bowlers;
 
+    if (bowlers.size() % playersPerTeam == 0){
 
-    //create the teams
-    if(singleflag){
-        playersPerTeam=1;
-    }
+        //create the teams
+        if (singleflag) {
+            playersPerTeam = 1;
+        }
     s.generateTeams(bowlers, playersPerTeam, bowlingViewModel, ch.getUuid());
 
     int i;
@@ -748,9 +749,15 @@ if (auto.isChecked() || single.isChecked()) {
     // na ksesxoliasw       String fnn =p.getFirstName();
     //textView.setText(fq);
 
-   // inputStream.close();
+    // inputStream.close();
 
     //return stringBuilder.toString();
+        }else {
+        Toast.makeText(
+                getApplicationContext(),
+                "You inserted "+bowlers.size()+" players. You can't generate teams of "+playersPerTeam+". You have to import a file with the proper numeber of players",
+                Toast.LENGTH_LONG).show();
+         }
 
 } else {
     if(singleflag==false) {
@@ -760,6 +767,7 @@ if (auto.isChecked() || single.isChecked()) {
 }
         inputStream.close();
             imp_pressed = 1;
+        textView.setVisibility(View.VISIBLE);
             typeoffile.setEnabled(false);
             single.setEnabled(false);
             multi.setEnabled(false);

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+//axristo
 public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.BowlingViewHolder>  { //malon axristo
 
     public interface OnDeleteClickListener {
@@ -95,7 +96,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Bo
                     ((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_TEAM_ACTIVITY_REQUEST_CODE);
                     //((Activity)mContext).startActivityForResult(intent, Create2Activity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE);
                 }
-            }); */
+            });
             btDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,7 +104,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Bo
                         onDeleteClickListener.OnDeleteClickListener(mNotes.get(mPosition));
                     }
                 }
-            });
+            });*/
         }
     }
 

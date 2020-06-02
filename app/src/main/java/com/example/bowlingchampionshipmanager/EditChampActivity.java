@@ -134,7 +134,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
                      }
                        });
-        bowlingViewModel.getAllChamp_detail().observe(this, new Observer<List<Championship_detail>>() {
+       /* bowlingViewModel.getAllChamp_detail().observe(this, new Observer<List<Championship_detail>>() {
             @Override
             public void onChanged(List<Championship_detail> t) {
                if(t!=null) {
@@ -145,7 +145,7 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
                 }
 
             }
-        });
+        }); */
 
 
        // ArrayList<Integer> te = new ArrayList<>();

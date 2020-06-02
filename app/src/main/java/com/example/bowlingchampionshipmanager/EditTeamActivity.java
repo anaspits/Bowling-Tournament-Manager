@@ -112,7 +112,11 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
         bowlingViewModel.getNextRoundofTeamofChamp(tuuid, c.getUuid()).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> ro) {
-               round.append(String.valueOf(ro.get(0).getFroundid()));
+                if (ro == null || ro.size() == 0) {
+                    round.setText("Finished all Rounds");
+                } else {
+                    round.append(String.valueOf(ro.get(0).getFroundid()));
+                }
             }
         });
 
@@ -122,8 +126,24 @@ public class EditTeamActivity extends AppCompatActivity implements BowlingListAd
        // String updatedr = editround.getText().toString().trim();
         String updatedn = editname.getText().toString().trim();
 
-        t.setTeamName(updatedn);
-        t.setScore(Integer.parseInt(updatedsc));
+        if (!updatedsc.matches("")){
+            t.setTeamName(updatedn);
+        }else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You can't have an empty Team Name",
+                    Toast.LENGTH_LONG).show();
+        }
+        if (!updatedn.matches("")){
+            t.setScore(Integer.parseInt(updatedsc));
+        }else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You can't have an empty Team Score",
+                    Toast.LENGTH_LONG).show();
+        }
+
+
         //t.setRound(Integer.parseInt(updatedr));
         Intent resultIntent = new Intent();
         // resultIntent.putExtra("bowlId", bowlId);

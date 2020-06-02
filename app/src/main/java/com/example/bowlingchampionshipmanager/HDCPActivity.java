@@ -51,8 +51,8 @@ public class HDCPActivity extends AppCompatActivity {
         begin = (EditText) findViewById(R.id.editHDCP1);
         adv = (EditText) findViewById(R.id.editHDCP2);
         tless = (EditText) findViewById(R.id.editHDCP3);
-        tavani = (EditText) findViewById(R.id.editHDCP4);
-        factor = (EditText) findViewById(R.id.editHDCP5);
+        factor = (EditText) findViewById(R.id.editHDCP4);
+        tavani= (EditText) findViewById(R.id.editHDCP5);
 
 
        // hdcp_parameters.add(adv.getText().toString());

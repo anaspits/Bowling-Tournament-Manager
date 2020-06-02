@@ -203,7 +203,7 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
         }
     }); */
    //todo bye- test it - komple mallon
-        bowlingViewModel.getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
+        bowlingViewModel. getAllPlayerScoreGamesofChampofDoneRoundsOrderedByplayer(champuuid).observe(this, new Observer<List<PlayerandGames>>() {
             @Override
             public void onChanged(List<PlayerandGames> part) { //epistrefei ta rounds kai ta score twn paiktwn me alfavitikh seira apo last name
                 ArrayList<PlayerandGames> p = new ArrayList<>(); //8a parw ta score apo to teleutaio round pou epai3an (to pio prosfato) (pou den 8a einai bye - gia odd numofteams)

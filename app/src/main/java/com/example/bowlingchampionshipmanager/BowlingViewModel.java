@@ -864,7 +864,7 @@ public  void insert (Team_detail t){
         @Override
         protected Void doInBackground(Round_detail... rds) {
             mAsyncTaskDao.insert(rds[0]);
-
+System.out.println("insert r"+rds[0].getRound_uuid());
             return null;
         }
     }

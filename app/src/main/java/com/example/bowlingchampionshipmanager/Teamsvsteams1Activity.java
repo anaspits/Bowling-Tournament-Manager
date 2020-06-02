@@ -48,10 +48,10 @@ public class Teamsvsteams1Activity extends AppCompatActivity  implements RoundLi
         Bundle bundleObject = this.getIntent().getExtras();
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+      /*  RecyclerView recyclerView = findViewById(R.id.recyclerView);
         blistAdapter = new RoundListAdapter(this, this);
         recyclerView.setAdapter(blistAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); */
 
         details=(TextView) findViewById(R.id.textView1);
         textTitle=findViewById(R.id.textTitle);
@@ -269,13 +269,15 @@ System.out.println("r size "+t.size());
 
             }
         });
+
+        //na svisw
         Team t = all_the_teams.get(0);
         bowlingViewModel.getRoundsofTeam(t.getUuid(), champuuid).observe(this, new Observer<List<Round>>() {
             @Override
             public void onChanged(List<Round> r) {
                 if(t!=null) {
-                    blistAdapter.setRounds(r);
-                    blistAdapter.returnRounds(r);
+                   // blistAdapter.setRounds(r);
+                  //  blistAdapter.returnRounds(r);
                    // details.append("size of round of team 1: "+String.valueOf(r.size())+"\n");
                     System.out.println("size of round of team 1: "+r.size() );
                     test = r;
@@ -352,6 +354,6 @@ System.out.println("r size "+t.size());
 
     @Override
     public void OnDeleteClickListener(Round myNote) {
-        bowlingViewModel.delete(myNote);
+        //bowlingViewModel.delete(myNote);
     }
 }

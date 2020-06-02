@@ -55,7 +55,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
 
         textTitle=findViewById(R.id.textTitle);
 
-        OnBackPressedCallback cb =new OnBackPressedCallback(true){ //todo den 8a xanetai to progress, na exw ena toast pou na grafei saved
+        OnBackPressedCallback cb =new OnBackPressedCallback(true){
             @Override
             public void handleOnBackPressed(){
                 openDialog();

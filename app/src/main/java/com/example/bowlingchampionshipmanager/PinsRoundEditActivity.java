@@ -83,6 +83,8 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         team1txt.setText("Team "+team1.getTeamName() );
         textTitle.setText("Round "+r.getFroundid());
         textTitle.append("\nLanes:"+r.getLanes());
+        System.out.println("Round " + r.getFroundid()+" uuid "+r.getRounduuid() +" team: "+r.getTeam1ID()+" vs team: "+ r.getTeam2ID()+"  lanes "+r.getLanes());
+
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

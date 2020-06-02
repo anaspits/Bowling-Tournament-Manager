@@ -110,7 +110,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
 
         }
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+      /*  RecyclerView recyclerView = findViewById(R.id.recyclerView);
         dlistAdapter = new DetailListAdapter(this, this);
         recyclerView.setAdapter(dlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -123,7 +123,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
                 System.out.println("count ="+a);
 
             }
-        });
+        }); */
 
         //axristo
         bowlingViewModel.getChampUUID(champuuid).observe(this, new Observer<Championship>() {
@@ -231,6 +231,6 @@ championship = c;
     }
     @Override
     public void OnDeleteClickListener(Team_detail myNote) {
-        bowlingViewModel.delete(myNote);
+       // bowlingViewModel.delete(myNote);
     }
 }

@@ -341,7 +341,7 @@ public class RoundActivity extends AppCompatActivity implements RoundListAdapter
             @Override
             public void onChanged(List<Round> t) {
                 for (int i = 0; i < t.size(); i++) {
-                    System.out.println("round " + i + " round id " + t.get(i).getFroundid() + " status "+t.get(i).getStatus()+" team1 " + t.get(i).getTeam1ID() + " score1 " + t.get(i).getScore1() + " team2 " + t.get(i).getTeam2ID() + " score2 " + t.get(i).getScore2()+" points1 "+t.get(i).getPoints1()+" points2 "+t.get(i).getPoints2());
+                    System.out.println("round " + i + " round id " + t.get(i).getFroundid() + " status "+t.get(i).getStatus()+" team1 " + t.get(i).getTeam1ID() + " score1 " + t.get(i).getScore1() + " team2 " + t.get(i).getTeam2ID() + " score2 " + t.get(i).getScore2()+" points1 "+t.get(i).getPoints1()+" points2 "+t.get(i).getPoints2()+" lanes "+t.get(i).getLanes());
                 }
 
             }
