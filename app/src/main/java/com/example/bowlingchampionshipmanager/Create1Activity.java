@@ -645,9 +645,7 @@ if (auto.isChecked() || single.isChecked()) {
     // }
 
     //return bowlers;
-
-    if (bowlers.size() % playersPerTeam == 0){
-
+    
         //create the teams
         if (singleflag) {
             playersPerTeam = 1;
@@ -752,25 +750,30 @@ if (auto.isChecked() || single.isChecked()) {
     // inputStream.close();
 
     //return stringBuilder.toString();
-        }else {
-        Toast.makeText(
-                getApplicationContext(),
-                "You inserted "+bowlers.size()+" players. You can't generate teams of "+playersPerTeam+". You have to import a file with the proper numeber of players",
-                Toast.LENGTH_LONG).show();
-         }
+        imp_pressed = 1;
+        textView.setVisibility(View.VISIBLE);
+        typeoffile.setEnabled(false);
+        single.setEnabled(false);
+        multi.setEnabled(false);
+
 
 } else {
     if(singleflag==false) {
         s.importReadyTeams(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers, champuuid);
         //inputStream.close();
+        imp_pressed = 1;
+        textView.setVisibility(View.VISIBLE);
+        typeoffile.setEnabled(false);
+        single.setEnabled(false);
+        multi.setEnabled(false);
     }
 }
         inputStream.close();
-            imp_pressed = 1;
+          /*  imp_pressed = 1;
         textView.setVisibility(View.VISIBLE);
             typeoffile.setEnabled(false);
             single.setEnabled(false);
-            multi.setEnabled(false);
+            multi.setEnabled(false); */
 
             for(int i=0;i<bowlers.size();i++){ //an enas paikths uparxei hdh sth vash tote apla pairnw ta kainourgia hdcp k avg kai krataw ola ta upoloipa apo prin
                 Participant newp =bowlers.get(i);

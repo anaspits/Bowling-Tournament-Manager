@@ -422,22 +422,26 @@ public class Round implements Serializable {
                 ArrayList<Participant> pa = all_the_teams.get(i).getTeammates(); //pairnw tous paiktes ths omadas auths
                 if(pa!=null) {
                     for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                        System.out.println("me pa.teamates");
-                        Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                        //rd.setScore(pa.get(p).getBowlAvg());
-                        bowlingViewModel.insert(rd);
-                        System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+                        if (!pa.get(p).getUuid().equals("blind")) {
+                            System.out.println("me pa.teamates");
+                            Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                            //rd.setScore(pa.get(p).getBowlAvg());
+                            bowlingViewModel.insert(rd);
+                            System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+                        }
                     }
                 }else {
                     for (int tm = 0; tm < playersandteams.size();tm++) { //psaxnw na vrw thn omada pou meletame sto playersandteams
                         if (playersandteams.get(tm).getC().getUuid().equals(all_the_teams.get(i).getUuid())) { //gia na parw tous paiktes ths omadas afths
                             List<Participant> pa2 = playersandteams.get(tm).getT();
                             for (int p = 0; p < pa2.size(); p++) {
-                                System.out.println("me pa2 k playersandteams");
-                                Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                                //rd.setScore(pa.get(p).getBowlAvg());
-                                bowlingViewModel.insert(rd);
-                                System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                                if (!pa2.get(p).getUuid().equals("blind")) {
+                                    System.out.println("me pa2 k playersandteams");
+                                    Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                    //rd.setScore(pa.get(p).getBowlAvg());
+                                    bowlingViewModel.insert(rd);
+                                    System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                                }
                             }
                             System.out.println("break");
                             break;
@@ -458,21 +462,24 @@ public class Round implements Serializable {
             ArrayList<Participant> pa =t.getTeammates(); //pairnw tous paiktes ths omadas auths
             if(pa!=null) { //an o user ekopse kai sunexise to create
                 for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                    System.out.println("me pa.teamates");
-                    Round_detail rd = new Round_detail(r.getRounduuid(), pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                    bowlingViewModel.insert(rd);
-                    System.out.println("Rd round" + r.getFroundid()  +" "+r.getRounduuid()+ " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
-
+                    if(!pa.get(p).getUuid().equals("blind")) {
+                        System.out.println("me pa.teamates");
+                        Round_detail rd = new Round_detail(r.getRounduuid(), pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                        bowlingViewModel.insert(rd);
+                        System.out.println("Rd round" + r.getFroundid() + " " + r.getRounduuid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+                    }
                 }
             }else {
                 for (int tm = 0; tm < playersandteams.size();tm++) { //psaxnw na vrw thn omada pou meletame sto playersandteams
                     if (playersandteams.get(tm).getC().getUuid().equals(t.getUuid())) { //gia na parw tous paiktes ths omadas afths
                         List<Participant> pa2 = playersandteams.get(tm).getT();
                         for (int p = 0; p < pa2.size(); p++) {
-                            System.out.println("me pa2 k playersandteams");
-                            Round_detail rd = new Round_detail(r.getRounduuid(), pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                            bowlingViewModel.insert(rd);
-                            System.out.println("Rd round" + r.getFroundid() +" "+r.getRounduuid()+ " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                            if (!pa2.get(p).getUuid().equals("blind")) {
+                                System.out.println("me pa2 k playersandteams");
+                                Round_detail rd = new Round_detail(r.getRounduuid(), pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                bowlingViewModel.insert(rd);
+                                System.out.println("Rd round" + r.getFroundid() + " " + r.getRounduuid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                            }
                         }
                         break;
                     }
@@ -550,22 +557,25 @@ public class Round implements Serializable {
                     ArrayList<Participant> pa =temp1.get(t).getTeammates(); //pairnw tous paiktes ths omadas auths
                     if(pa!=null) { //an o user ekopse kai sunexise to create
                         for (int p = 0; p < pa.size(); p++) { //gia kathe paikth ths omadas auths
-                            System.out.println("me pa.teamates");
-                            Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                            bowlingViewModel.insert(rd);
-                            System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
-
+                            if(!pa.get(p).getUuid().equals("blind")) {
+                                System.out.println("me pa.teamates");
+                                Round_detail rd = new Round_detail(ruuid, pa.get(p).getUuid(), 0, 0, 0, pa.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                bowlingViewModel.insert(rd);
+                                System.out.println("Rd round" + r.getFroundid() + " partici " + pa.get(p).getFirstName() + " " + pa.get(p).getUuid());
+                            }
                         }
                     }else {
                         for (int tm = 0; tm < playersandteams.size();tm++) { //psaxnw na vrw thn omada pou meletame sto playersandteams
                             if (playersandteams.get(tm).getC().getUuid().equals(temp1.get(t).getUuid())) { //gia na parw tous paiktes ths omadas afths
                                 List<Participant> pa2 = playersandteams.get(tm).getT();
                                 for (int p = 0; p < pa2.size(); p++) {
-                                    System.out.println("me pa2 k playersandteams");
-                                    Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
-                                    //rd.setScore(pa.get(p).getBowlAvg());
-                                    bowlingViewModel.insert(rd);
-                                    System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                                    if (!pa2.get(p).getUuid().equals("blind")) {
+                                        System.out.println("me pa2 k playersandteams");
+                                        Round_detail rd = new Round_detail(ruuid, pa2.get(p).getUuid(), 0, 0, 0, pa2.get(p).getHdcp(), 0, champuuid, r.getFroundid(), Calendar.getInstance().getTime()); //ftiaxnw to rd
+                                        //rd.setScore(pa.get(p).getBowlAvg());
+                                        bowlingViewModel.insert(rd);
+                                        System.out.println("Rd round" + r.getFroundid() + " partici " + pa2.get(p).getFirstName() + " " + pa2.get(p).getUuid());
+                                    }
                                 }
                                 System.out.println("break");
                                 break;

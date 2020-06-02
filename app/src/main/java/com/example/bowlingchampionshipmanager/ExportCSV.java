@@ -310,7 +310,7 @@ public class ExportCSV {
     public StringBuilder exportRoundPlayersStat(Championship championship, List<Round> rounds,List<PlayerandGames> rd) {
         StringBuilder data = new StringBuilder();
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
-        data.append(" ,Name,"); //todo hdcp
+        data.append(" ,Name,"); //todo test it hdcp
 
         for (int i = 0; i < rounds.size(); i++) {
             if(i==0) {
@@ -326,10 +326,10 @@ public class ExportCSV {
                 //break() H continue();
             }
         }
-        data.append("Avg,Games,Score");
+        data.append("Avg,Games,Score,HDCP");
 
         int counter=1;
-        for (int i = 0; i < rd.size(); i++) { //epistrefei paiktes kai ta rd tous me order by participantsuuid
+        for (int i = 0; i < rd.size(); i++) { // paiktes kai ta rd tous me order by participantsuuid
             PlayerandGames p = rd.get(i);
             if (!p.getParticipant_uuid().equals("blind")) { //an einai o dummy paikths ton agnow
                 if (i == 0) { //an einai to prwto, einai o prwtos paikths ston prwto tou gyro
@@ -348,16 +348,16 @@ public class ExportCSV {
                     }
                     if (i == (rd.size() - 1)) { //gia to teleftaio stoixeio pou 8a einai o teleftaios gyros tou teleftaiou paikth
                         if(p.getParticipant_uuid().equals(rd.get(i-1).getParticipant_uuid()) && p.getRound_updated_date()==null) { //an o paikths einai idios me ton prohgoume (ara exei prohgoumeno gyro kai den einai paixnidi enos gyrou) kai o teleftaios aftos gyros htan bye
-                            data.append("," + rd.get(i-1).getBowlAvg() + "," + rd.get(i-1).getGames() + "," + (rd.get(i-1).getBowlAvg() * rd.get(i-1).getGames())); //tote 8a parw ta score apo ton prohgoumeno gyro pou den htan bye kai ara htan o teleftaios gyros pou epai3e o paikths
+                            data.append("," + rd.get(i-1).getBowlAvg() + "," + rd.get(i-1).getGames() + "," + (rd.get(i-1).getBowlAvg() * rd.get(i-1).getGames())+","+rd.get(i-1).getHdcp()); //tote 8a parw ta score apo ton prohgoumeno gyro pou den htan bye kai ara htan o teleftaios gyros pou epai3e o paikths
                         }else { //alliws ta pairnw kanonika
-                            data.append("," + rd.get(i).getBowlAvg() + "," + rd.get(i).getGames() + "," + (rd.get(i).getBowlAvg() * rd.get(i).getGames()));
+                            data.append("," + rd.get(i).getBowlAvg() + "," + rd.get(i).getGames() + "," + (rd.get(i).getBowlAvg() * rd.get(i).getGames())+","+rd.get(i).getHdcp());
                         }
                     }
                 } else { //an eimaste sthn allagh apo ton enan paikth ston epomeno (ara einai o teleftaios gyrous tou prohgoumenou kai o prwtos gyros aftou pou meletame , dld tou epomenou)
                     if(rd.get(i-1).getParticipant_uuid().equals(rd.get(i-2).getParticipant_uuid()) && rd.get(i-1).getRound_updated_date()==null){ //an o teleftaios gyrous tou prohgoumenou paikth htan bye kai eixe ki allon gyro prin ton prohgoumeno
-                        data.append("," + rd.get(i - 2).getBowlAvg() + "," + rd.get(i - 2).getGames() + "," + (rd.get(i - 2).getBowlAvg() * rd.get(i - 2).getGames())); //fixme tou jhonnie den doulevei deixnei 0 //pairnoume ta score tou proprohgoumenou gyrou tou paikth aftou
+                        data.append("," + rd.get(i - 2).getBowlAvg() + "," + rd.get(i - 2).getGames() + "," + (rd.get(i - 2).getBowlAvg() * rd.get(i - 2).getGames())+","+rd.get(i-2).getHdcp()); //fixme tou jhonnie den doulevei deixnei 0 //pairnoume ta score tou proprohgoumenou gyrou tou paikth aftou
                     }else {
-                        data.append("," + rd.get(i - 1).getBowlAvg() + "," + rd.get(i - 1).getGames() + "," + (rd.get(i - 1).getBowlAvg() * rd.get(i - 1).getGames())); //alliws pairnoume ta score tou prohgoumenou
+                        data.append("," + rd.get(i - 1).getBowlAvg() + "," + rd.get(i - 1).getGames() + "," + (rd.get(i - 1).getBowlAvg() * rd.get(i - 1).getGames())+","+rd.get(i-1).getHdcp()); //alliws pairnoume ta score tou prohgoumenou
                     }
 
                     data.append("\n" + counter + "," + String.valueOf(p.getFirstName()) + " " + p.getLastName() ); //pairnoume to onoma tou paikth

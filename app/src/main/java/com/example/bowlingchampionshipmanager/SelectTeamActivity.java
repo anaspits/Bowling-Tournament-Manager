@@ -30,7 +30,7 @@ public class SelectTeamActivity extends AppCompatActivity {
     private SelectListAdapter blistAdapter;
     public String champuuid, teamuuid;
     public Championship championship;
-    public static List<Round> rofTeam;
+    //public static List<Round> rofTeam;
     private TextView textView;
     private Button btn;
     private String flag;
@@ -53,7 +53,7 @@ flag="none";
             championship= (Championship) bundleObject.getSerializable("champ");
             champuuid = championship.getUuid();
             flag = bundleObject.getString("flag");
-            rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
+            //rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
         }
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs

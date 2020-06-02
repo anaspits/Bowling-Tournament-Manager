@@ -274,7 +274,8 @@ System.out.println("hdcp keno");
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
                     if (String.valueOf(rd.get(pos).getFirst())!=null){
-                        first.setText(String.valueOf(rd.get(pos).getFirst()));}
+                        first.setText(String.valueOf(rd.get(pos).getFirst()));
+                    }
                     if (String.valueOf(rd.get(pos).getSecond())!=null) {
                         second.setText(String.valueOf(rd.get(pos).getSecond()));
                     }

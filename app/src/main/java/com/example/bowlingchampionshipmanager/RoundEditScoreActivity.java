@@ -459,16 +459,17 @@ team2=te;
             //bowlingViewModel.update(team2);
 
             for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
-                System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
-                System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
+                if(!RoundScoreListAdapter2.editModelArrayList.get(i).getUuid().equals("blind")) {
+                    System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
+                    System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-                //upologizw to score tou paikth gia auto to round
-                RoundScoreListAdapter2.rd.get(i).setScore( (RoundScoreListAdapter2.rd.get(i).getFirst()+ RoundScoreListAdapter2.rd.get(i).getSecond()+ RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
-                RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
-                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
-                bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
-                System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapter2.rd.get(i).getScore()+" avg "+RoundScoreListAdapter2.rd.get(i).getAvg()+" games "+RoundScoreListAdapter2.rd.get(i).getGames()+" h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
-
+                    //upologizw to score tou paikth gia auto to round
+                    RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
+                    RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
+                    bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
+                    bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+                    System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score " + RoundScoreListAdapter2.rd.get(i).getScore() + " avg " + RoundScoreListAdapter2.rd.get(i).getAvg() + " games " + RoundScoreListAdapter2.rd.get(i).getGames() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
+                }
                 //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
              /*   int i2 = i;
                 bowlingViewModel.getAllDoneRound_detailofplayerofChamp(RoundScoreListAdapter2.editModelArrayList.get(i).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
@@ -492,12 +493,13 @@ team2=te;
                 }); */
 
                 //to idio k gia team2
-                RoundScoreListAdapterTeam2.rd.get(i).setScore( (RoundScoreListAdapterTeam2.rd.get(i).getFirst()+ RoundScoreListAdapterTeam2.rd.get(i).getSecond()+ RoundScoreListAdapterTeam2.rd.get(i).getThird()));
-                RoundScoreListAdapterTeam2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
-                bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
-                bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
-                System.out.println("2 rd: " + i + " rid " + RoundScoreListAdapterTeam2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapterTeam2.rd.get(i).getParticipant_uuid() + " score "+RoundScoreListAdapterTeam2.rd.get(i).getScore()+ " avg "+RoundScoreListAdapterTeam2.rd.get(i).getAvg()+" h " + RoundScoreListAdapterTeam2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapterTeam2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i).getThird());
-
+                if (!RoundScoreListAdapterTeam2.editModelArrayList.get(i).getUuid().equals("blind")) {
+                    RoundScoreListAdapterTeam2.rd.get(i).setScore((RoundScoreListAdapterTeam2.rd.get(i).getFirst() + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + RoundScoreListAdapterTeam2.rd.get(i).getThird()));
+                    RoundScoreListAdapterTeam2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
+                    bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
+                    bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
+                    System.out.println("2 rd: " + i + " rid " + RoundScoreListAdapterTeam2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapterTeam2.rd.get(i).getParticipant_uuid() + " score " + RoundScoreListAdapterTeam2.rd.get(i).getScore() + " avg " + RoundScoreListAdapterTeam2.rd.get(i).getAvg() + " h " + RoundScoreListAdapterTeam2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapterTeam2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapterTeam2.rd.get(i).getThird());
+                }
                /* int i3 = i;
                 bowlingViewModel.getAllDoneRound_detailofplayerofChamp(RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid(),champuuid).observe(this, new Observer<List<Round_detail>>() {
                     @Override
