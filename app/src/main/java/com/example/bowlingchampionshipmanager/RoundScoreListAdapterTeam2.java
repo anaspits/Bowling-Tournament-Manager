@@ -28,6 +28,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
     public static List<Participant> editModelArrayList;
     public static String[] edited = {"0", "0", "0"}; //na svisw
     public Round r;
+    public Championship ch;
     public static ArrayList<Round_detail> rd = new ArrayList<>();
     private static int position;
 
@@ -67,9 +68,15 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                 holder.third.setFocusable(false);
                 holder.hdcp.setEnabled(false);
                 holder.hdcp.setFocusable(false);
-                holder.first.setText("0");
-                holder.second.setText("0");
-                holder.third.setText("0");
+                if(ch.getType()==2) {
+                    holder.first.setText(String.valueOf(ch.getFiexd_cap()));
+                    holder.second.setText(String.valueOf(ch.getFiexd_cap()));
+                    holder.third.setText(String.valueOf(ch.getFiexd_cap()));
+                }else {
+                    holder.first.setText("0");
+                    holder.second.setText("0");
+                    holder.third.setText("0");
+                }
                 holder.hdcp.setText("0");
             } else {
                 holder.cardview.setEnabled(true);
@@ -133,6 +140,11 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
             rd.add(round_detail);
             notifyDataSetChanged();
         }
+    }
+
+    public void setChamp(Championship champ) {
+        ch=champ;
+        System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
     }
 
     @Override
@@ -295,9 +307,15 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     third.setFocusable(false);
                     hdcp.setEnabled(false);
                     hdcp.setFocusable(false);
-                    first.setText("0");
-                    second.setText("0");
-                    third.setText("0");
+                    if(ch.getType()==2) {
+                        first.setText(String.valueOf(ch.getFiexd_cap()));
+                        second.setText(String.valueOf(ch.getFiexd_cap()));
+                        third.setText(String.valueOf(ch.getFiexd_cap()));
+                    }else {
+                        first.setText("0");
+                        second.setText("0");
+                        third.setText("0");
+                    }
                     hdcp.setText("0");
                     rd.get(pos).setBlind(1);
                     System.out.println("blind: " + editModelArrayList.get(pos).getFullName() + " " + editModelArrayList.get(pos).getUuid() + " " + rd.get(pos).getParticipant_uuid() + " " + rd.get(pos).getBlind());

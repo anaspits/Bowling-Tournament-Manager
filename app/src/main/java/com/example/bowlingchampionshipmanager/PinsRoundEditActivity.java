@@ -97,6 +97,7 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             public void onChanged(List<Participant> part) {
                 blistAdapter.setBowls(part);
                 blistAdapter.setRound(r);
+                blistAdapter.setChamp(championship);
                 ArrayList<Round_detail> rd = new ArrayList<>(); //fixme na ta pairnw live apo to viewmodel
                 for (int i = 0; i < part.size(); i++) {
                     Round_detail round_detail= new Round_detail(r.getRounduuid(), part.get(i).getUuid(), 0, 0, 0,part.get(i).getHdcp(), 0, champuuid,r.getFroundid(), Calendar.getInstance().getTime() );

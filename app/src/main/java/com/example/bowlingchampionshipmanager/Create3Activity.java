@@ -26,7 +26,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     public static ArrayList<Team> all_the_teams;
     static ArrayList<String> hdcp_parameters;
     public String teamuuid; //axristo
-    private static TextView textTitle;
+    private static TextView textTitle,fixedcap;
     private static RadioButton pins;
     private static RadioButton teamsvsteams;
     private static Button start;
@@ -35,7 +35,7 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
     private DetailListAdapter dlistAdapter;
     public String champuuid;
     public Championship championship;
-    private  EditText editLanes;
+    private  EditText editLanes,editfixedcap;
     private int lanes;
 
 
@@ -59,8 +59,27 @@ public class Create3Activity extends AppCompatActivity implements DetailListAdap
        teamsvsteams= (RadioButton) findViewById(R.id.teamsvsteams);
        start= (Button) findViewById(R.id.next_btn);
         editLanes =  findViewById(R.id.editLanes);
+        editfixedcap=  findViewById(R.id.editfixedcap);
+        editfixedcap.setVisibility(View.GONE);
+        fixedcap=  findViewById(R.id.fixedcap);
+        fixedcap.setVisibility(View.GONE);
        //start.setEnabled(false);
 
+        teamsvsteams.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editfixedcap.setVisibility(View.VISIBLE);
+                fixedcap.setVisibility(View.VISIBLE);
+            }
+        });
+
+        pins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editfixedcap.setVisibility(View.GONE);
+                fixedcap.setVisibility(View.GONE);
+            }
+        });
 
         Bundle bundleObject = this.getIntent().getExtras();
         if(bundleObject!=null){
@@ -194,25 +213,33 @@ championship = c;
                }*/
                }
             } else if (teamsvsteams.isChecked()) {
-               System.out.println("champion sid "+championship.getSys_champID());
-               championship.setType(2);
-               bowlingViewModel.update(championship);
-                Intent i = new Intent(this, Teamsvsteams1Activity.class);
-                Bundle extras = new Bundle();
-                extras.putSerializable("bowlers",bowlers);
-                extras.putStringArrayList("hdcp_parameters",hdcp_parameters);
-                extras.putSerializable("all_the_teams",all_the_teams);
-               extras.putSerializable("teammates", (Serializable) playersandteams);
-                extras.putString("champuuid",champuuid);
-                extras.putSerializable("champ",championship);
-               extras.putInt("lanes",lanes);
-                i.putExtras(extras);
-                startActivity(i);
-                finish();
+               if (editfixedcap.getText().toString().matches("")) {
+                   Toast.makeText(
+                           getApplicationContext(),
+                           "You have to insert a fixed score for the blind",
+                           Toast.LENGTH_LONG).show();
+               } else {
+                   System.out.println("champion sid " + championship.getSys_champID());
+                   championship.setType(2);
+                   championship.setFiexd_cap(Integer.parseInt(editfixedcap.getText().toString()));
+                   bowlingViewModel.update(championship);
+                   Intent i = new Intent(this, Teamsvsteams1Activity.class);
+                   Bundle extras = new Bundle();
+                   extras.putSerializable("bowlers", bowlers);
+                   extras.putStringArrayList("hdcp_parameters", hdcp_parameters);
+                   extras.putSerializable("all_the_teams", all_the_teams);
+                   extras.putSerializable("teammates", (Serializable) playersandteams);
+                   extras.putString("champuuid", champuuid);
+                   extras.putSerializable("champ", championship);
+                   extras.putInt("lanes", lanes);
+                   i.putExtras(extras);
+                   startActivity(i);
+                   finish();
              /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                    finishAffinity();
                }*/
-           } /*
+               }
+           }/*
 
            }*/else{
                Toast.makeText(

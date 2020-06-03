@@ -82,6 +82,9 @@ public class Championship implements Serializable {
     @ColumnInfo(name = "type")
     private int type; //1:pins, 2:tvst, 3:friendly, 4:single
 
+    @ColumnInfo(name = "fixed_cap") //to fixed score pou 8a exei to blind
+    private int fiexd_cap;
+
     @TypeConverters(Converters.class)
     @ColumnInfo(name = "created_at")
     private Date created_at;
@@ -120,6 +123,10 @@ public class Championship implements Serializable {
 
     public ArrayList<Integer> getHdcp_parameters() {
         return hdcp_parameters;
+    }
+
+    public int getFiexd_cap() {
+        return fiexd_cap;
     }
 
     public int getFchampID() {
@@ -232,6 +239,10 @@ public class Championship implements Serializable {
 
     public void setType(int type) { //1:pins, 2:tvst, 3:friendly
         this.type = type;
+    }
+
+    public void setFiexd_cap(int fiexd_cap) {
+        this.fiexd_cap = fiexd_cap;
     }
 
     public void setCreated_at(Date created_at) {

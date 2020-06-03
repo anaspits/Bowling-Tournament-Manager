@@ -645,24 +645,25 @@ if (auto.isChecked() || single.isChecked()) {
     // }
 
     //return bowlers;
-    
+
+    if(playersPerTeam<=bowlers.size()) {
         //create the teams
         if (singleflag) {
             playersPerTeam = 1;
         }
-    s.generateTeams(bowlers, playersPerTeam, bowlingViewModel, ch.getUuid());
+        s.generateTeams(bowlers, playersPerTeam, bowlingViewModel, ch.getUuid());
 
-    int i;
+        int i;
        /* //teamates mallon axristo
         for (i=0; i<bowlers.size();i++){
             teamates.add(bowlers.get(i).getTeammates());
         } */
-    for (i = 0; i < bowlers.size() / playersPerTeam; i++) {
-        teams.add(bowlers.get(i).getTeamates());
-        teamsplayersid.add(bowlers.get(i).getTeamatesid());
-    }
+        for (i = 0; i < bowlers.size() / playersPerTeam; i++) {
+            teams.add(bowlers.get(i).getTeamates());
+            teamsplayersid.add(bowlers.get(i).getTeamatesid());
+        }
 
-    //to teams pou einai arraylist me participants
+        //to teams pou einai arraylist me participants
 //apo dw 547 ws 563
 /*        for (i=0; i<teams.size();i++) {
             ArrayList<Participant> temp = teams.get(i);
@@ -685,7 +686,7 @@ if (auto.isChecked() || single.isChecked()) {
         ch.setTeamsid(teamsid);
         bowlingViewModel.insert(ch); */
 
-    //emfanish test
+        //emfanish test
   /*apo dw      for (i=0; i<all_the_teams.size();i++) {
             Team t = all_the_teams.get(i);
             ArrayList<Participant> temp =  t.getTeammates();
@@ -696,7 +697,7 @@ if (auto.isChecked() || single.isChecked()) {
                 textView.append(temp.get(j).getFirstName() +"  ");
             }
         } ws edw einai h emfanish twn omadwn gia th vash 1 */
-    System.out.println("all size " + all_the_teams.size());
+        System.out.println("all size " + all_the_teams.size());
 
 
        /* //Logic for generating teams(pairs)
@@ -730,8 +731,8 @@ if (auto.isChecked() || single.isChecked()) {
         //textView.setText("ola kala");
 
         //// */
-    //test
-    //emfanizei tous sympaiktes kathe paikth
+        //test
+        //emfanizei tous sympaiktes kathe paikth
         /*for (i=0; i<teamates.size();i++) {
             ArrayList<Participant> temp = teamates.get(i);
 
@@ -743,20 +744,26 @@ if (auto.isChecked() || single.isChecked()) {
 
         }
         */ //test
-    // na ksesxoliasw      Participant p = bowlers.get(0);
-    // na ksesxoliasw       String fnn =p.getFirstName();
-    //textView.setText(fq);
+        // na ksesxoliasw      Participant p = bowlers.get(0);
+        // na ksesxoliasw       String fnn =p.getFirstName();
+        //textView.setText(fq);
 
-    // inputStream.close();
+        // inputStream.close();
 
-    //return stringBuilder.toString();
+        //return stringBuilder.toString();
         imp_pressed = 1;
         textView.setVisibility(View.VISIBLE);
         typeoffile.setEnabled(false);
         single.setEnabled(false);
         multi.setEnabled(false);
 
-
+    }else {
+        Toast.makeText(
+                getApplicationContext(),
+                "You can't genarate teams of "+playersPerTeam+" when you import only "+bowlers.size()+" players. Please insert another file",
+                Toast.LENGTH_LONG).show();
+        bowlers.clear();
+    }
 } else {
     if(singleflag==false) {
         s.importReadyTeams(bowlingViewModel, inputStream, line, cvsSplitBy, bowlers, champuuid);
