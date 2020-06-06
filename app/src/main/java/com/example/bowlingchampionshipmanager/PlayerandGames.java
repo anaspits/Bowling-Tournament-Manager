@@ -188,11 +188,6 @@ class PlayerandGames {
 
     public ArrayList<Integer> calcSetAndGamesStat(List<PlayerandGames> rds, Round r, int i, int game, int gamebegining, int set, int setbegining, int pos, int pos2, int pos3, int pos4) {
         ArrayList<Integer> scoreandpos = new ArrayList<>();
-       // ArrayList<ArrayList> scoreandpos = new ArrayList<>(); //h lista pou eei tis parakatw listes
-       /* ArrayList<Integer> list_gamebegining = new ArrayList<>();
-        ArrayList<Integer> list_setbegining = new ArrayList<>();
-        ArrayList<Integer> list_game = new ArrayList<>();
-        ArrayList<Integer> list_set = new ArrayList<>();*/
 
         //paixnidi antra/gynaika aparxhs
         if (gamebegining <= rds.get(i).getFirst()) {
@@ -212,7 +207,7 @@ class PlayerandGames {
 
 
         //set ap'arxhs
-        if (setbegining <= rds.get(i).getScore()) { //fixme //komple
+        if (setbegining <= rds.get(i).getScore()) {
             setbegining = rds.get(i).getScore();
             System.out.println("mansetbeg " + setbegining + " i " + i);
             pos3 = i;
@@ -253,6 +248,7 @@ class PlayerandGames {
         return scoreandpos;
     }
 
+    //na svisw
     public ArrayList<ArrayList> findPlayersDrawforStat(List<PlayerandGames> rds, Round r,int i, int game,  int gamebegining, int set, int setbegining, int pos, int pos2, int pos3, int pos4) {
         ArrayList<ArrayList> draws = new ArrayList<>();
         System.out.println("j->i "  + i);

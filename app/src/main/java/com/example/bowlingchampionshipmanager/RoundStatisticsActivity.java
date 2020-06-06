@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -161,7 +162,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                 ArrayList<Integer> scoreandpos2 = new ArrayList<>();
                 for (int i = 0; i < rds.size(); i++) { //gia ka8e gyrw apo tous prohgoumenos done ths r
                     // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
-//fixme na ginetai kai gia isopalies
+
                     if (rds.get(i).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
                         scoreandpos = rds.get(i).calcSetAndGamesStat(rds, r, i, mangame, mangamebegining, manset, mansetbegining, pos, pos2, pos3, pos4);
                         mangame = scoreandpos.get(0);
@@ -271,36 +272,9 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                     }
                 }
 
-            /*    //isopalies
-               // ArrayList<ArrayList> draws = new ArrayList<>(); //lista me tis parakatw listes:
-                ArrayList<ArrayList> draw_mangamebegining = new ArrayList<>();
-                ArrayList<ArrayList> draw_msetbegining = new ArrayList<>();
-                ArrayList<Integer> draw_mgame = new ArrayList<>();
-                ArrayList<ArrayList> draw_mset = new ArrayList<>();
-                ArrayList<ArrayList> draw_wangamebegining = new ArrayList<>();
-                ArrayList<ArrayList> draw_wsetbegining = new ArrayList<>();
-                ArrayList<ArrayList> draw_wgame = new ArrayList<>();
-                ArrayList<ArrayList> draw_wset = new ArrayList<>();
-                for (int j = 0; j < rds.size(); j++) {
-                    System.out.println("j "  + j);
-                    if (rds.get(j).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
-                        ArrayList<ArrayList> drawsm = rds.get(j).findPlayersDrawforStat(rds, r, j, mangame, mangamebegining, manset, mansetbegining, pos, pos2, pos3, pos4);
-                        draw_mgame=drawsm.get(0); //lista me listes apo positions twn isopaliwn
-                        draw_mangamebegining.add(drawsm.get(1));
-                        draw_mset.add(drawsm.get(2));
-                        draw_msetbegining.add(drawsm.get(3));
-                        System.out.println("edw draw man");
-                    } else {
-                        ArrayList<ArrayList> drawsw = rds.get(j).findPlayersDrawforStat(rds,r,j,fgame,fgamebegining,fset,fsetbegining,fpos, fpos2, fpos3, fpos4);
-                        draw_wgame.add(drawsw.get(0)); //lista me listes apo positions twn isopaliwn
-                        draw_wangamebegining.add(drawsw.get(1));
-                        draw_wset.add(drawsw.get(2));
-                        draw_wsetbegining.add(drawsw.get(3));
-                        System.out.println("edw draw woman");
-                    }
-                }
-System.out.println("drawmangame size "+draw_mgame.size()+" drawmangamebeg size "+draw_mangamebegining.size()+" draw man set size "+draw_mset.size());
-*/               draw_mgamebegining.add(mangamebegining);
+                //isopalies
+                //pairnaw to max gia ka8e agwna-set
+              draw_mgamebegining.add(mangamebegining);
                 draw_mgame.add(mangame);
                 draw_mset.add(manset);
                 draw_msetbegining.add(mansetbegining);
@@ -308,6 +282,7 @@ System.out.println("drawmangame size "+draw_mgame.size()+" drawmangamebeg size "
                 draw_wsetbegining.add(fsetbegining);
                 draw_wgame.add(fgame);
                 draw_wset.add(fset);
+                //pairnaw tis 8eseis twn prwtwn paiktwn me ta antistoixa max scores agwna-set
                 draw_mgamebegining.add(pos);
                 draw_mgame.add(pos2);
                 draw_mset.add(pos4);
@@ -434,7 +409,11 @@ System.out.println("drawmangame size "+draw_mgame.size()+" drawmangamebeg size "
     public void openNewActivity(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 
     public void export(View view) { //todo na to valw sto class
@@ -442,42 +421,6 @@ ExportCSV exp= new ExportCSV();
         StringBuilder data = new StringBuilder();
         data = exp.exportSpecificRoundStat(championship,r,max,winner,playersandteams,teams,players,rd,draw_mgame,draw_mgamebegining,draw_mset,draw_msetbegining,draw_wgame,draw_wgamebegining,draw_wset,draw_wsetbegining);
 
-        /*data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
-        data.append("\nRound No.,"+r.getFroundid()); //todo na valw kai lanes?
-        data.append("\nWinning Team of Round,"+winner.getTeam_name()+",Points: "+max);
-        data.append("\nTeam Ranking");
-        data.append("\n,Team,Points,Score");
-        for (int i=0;i<teams.size();i++){
-            data.append("\n"+teams.get(i).getTeam_name()+",");
-            for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
-                data.append(playersandteams.get(i).getT().get(j).getLastName());
-                if(j!=(playersandteams.get(i).getT().size()-1)){
-                    data.append("-");
-                }
-            }
-            if(teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
-                data.append("," + teams.get(i).getPoints1()+","+teams.get(i).getScore1());
-            }else {
-                data.append("," + teams.get(i).getPoints2()+","+teams.get(i).getScore2());
-            }
-        }
-
-        data.append("\nPlayers");
-        data.append("\n,Player,Average,HDCP,Games");
-        for (int i=0;i<players.size();i++){
-            data.append("\n"+(i+1)+","+players.get(i).getFirstName()+players.get(i).getLastName()+","+players.get(i).getBowlAvg()+","+players.get(i).getHdcp()+","+players.get(i).getGames());
-        }
-
-        data.append("\n");
-        data.append("\n,Paixnidi Antrwn,,Ap' Arxhs");
-        data.append("\n,"+rd.get(pos2).getLastName()+" "+rd.get(pos2).getFirstName()+","+mangame+","+rd.get(pos).getLastName()+" "+rd.get(pos).getFirstName()+","+mangamebegining);
-        data.append("\n,Paixnidi Gynaikwn,,Ap' Arxhs");
-        data.append("\n,"+rd.get(fpos2).getLastName()+" "+rd.get(fpos2).getFirstName()+","+fgame+","+rd.get(fpos).getLastName()+" "+rd.get(fpos).getFirstName()+","+fgamebegining);
-        data.append("\n,Set Antrwn,,Ap' Arxhs");
-        data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(pos4).getFirstName()+","+manset+","+rd.get(pos3).getLastName()+" "+rd.get(pos3).getFirstName()+","+mansetbegining);
-        data.append("\n,Set Gynaikwn,,Ap' Arxhs");
-        data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(fpos4).getFirstName()+","+fset+","+rd.get(fpos3).getLastName()+" "+rd.get(fpos3).getFirstName()+","+fsetbegining);
-*/
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);

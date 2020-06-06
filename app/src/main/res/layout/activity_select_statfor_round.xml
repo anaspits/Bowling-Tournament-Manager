@@ -72,19 +72,6 @@ android:layout_gravity="center"
                 android:textColor="#F9F9F9"
                 android:textSize="16sp" />
 
-<Button
-    android:id="@+id/button_exit"
-    android:layout_width="184dp"
-    android:layout_height="wrap_content"
-android:layout_marginTop="1dp"
-    android:background="#DB1D1D"
-    android:onClick="openNewActivity"
-    android:text="@string/exit"
-    android:textColor="#F9F9F9"
-    android:textSize="16sp"
-    android:layout_gravity="center"
-    tools:text="Exit" />
-
         </LinearLayout>
     </ScrollView>
     </LinearLayout>

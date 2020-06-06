@@ -378,7 +378,7 @@ public class ExportCSV {
         }
         return data;
     }
-//todo test it
+
     public StringBuilder exportSpecificRoundStat(Championship championship, Round r, int max, TeamandRoundScore winner, List<TeammatesTuple> playersandteams, List<TeamandRoundScore> teams, List<PlayerandGames> players, List<PlayerandGames> rd, ArrayList<Integer> draw_mangame, ArrayList<Integer> draw_mangamebegining, ArrayList<Integer> draw_manset, ArrayList<Integer> draw_mansetbegining, ArrayList<Integer> draw_fgame, ArrayList<Integer> draw_fgamebegining, ArrayList<Integer> draw_fset, ArrayList<Integer> draw_fsetbegining){
         StringBuilder data = new StringBuilder();
         data.append("Championship No.,"+championship.fchampID+",UUID:,"+championship.getUuid());

@@ -148,7 +148,11 @@ flag="none";
         extras.putSerializable("champ", championship);
         i.putExtras(extras); //
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 
 

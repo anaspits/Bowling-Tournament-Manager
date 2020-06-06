@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -147,7 +148,11 @@ public class FinishTeamActivity extends AppCompatActivity {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 
     public void export(View view) {

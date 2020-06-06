@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -262,7 +263,12 @@ System.out.println("EDW me dates: round "+part.get(i).getFroundid()+" date "+par
     public void openNewActivity(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity(); //kleinei ola ta prohgoumena activities
+        } else {
+            finish();
+        }
+
     }
 
     public void export(View view) {

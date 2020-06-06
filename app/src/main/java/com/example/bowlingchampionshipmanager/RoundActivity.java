@@ -856,7 +856,11 @@ for (int i=0;i<test.size();i++){
             extras.putSerializable("b_object", t); //selected team
             i.putExtras(extras); //
             startActivity(i);
-            finish();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                finishAffinity();
+            } else {
+                finish();
+            }
         } else{
             Toast.makeText(
                     getApplicationContext(),
@@ -881,7 +885,11 @@ for (int i=0;i<test.size();i++){
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 
     @Override

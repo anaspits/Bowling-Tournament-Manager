@@ -359,7 +359,11 @@ if (calc_pressed ==1) {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 } else {
     Toast.makeText(
@@ -425,7 +429,11 @@ if (calc_pressed ==1) {
             extras.putSerializable("b_object", t); //selected team
             i.putExtras(extras); //
             startActivity(i);
-            finish();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                finishAffinity();
+            } else {
+                finish();
+            }
         }else {
             Toast.makeText(
                     getApplicationContext(),
@@ -615,7 +623,11 @@ if (calc_pressed ==1) {
                 extras.putSerializable("b_object", t); //selected team
                 i.putExtras(extras); //
                 startActivity(i);
-                finish();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                } else {
+                    finish();
+                }
             } else{
                 Toast.makeText(
                         getApplicationContext(),
@@ -636,7 +648,11 @@ if (calc_pressed ==1) {
         extras.putSerializable("b_object", t); //selected team
         i.putExtras(extras); //
         startActivity(i);
-        finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
     }
 }
 
