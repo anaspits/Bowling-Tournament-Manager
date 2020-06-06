@@ -23,7 +23,6 @@ public class TeamandScoreAdapter  extends RecyclerView.Adapter<com.example.bowli
 
         private final LayoutInflater layoutInflater;
         private Context mContext;
-        //fixme private List<Object> mNotes;
         private List<TeamandScore> mNotes;
         private Championship ch;
         private int position;

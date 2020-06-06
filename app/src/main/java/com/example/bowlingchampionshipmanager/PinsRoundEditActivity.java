@@ -242,7 +242,14 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                     System.out.println(team1txt.getText() + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp() + System.getProperty("line.separator"));
                     System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
-                    RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
+                    if(RoundScoreListAdapter2.rd.get(i).getBlind()==1){ //an htan blind exei score 0
+                        RoundScoreListAdapter2.rd.get(i).setScore(0);
+                        RoundScoreListAdapter2.rd.get(i).setFirst(0);
+                        RoundScoreListAdapter2.rd.get(i).setSecond(0);
+                        RoundScoreListAdapter2.rd.get(i).setThird(0);
+                    }else {
+                        RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird()));
+                    }
 
                     bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
 

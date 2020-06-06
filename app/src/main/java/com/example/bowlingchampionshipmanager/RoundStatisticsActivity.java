@@ -34,6 +34,16 @@ public class RoundStatisticsActivity extends AppCompatActivity {
     private List<PlayerandGames> players,rd;
     private List<TeammatesTuple> playersandteams;
     private TeamandRoundScore winner;
+
+    //isopalies
+    private ArrayList<Integer> draw_mgame = new ArrayList<>();
+    private ArrayList<Integer> draw_mset = new ArrayList<>();
+    private ArrayList<Integer> draw_msetbegining = new ArrayList<>();
+    private ArrayList<Integer> draw_wgamebegining = new ArrayList<>();
+    private  ArrayList<Integer> draw_wsetbegining = new ArrayList<>();
+    private ArrayList<Integer> draw_wgame = new ArrayList<>();
+    private  ArrayList<Integer> draw_wset = new ArrayList<>();
+    private ArrayList<Integer> draw_mgamebegining = new ArrayList<>();
 //fixme gia single
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,29 +140,38 @@ public class RoundStatisticsActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<PlayerandGames> rds) {
                 System.out.println("stat rds size " + rds.size());
-                rd=rds;
-                mangame=0;
-                mangamebegining=0;
-                manset=0;
-                mansetbegining=0;
-                fgame=0;
-                fgamebegining=0;
-                fset=0;
-                fsetbegining=0;
-                 pos=0; pos2=0; pos3=0; pos4=0; fpos=0; fpos2=0; fpos3=0; fpos4=0;
-                for (int i = 0; i < rds.size(); i++) {
-                   // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
+                rd = rds;
+                mangame = 0;
+                mangamebegining = 0;
+                manset = 0;
+                mansetbegining = 0;
+                fgame = 0;
+                fgamebegining = 0;
+                fset = 0;
+                fsetbegining = 0;
+                pos = 0;
+                pos2 = 0;
+                pos3 = 0;
+                pos4 = 0;
+                fpos = 0;
+                fpos2 = 0;
+                fpos3 = 0;
+                fpos4 = 0;
+                ArrayList<Integer> scoreandpos = new ArrayList<>();
+                ArrayList<Integer> scoreandpos2 = new ArrayList<>();
+                for (int i = 0; i < rds.size(); i++) { //gia ka8e gyrw apo tous prohgoumenos done ths r
+                    // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
 //fixme na ginetai kai gia isopalies
-                   if (rds.get(i).getSex().equals("m")) {
-                       ArrayList<Integer> scoreandpos=rds.get(i).calcSetAndGamesStat(rds,r,i,mangame,mangamebegining,manset,mansetbegining,pos, pos2, pos3, pos4);
-                       mangame=scoreandpos.get(0);
-                       mangamebegining=scoreandpos.get(1);
-                       manset=scoreandpos.get(2);
-                       mansetbegining=scoreandpos.get(3);
-                       pos=scoreandpos.get(4);
-                       pos2=scoreandpos.get(5);
-                       pos3=scoreandpos.get(6);
-                       pos4=scoreandpos.get(7);
+                    if (rds.get(i).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
+                        scoreandpos = rds.get(i).calcSetAndGamesStat(rds, r, i, mangame, mangamebegining, manset, mansetbegining, pos, pos2, pos3, pos4);
+                        mangame = scoreandpos.get(0);
+                        mangamebegining = scoreandpos.get(1);
+                        manset = scoreandpos.get(2);
+                        mansetbegining = scoreandpos.get(3);
+                        pos = scoreandpos.get(4);
+                        pos2 = scoreandpos.get(5);
+                        pos3 = scoreandpos.get(6);
+                        pos4 = scoreandpos.get(7);
 
                  /*   //paixnidi antra aparxhs
                     if (mangamebegining <= rds.get(i).getFirst()) {
@@ -197,15 +216,16 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                         }
                     } */
                     } else { //gia female
-                       ArrayList<Integer> scoreandpos2=rds.get(i).calcSetAndGamesStat(rds,r,i,fgame,fgamebegining,fset,fsetbegining,fpos, fpos2, fpos3, fpos4);
-                      fgame=scoreandpos2.get(0);
-                       fgamebegining=scoreandpos2.get(1);
-                       fset=scoreandpos2.get(2);
-                       fsetbegining=scoreandpos2.get(3);
-                       fpos=scoreandpos2.get(4);
-                       fpos2=scoreandpos2.get(5);
-                       fpos3=scoreandpos2.get(6);
-                       fpos4=scoreandpos2.get(7);
+                        scoreandpos2 = rds.get(i).calcSetAndGamesStat(rds, r, i, fgame, fgamebegining, fset, fsetbegining, fpos, fpos2, fpos3, fpos4);
+                        fgame = scoreandpos2.get(0);
+                        fgamebegining = scoreandpos2.get(1);
+                        fset = scoreandpos2.get(2);
+                        fsetbegining = scoreandpos2.get(3);
+                        fpos = scoreandpos2.get(4);
+                        fpos2 = scoreandpos2.get(5);
+                        fpos3 = scoreandpos2.get(6);
+                        fpos4 = scoreandpos2.get(7);
+
                       /* //paixnidi gynaikas aparxhs
                        if (fgamebegining <= rds.get(i).getFirst()) {
                            fgamebegining = rds.get(i).getFirst();
@@ -248,48 +268,159 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                                fpos4 = i;
                            }
                        }*/
+                    }
                 }
+
+            /*    //isopalies
+               // ArrayList<ArrayList> draws = new ArrayList<>(); //lista me tis parakatw listes:
+                ArrayList<ArrayList> draw_mangamebegining = new ArrayList<>();
+                ArrayList<ArrayList> draw_msetbegining = new ArrayList<>();
+                ArrayList<Integer> draw_mgame = new ArrayList<>();
+                ArrayList<ArrayList> draw_mset = new ArrayList<>();
+                ArrayList<ArrayList> draw_wangamebegining = new ArrayList<>();
+                ArrayList<ArrayList> draw_wsetbegining = new ArrayList<>();
+                ArrayList<ArrayList> draw_wgame = new ArrayList<>();
+                ArrayList<ArrayList> draw_wset = new ArrayList<>();
+                for (int j = 0; j < rds.size(); j++) {
+                    System.out.println("j "  + j);
+                    if (rds.get(j).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
+                        ArrayList<ArrayList> drawsm = rds.get(j).findPlayersDrawforStat(rds, r, j, mangame, mangamebegining, manset, mansetbegining, pos, pos2, pos3, pos4);
+                        draw_mgame=drawsm.get(0); //lista me listes apo positions twn isopaliwn
+                        draw_mangamebegining.add(drawsm.get(1));
+                        draw_mset.add(drawsm.get(2));
+                        draw_msetbegining.add(drawsm.get(3));
+                        System.out.println("edw draw man");
+                    } else {
+                        ArrayList<ArrayList> drawsw = rds.get(j).findPlayersDrawforStat(rds,r,j,fgame,fgamebegining,fset,fsetbegining,fpos, fpos2, fpos3, fpos4);
+                        draw_wgame.add(drawsw.get(0)); //lista me listes apo positions twn isopaliwn
+                        draw_wangamebegining.add(drawsw.get(1));
+                        draw_wset.add(drawsw.get(2));
+                        draw_wsetbegining.add(drawsw.get(3));
+                        System.out.println("edw draw woman");
+                    }
                 }
+System.out.println("drawmangame size "+draw_mgame.size()+" drawmangamebeg size "+draw_mangamebegining.size()+" draw man set size "+draw_mset.size());
+*/               draw_mgamebegining.add(mangamebegining);
+                draw_mgame.add(mangame);
+                draw_mset.add(manset);
+                draw_msetbegining.add(mansetbegining);
+                draw_wgamebegining.add(fgamebegining);
+                draw_wsetbegining.add(fsetbegining);
+                draw_wgame.add(fgame);
+                draw_wset.add(fset);
+                draw_mgamebegining.add(pos);
+                draw_mgame.add(pos2);
+                draw_mset.add(pos4);
+                draw_msetbegining.add(pos3);
+                draw_wgamebegining.add(fpos);
+                draw_wsetbegining.add(fpos3);
+                draw_wgame.add(fpos2);
+                draw_wset.add(fpos4);
+                for (int j = 0; j < rds.size(); j++) {
+                    System.out.println("j "  + j);
+                    if (rds.get(j).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
+                        if(rds.get(j).drawforGameBegining(rds, j,mangamebegining,pos)!=-1){
+                            draw_mgamebegining.add(rds.get(j).drawforGameBegining(rds, j,mangamebegining,pos));
+                        }
+                        if(rds.get(j).drawforGame(rds,r, j,mangame,pos2)!=-1){
+                            draw_mgame.add(rds.get(j).drawforGame(rds,r, j,mangame,pos2));
+                        }
+                        if(rds.get(j).drawforSetBegining(rds, j,mansetbegining,pos3)!=-1){
+                            draw_msetbegining.add(rds.get(j).drawforSetBegining(rds, j,mansetbegining,pos3));
+                        }
+                        if(rds.get(j).drawforSet(rds,r, j,manset,pos4)!=-1){
+                            draw_mset.add(rds.get(j).drawforSet(rds,r, j,manset,pos4));
+                        }
+                    }else {
+                        if(rds.get(j).drawforGameBegining(rds, j,fgamebegining,fpos)!=-1){
+                            draw_wgamebegining.add(rds.get(j).drawforGameBegining(rds, j,fgamebegining,fpos));
+                        }
+                        if(rds.get(j).drawforGame(rds,r, j,fgame,fpos2)!=-1){
+                            draw_wgame.add(rds.get(j).drawforGame(rds,r, j,fgame,fpos2));
+                        }
+                        if(rds.get(j).drawforSetBegining(rds, j,fsetbegining,fpos3)!=-1){
+                            draw_wsetbegining.add(rds.get(j).drawforSetBegining(rds, j,fsetbegining,fpos3));
+                        }
+                        if(rds.get(j).drawforSet(rds,r, j,fset,fpos4)!=-1){
+                            draw_wset.add(rds.get(j).drawforSet(rds,r, j,fset,fpos4));
+                        }
+
+                    }
+                }
+                System.out.println("manbeg size "+draw_mgamebegining.size());
+
                 if (mangame==0)
                 {
                     man1.setText("Paixnidi Antrwn \n"+mangame);
                 } else {
-                    man1.setText("Paixnidi Antrwn \n"+rds.get(pos2).getLastName()+" "+rds.get(pos2).getFirstName()+" \n"+mangame);
+                    man1.setText("Paixnidi Antrwn \n"+rds.get(pos2).getLastName()+" "+rds.get(pos2).getFirstName());
+                    for(int i=2;i<draw_mgame.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame kai to draw_mgame.get(1) exei to pos2
+                        man1.append("\n"+rds.get(draw_mgame.get(i)).getLastName()+" "+rds.get(draw_mgame.get(i)).getFirstName());
+                    }
+                    man1.append("\n "+mangame);
                 }
                 if (mangamebegining==0){
                     man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+mangamebegining);
                 }else{
-                    man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos).getLastName()+" "+rds.get(pos).getFirstName()+"\n "+mangamebegining);
+                    man2.setText("Paixnidi Antrwn Ap' Arxhs \n"+rds.get(pos).getLastName()+" "+rds.get(pos).getFirstName());
+                    for(int i=2;i<draw_mgamebegining.size();i++){
+                        man2.append("\n"+rds.get(draw_mgamebegining.get(i)).getLastName()+" "+rds.get(draw_mgamebegining.get(i)).getFirstName());
+                    }
+                    man2.append("\n "+mangamebegining);
                 }
                 if (manset==0){
                     man3.setText("Set Antrwn  \n"+manset);
                 }else{
-                    man3.setText("Set Antrwn  \n"+rds.get(pos4).getLastName()+" "+rds.get(pos4).getFirstName()+"\n "+manset);
+                    man3.setText("Set Antrwn  \n"+rds.get(pos4).getLastName()+" "+rds.get(pos4).getFirstName());
+                    for(int i=2;i<draw_mset.size();i++){
+                        man3.append("\n"+rds.get(draw_mset.get(i)).getLastName()+" "+rds.get(draw_mset.get(i)).getFirstName());
+                    }
+                    man3.append("\n "+manset);
                 }
                 if(mansetbegining==0){
                     man4.setText("Set Antrwn Ap' Arxhs \n"+mansetbegining);
                 }else{
-                    man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getLastName()+" "+rds.get(pos3).getFirstName()+"\n "+mansetbegining);
+                    man4.setText("Set Antrwn Ap' Arxhs \n"+rds.get(pos3).getLastName()+" "+rds.get(pos3).getFirstName());
+                    for(int i=2;i<draw_msetbegining.size();i++){
+                        man4.append("\n"+rds.get(draw_msetbegining.get(i)).getLastName()+" "+rds.get(draw_msetbegining.get(i)).getFirstName());
+                    }
+                    man4.append("\n "+mansetbegining);
                 }
                 if(fgame==0){
                     f1.setText("Paixnidi Gynaikwn \n"+fgame);
                 }else {
-                    f1.setText("Paixnidi Gynaikwn \n"+rds.get(fpos2).getLastName()+" "+rds.get(fpos2).getFirstName()+"\n "+fgame);
+                    f1.setText("Paixnidi Gynaikwn \n"+rds.get(fpos2).getLastName()+" "+rds.get(fpos2).getFirstName());
+                    for(int i=2;i<draw_wgame.size();i++){
+                        f1.append("\n"+rds.get(draw_wgame.get(i)).getLastName()+" "+rds.get(draw_wgame.get(i)).getFirstName());
+                    }
+                    f1.append("\n "+fgame);
                 }
                 if(fgamebegining==0){
                     f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+fgamebegining);
                 }else {
-                    f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+rds.get(fpos).getLastName()+" "+rds.get(fpos).getFirstName()+"\n "+fgamebegining);
+                    f2.setText("Paixnidi Gynaikwn Ap' Arxhs \n"+rds.get(fpos).getLastName()+" "+rds.get(fpos).getFirstName());
+                    for(int i=2;i<draw_wgamebegining.size();i++){
+                        f2.append("\n"+rds.get(draw_wgamebegining.get(i)).getLastName()+" "+rds.get(draw_wgamebegining.get(i)).getFirstName());
+                    }
+                    f2.append("\n "+fgamebegining);
                 }
                 if(fset==0){
                     f3.setText("Set Gynaikwn  \n"+fset);
                 }else {
-                    f3.setText("Set Gynaikwn  \n"+rds.get(fpos4).getLastName()+" "+rds.get(fpos4).getFirstName()+"\n "+fset);
+                    f3.setText("Set Gynaikwn  \n"+rds.get(fpos4).getLastName()+" "+rds.get(fpos4).getFirstName());
+                    for(int i=2;i<draw_wset.size();i++){
+                        f3.append("\n"+rds.get(draw_wset.get(i)).getLastName()+" "+rds.get(draw_wset.get(i)).getFirstName());
+                    }
+                    f3.append("\n "+fset);
                 }
                 if(fsetbegining==0){
                     f4.setText("Set Gynaikwn Ap' Arxhs \n"+fsetbegining);
                 }else {
-                    f4.setText("Set Gynaikwn Ap' Arxhs \n" + rds.get(fpos3).getLastName() + " " + rds.get(fpos3).getFirstName() + "\n " + fsetbegining);
+                    f4.setText("Set Gynaikwn Ap' Arxhs \n" + rds.get(fpos3).getLastName() + " " + rds.get(fpos3).getFirstName());
+                    for(int i=2;i<draw_wsetbegining.size();i++){
+                        f4.append("\n"+rds.get(draw_wsetbegining.get(i)).getLastName()+" "+rds.get(draw_wsetbegining.get(i)).getFirstName());
+                    }
+                    f4.append("\n "+fsetbegining);
                 }
 
                 System.out.println("Paixnidi Antrwn "+mangame);
@@ -307,8 +438,11 @@ public class RoundStatisticsActivity extends AppCompatActivity {
     }
 
     public void export(View view) { //todo na to valw sto class
+ExportCSV exp= new ExportCSV();
         StringBuilder data = new StringBuilder();
-        data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
+        data = exp.exportSpecificRoundStat(championship,r,max,winner,playersandteams,teams,players,rd,draw_mgame,draw_mgamebegining,draw_mset,draw_msetbegining,draw_wgame,draw_wgamebegining,draw_wset,draw_wsetbegining);
+
+        /*data.append("Championship No.,"+championship.fchampID+",UUID:,"+champuuid);
         data.append("\nRound No.,"+r.getFroundid()); //todo na valw kai lanes?
         data.append("\nWinning Team of Round,"+winner.getTeam_name()+",Points: "+max);
         data.append("\nTeam Ranking");
@@ -343,7 +477,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
         data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(pos4).getFirstName()+","+manset+","+rd.get(pos3).getLastName()+" "+rd.get(pos3).getFirstName()+","+mansetbegining);
         data.append("\n,Set Gynaikwn,,Ap' Arxhs");
         data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(fpos4).getFirstName()+","+fset+","+rd.get(fpos3).getLastName()+" "+rd.get(fpos3).getFirstName()+","+fsetbegining);
-
+*/
         try {
             //saving the file into device
             FileOutputStream out = openFileOutput("bowling_championship_finishedChamp_stat.csv", Context.MODE_PRIVATE);

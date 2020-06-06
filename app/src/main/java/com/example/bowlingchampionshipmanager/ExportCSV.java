@@ -8,6 +8,7 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,8 +36,13 @@ public class ExportCSV {
 
     public void exportRoundEditScoreforTeam(Team team, List<Participant> players, List<Round_detail> rd, StringBuilder data, int first_sum, int second_sum, int third_sum, int sum_hdcp, Round r) {
         for (int i = 0; i < players.size(); i++) {
-            data.append("\n" + (i + 1) + "," + players.get(i).getFullName() + "," + rd.get(i).getHdcp() + "," + rd.get(i).getFirst() + "," + rd.get(i).getSecond() + "," + rd.get(i).getThird() + "," +( rd.get(i).getFirst()+rd.get(i).getSecond()+ rd.get(i).getThird()));
-        }
+            if(rd.get(i).getBlind()==0) {
+                data.append("\n" + (i + 1) + "," + players.get(i).getFullName() + "," + rd.get(i).getHdcp() + "," + rd.get(i).getFirst() + "," + rd.get(i).getSecond() + "," + rd.get(i).getThird() + "," + (rd.get(i).getFirst() + rd.get(i).getSecond() + rd.get(i).getThird()));
+            }else {
+                data.append("\n" + (i + 1) + ",BLIND," + 0 + "," + rd.get(i).getFirst() + "," + rd.get(i).getSecond() + "," + rd.get(i).getThird() + "," + (rd.get(i).getFirst() + rd.get(i).getSecond() + rd.get(i).getThird()));
+
+            }
+            }
         data.append("\n,Sum," + sum_hdcp + "," + first_sum + "," + second_sum + "," + third_sum + "," + (first_sum + second_sum + third_sum));
         if (team.getUuid().equals(r.getTeam1UUID())) {
             data.append("\n,Points," + r.getPoints1());
@@ -310,7 +316,7 @@ public class ExportCSV {
     public StringBuilder exportRoundPlayersStat(Championship championship, List<Round> rounds,List<PlayerandGames> rd) {
         StringBuilder data = new StringBuilder();
         data.append("Championship No.," + championship.getSys_champID() + ",UUID:," + championship.getUuid()+",Start Date:,"+championship.getStart_date()+"\n");
-        data.append(" ,Name,"); //todo test it hdcp
+        data.append(" ,Name,");
 
         for (int i = 0; i < rounds.size(); i++) {
             if(i==0) {
@@ -372,5 +378,83 @@ public class ExportCSV {
         }
         return data;
     }
+//todo test it
+    public StringBuilder exportSpecificRoundStat(Championship championship, Round r, int max, TeamandRoundScore winner, List<TeammatesTuple> playersandteams, List<TeamandRoundScore> teams, List<PlayerandGames> players, List<PlayerandGames> rd, ArrayList<Integer> draw_mangame, ArrayList<Integer> draw_mangamebegining, ArrayList<Integer> draw_manset, ArrayList<Integer> draw_mansetbegining, ArrayList<Integer> draw_fgame, ArrayList<Integer> draw_fgamebegining, ArrayList<Integer> draw_fset, ArrayList<Integer> draw_fsetbegining){
+        StringBuilder data = new StringBuilder();
+        data.append("Championship No.,"+championship.fchampID+",UUID:,"+championship.getUuid());
+        data.append("\nRound No.,"+r.getFroundid()); //todo na valw kai lanes?
+        data.append("\nWinning Team of Round,"+winner.getTeam_name()+",Points: "+max);
+        data.append("\nTeam Ranking");
+        data.append("\n,Team,Points,Score");
+        for (int i=0;i<teams.size();i++){
+            data.append("\n"+teams.get(i).getTeam_name()+",");
+            for (int j = 0; j < playersandteams.get(i).getT().size(); j++) {
+                data.append(playersandteams.get(i).getT().get(j).getLastName());
+                if(j!=(playersandteams.get(i).getT().size()-1)){
+                    data.append("-");
+                }
+            }
+            if(teams.get(i).getTeam_uuid().equals(teams.get(i).getTeam1_uuid())) {
+                data.append("," + teams.get(i).getPoints1()+","+teams.get(i).getScore1());
+            }else {
+                data.append("," + teams.get(i).getPoints2()+","+teams.get(i).getScore2());
+            }
+        }
 
+        data.append("\nPlayers");
+        data.append("\n,Player,Average,HDCP,Games");
+        for (int i=0;i<players.size();i++){
+            data.append("\n"+(i+1)+","+players.get(i).getFirstName()+players.get(i).getLastName()+","+players.get(i).getBowlAvg()+","+players.get(i).getHdcp()+","+players.get(i).getGames());
+        }
+
+        data.append("\n");
+        //data.append("\n,Paixnidi Antrwn,,Ap' Arxhs");
+        //data.append("\n,"+rd.get(pos2).getLastName()+" "+rd.get(pos2).getFirstName()+","+mangame+","+rd.get(pos).getLastName()+" "+rd.get(pos).getFirstName()+","+mangamebegining);
+        data.append("\n,Paixnidi Antrwn");
+        for(int i=1;i<draw_mangame.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_mangame.get(i)).getLastName()+" "+rd.get(draw_mangame.get(i)).getFirstName()+","+draw_mangame.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Paixnidi Antrwn Ap' Arxhs");
+        for(int i=1;i<draw_mangamebegining.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_mangamebegining.get(i)).getLastName()+" "+rd.get(draw_mangamebegining.get(i)).getFirstName()+","+draw_mangamebegining.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Paixnidi Gynaikwn");
+        //data.append("\n,"+rd.get(fpos2).getLastName()+" "+rd.get(fpos2).getFirstName()+","+fgame+","+rd.get(fpos).getLastName()+" "+rd.get(fpos).getFirstName()+","+fgamebegining);
+        for(int i=1;i<draw_fgame.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_fgame.get(i)).getLastName()+" "+rd.get(draw_fgame.get(i)).getFirstName()+","+draw_fgame.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Paixnidi Gynaikwn Ap' Arxhs");
+        for(int i=1;i<draw_fgamebegining.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_fgamebegining.get(i)).getLastName()+" "+rd.get(draw_fgamebegining.get(i)).getFirstName()+","+draw_fgamebegining.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Set Antrwn");
+        //data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(pos4).getFirstName()+","+manset+","+rd.get(pos3).getLastName()+" "+rd.get(pos3).getFirstName()+","+mansetbegining);
+        for(int i=1;i<draw_manset.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_manset.get(i)).getLastName()+" "+rd.get(draw_manset.get(i)).getFirstName()+","+draw_manset.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Set Antrwn Ap' Arxhs");
+        for(int i=1;i<draw_mansetbegining.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_mansetbegining.get(i)).getLastName()+" "+rd.get(draw_mansetbegining.get(i)).getFirstName()+","+draw_mansetbegining.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Set Gynaikwn");
+        //data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(pos4).getFirstName()+","+manset+","+rd.get(pos3).getLastName()+" "+rd.get(pos3).getFirstName()+","+mansetbegining);
+        for(int i=1;i<draw_fset.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_fset.get(i)).getLastName()+" "+rd.get(draw_fset.get(i)).getFirstName()+","+draw_fset.get(0)); //draw_mgame.get(0)=mangame
+        }
+        data.append("\n");
+        data.append("\n,Set Gynaikwn Ap' Arxhs");
+        for(int i=1;i<draw_fsetbegining.size();i++){ //epeidh to draw_mgame.get(0) exei to mangame
+            data.append("\n,"+rd.get(draw_fsetbegining.get(i)).getLastName()+" "+rd.get(draw_fsetbegining.get(i)).getFirstName()+","+draw_fsetbegining.get(0)); //draw_mgame.get(0)=mangame
+        }
+        //data.append("\n,"+rd.get(pos4).getLastName()+" "+rd.get(fpos4).getFirstName()+","+fset+","+rd.get(fpos3).getLastName()+" "+rd.get(fpos3).getFirstName()+","+fsetbegining);
+
+        return data;
     }
+
+}

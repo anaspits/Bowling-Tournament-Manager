@@ -466,7 +466,14 @@ team2=te;
                     System.out.println(" paikths " + i + " " + RoundScoreListAdapter2.editModelArrayList.get(i).getFullName() + " id " + RoundScoreListAdapter2.editModelArrayList.get(i).getUuid() + " hdcp " + RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
 
                     //upologizw to score tou paikth gia auto to round
-                    RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? xwris to hdcp
+                    if(RoundScoreListAdapter2.rd.get(i).getBlind()==1){ //an htan blind exei score 0
+                        RoundScoreListAdapter2.rd.get(i).setScore(0);
+                        RoundScoreListAdapter2.rd.get(i).setFirst(0);
+                        RoundScoreListAdapter2.rd.get(i).setSecond(0);
+                        RoundScoreListAdapter2.rd.get(i).setThird(0);
+                    }else {
+                        RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? -> xwris to hdcp
+                    }
                     RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                     bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
                     bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
@@ -496,7 +503,14 @@ team2=te;
 
                 //to idio k gia team2
                 if (!RoundScoreListAdapterTeam2.editModelArrayList.get(i).getUuid().equals("blind")) {
-                    RoundScoreListAdapterTeam2.rd.get(i).setScore((RoundScoreListAdapterTeam2.rd.get(i).getFirst() + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + RoundScoreListAdapterTeam2.rd.get(i).getThird()));
+                    if(RoundScoreListAdapterTeam2.rd.get(i).getBlind()==1){ //an htan blind exei score 0
+                        RoundScoreListAdapterTeam2.rd.get(i).setScore(0);
+                        RoundScoreListAdapterTeam2.rd.get(i).setFirst(0);
+                        RoundScoreListAdapterTeam2.rd.get(i).setSecond(0);
+                        RoundScoreListAdapterTeam2.rd.get(i).setThird(0);
+                    }else {
+                        RoundScoreListAdapterTeam2.rd.get(i).setScore((RoundScoreListAdapterTeam2.rd.get(i).getFirst() + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + RoundScoreListAdapterTeam2.rd.get(i).getThird()));
+                    }
                     RoundScoreListAdapterTeam2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                     bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
                     bowlingViewModel.update(RoundScoreListAdapterTeam2.rd.get(i));
