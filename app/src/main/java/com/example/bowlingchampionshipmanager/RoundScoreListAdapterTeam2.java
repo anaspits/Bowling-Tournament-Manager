@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -78,6 +79,8 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     holder.third.setText("0");
                 }
                 holder.hdcp.setText("0");
+                holder.checkboxhdcp.setChecked(false);
+                holder.checkboxhdcp.setVisibility(View.GONE);
             } else {
                 holder.cardview.setEnabled(true);
                 holder.cardview.setCardBackgroundColor(Color.parseColor("#F9F9F9"));
@@ -102,6 +105,8 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                 if (String.valueOf(rd.get(position).getThird()) != null) {
                     holder.third.setText(String.valueOf(rd.get(position).getThird()));
                 }
+                holder.checkboxhdcp.setChecked(false);
+                holder.checkboxhdcp.setVisibility(View.VISIBLE);
             }
             this.position=position;
             Log.d("print","yes");
@@ -159,6 +164,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
         protected EditText hdcp, first, second, third;
         protected TextView txvNote;
         protected CardView cardview;
+        protected CheckBox checkboxhdcp;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -168,6 +174,30 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
             second = itemView.findViewById(R.id.txv2);
             third = itemView.findViewById(R.id.txv3);
             cardview = itemView.findViewById(R.id.roundcardview);
+            checkboxhdcp= itemView.findViewById(R.id.checkBox1);
+
+            checkboxhdcp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(checkboxhdcp.isChecked()) {
+                        rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("yes");
+                        hdcp.setEnabled(false);
+                        hdcp.setFocusable(false);
+                        hdcp.setBackgroundColor(Color.LTGRAY);
+                    }else {
+                        rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("no");
+                        hdcp.setEnabled(true);
+                        hdcp.setFocusableInTouchMode(true);
+                        hdcp.setBackgroundColor(Color.WHITE );
+                        if (hdcp.getText().toString().equals("")) {
+                            System.out.println("hdcp keno");
+                        } else {
+                            editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                            rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                        }
+                    }
+                }
+            });
 
             txvNote.setOnClickListener((View.OnClickListener) this);
 
@@ -283,14 +313,18 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
                     if (String.valueOf(rd.get(pos).getFirst()) != null) {
-                        first.setText(String.valueOf(rd.get(pos).getFirst()));
+                       // first.setText(String.valueOf(rd.get(pos).getFirst()));
+                        first.setText(String.valueOf(0));
                     }
                     if (String.valueOf(rd.get(pos).getSecond()) != null) {
-                        second.setText(String.valueOf(rd.get(pos).getSecond()));
+                       // second.setText(String.valueOf(rd.get(pos).getSecond()));
+                        second.setText(String.valueOf(0));
                     }
                     if (String.valueOf(rd.get(pos).getThird()) != null) {
-                        third.setText(String.valueOf(rd.get(pos).getThird()));
+                       // third.setText(String.valueOf(rd.get(pos).getThird()));
+                        third.setText(String.valueOf(0));
                     }
+                    checkboxhdcp.setVisibility(View.VISIBLE);
                     rd.get(getAdapterPosition()).setBlind(0);
                     System.out.println("NOT blind: " + editModelArrayList.get(pos).getFullName());
                 } else {
@@ -316,6 +350,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                         second.setText("0");
                         third.setText("0");
                     }
+                    checkboxhdcp.setVisibility(View.GONE);
                     hdcp.setText("0");
                     rd.get(pos).setBlind(1);
                     System.out.println("blind: " + editModelArrayList.get(pos).getFullName() + " " + editModelArrayList.get(pos).getUuid() + " " + rd.get(pos).getParticipant_uuid() + " " + rd.get(pos).getBlind());

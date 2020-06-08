@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/roundcardview">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
@@ -113,6 +117,10 @@
                     android:autofillHints="" />
             </LinearLayout>
         </LinearLayout>
-
-
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Auto-calculate HDCP" />
+    </LinearLayout>
     </androidx.cardview.widget.CardView>

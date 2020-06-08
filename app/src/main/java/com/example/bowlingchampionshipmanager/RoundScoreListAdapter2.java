@@ -80,6 +80,8 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                         holder.third.setText("0");
                     }
                     holder.hdcp.setText("0");
+                    holder.checkboxhdcp.setChecked(false);
+                    holder.checkboxhdcp.setVisibility(View.GONE);
                 } else {
                     holder.cardview.setEnabled(true);
                     holder.cardview.setCardBackgroundColor(Color.parseColor("#F9F9F9"));
@@ -93,7 +95,8 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                     holder.third.setFocusableInTouchMode(true);
                     holder.hdcp.setEnabled(true);
                     holder.hdcp.setFocusableInTouchMode(true);
-
+                    holder.checkboxhdcp.setChecked(false);
+                    holder.checkboxhdcp.setVisibility(View.VISIBLE);
                     holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
                     if (String.valueOf(rd.get(position).getFirst()) != null) {
                         holder.first.setText(String.valueOf(rd.get(position).getFirst()));
@@ -161,6 +164,8 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
             protected EditText hdcp,first,second, third; //hdcp
             protected TextView txvNote;
             protected CardView cardview;
+            protected CheckBox checkboxhdcp;
+
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -170,9 +175,33 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 second 	 = itemView.findViewById(R.id.txv2);
                 third = itemView.findViewById(R.id.txv3);
                 cardview=itemView.findViewById(R.id.roundcardview);
+                checkboxhdcp= itemView.findViewById(R.id.checkBox1);
+                checkboxhdcp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(checkboxhdcp.isChecked()) {
+                            rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("yes");
+                            hdcp.setEnabled(false);
+                            hdcp.setFocusable(false);
+                            hdcp.setBackgroundColor(Color.LTGRAY);
+                        }else {
+                            rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("no");
+                            hdcp.setEnabled(true);
+                            hdcp.setFocusableInTouchMode(true);
+                            hdcp.setBackgroundColor(Color.WHITE );
+                            if (hdcp.getText().toString().equals("")) {
+                                System.out.println("hdcp keno");
+                            } else {
+                                editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                                rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                            }
+                        }
+                    }
+                });
 
                 //cardview.setOnClickListener((View.OnClickListener) this);
                     txvNote.setOnClickListener((View.OnClickListener) this);
+
 
                 hdcp.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -210,7 +239,9 @@ System.out.println("hdcp keno");
                         } else {
                             System.out.println("on change "+first.getText().toString());
                             //edited[0]= first.getText().toString();
-                            rd.get(getAdapterPosition()).setFirst(Integer.parseInt(first.getText().toString()));
+                            if(rd.get(getAdapterPosition()).getBlind()==0) {
+                                rd.get(getAdapterPosition()).setFirst(Integer.parseInt(first.getText().toString()));
+                            }
                             System.out.println("1)FIRST: player "+editModelArrayList.get(getAdapterPosition()).getUuid()+" "+getAdapterPosition()+editModelArrayList.get(getAdapterPosition()).getFullName()+" position "+getAdapterPosition()+ " hdcp "+editModelArrayList.get(getAdapterPosition()).getHdcp() );
                             System.out.println("2)FIRST rd: player "+rd.get(getAdapterPosition()).getParticipant_uuid()+" position "+getAdapterPosition()+" hdcp "+ rd.get(getAdapterPosition()).getHdcp() +" 1st " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(getAdapterPosition()).getThird());
                         }
@@ -233,7 +264,9 @@ System.out.println("hdcp keno");
                             System.out.println("on change");
                         } else {
                            // edited[1]= second.getText().toString();
-                            rd.get(getAdapterPosition()).setSecond(Integer.parseInt(second.getText().toString()));
+                            if(rd.get(getAdapterPosition()).getBlind()==0) {
+                                rd.get(getAdapterPosition()).setSecond(Integer.parseInt(second.getText().toString()));
+                            }
                         }
                     }
                     @Override
@@ -254,7 +287,9 @@ System.out.println("hdcp keno");
                             System.out.println("on change");
                         } else {
                             //edited[2]= third.getText().toString();
-                            rd.get(getAdapterPosition()).setThird(Integer.parseInt(third.getText().toString()));
+                            if(rd.get(getAdapterPosition()).getBlind()==0) {
+                                rd.get(getAdapterPosition()).setThird(Integer.parseInt(third.getText().toString()));
+                            }
                         }
                     }
                     @Override
@@ -283,14 +318,18 @@ System.out.println("hdcp keno");
                     hdcp.setFocusableInTouchMode(true);
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
-                    if (String.valueOf(rd.get(pos).getFirst())!=null){
-                        first.setText(String.valueOf(rd.get(pos).getFirst()));
+                    checkboxhdcp.setVisibility(View.VISIBLE);
+                    if (String.valueOf(rd.get(pos).getFirst()) != null) {
+                        // first.setText(String.valueOf(rd.get(pos).getFirst()));
+                        first.setText(String.valueOf(0));
                     }
-                    if (String.valueOf(rd.get(pos).getSecond())!=null) {
-                        second.setText(String.valueOf(rd.get(pos).getSecond()));
+                    if (String.valueOf(rd.get(pos).getSecond()) != null) {
+                        // second.setText(String.valueOf(rd.get(pos).getSecond()));
+                        second.setText(String.valueOf(0));
                     }
-                    if (String.valueOf(rd.get(pos).getThird())!=null) {
-                        third.setText(String.valueOf(rd.get(pos).getThird()));
+                    if (String.valueOf(rd.get(pos).getThird()) != null) {
+                        // third.setText(String.valueOf(rd.get(pos).getThird()));
+                        third.setText(String.valueOf(0));
                     }
                     rd.get(getAdapterPosition()).setBlind(0);
                     System.out.println("NOT blind: "+editModelArrayList.get(pos).getFullName());
@@ -306,6 +345,7 @@ System.out.println("hdcp keno");
                     second.setFocusable(false);
                     third.setEnabled(false);
                     third.setFocusable(false);
+                    checkboxhdcp.setVisibility(View.GONE);
                     hdcp.setEnabled(false);
                     hdcp.setFocusable(false);
                     if(ch.getType()==2) {

@@ -28,7 +28,6 @@ public class RoundEditScoreActivity extends AppCompatActivity {
     private static TextView textTitle;
     private static TextView sumHDCP,sum1st,sum2nd,sum3rd,sumHDCP2,sum1st2,sum2nd2,sum3rd2, txtscore1, txtscore2, totalsum1, txtpoints1,totalsum2, txtpoints2;
     private static TextView team1txt, team2txt;
-    private CheckBox checkboxhdcp;
     public static Team team1, team2; //team1: selected team, team2: h alla (ane3artitws pws einai ari8mimenes oi omades sto round object)
     public static Round r;
     public static String tuuid1, tuuid2;
@@ -73,7 +72,6 @@ public class RoundEditScoreActivity extends AppCompatActivity {
         totalsum1=findViewById(R.id.txvTotalSum);
         txtpoints2=findViewById(R.id.points2);
         totalsum2=findViewById(R.id.txvTotalSum2);
-        checkboxhdcp= findViewById(R.id.checkBox);
         calc_pressed=0;
 
         first_sum1=0;
@@ -238,12 +236,14 @@ team2=te;
                             avg = avg / games;
                         }
 
-                        //ypologismos hdcp//todo test it kai na mhn allazei an to vazei o paikths
+                        //ypologismos hdcp//todo otan kanw check kai meta 3echeck den pairnei to hdcp pou evale o xrhsth
                     System.out.println("1 hdcp champ.tav " + championship.getHdcp_tav());
-                    if(checkboxhdcp.isChecked()) {
+                    if(RoundScoreListAdapter2.rd.get(i2).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapter2.rd.get(i2).getChecked_auto_calc_hdcp().equals("yes") ) {
                         int hdcp=RoundScoreListAdapter2.editModelArrayList.get(i2).calculateHDCPofPlayer(RoundScoreListAdapter2.editModelArrayList.get(i2), avg, championship, bowlingViewModel);
-                        RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
-                        RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                      //  RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                        //RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                        RoundScoreListAdapter2.rd.get(i2).setAuto_calc_newHdcp(hdcp);
+                        System.out.println("hdcp e3w meta rd.hdcp_neo="+RoundScoreListAdapter2.rd.get(i2).getAuto_calc_newHdcp()+ " player.hdcp="+RoundScoreListAdapter2.editModelArrayList.get(i2).getHdcp());
                        /* if (RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid().equals("blind") && championship.getHdcp_less() != 0) { //an einai omada me ligoterous paiktes //todo na rwthsw
                             int hdcp = (int) ((championship.getHdcp_less() - avg) * (championship.getHdcp_factor()/100));
                             RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
@@ -315,10 +315,14 @@ team2=te;
                             avg2 = avg2 / (games2);
                         }
 
-                        //ypologismos hdcp//todo test it kai na mhn allazei an to vazei o paikths
-                        System.out.println("checked " + checkboxhdcp.isChecked());
-                        if(checkboxhdcp.isChecked()) {
-                            if (RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid().equals("blind") && championship.getHdcp_less() != 0) { //an einai omada me ligoterous paiktes //todo na rwthsw
+                        //ypologismos hdcp
+                        if(RoundScoreListAdapterTeam2.rd.get(i3).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapterTeam2.rd.get(i3).getChecked_auto_calc_hdcp().equals("yes") ) { //an einai checked
+                            int hdcp=RoundScoreListAdapter2.editModelArrayList.get(i3).calculateHDCPofPlayer(RoundScoreListAdapterTeam2.editModelArrayList.get(i3), avg2, championship, bowlingViewModel);
+                            //  RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                            //RoundScoreListAdapterTeam2.editModelArrayList.get(i3).setHdcp(hdcp); sto telos- opennewactivity
+                            RoundScoreListAdapterTeam2.rd.get(i3).setAuto_calc_newHdcp(hdcp); //to neo hdcp
+
+                           /*if (RoundScoreListAdapterTeam2.editModelArrayList.get(i3).getUuid().equals("blind") && championship.getHdcp_less() != 0) { //an einai omada me ligoterous paiktes //todo na rwthsw
                                 double hdcp =  ((championship.getHdcp_less() - avg2) * (championship.getHdcp_factor()/100));
                                 RoundScoreListAdapterTeam2.rd.get(i3).setHdcp((int)hdcp);
                                 System.out.println("1 hdcp less" + hdcp);
@@ -328,7 +332,7 @@ team2=te;
                                 RoundScoreListAdapterTeam2.rd.get(i3).setHdcp((int)hdcp);
                                 System.out.println("1 hdcp tav " + hdcp);
                                 RoundScoreListAdapterTeam2.editModelArrayList.get(i3).setHdcp((int)hdcp);
-                            }
+                            }*/
 
                         }
                         System.out.println("2games b " + games2 + " avg " + avg2);
@@ -473,10 +477,15 @@ team2=te;
                         RoundScoreListAdapter2.rd.get(i).setThird(0);
                     }else {
                         RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird())); //todo na rwthsw an edw /3? -> xwris to hdcp
+                        if(RoundScoreListAdapter2.rd.get(i).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapter2.rd.get(i).getChecked_auto_calc_hdcp().equals("yes") ) { //an to hdcp htan auto-calculated tote
+                            RoundScoreListAdapter2.rd.get(i).setHdcp(RoundScoreListAdapter2.rd.get(i).getAuto_calc_newHdcp()); //8etw ws hdcp tou rd to neo hdcp
+                            RoundScoreListAdapter2.editModelArrayList.get(i).setHdcp(RoundScoreListAdapter2.rd.get(i).getAuto_calc_newHdcp());
+                        }
                     }
                     RoundScoreListAdapter2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                     bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
                     bowlingViewModel.update(RoundScoreListAdapter2.rd.get(i));
+                    System.out.println("update rd.hdcp="+RoundScoreListAdapter2.rd.get(i).getAuto_calc_newHdcp()+ " player.hdcp="+RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp());
                     System.out.println("1 rd: " + i + " rid " + RoundScoreListAdapter2.rd.get(i).getRound_uuid() + " pid " + RoundScoreListAdapter2.rd.get(i).getParticipant_uuid() + " score " + RoundScoreListAdapter2.rd.get(i).getScore() + " avg " + RoundScoreListAdapter2.rd.get(i).getAvg() + " games " + RoundScoreListAdapter2.rd.get(i).getGames() + " h " + RoundScoreListAdapter2.rd.get(i).getHdcp() + " 1st " + RoundScoreListAdapter2.rd.get(i).getFirst() + " 2nd " + RoundScoreListAdapter2.rd.get(i).getSecond() + " 3rd " + RoundScoreListAdapter2.rd.get(i).getThird());
                 }
                 //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ //todo pins
@@ -510,6 +519,10 @@ team2=te;
                         RoundScoreListAdapterTeam2.rd.get(i).setThird(0);
                     }else {
                         RoundScoreListAdapterTeam2.rd.get(i).setScore((RoundScoreListAdapterTeam2.rd.get(i).getFirst() + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + RoundScoreListAdapterTeam2.rd.get(i).getThird()));
+                        if(RoundScoreListAdapterTeam2.rd.get(i).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapterTeam2.rd.get(i).getChecked_auto_calc_hdcp().equals("yes") ) { //an to hdcp htan auto-calculated tote
+                            RoundScoreListAdapterTeam2.rd.get(i).setHdcp(RoundScoreListAdapterTeam2.rd.get(i).getAuto_calc_newHdcp()); //8etw ws hdcp tou rd to neo hdcp
+                            RoundScoreListAdapterTeam2.editModelArrayList.get(i).setHdcp(RoundScoreListAdapterTeam2.rd.get(i).getAuto_calc_newHdcp());
+                        }
                     }
                     RoundScoreListAdapterTeam2.rd.get(i).setUpdated_at(Calendar.getInstance().getTime());
                     bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i));
@@ -568,7 +581,7 @@ finish();
 
     public void export(View view) {
         if(calc_pressed==1){
-            if(checkboxhdcp.isChecked()){
+           /* if(checkboxhdcp.isChecked()){
                 sum_hdcp1=0;
                 for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                     sum_hdcp1+=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
@@ -577,7 +590,7 @@ finish();
                 for (int i = 0; i < RoundScoreListAdapterTeam2.editModelArrayList.size(); i++) {
                     sum_hdcp2+=RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp();
                 }
-            }
+            } */
         StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,team2,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,first_sum2,second_sum2,third_sum2,sum_hdcp2);
         try {
             //saving the file into device

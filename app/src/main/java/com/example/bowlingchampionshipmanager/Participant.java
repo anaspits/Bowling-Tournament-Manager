@@ -722,12 +722,12 @@ for (int i=0;i<bowlers.size();i++){
             System.out.println("1 hdcp tav " + championship.getHdcp_tav());
         }
             double hdcp =  ((x - avg) * (championship.getHdcp_factor()*0.01));
-            player.setHdcp((int)hdcp);  //edw??
+           // player.setHdcp((int)hdcp);  //edw??
         System.out.println("1 hdcp x (" + x +" - "+avg+")*("+championship.getHdcp_factor()+"/100)= "+(x-avg)+" * "+(championship.getHdcp_factor()*0.01)+"="+hdcp+" int "+(int)hdcp);
 
 
            // bowlingViewModel.update(player);
-            System.out.println("hdcp Meta paikths " +  player.getFirstName() +" bowlavg "+player.getBowlAvg()+" avg "+ avg+" hdcp "+ player.getHdcp());
+            System.out.println("hdcp Meta paikths " +  player.getFirstName() +" bowlavg "+player.getBowlAvg()+" avg "+ avg+" hdcp "+ hdcp);
 
 
            /* int i2 = i;

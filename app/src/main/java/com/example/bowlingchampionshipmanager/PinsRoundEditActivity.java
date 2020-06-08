@@ -28,7 +28,6 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 
     private static TextView textTitle;
     private static TextView sumHDCP,sum1st,sum2nd,sum3rd,txtscore1, totalSumtxt,  pointstxt,team1txt ;
-    private CheckBox checkboxhdcp;
     public static Team team1;
     public static Round r;
     public static String tuuid1;
@@ -59,7 +58,6 @@ public class PinsRoundEditActivity extends AppCompatActivity {
         totalSumtxt =findViewById(R.id.txvTotalSum);
         txtscore1=findViewById(R.id.score1);
         pointstxt =  findViewById(R.id.points);
-        checkboxhdcp= findViewById(R.id.checkBox);
         calc_pressed=0;
 
         Bundle bundleObject = this.getIntent().getExtras();
@@ -174,10 +172,11 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 
 //ypologismos hdcp
                         System.out.println("1 hdcp champ.tav " + championship.getHdcp_tav());
-                        if(checkboxhdcp.isChecked()) {
+                        if(RoundScoreListAdapter2.rd.get(i2).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapter2.rd.get(i2).getChecked_auto_calc_hdcp().equals("yes") ) {
                             int hdcp = RoundScoreListAdapter2.editModelArrayList.get(i2).calculateHDCPofPlayer(RoundScoreListAdapter2.editModelArrayList.get(i2), avg, championship, bowlingViewModel);
-                            RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
-                            RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                            //RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
+                            //RoundScoreListAdapter2.editModelArrayList.get(i2).setHdcp(hdcp);
+                            RoundScoreListAdapter2.rd.get(i2).setAuto_calc_newHdcp(hdcp);
                        /* if (RoundScoreListAdapter2.editModelArrayList.get(i2).getUuid().equals("blind") && championship.getHdcp_less()!=0) { //an einai omada me ligoterous paiktes //todo na rwthsw
                             int hdcp = (int) ((championship.getHdcp_less() - avg) * championship.getHdcp_factor());
                             RoundScoreListAdapter2.rd.get(i2).setHdcp(hdcp);
@@ -249,6 +248,10 @@ public class PinsRoundEditActivity extends AppCompatActivity {
                         RoundScoreListAdapter2.rd.get(i).setThird(0);
                     }else {
                         RoundScoreListAdapter2.rd.get(i).setScore((RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird()));
+                        if(RoundScoreListAdapter2.rd.get(i).getChecked_auto_calc_hdcp()!=null && RoundScoreListAdapter2.rd.get(i).getChecked_auto_calc_hdcp().equals("yes") ) { //an to hdcp htan auto-calculated tote
+                            RoundScoreListAdapter2.rd.get(i).setHdcp(RoundScoreListAdapter2.rd.get(i).getAuto_calc_newHdcp()); //8etw ws hdcp tou rd to neo hdcp
+                            RoundScoreListAdapter2.editModelArrayList.get(i).setHdcp(RoundScoreListAdapter2.rd.get(i).getAuto_calc_newHdcp());
+                        }
                     }
 
                     bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i));
@@ -282,12 +285,12 @@ public class PinsRoundEditActivity extends AppCompatActivity {
     public void export(View view) {
         if(calc_pressed==1){
             ExportCSV exp= new ExportCSV();
-            if(checkboxhdcp.isChecked()){
+           /* if(checkboxhdcp.isChecked()){
                 sum_hdcp1=0;
                 for (int i = 0; i < RoundScoreListAdapter2.editModelArrayList.size(); i++) {
                     sum_hdcp1+=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
                 }
-            }
+            } */
             StringBuilder data=  exp.exportRoundEditScore(championship,r,team1,null,RoundScoreListAdapter2.editModelArrayList,RoundScoreListAdapterTeam2.editModelArrayList,RoundScoreListAdapter2.rd,RoundScoreListAdapterTeam2.rd,first_sum1,second_sum1,third_sum1,sum_hdcp1,0,0,0,0);
             try {
                 //saving the file into device

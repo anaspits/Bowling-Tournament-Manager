@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.TypeConverters;
 
@@ -77,6 +78,12 @@ public class Round_detail  implements Serializable {
     @ColumnInfo(name="updated_at")
     private Date updated_at;
 
+    @Ignore
+    private String checked_auto_calc_hdcp;
+
+    @Ignore
+    private int auto_calc_newHdcp; //voithiko gia to neo hdcp pou upologizetai automata
+
    /* public int getSys_roundDetailID() {
         return sys_roundDetailID;
     } */
@@ -147,6 +154,14 @@ public class Round_detail  implements Serializable {
         return champ_uuid;
     }
 
+    public String getChecked_auto_calc_hdcp() {
+        return checked_auto_calc_hdcp;
+    }
+
+    public int getAuto_calc_newHdcp() {
+        return auto_calc_newHdcp;
+    }
+
     public void setParticipant_uuid(String participant_uuid) {
         this.participant_uuid = participant_uuid;
     }
@@ -197,6 +212,14 @@ public class Round_detail  implements Serializable {
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public void setAuto_calc_newHdcp(int auto_calc_newHdcp) {
+        this.auto_calc_newHdcp = auto_calc_newHdcp;
+    }
+
+    public void setChecked_auto_calc_hdcp(String checked_auto_calc_hdcp) {
+        this.checked_auto_calc_hdcp = checked_auto_calc_hdcp;
     }
 
     public Round_detail(String round_uuid, String participant_uuid, int first, int second, int third, int hdcp, int blind, String champ_uuid, int froundid, Date created_at) {
