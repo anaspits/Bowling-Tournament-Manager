@@ -30,7 +30,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     private BowlingViewModel bowlingViewModel;
     public String champuuid;
     public Participant p;
-    private TextView textView,player;
+    private TextView textView,player, txvpl,txv2,txv3;
     private  Button addnew;
     private String flag;
     private SelectParticipantListAdapter blistAdapter;
@@ -50,6 +50,9 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         player = findViewById(R.id.player);
         textView=findViewById(R.id.textView);
         addnew =findViewById(R.id.addnew);
+        txvpl=findViewById(R.id.txvpl);
+        txv2=findViewById(R.id.txv2);
+        txv3=findViewById(R.id.txv3);
 
         //An 8elw na pros8esw enan paikth sth bash na energopoihsw to koumpi
         addnew.setVisibility(View.GONE);
@@ -72,6 +75,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
 
 
         if (flag.equals("all")) {
+            txv3.setVisibility(View.GONE);
             recyclerView.setAdapter(blistAdapter2);
             textView.setText("All the Players:");
             //addnew sto database
