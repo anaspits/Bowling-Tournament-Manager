@@ -17,12 +17,12 @@
                 android:id="@+id/textTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_championship"
-                android:textAppearance="@android:style/TextAppearance.Large"
-                android:textStyle="bold"
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="30dp"
-                android:textAlignment="center"/>
+                android:text="@string/edit_player"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:textStyle="bold" />
     <TextView
         android:id="@+id/pname"
         android:layout_width="match_parent"

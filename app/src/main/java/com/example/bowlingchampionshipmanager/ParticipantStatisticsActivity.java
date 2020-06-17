@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
     private String flag;
     private SelectParticipantListAdapter blistAdapter;
     private List<Participant> participants;
+    private LinearLayout allbar;
 
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2;
@@ -53,6 +55,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
         txvpl=findViewById(R.id.txvpl);
         txv2=findViewById(R.id.txv2);
         txv3=findViewById(R.id.txv3);
+        allbar=findViewById(R.id.allbar);
 
         //An 8elw na pros8esw enan paikth sth bash na energopoihsw to koumpi
         addnew.setVisibility(View.GONE);
@@ -78,6 +81,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
             txv3.setVisibility(View.GONE);
             recyclerView.setAdapter(blistAdapter2);
             textView.setText("All the Players:");
+            allbar.setVisibility(View.VISIBLE);
             //addnew sto database
             Button addnew= findViewById(R.id.addnew);
             addnew.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +102,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
             });
         }else if (flag.equals("all_stat")) {
             addnew.setVisibility(View.GONE);
+            allbar.setVisibility(View.VISIBLE);
             bowlingViewModel.getAllActiveParticipants().observe(this, new Observer<List<Participant>>() {
                 @Override
                 public void onChanged(List<Participant> part) {
@@ -110,6 +115,7 @@ public class ParticipantStatisticsActivity extends AppCompatActivity implements 
             //todo fix UI
            // recyclerView.setVisibility(View.GONE);
             addnew.setVisibility(View.GONE);
+            allbar.setVisibility(View.GONE);
             player.setText("Name: "+p.getFullName());
             player.append("\nHDCP: "+p.getHdcp());
             player.append("\nAverage: "+p.getBowlAvg());

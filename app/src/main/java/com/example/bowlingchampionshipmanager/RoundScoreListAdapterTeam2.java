@@ -188,7 +188,8 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                         rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("no");
                         hdcp.setEnabled(true);
                         hdcp.setFocusableInTouchMode(true);
-                        hdcp.setBackgroundColor(Color.WHITE );
+                        //hdcp.setBackgroundColor(Color.WHITE );
+                        hdcp.setBackgroundColor(Color.parseColor("#F9F9F9"));
                         if (hdcp.getText().toString().equals("")) {
                             System.out.println("hdcp keno");
                         } else {
@@ -310,6 +311,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     third.setFocusableInTouchMode(true);
                     hdcp.setEnabled(true);
                     hdcp.setFocusableInTouchMode(true);
+                    hdcp.setBackgroundColor(Color.parseColor("#F9F9F9"));
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
                     if (String.valueOf(rd.get(pos).getFirst()) != null) {
@@ -341,6 +343,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     third.setFocusable(false);
                     hdcp.setEnabled(false);
                     hdcp.setFocusable(false);
+                    hdcp.setBackgroundColor(Color.LTGRAY);
                     if(ch.getType()==2) {
                         first.setText(String.valueOf(ch.getFiexd_cap()));
                         second.setText(String.valueOf(ch.getFiexd_cap()));
