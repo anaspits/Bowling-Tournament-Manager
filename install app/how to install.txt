@@ -1,0 +1,13 @@
+1. Download the .apk file on your device
+2. Click on the file and allow App Installs from extrenal sources on your device:
+   Enable APK Installs on your device by going to:
+   a. For non-Samsung and Android8 (and above) devices:
+   Settings>Security&Privacy>More Settings
+   and tap on: Install apps from extrenal sources
+   Toggle "Allow app installs" (on the app where your apk file is, for example "Files")
+   b. For Samsung devices:  
+   Settings>Biometrivs and security>Install unkown apps
+   Select the app with wich you will install your apk (for example "Files" or "Chrome" if you download it from chrome)
+   c. For Android8 (and earlier) devices:
+   Settings>Security>Device administration
+   and toggle "Unknown ources" ON

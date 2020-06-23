@@ -33,7 +33,6 @@
         <activity android:name=".Pins1Activity" />
         <activity android:name=".Teamsvsteams1Activity" />
         <activity android:name=".RoundActivity" />
-        <activity android:name=".Start1Activity" />
         <activity android:name=".HDCPActivity" />
         <activity android:name=".Create3Activity" />
         <activity android:name=".Create2Activity" />
