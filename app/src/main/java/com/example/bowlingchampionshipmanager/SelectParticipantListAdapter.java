@@ -102,7 +102,7 @@ public class SelectParticipantListAdapter extends RecyclerView.Adapter<SelectPar
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int second, int position) {
+        public void setData(String note, float second, int position) {
             noteItemView.setText(note);
             teamItemView.setText(String.valueOf(second));
             mPosition = position;

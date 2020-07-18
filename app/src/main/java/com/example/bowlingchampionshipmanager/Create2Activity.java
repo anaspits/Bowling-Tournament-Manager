@@ -126,7 +126,7 @@ public class Create2Activity extends AppCompatActivity implements TeamatesAdapte
             @Override
             public void onChanged(Championship c) {
                 championship = c;
-                textTitle.append(" No."+championship.getSys_champID());
+                textTitle.setText("Create Championship No."+championship.getSys_champID());
             }
         });
 

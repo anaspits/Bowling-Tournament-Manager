@@ -72,10 +72,12 @@ public class EditActivity extends AppCompatActivity {
                 edithdcp.setText(String.valueOf(participant.getHdcp()));
                 editgames.setText(String.valueOf(participant.getTotal_games()));
                 //editfid.setText(String.valueOf(participant.getFakeID()));
-                if(participant.getSex().equals("m")){
+                if(participant.getSex().equals("m") || participant.getSex().equals("M") || participant.getSex().equals("male") || participant.getSex().equals("MALE") || participant.getSex().equals("Male") || participant.getSex().equals("antras")){
                     m.setChecked(true);
-                }else {
+                }else if ( participant.getSex().equals("f") || participant.getSex().equals("F") || participant.getSex().equals("w") || participant.getSex().equals("W") ||  participant.getSex().equals("female") || participant.getSex().equals("FEMALE") || participant.getSex().equals("Female") || participant.getSex().equals("woman") || participant.getSex().equals("WOMAN") || participant.getSex().equals("gynaika")){
                     f.setChecked(true);
+                } else {
+                    //todo an valoun kati akuro
                 }
             }
         });

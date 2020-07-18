@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+//na svisw - axrhsto - delete it
 @Entity(tableName = "hdcpparameters")
 public class HDCPparameters implements Serializable { //axristo?
     @PrimaryKey(autoGenerate = true)

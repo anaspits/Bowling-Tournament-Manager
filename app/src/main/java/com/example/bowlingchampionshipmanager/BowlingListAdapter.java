@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-
 public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.BowlingViewHolder>  {
 
     public interface OnDeleteClickListener {
@@ -83,9 +81,9 @@ public class BowlingListAdapter extends RecyclerView.Adapter<BowlingListAdapter.
             teamItemView = itemView.findViewById(R.id.txvTeam);
         }
 
-        public void setData(String note, int teamid, int position) {
+        public void setData(String note, float b_avg, int position) {
             noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(teamid));
+            teamItemView.setText(String.valueOf(b_avg));
             mPosition = position;
         }
 

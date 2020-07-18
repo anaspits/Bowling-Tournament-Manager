@@ -96,13 +96,13 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                 holder.hdcp.setFocusableInTouchMode(true);
 
                 holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
-                if (String.valueOf(rd.get(position).getFirst()) != null) {
+                if (!String.valueOf(rd.get(position).getFirst()).equals("0")) {
                     holder.first.setText(String.valueOf(rd.get(position).getFirst()));
                 }
-                if (String.valueOf(rd.get(position).getSecond()) != null) {
+                if (!String.valueOf(rd.get(position).getSecond()).equals("0")) {
                     holder.second.setText(String.valueOf(rd.get(position).getSecond()));
                 }
-                if (String.valueOf(rd.get(position).getThird()) != null) {
+                if (!String.valueOf(rd.get(position).getThird()).equals("0")) {
                     holder.third.setText(String.valueOf(rd.get(position).getThird()));
                 }
                 holder.checkboxhdcp.setChecked(false);
@@ -251,6 +251,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                 }
             });
 
+
             second.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -273,6 +274,7 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                 }
             });
 
+
             third.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -294,6 +296,8 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     //editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
                 }
             });
+
+
         }
             @Override
             public void onClick (View v){
@@ -314,17 +318,20 @@ public class RoundScoreListAdapterTeam2 extends RecyclerView.Adapter<RoundScoreL
                     hdcp.setBackgroundColor(Color.parseColor("#F9F9F9"));
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
-                    if (String.valueOf(rd.get(pos).getFirst()) != null) {
+                    if (!String.valueOf(rd.get(pos).getFirst()).equals("0")) {
                        // first.setText(String.valueOf(rd.get(pos).getFirst()));
-                        first.setText(String.valueOf(0));
+                        //first.setText(String.valueOf(0));
+                        first.setText("");
                     }
-                    if (String.valueOf(rd.get(pos).getSecond()) != null) {
+                    if (!String.valueOf(rd.get(pos).getSecond()).equals("0")) {
                        // second.setText(String.valueOf(rd.get(pos).getSecond()));
-                        second.setText(String.valueOf(0));
+                        //second.setText(String.valueOf(0));
+                        second.setText("");
                     }
-                    if (String.valueOf(rd.get(pos).getThird()) != null) {
+                    if (!String.valueOf(rd.get(pos).getThird()).equals("0")) {
                        // third.setText(String.valueOf(rd.get(pos).getThird()));
-                        third.setText(String.valueOf(0));
+                        //third.setText(String.valueOf(0));
+                        third.setText("");
                     }
                     checkboxhdcp.setVisibility(View.VISIBLE);
                     rd.get(getAdapterPosition()).setBlind(0);

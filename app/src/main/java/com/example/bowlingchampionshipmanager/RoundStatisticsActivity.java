@@ -163,7 +163,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                 for (int i = 0; i < rds.size(); i++) { //gia ka8e gyrw apo tous prohgoumenos done ths r
                     // System.out.println("rd " + i +" frid "+rds.get(i).getFroundid()+ " round id " + rds.get(i).getRound_uuid() + " player id " + rds.get(i).getParticipant_uuid() + " score " + rds.get(i).getScore() + " h " + rds.get(i).getHdcp() + " firste " + rds.get(i).getFirst() + " second " + rds.get(i).getSecond() + " third " + rds.get(i).getThird() + " games " + rds.get(i).getGames() + " blind " + rds.get(i).getBlind() + " avg " + rds.get(i).getAvg());
 
-                    if (rds.get(i).getSex().equals("m")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
+                    if (rds.get(i).getSex().equals("m")|| rds.get(i).getSex().equals("M") || rds.get(i).getSex().equals("male") || rds.get(i).getSex().equals("MALE") || rds.get(i).getSex().equals("Male") || rds.get(i).getSex().equals("antras")) { //sygkrinw ta paixnidia k ta set gia ton andra k thn gynaika kai pairnw ta max
                         scoreandpos = rds.get(i).calcSetAndGamesStat(rds, r, i, mangame, mangamebegining, manset, mansetbegining, pos, pos2, pos3, pos4);
                         mangame = scoreandpos.get(0);
                         mangamebegining = scoreandpos.get(1);
@@ -216,7 +216,7 @@ public class RoundStatisticsActivity extends AppCompatActivity {
                             pos4 = i;
                         }
                     } */
-                    } else { //gia female
+                    } else { //gia female //todo na to kanw else-if gia female kai meta else gia to an valoun kati akuro
                         scoreandpos2 = rds.get(i).calcSetAndGamesStat(rds, r, i, fgame, fgamebegining, fset, fsetbegining, fpos, fpos2, fpos3, fpos4);
                         fgame = scoreandpos2.get(0);
                         fgamebegining = scoreandpos2.get(1);

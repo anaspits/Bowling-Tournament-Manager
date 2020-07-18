@@ -60,7 +60,7 @@ public class Participant implements Serializable {
     String sex; //m,f
 
     @ColumnInfo(name="avg") //ka8oliko (dia ola ta paixnidia pou exei pai3ei mexri twra) //todo na kanw float kai na einai klasma!
-    int bowlAvg;
+            float bowlAvg;
 
     @ColumnInfo(name="hdcp") //todo
     int hdcp;
@@ -107,7 +107,7 @@ public class Participant implements Serializable {
     public int getParticipantID() {
         return participantID;
     }
-    public int getBowlAvg() {
+    public float getBowlAvg() {
         return bowlAvg;
     }
 
@@ -195,7 +195,7 @@ public class Participant implements Serializable {
         this.fakeID = fakeID;
     }
 
-    public void setBowlAvg(int bowlAvg) {
+    public void setBowlAvg(float bowlAvg) {
         this.bowlAvg = bowlAvg;
     }
 
@@ -246,7 +246,7 @@ public class Participant implements Serializable {
     }
 
     //constructor
-    public Participant(int fakeID, String uuid, String firstname, String lastname, int bowlAvg, int team, Date created_at, int hdcp, String sex, int disable_flag) {
+    public Participant(int fakeID, String uuid, String firstname, String lastname, float bowlAvg, int team, Date created_at, int hdcp, String sex, int disable_flag) {
         //this.participantID = participantID;
         this.fakeID = fakeID; //axristo
         this.uuid = uuid;
@@ -270,8 +270,8 @@ public class Participant implements Serializable {
 
         public int compare(Participant s1, Participant s2) {
 
-            int ba1 = s1.getBowlAvg();
-            int ba2 = s2.getBowlAvg();
+            int ba1 = (int) s1.getBowlAvg();
+            int ba2 = (int) s2.getBowlAvg();
 
             /*For ascending order*/
             return ba1 - ba2;
@@ -306,7 +306,8 @@ public class Participant implements Serializable {
             String fn = null;
             String ln = null;
             String sex = null;
-            int ba = 0, hdcp=0;
+            float ba = 0;
+            int hdcp=0;
 
             int i = 0;
             while ((line = br.readLine()) != null){
@@ -326,7 +327,7 @@ public class Participant implements Serializable {
                 sex = input[2];
 
                 //get avg
-                ba = Integer.parseInt(input[3]);
+                ba = Float.parseFloat(input[3]);
 
                 //get hdcp
                 hdcp = Integer.parseInt(input[4]);
@@ -385,7 +386,7 @@ Create1Activity.t_id++; //axristo
     public ArrayList<Participant> generateTeams (ArrayList<Participant> bowlers, int playersPerTeam, BowlingViewModel bowlingViewModel, String champID){
         //Logic for generating teams(pairs)
 //TODO NA ELEGXW AN oi playersperteam me tous bowlers symvadizoun se ari8mo (px oxi playersperteam>bowlers)
-        //Sort by bowling average
+
         if(bowlers.size()%playersPerTeam!=0){ //an einai peritos arithmos pros8eto to Blind gia na ginei zugos
             do {
                 Participant p = new Participant(0, "blind", "BLIND", "BLIND", 0, 0, null, 0, "", 1);
@@ -393,6 +394,7 @@ Create1Activity.t_id++; //axristo
 
             }while (bowlers.size()%playersPerTeam!=0);
         }
+        //Sort by bowling average
         Collections.sort(bowlers, Participant.partBowlAvg);
         //add 5 points to pair in 2D table of poissible matchings?
         //Associate Participants with friends
@@ -574,7 +576,7 @@ for (int i=0;i<bowlers.size();i++){
         String fn = null;
         String ln = null;
         String sex = null;
-        int ba = 0;
+        float ba = 0;
         int hdcp = 0;
 
         int i = 0, teamcounter=1;
@@ -595,9 +597,10 @@ for (int i=0;i<bowlers.size();i++){
             sex = input[j+2];
 
             //get avg
-            ba = Integer.parseInt(input[j+3]);
+            //ba = Integer.parseInt(input[j+3]);
+            ba = Float.parseFloat(input[j+3]);
 
-            //get avg
+            //get hdcp
             hdcp = Integer.parseInt(input[j+4]);
 
 //                System.out.println("id: " + i + ", FN: " +  fn + ", LN: " + ln + ", Avg: " + ba);
@@ -788,7 +791,7 @@ for (int i=0;i<bowlers.size();i++){
                         if (games != 0) {
                             avg = avg / games;
                         }
-                        player.setBowlAvg((int) avg);//todo float
+                        player.setBowlAvg( avg);//todo float
                         System.out.println(" e3w paikths "+ player.getFirstName() + " neo avg "+avg);
                         int hdcp=calculateHDCPofPlayer(player, avg, championship, bowlingViewModel);
                         player.setHdcp(hdcp);

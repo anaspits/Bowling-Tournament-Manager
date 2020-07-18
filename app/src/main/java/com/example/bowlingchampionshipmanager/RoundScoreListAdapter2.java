@@ -98,13 +98,13 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                     holder.checkboxhdcp.setChecked(false);
                     holder.checkboxhdcp.setVisibility(View.VISIBLE);
                     holder.hdcp.setText(String.valueOf(editModelArrayList.get(position).getHdcp()));
-                    if (String.valueOf(rd.get(position).getFirst()) != null) {
+                    if (!String.valueOf(rd.get(position).getFirst()).equals("0")) {
                         holder.first.setText(String.valueOf(rd.get(position).getFirst()));
                     }
-                    if (String.valueOf(rd.get(position).getSecond()) != null) {
+                    if (!String.valueOf(rd.get(position).getSecond()).equals("0")) {
                         holder.second.setText(String.valueOf(rd.get(position).getSecond()));
                     }
-                    if (String.valueOf(rd.get(position).getThird()) != null) {
+                    if (!String.valueOf(rd.get(position).getThird()).equals("0")) {
                         holder.third.setText(String.valueOf(rd.get(position).getThird()));
                     }
                 }
@@ -253,6 +253,7 @@ System.out.println("hdcp keno");
                     }
                 });
 
+
                 second.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -275,6 +276,7 @@ System.out.println("hdcp keno");
                         //editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
                     }
                 });
+
 
                 third.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -321,17 +323,20 @@ System.out.println("hdcp keno");
                     txvNote.setText(String.valueOf(editModelArrayList.get(pos).getFullName()));
                     hdcp.setText(String.valueOf(editModelArrayList.get(pos).getHdcp()));
                     checkboxhdcp.setVisibility(View.VISIBLE);
-                    if (String.valueOf(rd.get(pos).getFirst()) != null) {
-                        // first.setText(String.valueOf(rd.get(pos).getFirst()));
-                        first.setText(String.valueOf(0));
+                    if (!String.valueOf(rd.get(pos).getFirst()).equals("0")) {
+                         //first.setText(String.valueOf(rd.get(pos).getFirst()));
+                        //first.setText(String.valueOf(0));
+                        first.setText("");
                     }
-                    if (String.valueOf(rd.get(pos).getSecond()) != null) {
+                    if (!String.valueOf(rd.get(pos).getSecond()).equals("0")) {
                         // second.setText(String.valueOf(rd.get(pos).getSecond()));
-                        second.setText(String.valueOf(0));
+                        //second.setText(String.valueOf(0));
+                        second.setText("");
                     }
-                    if (String.valueOf(rd.get(pos).getThird()) != null) {
+                    if (!String.valueOf(rd.get(pos).getThird()).equals("0")) {
                         // third.setText(String.valueOf(rd.get(pos).getThird()));
-                        third.setText(String.valueOf(0));
+                        //third.setText(String.valueOf(0));
+                        third.setText("");
                     }
                     rd.get(getAdapterPosition()).setBlind(0);
                     System.out.println("NOT blind: "+editModelArrayList.get(pos).getFullName());
