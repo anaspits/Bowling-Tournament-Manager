@@ -211,11 +211,12 @@ team2=te;
             second_sum1 +=  RoundScoreListAdapter2.rd.get(i).getSecond();
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
 
+            //auto-calculate to hdcp an afto einai 0 ston prwto gyro
             if(r.getFroundid()==1 && RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp()==0){ //an einai o prwtos gyros kai to HDCP tou paikth einai 0 tote upologizw to hdcp apo tis korines pou ekane twra se afton ton gyro
                 float first_avg = (RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird());
                 int first_hdcp=RoundScoreListAdapter2.editModelArrayList.get(i).calculateHDCPofPlayer(RoundScoreListAdapter2.editModelArrayList.get(i), first_avg, championship, bowlingViewModel);
                 RoundScoreListAdapter2.editModelArrayList.get(i).setHdcp(first_hdcp);
-                bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //fixme: kakws to vazw edw giati meta na pathsei cancel 8a meinei sth vash afto to hdcp
+                RoundScoreListAdapter2.rd.get(i).setHdcp(first_hdcp);
                 System.out.println("First hdcp ="+first_hdcp);
             }
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
@@ -300,7 +301,7 @@ team2=te;
                 float first_avg = (RoundScoreListAdapterTeam2.rd.get(i).getFirst() + RoundScoreListAdapterTeam2.rd.get(i).getSecond() + RoundScoreListAdapterTeam2.rd.get(i).getThird());
                 int first_hdcp=RoundScoreListAdapterTeam2.editModelArrayList.get(i).calculateHDCPofPlayer(RoundScoreListAdapterTeam2.editModelArrayList.get(i), first_avg, championship, bowlingViewModel);
                 RoundScoreListAdapterTeam2.editModelArrayList.get(i).setHdcp(first_hdcp);
-                bowlingViewModel.update(RoundScoreListAdapterTeam2.editModelArrayList.get(i)); //fixme: kakws to vazw edw giati meta na pathsei cancel 8a meinei sth vash afto
+                RoundScoreListAdapterTeam2.rd.get(i).setHdcp(first_hdcp);
             }
             sum_hdcp2 +=RoundScoreListAdapterTeam2.editModelArrayList.get(i).getHdcp();
 
@@ -463,7 +464,10 @@ team2=te;
             r.setPoints1(pontoi2);
             r.setPoints2(pontoi1);
         }
-
+        if(r.getFroundid()==1) {//gia na emfanisei to neo prwto HDCP
+            blistAdapter.setBowls(RoundScoreListAdapter2.editModelArrayList);
+            blistAdapter2.setBowls(RoundScoreListAdapterTeam2.editModelArrayList);
+        }
         //bowlingViewModel.update(r); //todo svisto
         calc_pressed=1;
     }

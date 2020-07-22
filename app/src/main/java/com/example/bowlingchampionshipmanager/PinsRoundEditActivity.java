@@ -145,6 +145,16 @@ public class PinsRoundEditActivity extends AppCompatActivity {
             first_sum1 += RoundScoreListAdapter2.rd.get(i).getFirst();
             second_sum1 +=  RoundScoreListAdapter2.rd.get(i).getSecond();
             third_sum1 +=  RoundScoreListAdapter2.rd.get(i).getThird();
+
+            //todo: na emfanizetai to neo hdcp sto activity
+            if(r.getFroundid()==1 && RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp()==0){ //an einai o prwtos gyros kai to HDCP tou paikth einai 0 tote upologizw to hdcp apo tis korines pou ekane twra se afton ton gyro
+                float first_avg = (RoundScoreListAdapter2.rd.get(i).getFirst() + RoundScoreListAdapter2.rd.get(i).getSecond() + RoundScoreListAdapter2.rd.get(i).getThird());
+                int first_hdcp=RoundScoreListAdapter2.editModelArrayList.get(i).calculateHDCPofPlayer(RoundScoreListAdapter2.editModelArrayList.get(i), first_avg, championship, bowlingViewModel);
+                RoundScoreListAdapter2.editModelArrayList.get(i).setHdcp(first_hdcp);
+                RoundScoreListAdapter2.rd.get(i).setHdcp(first_hdcp);
+                //bowlingViewModel.update(RoundScoreListAdapter2.editModelArrayList.get(i)); //fixme: kakws to vazw edw giati meta na pathsei cancel 8a meinei sth vash afto to hdcp, episis otan pataei calculate xanontai ta rd pou evale prin o paikths
+                System.out.println("First hdcp ="+first_hdcp);
+            }
             sum_hdcp1 +=RoundScoreListAdapter2.editModelArrayList.get(i).getHdcp();
 
             //upologizw to score tou paikth gia ola ta rounds mexri twra autou tou champ (pou den htan blind)
@@ -209,23 +219,52 @@ public class PinsRoundEditActivity extends AppCompatActivity {
 //calculate pins score from points
             int point=0;
             System.out.println("2 pins " + pp.get(0).getPins() + " pointstxt " + pp.get(0).getPoints() + " uuid " + pp.get(0).getPins_uuid() + " champ " + pp.get(0).getChamp_uuid() );
-
+//ta points gia to first_sum1
             for (int i = 0; i < pp.size(); i++) {
-                if (i==0 && totalsum <= pp.get(i).getPins()){
+                if (i==0 && first_sum1 <= pp.get(i).getPins()){
                     point+=pp.get(i).getPoints();
-                } else if (i==(pp.size()-1) && totalsum >= pp.get(i).getPins()){
+                } else if (i==(pp.size()-1) && first_sum1 >= pp.get(i).getPins()){
                     point+=pp.get(i).getPoints();
-                } else if (totalsum >= pp.get(i).getPins() && totalsum < pp.get(i+1).getPins()){ //mexri kai ta x pins = n pointstxt
-                    System.out.println(totalsum+">= " + pp.get(i).getPins() + " && " +totalsum+"<"+ pp.get(i+1).getPoints() +" pointstxt "+pp.get(i).getPoints());
-                    point+=pp.get(i).getPoints();
+                } else if (first_sum1 > pp.get(i).getPins() && first_sum1 < pp.get(i+1).getPins()){ //mexri kai ta x pins = n pointstxt
+                    System.out.println(first_sum1+">" + pp.get(i).getPins() + " && " +first_sum1+"<"+ pp.get(i+1).getPins() +" pointstxt "+pp.get(i+1).getPoints());
+                    point+=pp.get(i+1).getPoints();
                 }
             }
+            System.out.println("points1 "+point);
+        //ta points gia to second_sum1
+        for (int i = 0; i < pp.size(); i++) {
+            if (i==0 && second_sum1 <= pp.get(i).getPins()){
+                point+=pp.get(i).getPoints();
+            } else if (i==(pp.size()-1) && second_sum1 >= pp.get(i).getPins()){
+                point+=pp.get(i).getPoints();
+            } else if (second_sum1 > pp.get(i).getPins() && second_sum1 < pp.get(i+1).getPins()){ //mexri kai ta x pins = n pointstxt
+                System.out.println(second_sum1+"> " + pp.get(i).getPins() + " && " +second_sum1+"<"+ pp.get(i+1).getPins() +" pointstxt "+pp.get(i+1).getPoints());
+                point+=pp.get(i+1).getPoints();
+            }
+        }
+        System.out.println("points2 "+point);
+        //ta points gia to third_sum1
+        for (int i = 0; i < pp.size(); i++) {
+            if (i==0 && third_sum1 <= pp.get(i).getPins()){
+                point+=pp.get(i).getPoints();
+            } else if (i==(pp.size()-1) && third_sum1 >= pp.get(i).getPins()){
+                point+=pp.get(i).getPoints();
+            } else if (third_sum1 > pp.get(i).getPins() && third_sum1 < pp.get(i+1).getPins()){ //mexri kai ta x pins = n pointstxt
+                System.out.println(third_sum1+"> " + pp.get(i).getPins() + " && " +third_sum1+"<"+ pp.get(i+1).getPins() +" pointstxt "+pp.get(i+1).getPoints());
+                point+=pp.get(i+1).getPoints();
+            }
+        }
+        System.out.println("points3 "+point);
             score1+=point;
             //t.setScore(score1);
             r.setPoints1(point);
             txtscore1.setText("Score: "+score1);
             pointstxt.setText("Points: "+point);
             calc_pressed = 1;
+
+        if(r.getFroundid()==1) {//gia na emfanisei to neo prwto HDCP
+            blistAdapter.setBowls(RoundScoreListAdapter2.editModelArrayList);
+        }
         }
     public void openNewActivity(View View) {
         //String button_text;

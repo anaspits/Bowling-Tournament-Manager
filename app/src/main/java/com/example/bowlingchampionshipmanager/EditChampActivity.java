@@ -38,7 +38,8 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
     public String champuuid;
     private LiveData<Championship> champ;
     private Championship c;
-    private TextView cname,param,type,status;
+    private TextView cname,param,type,status, rounds;
+    private Button editrounds;
     static ArrayList<Integer> hdcp_parameters=new ArrayList<>();
     private ArrayList<Integer> tid = new ArrayList<>();
 
@@ -61,6 +62,13 @@ public class EditChampActivity extends AppCompatActivity implements TeamListAdap
         par4 = (EditText) findViewById(R.id.editHDCP4);
         par5= (EditText) findViewById(R.id.editHDCP5);
         param= (TextView)  findViewById(R.id.param);
+
+        //se periptwsh pou ulopoih8ei to EditRound apla ta kanw visible
+        rounds=  findViewById(R.id.rounds);
+        editrounds = findViewById(R.id.editrounds);
+        rounds.setVisibility(View.GONE);
+        editrounds.setVisibility(View.GONE);
+        //
 
         bowlingViewModel = ViewModelProviders.of(this).get(BowlingViewModel.class); //dimiourgia tou antikeimenou ViewModel gia tin diaxeirhshs ths vashs
         bowlingViewModel2 = ViewModelProviders.of(this).get(BowlingViewModel.class);
@@ -249,6 +257,14 @@ System.out.println("list obejct size "+t.size()+" list team size "+t.get(0).getT
 
     public void cancelUpdate (View view) {
         finish();
+    }
+
+    public void editRoundsOpenActivity (View view) {
+        Intent i = new Intent(this, SelectRoundActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString("flag", "edit_round");
+        extras.putSerializable("champ", c);
+        startActivity(i);
     }
 
     @Override

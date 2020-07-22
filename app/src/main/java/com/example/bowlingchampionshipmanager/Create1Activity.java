@@ -585,7 +585,8 @@ this.getOnBackPressedDispatcher().addCallback(this,cb);
         //String csvFile=ft;
 
         String line = "";
-        String cvsSplitBy = ",";
+        //String cvsSplitBy = ",";
+        String cvsSplitBy = ";";
 
         champuuid = UUID.randomUUID().toString();
         ch = new Championship(fchampID, champuuid, 0, 0, "created"); ////vash 3

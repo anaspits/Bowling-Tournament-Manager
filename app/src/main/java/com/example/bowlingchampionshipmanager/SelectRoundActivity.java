@@ -25,7 +25,7 @@ public class SelectRoundActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_round);
 
         textView1=findViewById(R.id.textView1);
-        txv2= findViewById(R.id.txv2);
+       // txv2= findViewById(R.id.txv2);
 
         Bundle bundleObject = this.getIntent().getExtras();
         if (bundleObject != null) {
@@ -39,10 +39,14 @@ public class SelectRoundActivity extends AppCompatActivity {
         recyclerView.setAdapter(roundlistAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        if (flag.equals("stat")){
+        if (flag.equals("stat") || flag.equals("edit_round")){
             bowlingViewModel.getDoneRoundsofChamp(championship.getUuid()).observe(this, new Observer<List<Round>>() {
                 @Override
                 public void onChanged(List<Round> rounds) {
+                    if (rounds.size() == 0) {
+                        textView1.setText("No Rounds have been played yet");
+                       // txv2.setText("");
+                    } else{
                     for (int i = 0; i < rounds.size(); i++) {
                         if (i != 0 && rounds.get(i).getFroundid() == rounds.get(i - 1).getFroundid()) {
                             rounds.remove(i); //fixme to 1 to phre 2 forew - na to kanw me distinct
@@ -51,9 +55,6 @@ public class SelectRoundActivity extends AppCompatActivity {
                     roundlistAdapter.setSelRound(rounds);
                     roundlistAdapter.setChamp(championship);
                     roundlistAdapter.setflag(flag);
-                    if(rounds.size()==0){
-                        textView1.setText("No Rounds have been played yet");
-                        txv2.setText("");
                     }
                 }
             });

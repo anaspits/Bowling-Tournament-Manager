@@ -30,6 +30,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         public static String[] edited = {"0","0","0"}; //na svisw
         public Round r;
         public Championship ch;
+        public boolean calcHDCP_button_visible = true;
         public static ArrayList<Round_detail> rd = new ArrayList<>();
         private static int position;
 
@@ -152,6 +153,13 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
         System.out.println("champid = "+ ch.getFchampID()+" "+ch.getUuid());
     }
 
+
+
+    public void setCheckboxHDCPVisibility(boolean b) { //gia to editrounds
+        calcHDCP_button_visible=b;
+    }
+
+
         @Override
         public int getItemCount() {
             if (editModelArrayList != null)
@@ -161,7 +169,7 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
 
         class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-            protected EditText hdcp,first,second, third; //hdcp
+            public EditText hdcp,first,second, third; //hdcp
             protected TextView txvNote;
             protected CardView cardview;
             protected CheckBox checkboxhdcp;
@@ -171,34 +179,39 @@ public class RoundScoreListAdapter2 extends RecyclerView.Adapter<RoundScoreListA
                 super(itemView);
                 txvNote = itemView.findViewById(R.id.txvNote);
                 hdcp = (EditText) itemView.findViewById(R.id.txvHDCP);
-                first 	 = itemView.findViewById(R.id.txv1);
-                second 	 = itemView.findViewById(R.id.txv2);
+                first = itemView.findViewById(R.id.txv1);
+                second = itemView.findViewById(R.id.txv2);
                 third = itemView.findViewById(R.id.txv3);
-                cardview=itemView.findViewById(R.id.roundcardview);
-                checkboxhdcp= itemView.findViewById(R.id.checkBox1);
-                checkboxhdcp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(checkboxhdcp.isChecked()) {
-                            rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("yes");
-                            hdcp.setEnabled(false);
-                            hdcp.setFocusable(false);
-                            hdcp.setBackgroundColor(Color.LTGRAY);
-                        }else {
-                            rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("no");
-                            hdcp.setEnabled(true);
-                            hdcp.setFocusableInTouchMode(true);
-                            //hdcp.setBackgroundColor(Color.WHITE );
-                            hdcp.setBackgroundColor(Color.parseColor("#F9F9F9"));
-                            if (hdcp.getText().toString().equals("")) {
-                                System.out.println("hdcp keno");
+                cardview = itemView.findViewById(R.id.roundcardview);
+                checkboxhdcp = itemView.findViewById(R.id.checkBox1);
+                if (calcHDCP_button_visible){
+                    checkboxhdcp.setVisibility(View.VISIBLE);
+                    checkboxhdcp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (checkboxhdcp.isChecked()) {
+                                rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("yes");
+                                hdcp.setEnabled(false);
+                                hdcp.setFocusable(false);
+                                hdcp.setBackgroundColor(Color.LTGRAY);
                             } else {
-                                editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
-                                rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                                rd.get(getAdapterPosition()).setChecked_auto_calc_hdcp("no");
+                                hdcp.setEnabled(true);
+                                hdcp.setFocusableInTouchMode(true);
+                                //hdcp.setBackgroundColor(Color.WHITE );
+                                hdcp.setBackgroundColor(Color.parseColor("#F9F9F9"));
+                                if (hdcp.getText().toString().equals("")) {
+                                    System.out.println("hdcp keno");
+                                } else {
+                                    editModelArrayList.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                                    rd.get(getAdapterPosition()).setHdcp(Integer.parseInt(hdcp.getText().toString()));
+                                }
                             }
                         }
-                    }
-                });
+                    });
+            } else {
+                    checkboxhdcp.setVisibility(View.GONE);
+                }
 
                 //cardview.setOnClickListener((View.OnClickListener) this);
                     txvNote.setOnClickListener((View.OnClickListener) this);

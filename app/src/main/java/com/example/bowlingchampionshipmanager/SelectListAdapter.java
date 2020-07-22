@@ -3,6 +3,7 @@ package com.example.bowlingchampionshipmanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//todo na to onomasw SelectTeam
 public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.BowlingViewHolder>  {
 
     private final LayoutInflater layoutInflater;
@@ -73,6 +74,11 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
     public void setSelected(List<Team> notes) {
         mNotes = notes;
         notifyDataSetChanged();
+
+    }
+
+    public void setRound(Round ro) {
+       round=ro;
 
     }
 
@@ -137,7 +143,18 @@ public class SelectListAdapter  extends RecyclerView.Adapter<SelectListAdapter.B
                         intent.putExtra("flag", "stat");
                         mContext.startActivity(intent);
                         ((Activity)mContext).finish();
-                    } else {
+                    } else if(flag.equals("edit_round")){
+                        Intent i = new Intent(mContext, ViewEditDoneRound.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("champuuid",ch.getUuid());
+                        extras.putString("flag", "edit_round");
+                        extras.putSerializable("champ",ch);
+                        extras.putSerializable("round",round);
+                        extras.putSerializable("b_object", mNotes.get(mPosition));
+                        i.putExtras(extras);
+                        mContext.startActivity(i);
+                        ((Activity)mContext).finish();
+                    }else {
                         if (ch.getType() == 2 ) {
                             Intent intent = new Intent(mContext, RoundActivity.class);
 

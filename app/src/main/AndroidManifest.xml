@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectParticipantActivity"></activity>
+        <activity android:name=".ViewEditDoneRound"></activity>
+        <activity android:name=".EditDoneRound" />
+        <activity android:name=".SelectParticipantActivity" />
         <activity android:name=".ParticipantStatisticsActivity" />
         <activity android:name=".SelectStatforPlayersActivity" />
         <activity android:name=".SelectStatforRoundActivity" />

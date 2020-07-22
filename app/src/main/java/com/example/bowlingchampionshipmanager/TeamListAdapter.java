@@ -90,7 +90,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.Bowlin
 
         public void setData(String note, int teamid, int position) {
             noteItemView.setText(note);
-            teamItemView.setText(String.valueOf(teamid));
+            //teamItemView.setText(String.valueOf(teamid)); //den xreiazetai na emfanizetai to sys_id
             mPosition = position;
         }
 

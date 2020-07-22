@@ -3,6 +3,7 @@ package com.example.bowlingchampionshipmanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,16 @@ public class SelectRoundAdapter extends RecyclerView.Adapter<SelectRoundAdapter.
                         intent.putExtra("roundsysid", mNotes.get(mPosition).getRoundid());
                         intent.putExtra("champ", ch);
                         mContext.startActivity(intent);
+                    } else if(flag.equals("edit_round")){
+                        Intent i = new Intent(mContext, SelectTeamActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("champuuid",ch.getUuid());
+                        extras.putSerializable("round", mNotes.get(mPosition));
+                        extras.putString("flag", "edit_round");
+                        extras.putSerializable("champ",ch);
+                        i.putExtras(extras);
+                        mContext.startActivity(i);
+                        ((Activity)mContext).finish();
                     } else {
                         if (ch.getType() == 2) { //todo if flag stat
                         Intent intent = new Intent(mContext, RoundEditScoreActivity.class);

@@ -30,6 +30,7 @@ public class SelectTeamActivity extends AppCompatActivity {
     private SelectListAdapter blistAdapter;
     public String champuuid, teamuuid;
     public Championship championship;
+    private Round r;
     //public static List<Round> rofTeam;
     private TextView textView;
     private Button btn;
@@ -53,6 +54,9 @@ flag="none";
             championship= (Championship) bundleObject.getSerializable("champ");
             champuuid = championship.getUuid();
             flag = bundleObject.getString("flag");
+            if(flag.equals("edit_round")){
+                r = (Round) bundleObject.getSerializable("round");
+            }
             //rofTeam = (List<Round>) bundleObject.getSerializable("listround"); //axristo
         }
 
@@ -100,6 +104,9 @@ flag="none";
                        //  if (flag != null) {
                        blistAdapter.setFlag(flag);
                        // }
+                       if(flag.equals("edit_round")){
+                           blistAdapter.setRound(r);
+                       }
                 /*if (t.size()==0){ //fixme
                     textView.setText("All the teams have finished their games");
                     btn.setText("Main Menu");
