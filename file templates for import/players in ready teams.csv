@@ -1,3 +1,3 @@
-John,Smith,m,10,0,Eric,Adams,m,50,0,Philip,Barton,m,200,0
-Ben,Rogers,m,11,0,Jim,Hawkins,m,14,0,Mylo,Thats,m,10,0
-Anna,Pitt,f,12,0,Jenifer,Hanson,f,16,0,BLIND,BLIND,,0,0
+John;Smith;m;10.5;0;Eric;Adams;m;50.1;0;Philip;Barton;m;200.24;0
+Ben;Rogers;m;11.7;0;Jim;Hawkins;m;14.0;0;Mylo;Thats;m;10;0
+Anna;Pitt;f;12.2;0;Jenifer;Hanson;f;16;0;BLIND;BLIND;;0;0

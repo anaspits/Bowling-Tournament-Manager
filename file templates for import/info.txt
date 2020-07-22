@@ -1,15 +1,17 @@
+All CSV files should be separated with ;
+
 players (for auto-generate teams and single)
-First_name,Last_name,sex,Average,HDCP(if there is no HDCP then put 0)
+First_name;Last_name;sex(m/f);Average(for example 180.5);HDCP(if there is no HDCP then put 0)
 
 players in ready teams
-First_name_of_player1,Last_name_of_player1,sex_of_player1,Average_of_player1,HDCP_of_player1(if there is no HDCP then put 0),First_name_of_player2,Last_name_of_player2,sex_of_player2,Average_of_player2,HDCP_of_player2(if there is no HDCP then put 0), (same for the rest of the players)
-(if a team has less players then they are inserted as blind then: BLIND,BLIND,,0,0)
+First_name_of_player1;Last_name_of_player1;sex_of_player1(m/f);Average_of_player1(for example 180.5);HDCP_of_player1(if there is no HDCP then put 0);First_name_of_player2;Last_name_of_player2;sex_of_player2(m/f);Average_of_player2(for example 180.5);HDCP_of_player2(if there is no HDCP then put 0); (same for the rest of the players)
+(if a team has less players then they are inserted as blind then: BLIND;BLIND;;0;0)
 
 pins
-pins(max limit),points
+pins(max limit);points
 (example: for 0-100 pins -> 1 point
 for 101-200 pins -> 2 points
 then it will be written like:
-100,1
-200,2)
+100;1
+200;2)
 
